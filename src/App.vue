@@ -1,4 +1,4 @@
-<template>
+<template class="root-container">
 
   <Header></Header>
   <SideBar></SideBar>
