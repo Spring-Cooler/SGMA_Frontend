@@ -1,4 +1,4 @@
-<template class="root-container">
+<template>
 	<header class="top-nav">
 		<div class="top-left-menu-container">
 			<img class="logo hide-text" src="@/assets/logo.svg" alt="logo" />
