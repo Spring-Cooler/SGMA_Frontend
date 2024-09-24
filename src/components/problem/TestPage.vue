@@ -1,4 +1,4 @@
-<template>
+<template class="root-container">
 	<header class="top-nav">
 		<div class="test-title">
 			<p>올림픽 문제 스터디</p>
@@ -37,7 +37,6 @@
 			</div>
 		</section>
 	</main>
-
 	<aside class="side-nav">
 		<div class="info">문제 리스트</div>
 		<div class="menu-container">
@@ -124,6 +123,7 @@ li {
 	font-size: 6rem;
 	font-weight: 600;
 	color: #FFFFFF;
+	top: 0
 }
 
 .test-title {
@@ -236,6 +236,7 @@ li {
 .problem-btn {
 	height: 6rem;
 	width: 6rem;
+	color: black
 }
 
 .problem-btn:hover {

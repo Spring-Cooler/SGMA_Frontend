@@ -1,5 +1,4 @@
-<template class="root-container">
-
+<template>
   <Header></Header>
   <SideBar></SideBar>
   <!-- main, router-view 들어갈 자리 -->
