@@ -4,7 +4,7 @@
 			<SideBarMenu class="now">{{ "홈" }}</SideBarMenu>
 			<SideBarMenu>{{ "스터디 그룹 찾기" }}</SideBarMenu>
 			<SideBarMenu>{{ "스터디 그룹 만들기" }}</SideBarMenu>
-			<SideBarMenu>{{ "스터디 그룹 마이페이지" }}</SideBarMenu>
+			<SideBarMenu>{{ "마이페이지" }}</SideBarMenu>
 		</div>
 	</aside>
 </template>
