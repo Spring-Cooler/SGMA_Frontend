@@ -1,12 +1,13 @@
 <template class="root-container">
   <Navigation />
   <SideBar />
-  <main class="main"></main>
+  <List />
 </template>
 
 <script setup>
 import Navigation from './components/Navigation.vue';
 import SideBar from './components/SideBar.vue';
+import List from './components/List.vue';
 </script>
 
 <style scoped></style>
