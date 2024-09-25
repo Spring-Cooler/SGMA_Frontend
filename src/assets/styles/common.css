@@ -23,7 +23,9 @@ a {
 li {
   list-style: none;
 }
-
+h1 {
+  font-size: 3rem;
+}
 *,
 :after,
 :before {
@@ -69,6 +71,7 @@ li {
   align-items: center;
   width: 100%;
   background-color: #ffffff;
+  padding: 30px;
 }
 
 .btn {
