@@ -1,0 +1,158 @@
+body,
+html {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+ul,
+li,
+dl,
+dt,
+dd,
+p,
+span {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+*,
+:after,
+:before {
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+:root {
+  font-size: 10px;
+  font-family: "Noto Sans";
+  color: #202020;
+}
+
+.root-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100vh;
+}
+.main {
+  position: absolute;
+  display: flex;
+  justify-content: center;
+  width: calc(100% - 42rem);
+  height: 100%;
+  margin-top: 9rem;
+  margin-left: 42rem;
+}
+
+.main-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 70%;
+  background-color: #ffffff;
+}
+
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #a1b872;
+  border: none;
+  border-radius: 1rem;
+  font-size: 2.4rem;
+  font-weight: 600;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.btn:hover {
+  box-shadow: 0rem 0.1rem 0.2rem #a6a6a6;
+}
+
+/* 기본스타일 제거, 버튼 모양 재설정 */
+input[type="radio"] {
+  flex-shrink: 0;
+  -webkit-appearance: none; /* 웹킷 브라우저에서 기본 스타일 제거*/
+  -moz-appearance: none; /* 모질라 브라우저에서 기본 스타일 제거*/
+  appearance: none; /*기본 브라우저에서 기본 스타일 제거*/
+  width: 3.6rem;
+  height: 3.6rem;
+  border: 1px solid #8c8c8c; /*체크되지 않았을 때의 테두리 색상*/
+  border-radius: 50%;
+  outline: none; /*focus 시에 나타나는 기본 스타일 제거*/
+  cursor: pointer;
+  margin-top: 0.9rem;
+}
+
+/* 체크 시 버튼 모양 스타일*/
+input[type="radio"]:checked {
+  background-color: #a1b872; /*체크 시 내부 원 색상*/
+  border: none;
+}
+
+.hide-text {
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+}
+/* 노트북 */
+@media screen and (max-width: 1683px) {
+  :root {
+    font-size: 8px;
+  }
+}
+
+@media screen and (max-width: 1439px) {
+  :root {
+    font-size: 7px;
+  }
+}
+
+/* 태블릿 */
+@media screen and (max-width: 1023px) {
+  :root {
+    font-size: 6px;
+  }
+}
+
+/* 모바일 */
+@media screen and (max-width: 767px) {
+  :root {
+    font-size: 4.5px;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  :root {
+    font-size: 3.2px;
+  }
+}
+
+@media screen and (max-width: 424px) {
+  :root {
+    font-size: 2.5px;
+  }
+}
+
+@media screen and (max-width: 374px) {
+  :root {
+    font-size: 2px;
+  }
+}
+
+@media screen and (max-width: 319px) {
+  :root {
+    font-size: 1.8px;
+  }
+}
