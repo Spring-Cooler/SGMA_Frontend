@@ -4,7 +4,7 @@
 	<div id="schedule-container">
 
 		<!-- Calendar Component -->
-		<VCalendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" />
+		<VCalendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" expanded />
 
 		<!-- Schedule Modal -->
 		<ScheduleModal v-if="isModalVisible" :selectedDate="selectedDate" :events="selectedEvents"
@@ -95,6 +95,8 @@ const isSameDate = (date1, date2) => {
 
 <style scoped>
 #schedule-container {
-	position: fixed;
+	position: absolute;
+	width: 80%;
+	height: 80%;
 }
 </style>
