@@ -176,11 +176,11 @@
   
   .login-options {
     margin-top: 1.5rem;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     color: #888;
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.6rem;
   }
   
   .divider {
