@@ -1,6 +1,5 @@
 <template>
 	<Navigation />
-	<StudySideBar />
 	<div class="schedule-detail-page">
 		<div class="schedule-detail-container">
 			<h1>{{ schedule.title }}</h1>
@@ -18,7 +17,7 @@
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Navigation from '@/components/layouts/Navigation.vue';
-import StudySideBar from './components/StudySideBar.vue';
+import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 
 // 스케줄 정보를 담을 ref 변수
 const schedule = ref({

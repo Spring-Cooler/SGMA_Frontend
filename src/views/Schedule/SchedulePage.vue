@@ -1,14 +1,12 @@
 <template>
-
-	<div id="schedule-page">
-		<Navigation />
-		<StudySideBar />
-		<main class="main-content">
-
-			<div id="schedule-header">
+	<Navigation />
+	<GroupSideBar />
+	<main class="main">
+		<div class="main-content">
+			<div class="schedule-header">
 				<span>스터디 일정</span>
 			</div>
-			<div id="schedule-container">
+			<div class="schedule-container">
 				<!-- Calendar Component with adjusted cell sizes and container height -->
 				<VCalendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" expanded
 					:style="customCalendarStyles" trim-weeks />
@@ -16,15 +14,14 @@
 				<ScheduleModal v-if="isModalVisible" :selectedDate="selectedDate" :events="selectedEvents"
 					@close="closeModal" />
 			</div>
-		</main>
-	</div>
-
+		</div>
+	</main>
 </template>
 
 <script setup>
 import { ref, computed } from 'vue';
 import ScheduleModal from './components/ScheduleModal.vue';
-import StudySideBar from './components/StudySideBar.vue';
+import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 import Navigation from '@/components/layouts/Navigation.vue';
 
 const selectedDate = ref(null);
@@ -112,33 +109,22 @@ const customCalendarStyles = {
 </script>
 
 <style scoped>
-#schedule-page {
-	display: flex;
-	height: 100vh;
-	/* 전체 높이를 설정하여 뷰포트에 맞춤 */
-}
-
-#schedule-header {
-	position: absolute;
+.schedule-header {
 	width: 100%;
-	height: 10%;
-	left: 10%;
 	display: flex;
 	justify-content: left;
 	align-items: center;
+	margin-top: 9.4rem;
 }
 
-#schedule-header>span {
-	font-size: 3rem;
+.schedule-header > span {
+	font-size: 4rem;
 	font-weight: 900;
 }
 
-#schedule-container {
-	position: absolute;
-	top: 10%;
-	width: 60vw;
-	height: 60vh;
-	/* Increased height to fit the calendar */
+.schedule-container {
+	width: 100%;
+	margin-top: 5.3rem;
 }
 
 /* Custom styles for the v-calendar container */
