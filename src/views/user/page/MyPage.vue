@@ -83,7 +83,7 @@
             <p>팩트 폭행으로 3년 동안 감옥 갔다가...</p>
             <span class="tag">모집중</span>
           </div>
-          
+
           <!-- 더 많은 댓글 카드 추가 가능 -->
         </section>
       </div>
@@ -104,6 +104,8 @@
   
   /* 메인 컨텐츠 영역 */
   .content {
+    position: relative;
+    top: 9rem;
     display: flex;
     padding: 2rem;
     width: calc(100% - 42rem); /* 사이드바를 제외한 너비 */
