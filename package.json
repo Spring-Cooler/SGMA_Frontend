@@ -9,6 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ginger-tek/picovue": "^2.0.3",
     "@popperjs/core": "^2.11.8",
     "v-calendar": "^3.1.2",
     "vue": "^3.4.29",
