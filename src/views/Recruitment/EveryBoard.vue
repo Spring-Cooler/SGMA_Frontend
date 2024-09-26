@@ -8,15 +8,17 @@
         <i class="fa-solid fa-magnifying-glass"></i>
         <span>관심스터디를 검색해 보세요!</span>
         </div>
-        <button class="search-btn">검색</button>
+        <button class="search-btn olive">검색</button>
         <div class="tag-search-bar" @click="toggleTagDropdown">
             <i class="fa-light fa-hashtag"></i>
             <span>{{ selectedTag || '태그로 검색해 보세요!' }}</span>
+            <i1 class="fa-solid fa-caret-down" style="color: #a1b868;"></i1>
         </div>
         <div class="tag-dropdown" v-if="isDropdownOpen">
             <div class="tag-item" v-for="tag in tags" :key="tag" @click="selectTag(tag)">
                 {{ tag }}
             </div>
+            
         </div>
     </div>
     
@@ -50,6 +52,7 @@ const selectTag = (tag) => {
 
 <style scoped>
   /* 상태 컨테이너 스타일 */
+
 .status-container {
 height: 39px;
 width: 1012px;
@@ -111,17 +114,29 @@ word-wrap: break-word
 .board-search-bar i {
     width: 50px;
     font-size: 32px; /* 아이콘의 크기 조정 */
-    color:black
+    color:black;
+    margin-right: 5px;
+}
+.board-search-bar i {
+    width: 50px;
+    font-size: 48px; /* 아이콘의 크기 조정 */
+    margin-left:10px;
 }
 .fa-solid .fas{
     width :21px;
 }
+.fa-caret-down:before {
+    content: "\f0d7";
+    margin-left: 475px;
+    font-size: 60px;
+}
+
 .search-btn{
     margin-left: 497px;
     margin-top: 184px;
     width: 140px;
     height: 89px;
-    background: #A1B872;
+    /* background: #A1B872; */
     border:#A1B872; 
     border-radius: 10px;
     color: white; 
@@ -135,6 +150,7 @@ word-wrap: break-word
 position:absolute;
 display: flex; /* 플렉스 박스를 사용해 내부 아이템 정렬 */
 align-items: center; /* 세로 중앙 정렬 */
+justify-content: space-between;
 padding-left: 20px; /* 왼쪽 패딩 */
 margin-top: 388px; /* 위아래 간격 */
 background: white;
@@ -146,11 +162,44 @@ color: #CACACA;
 font-size: 24px;
 font-family: Noto Sans;
 font-weight: 700;
-word-wrap: break-word
+word-wrap: break-word;
+cursor: pointer;
+padding-right: 30px; /* 오른쪽 패딩 추가 */
 }
+.fa-caret-down{
+    margin-left:110px
+}
+
 .tag-search-bar i {
-    width: 50px;
     font-size: 48px; /* 아이콘의 크기 조정 */
-    color:black
+    color:black;
+    margin-right: 5px; /* 아이콘과 텍스트 사이의 간격 제거 */
+}
+
+.tag-search-bar:hover {
+    background-color: #f0f0f0; /* 호버 시 배경색 */
+}
+.tag-dropdown {
+    position: absolute;
+    top: 257px; /* 태그 검색 바 아래에 위치하도록 설정 */ /* 상태 컨테이너의 위치와 동일하게 설정 */
+    width: 840px;
+    background: white;
+    border: 1px solid #CACACA;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 10; /* 다른 요소들 위에 표시 */
+}
+
+/* 드롭다운 항목 스타일 */
+.tag-item {
+    padding: 15px 20px;
+    cursor: pointer;
+    font-size: 20px;
+    color: #333;
+    margin-left:0px;
+}
+
+.tag-item:hover {
+    background-color: #f0f0f0; /* 호버 시 배경색 */
 }
 </style>
