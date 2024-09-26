@@ -7,7 +7,7 @@
         
         <div class="board-search-bar">
             <i class="fa-solid fa-magnifying-glass"></i>
-            <span>관심스터디를 검색해 보세요!</span>
+            <input type="text" v-model="searchText" placeholder="관심스터디를 검색해 보세요!" />
         </div>
         <button class="search-btn olive">검색</button>
         
@@ -142,15 +142,36 @@ word-wrap: break-word
 }
 .board-search-bar i {
     width: 50px;
-    font-size: 32px; /* 아이콘의 크기 조정 */
-    color:black;
-    margin-right: 5px;
-}
-.board-search-bar i {
-    width: 50px;
     font-size: 40px; /* 아이콘의 크기 조정 */
+    color:black;
     margin-left:10px;
 }
+
+.board-search-bar input::placeholder {
+    color: #CACACA; /* 텍스트 색상 */
+}
+
+.board-search-bar input {
+    flex: 1; /* 입력 필드가 남은 공간을 채우도록 설정 */
+    border: none; /* 테두리 제거 */
+    outline: none; /* 포커스 시 생기는 외곽선 제거 */
+    font-size: 24px;
+    font-family: Noto Sans;
+    font-weight: 700;
+    padding: 0 10px; /* 입력 필드의 패딩 조정 */
+    color: #CACACA; /* 텍스트 색상 */
+}
+.board-search-bar input {
+    flex: 1; /* 입력 필드가 남은 공간을 채우도록 설정 */
+    border: none; /* 테두리 제거 */
+    outline: none; /* 포커스 시 생기는 외곽선 제거 */
+    font-size: 24px;
+    font-family: Noto Sans;
+    font-weight: 700;
+    padding: 0 10px; /* 입력 필드의 패딩 조정 */
+    color: #CACACA; /* 텍스트 색상 */
+}
+
 .fa-solid .fas{
     width :21px;
 }
@@ -159,7 +180,6 @@ word-wrap: break-word
     margin-left: 465px;
     font-size: 60px;
 }
-
 
 .search-btn{
     margin-left: 497px;
@@ -219,7 +239,14 @@ white-space: nowrap; /* 줄바꿈 방지 */
 .tag-search-bar i {
     font-size: 48px; /* 아이콘의 크기 조정 */
     color:black;
-    margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 제거 */
+    margin-right: 15px; /* 아이콘과 텍스트 사이의 간격 제거 */
+    margin-left:10px
+}
+.tag-search-bar i1 {
+    font-size: 48px; /* 아이콘의 크기 조정 */
+    color:black;
+    margin-right: 20px; /* 아이콘과 텍스트 사이의 간격 제거 */
+    margin-left: -10px
 }
 
 .tag-search-bar span {
@@ -228,7 +255,7 @@ white-space: nowrap; /* 줄바꿈 방지 */
     white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정 */
     /* 텍스트가 넘치면 숨김 */
     text-overflow: ellipsis; /* 넘칠 경우 생략부호 표시 */
-    margin-left: 10px; /* 아이콘과 텍스트 사이의 간격 추가 */
+    margin-left: 20px; /* 아이콘과 텍스트 사이의 간격 추가 */
 }
 
 
