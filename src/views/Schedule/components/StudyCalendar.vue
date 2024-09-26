@@ -1,21 +1,22 @@
 <template>
-	<VDatePicker :attributes="attrs" :rules="rules" hide-time-header expanded>
-		<template #schedule-modal>
-			<ScheduleModal />
+	<VCalendar :attributes="attrs" :rules="rules" hide-time-header expanded>
+		<template #day-popover>
+			<div class="text-xs text-gray-700 dark:text-gray-300">
+				using my own content now
+			</div>
 		</template>
-	</VDatePicker>
+	</VCalendar>
 
 </template>
 
 <script setup>
 import { ref, computed } from 'vue'
-import ScheduleModal from './ScheduleModal.vue';
 
 const todos = ref([
 	{
 		description: 'Take Noah to basketball practice.',
 		isComplete: false,
-		dates: { repeat: { weekdays: 5 } }, // Every Friday
+		dates: { repeat: { weekdays: 6 } }, // Every Friday
 		color: 'red',
 	},
 ]);
@@ -27,10 +28,8 @@ const attrs = computed(() => [
 			color: todo.color,
 			...(todo.isComplete && { class: 'opacity-75' }),
 		},
-		popover: {
-			label: todo.description,
-			visibility: 'click'
-		},
+		popover: true,
+		customData: true
 	})),
 ]);
 
