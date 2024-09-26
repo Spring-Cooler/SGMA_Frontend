@@ -4,9 +4,9 @@
 	<div class="schedule-detail-page">
 		<div class="schedule-detail-container">
 			<h1>{{ schedule.title }}</h1>
-			<p><strong>Start Time:</strong> {{ schedule.startTime }}</p>
-			<p><strong>End Time:</strong> {{ schedule.endTime }}</p>
-			<p><strong>Details:</strong> {{ schedule.details }}</p>
+			<p><strong>시작:</strong> {{ schedule.startTime }}</p>
+			<p><strong>종료:</strong> {{ schedule.endTime }}</p>
+			<p><strong>내용:</strong> {{ schedule.details }}</p>
 			<!-- <button class="btn back" @click="goBack">Back to Schedule</button> -->
 			<br>
 			<button class="btn">시험 응시</button>
