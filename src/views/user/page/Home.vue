@@ -7,7 +7,7 @@
 
     <!-- 메인 컨텐츠 -->
     <main class="main-content">
-      <NoticeBanner /> <!-- 배너를 메인 컨텐츠 안에 포함시킴 -->
+      <NoticeBanner /> <!-- 배너를 메인 컨텐츠 안에 포d함시킴 -->
 
       <div class="content">
         <!-- 주간 인기 모집글 -->

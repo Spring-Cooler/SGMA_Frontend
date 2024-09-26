@@ -15,25 +15,50 @@
 	  </div>
   
 	  <!-- 로그인 모달 창 -->
-	  <LoginModal v-if="isLoginModalVisible" @close="closeLoginModal" />
+	  <LoginModal
+		v-if="isLoginModalVisible"
+		@close="closeLoginModal"
+		@openRegister="openRegisterModal" 
+	  />
+  
+	  <!-- 회원가입 모달 -->
+	  <RegisterModal
+		v-if="isRegisterModalVisible"
+		@close="closeRegisterModal"
+		@openLogin="openLoginModal" 
+	  />
 	</header>
   </template>
   
   <script setup>
   import { ref } from 'vue';
-  import LoginModal from '@/components/common/LoginModal.vue'; // LoginModal 컴포넌트 불러오기
+  import LoginModal from '@/components/common/LoginModal.vue';
+  import RegisterModal from '@/views/user/components/RegisterModal.vue';
   
-  // 모달 표시 여부 상태 관리
+  // 모달 상태 변수
   const isLoginModalVisible = ref(false);
+  const isRegisterModalVisible = ref(false);
   
   // 로그인 모달 열기
   const openLoginModal = () => {
 	isLoginModalVisible.value = true;
+	isRegisterModalVisible.value = false; // 회원가입 모달을 닫음
   };
   
   // 로그인 모달 닫기
   const closeLoginModal = () => {
 	isLoginModalVisible.value = false;
+  };
+  
+  // 회원가입 모달 열기
+  const openRegisterModal = () => {
+	isLoginModalVisible.value = false; // 로그인 모달을 닫음
+	isRegisterModalVisible.value = true;
+  };
+  
+  // 회원가입 모달 닫기
+  const closeRegisterModal = () => {
+	isRegisterModalVisible.value = false;
   };
   </script>
   
