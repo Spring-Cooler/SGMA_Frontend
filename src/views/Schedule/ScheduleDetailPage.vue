@@ -39,7 +39,7 @@ onMounted(() => {
 
 // 스케줄 목록으로 돌아가기
 const goBack = () => {
-	router.push('/schedule');
+	router.push('/study-schedule');
 };
 </script>
 
