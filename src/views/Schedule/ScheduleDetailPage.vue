@@ -7,7 +7,9 @@
 			<p><strong>Start Time:</strong> {{ schedule.startTime }}</p>
 			<p><strong>End Time:</strong> {{ schedule.endTime }}</p>
 			<p><strong>Details:</strong> {{ schedule.details }}</p>
-			<button class="btn back" @click="goBack">Back to Schedule</button>
+			<!-- <button class="btn back" @click="goBack">Back to Schedule</button> -->
+			<br>
+			<button class="btn">시험 응시</button>
 		</div>
 	</div>
 </template>
@@ -47,11 +49,14 @@ const goBack = () => {
 
 <style scoped>
 .schedule-detail-page {
+	position: absolute;
 	padding: 20px;
+	width: 100%;
+	height: 100vh;
 }
 
 .schedule-detail-container {
-	max-width: 600px;
+	width: 100%;
 	margin: 0 auto;
 	padding: 20px;
 	background-color: #f5f5f5;
@@ -59,12 +64,12 @@ const goBack = () => {
 }
 
 h1 {
-	font-size: 2rem;
+	font-size: 3rem;
 	margin-bottom: 1rem;
 }
 
 p {
-	font-size: 1.2rem;
+	font-size: 1.5rem;
 	margin: 0.5rem 0;
 }
 

@@ -30,7 +30,7 @@ const events = ref([
 		start: new Date(2024, 8, 5),
 		startTime: '09:00',
 		endTime: '10:00',
-		title: 'Meeting w/ Chris',
+		title: '올림픽스터디',
 		details: 'Discussion about project.',
 	},
 	{
