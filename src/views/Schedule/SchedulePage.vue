@@ -11,7 +11,7 @@ import StudyCalendar from './components/StudyCalendar.vue';
 </script>
 
 <style scoped>
-h1 {
-	text-align: left;
+template {
+	position: relative
 }
 </style>
