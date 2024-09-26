@@ -9,8 +9,8 @@
 			<!-- <button class="btn back" @click="goBack">Back to Schedule</button> -->
 			<br>
 			<button class="btn">시험 응시</button>
-			</main>
 		</div>
+	</div>
 </template>
 
 <script setup>
