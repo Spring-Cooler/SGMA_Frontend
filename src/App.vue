@@ -1,5 +1,7 @@
 <template class="root-container">
- <router-view /> <!-- 여기에 라우터가 활성화된 컴포넌트를 렌더링 -->
+  <div class="main">
+    <router-view /> <!-- 여기에 라우터가 활성화된 컴포넌트를 렌더링 -->
+  </div>
 </template>
 
 <script setup>
@@ -7,9 +9,9 @@
 </script>
 
 <style scoped>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
 
-  body {
-    font-family: 'Noto Sans', sans-serif;
-  }
+body {
+  font-family: 'Noto Sans', sans-serif;
+}
 </style>
