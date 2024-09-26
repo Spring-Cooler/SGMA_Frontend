@@ -9,11 +9,14 @@
         <span>관심스터디를 검색해 보세요!</span>
         </div>
         <button class="search-btn">검색</button>
-
-    
-        <div class="tag-search-bar">
-        <i class="fa-light fa-hashtag"></i>
-        <span>태그로 검색해 보세요!</span>
+        <div class="tag-search-bar" @click="toggleTagDropdown">
+            <i class="fa-light fa-hashtag"></i>
+            <span>{{ selectedTag || '태그로 검색해 보세요!' }}</span>
+        </div>
+        <div class="tag-dropdown" v-if="isDropdownOpen">
+            <div class="tag-item" v-for="tag in tags" :key="tag" @click="selectTag(tag)">
+                {{ tag }}
+            </div>
         </div>
     </div>
     
@@ -28,6 +31,20 @@ const activeStatus = ref('전체');
 // 클릭 시 상태를 변경하는 함수
 const setActive = (status) => {
 activeStatus.value = status;
+};
+const isDropdownOpen = ref(false);
+const tags = ref(['태그1', '태그2', '태그3', '태그4']);
+const selectedTag = ref('');
+
+// 드롭다운 토글 함수
+const toggleTagDropdown = () => {
+    isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+// 태그 선택 함수
+const selectTag = (tag) => {
+    selectedTag.value = tag;
+    isDropdownOpen.value = false; // 태그 선택 후 드롭다운 닫기
 };
 </script>
 
