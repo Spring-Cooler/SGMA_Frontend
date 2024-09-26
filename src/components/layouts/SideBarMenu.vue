@@ -1,5 +1,5 @@
 <template>
-	<div class="menu" :class="{ now: isActive }" @click="navigate">
+	<div class="menu" :class="{ cur: isActive }" @click="navigate">
 	  <!-- slot을 span으로 감쌈 -->
 	  <span class="menu-text">
 		<slot></slot>
@@ -53,7 +53,7 @@
 	background-color: #f1f1f1;
   }
   
-  .now {
+  .cur {
 	background-color: #E0E9C8;
 	color: #525150;
   }
