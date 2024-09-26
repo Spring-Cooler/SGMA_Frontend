@@ -53,8 +53,18 @@ h1 {
   justify-content: center;
   width: calc(100% - 42rem);
   height: 100%;
+<<<<<<< HEAD
+  margin-top: 10rem;
+  margin-left: 43rem;
+  padding: 3px;
+  box-sizing: border-box;
+  overflow: scroll;
+  border: 1px solid #8c8c8c;
+  border-radius: 5px;
+=======
   margin-top: 9rem;
   margin-left: 42rem;
+>>>>>>> 1406efe10ed4d7e22bb6b5bf1aa9944e199bd55b
 }
 
 .main-content {
@@ -62,8 +72,14 @@ h1 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+<<<<<<< HEAD
+  width: 100%;
+  background-color: #ffffff;
+  padding: 30px;
+=======
   width: 110rem;
   background-color: #FFFFFF;
+>>>>>>> 1406efe10ed4d7e22bb6b5bf1aa9944e199bd55b
 }
 
 .btn {
