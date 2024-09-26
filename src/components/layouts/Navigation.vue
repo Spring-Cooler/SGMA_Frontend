@@ -1,6 +1,6 @@
 <template>
 	<header class="top-nav">
-	  <div class="top-left-menu-container">
+	  <div class="top-left-menu-container" @click="navigate">
 		<img class="logo hide-text" src="@/assets/logo.svg" alt="logo" />
 		<span>SGMA</span>
 	  </div>
@@ -32,8 +32,15 @@
   
   <script setup>
   import { ref } from 'vue';
+  import { useRouter, useRoute } from 'vue-router';
   import LoginModal from '@/components/common/LoginModal.vue';
   import RegisterModal from '@/views/user/components/RegisterModal.vue';
+
+  const router = useRouter();
+
+  function navigate() {
+	router.push("/"); // 지정된 경로로 이동 
+  }
   
   // 모달 상태 변수
   const isLoginModalVisible = ref(false);
@@ -65,6 +72,7 @@
   <style scoped>
   .top-nav {
 	position: fixed;
+	top: 0;
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
@@ -74,7 +82,7 @@
 	border-bottom: 1px solid #8c8c8c;
 	z-index: 1000; /* z-index를 높여서 상단에 위치하도록 설정 */
   }
-  
+
   .top-left-menu-container {
 	display: flex;
 	justify-content: center;

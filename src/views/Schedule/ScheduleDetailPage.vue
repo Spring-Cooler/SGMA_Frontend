@@ -1,8 +1,7 @@
 <template>
-	<div id="schedule-detail">
-		<Navigation />
-		<StudySideBar />
-		<main class="main-content">
+	<Navigation />
+	<div class="schedule-detail-page">
+		<div class="schedule-detail-container">
 			<h1>{{ schedule.title }}</h1>
 			<p><strong>시작:</strong> {{ schedule.startTime }}</p>
 			<p><strong>종료:</strong> {{ schedule.endTime }}</p>
@@ -10,15 +9,15 @@
 			<!-- <button class="btn back" @click="goBack">Back to Schedule</button> -->
 			<br>
 			<button class="btn">시험 응시</button>
-		</main>
-	</div>
+			</main>
+		</div>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Navigation from '@/components/layouts/Navigation.vue';
-import StudySideBar from './components/StudySideBar.vue';
+import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 
 // 스케줄 정보를 담을 ref 변수
 const schedule = ref({
