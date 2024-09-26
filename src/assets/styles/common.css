@@ -58,8 +58,8 @@ h1 {
   padding: 3px;
   box-sizing: border-box;
   overflow: scroll;
-  border: 1px solid #8c8c8c;
-  border-radius: 5px;
+  /* border: 1px solid #8c8c8c; */
+  /* border-radius: 5px; */
 }
 
 .main-content {

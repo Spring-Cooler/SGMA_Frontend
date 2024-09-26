@@ -1,7 +1,6 @@
 <template>
 	<h1>스터디 일정</h1>
-	<div>
-	</div>
+
 	<StudyCalendar />
 
 </template>

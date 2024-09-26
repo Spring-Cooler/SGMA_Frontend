@@ -6,8 +6,9 @@ import "@/assets/styles/color.css";
 import "@/assets/styles/common.css";
 
 /* import v-calendar api */
-import { setupCalendar } from "v-calendar";
+import VCalendar from "v-calendar";
+import "v-calendar/style.css";
 
 const app = createApp(App);
-app.use(setupCalendar, {});
+app.use(VCalendar, {});
 app.mount("#app");
