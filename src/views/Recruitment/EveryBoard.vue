@@ -4,11 +4,13 @@
         <div class="status" :class="{ active: activeStatus === '전체' }" @click="setActive('전체')">전체</div>
         <div class="status" :class="{ active: activeStatus === '모집중' }" @click="setActive('모집중')">모집중</div>
         <div class="status" :class="{ active: activeStatus === '모집완료' }" @click="setActive('모집완료')">모집완료</div>
+        
         <div class="board-search-bar">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <span>관심스터디를 검색해 보세요!</span>
+            <i class="fa-solid fa-magnifying-glass"></i>
+            <span>관심스터디를 검색해 보세요!</span>
         </div>
         <button class="search-btn olive">검색</button>
+        
         <div class="tag-search-bar" @click="toggleTagDropdown">
             <i class="fa-light fa-hashtag"></i>
             <span>{{ selectedTag || '태그로 검색해 보세요!' }}</span>
@@ -18,8 +20,11 @@
             <div class="tag-item" v-for="tag in tags" :key="tag" @click="selectTag(tag)">
                 {{ tag }}
             </div>
-            
         </div>
+        <button class="reset-btn" @click="resetTag">
+            <i class="fa-solid fa-rotate"></i>
+            초기화
+        </button>
     </div>
     
 </template>
@@ -47,6 +52,11 @@ const toggleTagDropdown = () => {
 const selectTag = (tag) => {
     selectedTag.value = tag;
     isDropdownOpen.value = false; // 태그 선택 후 드롭다운 닫기
+};
+
+const resetTag = () => {
+    selectedTag.value = ''; // 선택된 태그 초기화
+    isDropdownOpen.value = false; // 드롭다운 닫기
 };
 </script>
 
@@ -111,6 +121,25 @@ font-family: Noto Sans;
 font-weight: 700;
 word-wrap: break-word
 }
+.reset-btn
+{
+position:absolute;
+display: flex; /* 플렉스 박스를 사용해 내부 아이템 정렬 */
+align-items: center; /* 세로 중앙 정렬 */
+padding-left: 20px; /* 왼쪽 패딩 */
+margin-top: 388px; /* 위아래 간격 */
+margin-left: 860px; /* 위아래 간격 */
+background: white;
+border-radius: 10px;
+border: #CACACA solid;
+width: 140px;
+height: 89px;
+color: #202020;
+font-size: 24px;
+font-family: Noto Sans;
+font-weight: 700;
+word-wrap: break-word
+}
 .board-search-bar i {
     width: 50px;
     font-size: 32px; /* 아이콘의 크기 조정 */
@@ -119,7 +148,7 @@ word-wrap: break-word
 }
 .board-search-bar i {
     width: 50px;
-    font-size: 48px; /* 아이콘의 크기 조정 */
+    font-size: 40px; /* 아이콘의 크기 조정 */
     margin-left:10px;
 }
 .fa-solid .fas{
@@ -127,8 +156,24 @@ word-wrap: break-word
 }
 .fa-caret-down:before {
     content: "\f0d7";
-    margin-left: 475px;
+    margin-left: 465px;
     font-size: 60px;
+}
+
+
+.search-btn{
+    margin-left: 497px;
+    margin-top: 184px;
+    width: 140px;
+    height: 89px;
+    /* background: #A1B872; */
+    border:#A1B872; 
+    border-radius: 10px;
+    color: white; 
+    font-size: 24px;
+    font-family: Noto Sans;
+    font-weight: 700;
+    word-wrap: break-word
 }
 
 .search-btn{
@@ -164,17 +209,28 @@ font-family: Noto Sans;
 font-weight: 700;
 word-wrap: break-word;
 cursor: pointer;
-padding-right: 30px; /* 오른쪽 패딩 추가 */
+padding-right: 20px; /* 오른쪽 패딩 추가 */
+white-space: nowrap; /* 줄바꿈 방지 */
 }
 .fa-caret-down{
-    margin-left:110px
+    margin-left:10px
 }
 
 .tag-search-bar i {
     font-size: 48px; /* 아이콘의 크기 조정 */
     color:black;
-    margin-right: 5px; /* 아이콘과 텍스트 사이의 간격 제거 */
+    margin-right: 10px; /* 아이콘과 텍스트 사이의 간격 제거 */
 }
+
+.tag-search-bar span {
+    flex: 1; /* 텍스트가 남은 공간을 차지하도록 설정 */
+    text-align: left;
+    white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정 */
+    /* 텍스트가 넘치면 숨김 */
+    text-overflow: ellipsis; /* 넘칠 경우 생략부호 표시 */
+    margin-left: 10px; /* 아이콘과 텍스트 사이의 간격 추가 */
+}
+
 
 .tag-search-bar:hover {
     background-color: #f0f0f0; /* 호버 시 배경색 */
