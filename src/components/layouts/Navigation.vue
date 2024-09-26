@@ -1,27 +1,44 @@
 <template>
 	<header class="top-nav">
-		<div class="top-left-menu-container">
-			<img class="logo hide-text" src="@/assets/logo.svg" alt="logo" />
-			<span>SGMA</span>
+	  <div class="top-left-menu-container">
+		<img class="logo hide-text" src="@/assets/logo.svg" alt="logo" />
+		<span>SGMA</span>
+	  </div>
+	  <div class="top-right-menu-container">
+		<div class="search-bar">
+		  <i class="fa-solid fa-magnifying-glass"></i>
+		  <span>스터디 그룹 찾아보기</span>
 		</div>
-		<div class="top-right-menu-container">
-			<div class="search-bar">
-				<i class="fa-solid fa-magnifying-glass"></i>
-				<span>스터디 그룹 찾아보기</span>
-			</div>
-			<div class="login-btn-wrapper">
-				<button type="button" id="login-btn" class="btn login-btn">로그인</button>
-			</div>
+		<div class="login-btn-wrapper">
+		  <button type="button" id="login-btn" class="btn login-btn" @click="openLoginModal">로그인</button>
 		</div>
+	  </div>
+  
+	  <!-- 로그인 모달 창 -->
+	  <LoginModal v-if="isLoginModalVisible" @close="closeLoginModal" />
 	</header>
-</template>
-
-<script setup>
-
-</script>
-
-<style scoped>
-.top-nav {
+  </template>
+  
+  <script setup>
+  import { ref } from 'vue';
+  import LoginModal from '@/components/common/LoginModal.vue'; // LoginModal 컴포넌트 불러오기
+  
+  // 모달 표시 여부 상태 관리
+  const isLoginModalVisible = ref(false);
+  
+  // 로그인 모달 열기
+  const openLoginModal = () => {
+	isLoginModalVisible.value = true;
+  };
+  
+  // 로그인 모달 닫기
+  const closeLoginModal = () => {
+	isLoginModalVisible.value = false;
+  };
+  </script>
+  
+  <style scoped>
+  .top-nav {
 	position: fixed;
 	display: flex;
 	justify-content: space-between;
@@ -31,35 +48,35 @@
 	background-color: #ffffff;
 	border-bottom: 1px solid #8c8c8c;
 	z-index: 1000; /* z-index를 높여서 상단에 위치하도록 설정 */
-}
-
-.top-left-menu-container {
+  }
+  
+  .top-left-menu-container {
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	height: 100%;
 	margin-left: 3.4rem;
 	cursor: pointer;
-}
-
-.top-left-menu-container img {
+  }
+  
+  .top-left-menu-container img {
 	height: 100%;
 	width: 10.25rem;
-}
-
-.top-left-menu-container span {
+  }
+  
+  .top-left-menu-container span {
 	color: #a1b872;
 	font-size: 3.5rem;
 	font-weight: 700;
-}
-
-.top-right-menu-container {
+  }
+  
+  .top-right-menu-container {
 	display: flex;
 	gap: 4rem;
 	margin-right: 5rem;
-}
-
-.search-bar {
+  }
+  
+  .search-bar {
 	display: flex;
 	align-items: center;
 	height: 4.8rem;
@@ -71,26 +88,27 @@
 	font-weight: 500;
 	gap: 1rem;
 	cursor: pointer;
-}
-
-.search-bar i {
+  }
+  
+  .search-bar i {
 	margin-left: 1rem;
-}
-
-.login-btn-wrapper {
+  }
+  
+  .login-btn-wrapper {
 	display: flex;
 	align-items: center;
 	gap: 4rem;
-}
-
-.login-btn-wrapper::before {
+  }
+  
+  .login-btn-wrapper::before {
 	font-size: 2.4rem;
 	color: #a6a6a6;
 	content: "|";
-}
-
-.login-btn {
+  }
+  
+  .login-btn {
 	height: 4.8rem;
 	width: 10rem;
-}
-</style>
+  }
+  </style>
+  

@@ -19,6 +19,7 @@
 </template>
 
 <script setup>
+
 </script>
 
 <style scoped>
@@ -35,7 +36,7 @@
   justify-content: space-between; /* 요소들을 양쪽 끝에 정렬 */
   align-items: center; /* 요소들을 수직 중앙 정렬 */
   width: 100%;
-  height: 430px; /* 배너의 전체 높이 설정 */
+  height: 280px; /* 배너의 전체 높이 설정 */
   background-color: #FFE083;
   padding: 0 6rem; /* 좌우 패딩 설정 */
   box-sizing: border-box;
@@ -61,7 +62,7 @@
 }
 
 /* 공지사항 텍스트 스타일 */
-.notice-text {
+.notice-text{
   font-family: 'Noto Sans', sans-serif; /* Noto Sans 폰트 적용 */
   font-size: 28px; /* 텍스트 크기 조정 */
   font-weight: bold; /* 굵기 조정 */
@@ -92,7 +93,7 @@
 }
 
 .banner-image {
-  width: 200px; /* 그래프 이미지 크기 조정 */
+  width: 220px; /* 그래프 이미지 크기 조정 */
   height: auto;
 }
 </style>
