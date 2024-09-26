@@ -13,11 +13,11 @@ const routes = [
   //   { path: '/study-groups', name: 'StudyGroups', component: StudyGroups },
   //   { path: '/create-group', name: 'CreateGroup', component: CreateGroup },
   {
-    path: "/study-schedule",
+    path: "/study-groups/1/schedules",
     component: SchedulePage,
   },
   {
-    path: "/study-schedule/details",
+    path: "/study-schedule/1/details",
     name: "ScheduleDetailPage",
     component: ScheduleDetailPage,
     props: true,
