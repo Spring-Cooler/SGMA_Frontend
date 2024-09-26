@@ -1,5 +1,5 @@
 <template>
-	<li class="event-list-item">
+	<li class="event-list-item" @click="goToDetail">
 		<!-- Event Time and Details -->
 		<div class="event-details">
 			<strong>{{ event.startTime }} - {{ event.endTime }}</strong><br />
@@ -8,25 +8,36 @@
 
 		<!-- Action Buttons -->
 		<div class="event-actions">
-			<button class="btn modify" @click="modifyEvent">Modify</button>
-			<button class="btn remove" @click="removeEvent">Remove</button>
+			<button class="btn modify" @click.stop="modifyEvent">Modify</button>
+			<button class="btn remove" @click.stop="removeEvent">Remove</button>
 		</div>
 	</li>
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { useRouter } from 'vue-router'; // Vue Router 사용을 위해 import
 
 // Define props
 const props = defineProps({
 	event: {
 		type: Object,
 		required: true,
-	}
+	},
 });
 
 // Define emits
 const emit = defineEmits(['modify', 'remove']);
+
+// Vue Router 사용 설정
+const router = useRouter();
+
+// 상세 페이지 이동 함수
+const goToDetail = () => {
+	router.push({
+		name: "ScheduleDetailPage",
+		params: { schedule: JSON.stringify(props.event) }
+	});
+};
 
 // Modify event handler
 const modifyEvent = () => {
@@ -47,6 +58,7 @@ const removeEvent = () => {
 	padding: 1rem 0;
 	border-bottom: 1px solid #ddd;
 	margin-bottom: 1rem;
+	cursor: pointer;
 }
 
 .event-details {
@@ -70,6 +82,7 @@ const removeEvent = () => {
 
 .btn.modify {
 	color: white;
+	background-color: #007bff;
 }
 
 .btn.modify:hover {
