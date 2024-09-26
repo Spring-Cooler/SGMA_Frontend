@@ -6,6 +6,9 @@ import MyPage from "@/views/user/page/MyPage.vue"; // 마이페이지 컴포넌�
 import SchedulePage from "@/views/Schedule/SchedulePage.vue";
 import ScheduleDetailPage from "@/views/Schedule/ScheduleDetailPage.vue";
 import StudyNoticePage from "@/views/Group/page/StudyNoticePage.vue";
+import StudyBoardPage from "@/views/Group/page/StudyBoardPage.vue";
+import StudyMemberPage from "@/views/Group/page/StudyMemberPage.vue";
+import StudyRecruitmentPage from "@/views/Group/page/StudyRecruitmentPage.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -26,6 +29,21 @@ const routes = [
     path: "/study-groups/1/notices",
     name: "StudyNoticePage",
     component: StudyNoticePage
+  },
+  {
+    path: "/study-groups/1/boards",
+    name: "StudyBoardPage",
+    component: StudyBoardPage
+  },
+  {
+    path: "/study-groups/1/members",
+    name: "StudyMemberPage",
+    component: StudyMemberPage
+  },
+  {
+    path: "/study-groups/1/recruitments",
+    name: "StudyRecruitmentPage",
+    component: StudyRecruitmentPage
   },
 ];
 
