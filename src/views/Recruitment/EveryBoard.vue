@@ -9,9 +9,12 @@
         <span>관심스터디를 검색해 보세요!</span>
         </div>
         <button class="search-btn">검색</button>
-        
-        
+
     
+        <div class="tag-search-bar">
+        <i class="fa-light fa-hashtag"></i>
+        <span>태그로 검색해 보세요!</span>
+        </div>
     </div>
     
 </template>
@@ -109,6 +112,28 @@ word-wrap: break-word
     font-family: Noto Sans;
     font-weight: 700;
     word-wrap: break-word
-    
+}
+
+.tag-search-bar{
+position:absolute;
+display: flex; /* 플렉스 박스를 사용해 내부 아이템 정렬 */
+align-items: center; /* 세로 중앙 정렬 */
+padding-left: 20px; /* 왼쪽 패딩 */
+margin-top: 388px; /* 위아래 간격 */
+background: white;
+border-radius: 10px;
+border: 1px #CACACA solid;
+width:840px;
+height:89px;
+color: #CACACA;
+font-size: 24px;
+font-family: Noto Sans;
+font-weight: 700;
+word-wrap: break-word
+}
+.tag-search-bar i {
+    width: 50px;
+    font-size: 48px; /* 아이콘의 크기 조정 */
+    color:black
 }
 </style>
