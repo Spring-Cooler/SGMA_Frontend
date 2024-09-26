@@ -53,11 +53,10 @@
 
     // 회원가입 모달로 이동
     const goToRegister = () => {
-    console.log('회원가입 모달 열기 이벤트 발생');
-    closeModal(); // 먼저 로그인 모달을 닫고
-    setTimeout(() => {
-        emit('openRegister'); // 로그인 모달이 닫힌 후 회원가입 모달 열기
-    }, 300); // 애니메이션 시간이 있을 경우 이 시간을 고려하여 설정
+        console.log('회원가입 모달 열기 이벤트 발생');
+      // setTimeout 없이 순서를 조정
+        emit('openRegister'); // 회원가입 모달 열기 이벤트 먼저 발생
+        emit('close'); // 로그인 모달 닫기 이벤트 나중에 발생
 
     };
 
@@ -177,11 +176,11 @@
   
   .login-options {
     margin-top: 1.5rem;
-    font-size: 1.3rem;
+    font-size: 1.4rem;
     color: #888;
     display: flex;
     justify-content: center;
-    gap: 2rem;
+    gap: 1.6rem;
   }
   
   .divider {

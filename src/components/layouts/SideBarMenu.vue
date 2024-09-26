@@ -16,7 +16,7 @@
 	  type: String,
 	  required: true,
 	},
-  });
+  });	
   
   const router = useRouter();
   const route = useRoute();
