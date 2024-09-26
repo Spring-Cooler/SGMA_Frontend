@@ -111,23 +111,20 @@ const customCalendarStyles = {
 <style scoped>
 .schedule-header {
 	width: 100%;
-	height: 10%;
-	left: 10%;
 	display: flex;
 	justify-content: left;
 	align-items: center;
+	margin-top: 9.4rem;
 }
 
 .schedule-header > span {
-	font-size: 3rem;
+	font-size: 4rem;
 	font-weight: 900;
 }
 
 .schedule-container {
-	top: 10%;
-	width: 60vw;
-	height: 60vh;
-	/* Increased height to fit the calendar */
+	width: 100%;
+	margin-top: 5.3rem;
 }
 
 /* Custom styles for the v-calendar container */
