@@ -5,6 +5,8 @@ import MyPage from "@/views/user/page/MyPage.vue"; // 마이페이지 컴포넌�
 // import CreateGroup from '@/views/CreateGroup.vue'; // 스터디 그룹 만들기 컴포넌트
 import SchedulePage from "@/views/Schedule/SchedulePage.vue";
 import ScheduleDetailPage from "@/views/Schedule/ScheduleDetailPage.vue";
+import StudyNoticePage from "@/views/Group/page/StudyNoticePage.vue";
+
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/mypage", name: "MyPage", component: MyPage },
@@ -19,6 +21,11 @@ const routes = [
     name: "ScheduleDetailPage",
     component: ScheduleDetailPage,
     props: true,
+  },
+  {
+    path: "/study-groups/1/notices",
+    name: "StudyNoticePage",
+    component: StudyNoticePage
   },
 ];
 
