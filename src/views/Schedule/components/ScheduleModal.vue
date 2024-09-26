@@ -2,6 +2,7 @@
   <div class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
       <!-- Close Button -->
+      <button class="close-btn" @click="closeModal">×</button>
 
       <!-- Modal Header -->
       <div class="modal-header">
@@ -14,10 +15,11 @@
         <h2>{{ formatDate(selectedDate) }}</h2>
 
         <!-- Event List -->
-        <div v-if="events && events.length">
+        <div v-if="sortedEvents.length">
           <ul class="event-list">
-            <li v-for="event in events" :key="event.id">
-              <strong>{{ event.title }}</strong> - {{ event.details }}
+            <li v-for="event in sortedEvents" :key="event.id">
+              <strong>{{ event.startTime }} - {{ event.endTime }}</strong><br />
+              {{ event.title }} - {{ event.details }}
             </li>
           </ul>
         </div>
@@ -36,9 +38,9 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits, computed } from 'vue';
 
-// Define props with default values
+// Define props
 const props = defineProps({
   selectedDate: {
     type: Date,
@@ -46,13 +48,9 @@ const props = defineProps({
   },
   events: {
     type: Array,
-    default: () => []
-  }
+    default: () => [],
+  },
 });
-
-// Debugging selectedDate and events values
-console.log('selectedDate:', props.selectedDate);
-console.log('events:', props.events);
 
 // Emit close event
 const emit = defineEmits(['close']);
@@ -65,7 +63,6 @@ const closeModal = () => {
 // Create schedule function
 const createSchedule = () => {
   alert(`Creating new schedule for ${props.selectedDate.toDateString()}`);
-  // Emit an event or handle schedule creation here
 };
 
 // Format date for display
@@ -73,6 +70,21 @@ const formatDate = (date) => {
   if (!date) return 'Invalid Date';
   return date.toDateString();
 };
+
+// Computed property to get sorted events by startTime and endTime
+const sortedEvents = computed(() => {
+  return props.events.slice().sort((a, b) => {
+    const timeA = a.startTime.split(':').map(Number);
+    const timeB = b.startTime.split(':').map(Number);
+    const endTimeA = a.endTime.split(':').map(Number);
+    const endTimeB = b.endTime.split(':').map(Number);
+
+    const compareStart = timeA[0] * 60 + timeA[1] - (timeB[0] * 60 + timeB[1]);
+    if (compareStart !== 0) return compareStart;
+
+    return endTimeA[0] * 60 + endTimeA[1] - (endTimeB[0] * 60 + endTimeB[1]);
+  });
+});
 </script>
 
 <style scoped>
@@ -137,11 +149,8 @@ const formatDate = (date) => {
 .modal-footer {
   margin-top: 1.5rem;
   display: flex;
-  /* Corrected flexbox to flex */
   justify-content: flex-end;
-  /* Aligned items to the right */
   gap: 1rem;
-  /* Added space between buttons */
 }
 
 .btn {

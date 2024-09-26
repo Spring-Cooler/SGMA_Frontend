@@ -19,9 +19,30 @@ const isModalVisible = ref(false);
 
 // Sample events
 const events = ref([
-	{ id: 1, start: new Date(2024, 8, 5), title: 'Meeting w/ Chris', details: 'Discussion about project.' },
-	{ id: 2, start: new Date(2024, 8, 10), title: 'Interview w/ Figma', details: 'UI/UX Interview.' },
-	{ id: 3, start: new Date(2024, 8, 19), title: 'St. Patrick\'s Day!', details: 'Celebration day!' },
+	{
+		id: 1,
+		start: new Date(2024, 8, 5),
+		startTime: '09:00',
+		endTime: '10:00',
+		title: 'Meeting w/ Chris',
+		details: 'Discussion about project.',
+	},
+	{
+		id: 2,
+		start: new Date(2024, 8, 10),
+		startTime: '14:00',
+		endTime: '15:30',
+		title: 'Interview w/ Figma',
+		details: 'UI/UX Interview.',
+	},
+	{
+		id: 3,
+		start: new Date(2024, 8, 19),
+		startTime: '13:00',
+		endTime: '14:00',
+		title: 'St. Patrick\'s Day Celebration',
+		details: 'Celebration day activities.',
+	},
 ]);
 
 const attributes = computed(() => [
