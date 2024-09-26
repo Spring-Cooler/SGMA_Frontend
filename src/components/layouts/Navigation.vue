@@ -30,6 +30,7 @@
 	height: 9rem;
 	background-color: #ffffff;
 	border-bottom: 1px solid #8c8c8c;
+	z-index: 1000; /* z-index를 높여서 상단에 위치하도록 설정 */
 }
 
 .top-left-menu-container {

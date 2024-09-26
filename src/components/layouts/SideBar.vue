@@ -53,7 +53,7 @@ import SideBarMenu from './SideBarMenu.vue';
 }
 
 .now {
-	background-color: #a1b872;
-	color: #202020;
+	background-color: #E0E9C8;
+	color: #525150;
 }
 </style>
