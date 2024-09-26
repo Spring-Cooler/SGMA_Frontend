@@ -1,19 +1,20 @@
 <template>
-	<dialog id="modal-example">
+	<dialog open>
 		<article>
-			<header>
-				<button aria-label="Close" rel="prev" data-target="modal-example" onclick="toggleModal(event)"></button>
-				<h3>Confirm your action!</h3>
-			</header>
+			<h2>Confirm Your Membership</h2>
 			<p>
-				Cras sit amet maximus risus. Pellentesque sodales odio sit amet augue finibus
-				pellentesque. Nullam finibus risus non semper euismod.
+				Thank you for signing up for a membership!
+				Please review the membership details below:
 			</p>
+			<ul>
+				<li>Membership: Individual</li>
+				<li>Price: $10</li>
+			</ul>
 			<footer>
-				<button role="button" class="secondary" data-target="modal-example" onclick="toggleModal(event)">
-					Cancel</button><button autofocus data-target="modal-example" onclick="toggleModal(event)">
-					Confirm
+				<button class="secondary">
+					Cancel
 				</button>
+				<button>Confirm</button>
 			</footer>
 		</article>
 	</dialog>
@@ -21,7 +22,7 @@
 </template>
 
 <script setup>
-
+import "@picocss/pico"
 </script>
 
 <style scoped></style>
