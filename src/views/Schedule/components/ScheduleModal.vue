@@ -1,8 +1,6 @@
 <template>
   <div class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
-      <!-- Close Button -->
-      <button class="close-btn" @click="closeModal">×</button>
 
       <!-- Modal Header -->
       <div class="modal-header">
@@ -17,10 +15,8 @@
         <!-- Event List -->
         <div v-if="sortedEvents.length">
           <ul class="event-list">
-            <li v-for="event in sortedEvents" :key="event.id">
-              <strong>{{ event.startTime }} - {{ event.endTime }}</strong><br />
-              {{ event.title }} - {{ event.details }}
-            </li>
+            <ScheduleListItem v-for="event in sortedEvents" :key="event.id" :event="event" @modify="onModify"
+              @remove="onRemove" />
           </ul>
         </div>
         <div v-else>
@@ -29,7 +25,7 @@
 
         <!-- Create Schedule Button -->
         <div class="modal-footer">
-          <button class="btn" @click="createSchedule">Create Schedule</button>
+          <button class="btn sprout" @click="createSchedule">Create Schedule</button>
           <button class="btn olive" @click="closeModal">Cancel</button>
         </div>
       </div>
@@ -39,6 +35,7 @@
 
 <script setup>
 import { defineProps, defineEmits, computed } from 'vue';
+import ScheduleListItem from './ScheduleListItem.vue'; // Import the new component
 
 // Define props
 const props = defineProps({
@@ -85,6 +82,22 @@ const sortedEvents = computed(() => {
     return endTimeA[0] * 60 + endTimeA[1] - (endTimeB[0] * 60 + endTimeB[1]);
   });
 });
+
+// Handle event modification
+const onModify = (event) => {
+  alert(`Modify event: ${event.title}`);
+  // Implement the modification logic here
+};
+
+// Handle event removal
+const onRemove = (event) => {
+  if (confirm(`Are you sure you want to remove the event: ${event.title}?`)) {
+    const index = props.events.indexOf(event);
+    if (index > -1) {
+      props.events.splice(index, 1); // Remove the event from the list
+    }
+  }
+};
 </script>
 
 <style scoped>
@@ -139,13 +152,6 @@ const sortedEvents = computed(() => {
   margin: 1rem 0;
 }
 
-.event-list li {
-  font-size: 1.5rem;
-  padding: 1rem 0;
-  border-bottom: 1px solid #ddd;
-  margin-bottom: 1rem;
-}
-
 .modal-footer {
   margin-top: 1.5rem;
   display: flex;
@@ -154,7 +160,6 @@ const sortedEvents = computed(() => {
 }
 
 .btn {
-  background-color: #4CAF50;
   color: white;
   padding: 8px 16px;
   border: none;

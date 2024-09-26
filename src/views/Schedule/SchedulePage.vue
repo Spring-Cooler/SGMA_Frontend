@@ -42,6 +42,13 @@ const events = ref([
 		endTime: '14:00',
 		title: 'St. Patrick\'s Day Celebration',
 		details: 'Celebration day activities.',
+	}, {
+		id: 4,
+		start: new Date(2024, 8, 19),
+		startTime: '15:00',
+		endTime: '16:00',
+		title: 'St. Patrick\'s Day Celebration',
+		details: 'Celebration day activities.',
 	},
 ]);
 
@@ -49,9 +56,9 @@ const attributes = computed(() => [
 	{
 		key: 'events',
 		dates: events.value.map(event => event.start),
-		dot: {
+		bar: {
 			style: {
-				backgroundColor: 'green'
+				backgroundColor: 'gray'
 			}
 		},
 	},
