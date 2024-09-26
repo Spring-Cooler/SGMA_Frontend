@@ -51,14 +51,7 @@ const router = createRouter({
   history: createWebHistory(),
   routes,
   scrollBehavior(to, from, savedPosition) {
-    // savedPosition: 이전 페이지에서 저장된 스크롤 위치
-    if (savedPosition) {
-      // 이전 위치로 돌아가기
-      return savedPosition;
-    } else {
-      // 최상단으로 스크롤
-      return { top: 0 };
-    }
+    return { top: 0 };
   },
 });
 
