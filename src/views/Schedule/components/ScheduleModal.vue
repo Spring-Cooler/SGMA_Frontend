@@ -22,9 +22,14 @@
           <p>No events scheduled for this day.</p>
         </div>
 
+        <!-- Create Schedule Form -->
+        <CreateScheduleComponent v-if="showCreateForm" @add-schedule="addSchedule" @close="closeCreateForm" />
+
         <!-- Create Schedule Button -->
         <div class="modal-footer">
-          <button class="btn sprout" @click="createSchedule">Create Schedule</button>
+          <button class="btn sprout" @click="showCreateForm = true">
+            Create Schedule
+          </button>
           <button class="btn olive" @click="closeModal">Cancel</button>
         </div>
       </div>
@@ -33,11 +38,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useRouter } from 'vue-router'; // Vue Router 사용을 위해 import
-import ScheduleListItem from './ScheduleListItem.vue'; // ScheduleListItem 컴포넌트 import
+import { ref, computed } from 'vue';
+import { useRouter } from 'vue-router';
+import ScheduleListItem from './ScheduleListItem.vue';
+import CreateScheduleComponent from './CreateScheduleComponent.vue';
 
-// Define props
 const props = defineProps({
   selectedDate: {
     type: Date,
@@ -49,29 +54,20 @@ const props = defineProps({
   },
 });
 
-// Define emits
 const emit = defineEmits(['close']);
 
-// Vue Router 사용 설정
 const router = useRouter();
+const showCreateForm = ref(false);
 
-// 모달 닫기 함수
 const closeModal = () => {
   emit('close');
 };
 
-// 스케줄 생성 함수
-const createSchedule = () => {
-  alert(`Creating new schedule for ${props.selectedDate.toDateString()}`);
-};
-
-// 날짜 포맷팅 함수
 const formatDate = (date) => {
   if (!date) return 'Invalid Date';
   return date.toDateString();
 };
 
-// 정렬된 이벤트 리스트 계산
 const sortedEvents = computed(() => {
   return props.events.slice().sort((a, b) => {
     const timeA = a.startTime.split(':').map(Number);
@@ -86,20 +82,26 @@ const sortedEvents = computed(() => {
   });
 });
 
-// 이벤트 수정 함수
 const onModify = (event) => {
-  // 직접 이동하지 않고 부모로 이벤트를 전달
   alert(`Modify event: ${event.title}`);
 };
 
-// 이벤트 제거 함수
 const onRemove = (event) => {
   if (confirm(`Are you sure you want to remove the event: ${event.title}?`)) {
     const index = props.events.indexOf(event);
     if (index > -1) {
-      props.events.splice(index, 1); // 이벤트 리스트에서 제거
+      props.events.splice(index, 1);
     }
   }
+};
+
+const addSchedule = (newEvent) => {
+  props.events.push(newEvent);
+  showCreateForm.value = false;
+};
+
+const closeCreateForm = () => {
+  showCreateForm.value = false;
 };
 </script>
 
