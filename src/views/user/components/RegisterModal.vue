@@ -91,8 +91,8 @@ const closeModal = () => {
 
 // 로그인 모달로 이동
 const goToLogin = () => {
-  clearTimer(); // 타이머 정리
   emit('openLogin'); // 부모 컴포넌트에게 로그인 모달을 열라는 이벤트 전달
+  emit('close'); // 회원가입 모달 닫기
 };
 
 // 다음 버튼 클릭 처리
