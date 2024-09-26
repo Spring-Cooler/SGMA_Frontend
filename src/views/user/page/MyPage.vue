@@ -107,7 +107,7 @@ const userEmail = 'chanu****@n****.com';
 /* 프로필 섹션 스타일 */
 .profile-section {
   flex: 1; /* 나머지 공간을 차지 */
-  height: 480px;
+  height: 420px;
   padding: 2rem;
   background-color: #fff;
   border-radius: 10px;
@@ -126,7 +126,6 @@ const userEmail = 'chanu****@n****.com';
   align-items: center;
   border-radius: 10px;
   padding: 2rem;
-  margin-bottom: 2rem;
 }
 
 /* 프로필 좌측 섹션 */
@@ -137,8 +136,8 @@ const userEmail = 'chanu****@n****.com';
 
 /* 아바타 스타일 */
 .avatar {
-  width: 12rem;
-  height: 12rem;
+  width: 10rem;
+  height: 10rem;
   background-color: #cccccc;
   border-radius: 50%;
   margin-right: 1.5rem;
@@ -151,7 +150,7 @@ const userEmail = 'chanu****@n****.com';
 }
 
 .name {
-  font-size: 3.6rem;
+  font-size: 3rem;
   color: #202020;
   font-weight: 600; /* 잘못된 폰트 웨이트 수정 */
   margin: 0;
@@ -159,7 +158,7 @@ const userEmail = 'chanu****@n****.com';
 
 .user-id {
   font-weight: 600; /* 잘못된 폰트 웨이트 수정 */
-  font-size: 1.8rem;
+  font-size: 1.6rem;
   color: #202020;
   margin: 0.5rem 0 0 0;
 }
@@ -179,7 +178,7 @@ const userEmail = 'chanu****@n****.com';
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 2.4rem;
+  font-size: 2rem;
   text-align: center;
   font-weight: 600; /* 잘못된 폰트 웨이트 수정 */
 }
@@ -191,7 +190,7 @@ const userEmail = 'chanu****@n****.com';
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 2.4rem;
+  font-size: 2rem;
   text-align: center;
   font-weight: 600; /* 잘못된 폰트 웨이트 수정 */
 }
@@ -209,20 +208,20 @@ const userEmail = 'chanu****@n****.com';
   display: flex;
   justify-content: space-between;
   padding: 0.5rem 0;
-  font-size: 2.8rem;
+  font-size: 2rem;
   color: #a6a6a6;
 }
 
 .profile-field span:first-child {
   color: #525150;
   font-weight: 600;
-  font-size: 2.8rem;
+  font-size: 2rem;
 }
 
 /* 큰 버튼 스타일 */
 .primary-btn {
   background-color: #a1b872;
-  font-size: 3rem;
+  font-size: 2rem;
 }
 
 .danger-btn {
@@ -234,22 +233,23 @@ const userEmail = 'chanu****@n****.com';
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-size: 2rem;
-  font-weight: 600; /* 잘못된 폰트 웨이트 수정 */
+  font-size: 1.6rem;
+  font-weight: 600; 
   text-align: center;
+  margin-right: 16px;
 }
 
 .btn {
   display: block;
   width: 100%;
-  height: 7rem;
+  height: 5rem;
   padding: 1rem;
-  margin: 0.5rem 0;
-  font-size: 2.6rem;
+  margin-top: 3rem;
+  font-size: 2.2rem;
   border-radius: 5px;
   cursor: pointer;
   border: none;
-  font-weight: 600; /* 잘못된 폰트 웨이트 수정 */
+  font-weight: 600; 
   text-align: center;
 }
   
