@@ -1,17 +1,24 @@
 <template>
-	<Navigation />
-	<StudySideBar />
-	<div id="schedule-header">
-		<span>스터디 일정</span>
+
+	<div id="schedule-page">
+		<Navigation />
+		<StudySideBar />
+		<main class="main-content">
+
+			<div id="schedule-header">
+				<span>스터디 일정</span>
+			</div>
+			<div id="schedule-container">
+				<!-- Calendar Component with adjusted cell sizes and container height -->
+				<VCalendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" expanded
+					:style="customCalendarStyles" trim-weeks />
+				<!-- Schedule Modal -->
+				<ScheduleModal v-if="isModalVisible" :selectedDate="selectedDate" :events="selectedEvents"
+					@close="closeModal" />
+			</div>
+		</main>
 	</div>
-	<div id="schedule-container">
-		<!-- Calendar Component with adjusted cell sizes and container height -->
-		<VCalendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" expanded
-			:style="customCalendarStyles" trim-weeks />
-		<!-- Schedule Modal -->
-		<ScheduleModal v-if="isModalVisible" :selectedDate="selectedDate" :events="selectedEvents"
-			@close="closeModal" />
-	</div>
+
 </template>
 
 <script setup>
@@ -105,6 +112,12 @@ const customCalendarStyles = {
 </script>
 
 <style scoped>
+#schedule-page {
+	display: flex;
+	height: 100vh;
+	/* 전체 높이를 설정하여 뷰포트에 맞춤 */
+}
+
 #schedule-header {
 	position: absolute;
 	width: 100%;
