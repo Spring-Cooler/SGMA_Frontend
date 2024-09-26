@@ -22,7 +22,11 @@
           <input type="email" placeholder="이메일 입력" v-model="email" />
         </div>
         
-        <div class="verification-container"> <!-- 3번: 인증번호 발송 버튼과 입력 -->
+        <div class="verification-container"> <!-- 3번: 체크박스와 버튼 정렬 -->
+          <div class="checkbox-container">
+            <div class="email-checkbox"></div>
+            <span class="checkbox-text">이메일 인증</span>
+          </div>
           <button class="verify-btn" @click="sendVerification">{{ verificationButtonText }}</button>
         </div>
         
@@ -161,7 +165,7 @@ onUnmounted(() => {
 .page-indicator {
   position: absolute; /* modal-content를 기준으로 절대 위치 */
   top: 20px; /* 모달 콘텐츠 위쪽에 배치 */
-  left: 30px; /* 오른쪽 끝에서 10px 떨어짐 */
+  left: 20px; /* 오른쪽 끝에서 10px 떨어짐 */
   display: flex; /* 숫자들을 수평 배치 */
   align-items: center; /* 세로 가운데 정렬 */
   background-color: #E0E9C8; /* 배경색 */
@@ -177,7 +181,7 @@ onUnmounted(() => {
 }
 
 .page-indicator span:nth-child(1) {
-  font-weight: 900; /* 현재 페이지 강조 */
+  font-weight: 700; /* 현재 페이지 강조 */
 }
 
 .page-indicator span:nth-child(2) {
@@ -255,10 +259,34 @@ onUnmounted(() => {
 /* 인증번호 발송 */
 .verification-container {
   display: flex;
-  justify-content: flex-start; /* 왼쪽 정렬 */
+  justify-content: space-between; /* 요소들을 양쪽에 배치 */
   align-items: center;
   width: 100%;
 }
+
+.checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.email-checkbox {
+  width: 20px; /* 체크박스 크기 조정 */
+  height: 20px;
+  border-radius: 50%;
+  margin-right: 10px; /* 체크박스와 텍스트 사이 간격 */
+  cursor: pointer;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('@/assets/images/checkbox_checked.png'); /* 체크박스 이미지 */
+}
+
+.checkbox-text {
+  font-size: 1.8rem; /* 텍스트 크기 */
+  font-weight: 600;
+  color: #525150; /* 텍스트 색상 */
+}
+
 
 /* 인증번호 발송 버튼 */
 .verify-btn {

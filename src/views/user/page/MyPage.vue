@@ -107,6 +107,7 @@ const userEmail = 'chanu****@n****.com';
 /* 프로필 섹션 스타일 */
 .profile-section {
   flex: 1; /* 나머지 공간을 차지 */
+  overflow-y: auto; /* 내용이 많을 때 스크롤 */
   height: 420px;
   padding: 2rem;
   background-color: #fff;
