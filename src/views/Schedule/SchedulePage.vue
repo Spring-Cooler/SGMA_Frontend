@@ -1,6 +1,11 @@
 <template>
 	<Navigation />
 	<StudySideBar />
+	<div id="schedule-header">
+		<span>
+			스터디 일정
+		</span>
+	</div>
 	<div id="schedule-container">
 
 		<!-- Calendar Component -->
@@ -94,8 +99,24 @@ const isSameDate = (date1, date2) => {
 </script>
 
 <style scoped>
+#schedule-header {
+	position: absolute;
+	width: 100%;
+	height: 10%;
+	left: 10%;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+}
+
+#schedule-header>span {
+	font-size: 3rem;
+	font-weight: 900;
+}
+
 #schedule-container {
 	position: absolute;
+	top: 10%;
 	width: 80%;
 	height: 80%;
 }

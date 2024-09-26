@@ -117,7 +117,8 @@ const onRemove = (event) => {
 .modal-content {
   background-color: white;
   border-radius: 10px;
-  width: 500px;
+  width: 80%;
+  /* height: 60%; */
   padding: 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
