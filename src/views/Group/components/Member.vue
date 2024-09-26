@@ -1,25 +1,51 @@
 <template>
     <div class="member">
-        <img src="../../../assets/images/default_profile.svg" alt="profile">
-        <span><slot></slot></span>
-        <i class="fa-solid fa-crown"></i>
+        <div class="member-info">
+            <img src="../../../assets/images/default_profile.svg" alt="profile">
+            <span><slot></slot></span>
+            <i class="fa-solid fa-crown"></i>
+        </div>
+        <TinyButton class="sunset-orange hidden" label="추방"></TinyButton>
     </div>
 </template>
+
+<script>
+import TinyButton from '@/components/common/TinyButton.vue';
+
+export default{
+    components: {
+        TinyButton,
+    },
+};
+</script>
 
 <style>
     .member {
         display: flex;
+        justify-content: space-between;
         align-items: center;
         padding-bottom: 1rem;
         border-bottom: 1px solid #EAECEE;
+        margin-top: 2rem;
     }
 
-    .member span {
+    .member-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .member-info img {
+        height: 4.8rem;
+        width: 4.8rem;
+        border-radius: 50%;
+    }
+
+    .member-info span {
         font-size: 2rem;
         padding-left: 1.2rem;
     }
 
-    .member i {
+    .member-info i {
         font-size: 2rem;
         padding-left: 1rem;
     }
