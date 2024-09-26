@@ -7,6 +7,7 @@
 
 <script setup>
 import StudyCalendar from './components/StudyCalendar.vue';
+
 </script>
 
 <style scoped>
