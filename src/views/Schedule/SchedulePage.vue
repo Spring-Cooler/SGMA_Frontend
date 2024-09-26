@@ -2,15 +2,12 @@
 	<Navigation />
 	<StudySideBar />
 	<div id="schedule-header">
-		<span>
-			스터디 일정
-		</span>
+		<span>스터디 일정</span>
 	</div>
 	<div id="schedule-container">
-
-		<!-- Calendar Component -->
-		<VCalendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" expanded />
-
+		<!-- Calendar Component with adjusted cell sizes and container height -->
+		<VCalendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" expanded
+			:style="customCalendarStyles" trim-weeks />
 		<!-- Schedule Modal -->
 		<ScheduleModal v-if="isModalVisible" :selectedDate="selectedDate" :events="selectedEvents"
 			@close="closeModal" />
@@ -22,6 +19,7 @@ import { ref, computed } from 'vue';
 import ScheduleModal from './components/ScheduleModal.vue';
 import StudySideBar from './components/StudySideBar.vue';
 import Navigation from '@/components/layouts/Navigation.vue';
+
 const selectedDate = ref(null);
 const isModalVisible = ref(false);
 
@@ -50,7 +48,8 @@ const events = ref([
 		endTime: '14:00',
 		title: 'St. Patrick\'s Day Celebration',
 		details: 'Celebration day activities.',
-	}, {
+	},
+	{
 		id: 4,
 		start: new Date(2024, 8, 19),
 		startTime: '15:00',
@@ -66,8 +65,8 @@ const attributes = computed(() => [
 		dates: events.value.map(event => event.start),
 		bar: {
 			style: {
-				backgroundColor: 'gray'
-			}
+				backgroundColor: 'gray',
+			},
 		},
 	},
 ]);
@@ -96,6 +95,13 @@ const isSameDate = (date1, date2) => {
 		date1.getDate() === date2.getDate()
 	);
 };
+
+// Custom styles for the calendar cells
+const customCalendarStyles = {
+	'--vc-day-content-height': '8rem', // Adjust the height of the date cell
+	'--vc-day-content-width': '8rem',  // Adjust the width of the date cell
+	'--vc-day-font-size': '1.5rem',    // Increase the font size of the date text
+};
 </script>
 
 <style scoped>
@@ -117,7 +123,35 @@ const isSameDate = (date1, date2) => {
 #schedule-container {
 	position: absolute;
 	top: 10%;
-	width: 80%;
-	height: 80%;
+	width: 60vw;
+	height: 60vh;
+	/* Increased height to fit the calendar */
+}
+
+/* Custom styles for the v-calendar container */
+.vc-container {
+	height: 60vw !important;
+	/* Ensuring the container takes full height of the parent */
+	max-height: 60vh !important;
+	/* Remove any height restrictions */
+}
+
+.vc-day {
+	width: 8rem !important;
+	height: 8rem !important;
+}
+
+.vc-day-content {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 0.5rem;
+
+	/* Optional: to make the cells rounded */
+}
+
+.vc-day:hover {
+	background-color: #e0f7fa !important;
+	/* Hover effect */
 }
 </style>
