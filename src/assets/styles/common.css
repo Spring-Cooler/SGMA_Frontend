@@ -48,13 +48,13 @@ h1 {
   position: relative;
 }
 .main {
-  position: fixed;
+  position: absolute;
   display: flex;
   justify-content: center;
   width: calc(100% - 42rem);
   height: 100%;
-  margin-top: 10rem;
-  margin-left: 43rem;
+  top: 10rem;
+  left: 43rem;
   padding: 3px;
   box-sizing: border-box;
   overflow: scroll;

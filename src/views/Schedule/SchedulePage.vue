@@ -1,8 +1,10 @@
 <template>
-	<div>
-		<h1>스터디 일정</h1>
+	<Navigation />
+	<StudySideBar />
+	<div id="schedule-container">
+
 		<!-- Calendar Component -->
-		<v-calendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" expanded />
+		<VCalendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" />
 
 		<!-- Schedule Modal -->
 		<ScheduleModal v-if="isModalVisible" :selectedDate="selectedDate" :events="selectedEvents"
@@ -13,7 +15,8 @@
 <script setup>
 import { ref, computed } from 'vue';
 import ScheduleModal from './components/ScheduleModal.vue';
-
+import StudySideBar from './components/StudySideBar.vue';
+import Navigation from '@/components/layouts/Navigation.vue';
 const selectedDate = ref(null);
 const isModalVisible = ref(false);
 
@@ -91,7 +94,7 @@ const isSameDate = (date1, date2) => {
 </script>
 
 <style scoped>
-div {
-	position: relative;
+#schedule-container {
+	position: fixed;
 }
 </style>
