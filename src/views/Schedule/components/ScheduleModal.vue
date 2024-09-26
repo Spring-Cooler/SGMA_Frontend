@@ -2,7 +2,6 @@
   <div class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
       <!-- Close Button -->
-      <button class="close-btn" @click="closeModal">×</button>
 
       <!-- Modal Header -->
       <div class="modal-header">
@@ -15,7 +14,7 @@
         <h2>{{ formatDate(selectedDate) }}</h2>
 
         <!-- Event List -->
-        <div v-if="events.length">
+        <div v-if="events && events.length">
           <ul class="event-list">
             <li v-for="event in events" :key="event.id">
               <strong>{{ event.title }}</strong> - {{ event.details }}
@@ -39,7 +38,7 @@
 <script setup>
 import { defineProps, defineEmits } from 'vue';
 
-// Define props
+// Define props with default values
 const props = defineProps({
   selectedDate: {
     type: Date,
@@ -50,6 +49,10 @@ const props = defineProps({
     default: () => []
   }
 });
+
+// Debugging selectedDate and events values
+console.log('selectedDate:', props.selectedDate);
+console.log('events:', props.events);
 
 // Emit close event
 const emit = defineEmits(['close']);
@@ -67,7 +70,7 @@ const createSchedule = () => {
 
 // Format date for display
 const formatDate = (date) => {
-  if (!date) return '';
+  if (!date) return 'Invalid Date';
   return date.toDateString();
 };
 </script>
@@ -89,9 +92,7 @@ const formatDate = (date) => {
 .modal-content {
   background-color: white;
   border-radius: 10px;
-  width: 60%;
-  height: 50%;
-  /* Allow modal height to adjust based on content */
+  width: 500px;
   padding: 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -127,21 +128,30 @@ const formatDate = (date) => {
 }
 
 .event-list li {
-  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  padding: 1rem 0;
+  border-bottom: 1px solid #ddd;
+  margin-bottom: 1rem;
 }
 
 .modal-footer {
   margin-top: 1.5rem;
+  display: flex;
+  /* Corrected flexbox to flex */
+  justify-content: flex-end;
+  /* Aligned items to the right */
+  gap: 1rem;
+  /* Added space between buttons */
 }
 
 .btn {
   background-color: #4CAF50;
   color: white;
-  padding: 10px 20px;
+  padding: 8px 16px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  margin: 0.5rem;
+  font-size: 1rem;
 }
 
 .btn:hover {
