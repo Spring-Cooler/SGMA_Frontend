@@ -1,20 +1,20 @@
 <template>
 	<aside class="side-nav">
-		<div class="menu-container">
-			<SideBarMenu class="now">{{ "홈" }}</SideBarMenu>
-			<SideBarMenu>{{ "스터디 그룹 찾기" }}</SideBarMenu>
-			<SideBarMenu>{{ "스터디 그룹 만들기" }}</SideBarMenu>
-			<SideBarMenu>{{ "마이페이지" }}</SideBarMenu>
-		</div>
+	  <div class="menu-container">
+		<SideBarMenu to="/">홈</SideBarMenu>
+		<SideBarMenu to="/study-groups">스터디 그룹 찾기</SideBarMenu>
+		<SideBarMenu to="/create-group">스터디 그룹 만들기</SideBarMenu>
+		<SideBarMenu to="/mypage">마이페이지</SideBarMenu>
+	  </div>
 	</aside>
-</template>
-
-<script setup>
-import SideBarMenu from './SideBarMenu.vue';
-</script>
-
-<style scoped>
-.side-nav {
+  </template>
+  
+  <script setup>
+  import SideBarMenu from './SideBarMenu.vue';
+  </script>
+  
+  <style scoped>
+  .side-nav {
 	position: fixed;
 	left: 0px;
 	bottom: 0px;
@@ -24,36 +24,13 @@ import SideBarMenu from './SideBarMenu.vue';
 	height: calc(100% - 9rem);
 	background-color: #ffffff;
 	border-right: 1px solid #8c8c8c;
-}
-
-.menu-container {
+  }
+  
+  .menu-container {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
 	margin-top: 5rem;
-}
-
-
-.menu {
-	display: flex;
-	height: 7.6rem;
-	width: 38rem;
-	align-items: center;
-	font-size: 2.8rem;
-	font-weight: 700;
-	color: #a6a6a6;
-	border-radius: 0 1.5rem 1.5rem 0;
-	cursor: pointer;
-}
-
-
-
-.menu:hover:not(.now) {
-	background-color: #f1f1f1;
-}
-
-.now {
-	background-color: #E0E9C8;
-	color: #525150;
-}
-</style>
+  }
+  </style>
+  
