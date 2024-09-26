@@ -6,8 +6,7 @@
         <h2>SGMA</h2>
       </div>
       <div class="modal-body">
-        <h2>스터디 일정</h2>
-        <button class="login-btn" @click="login"></button> <!-- 텍스트를 제거하고 이미지 버튼으로 변경 -->
+        <h2></h2>
         <div class="sns-login">
           <hr />
           <span>SNS LOGIN</span>
@@ -15,7 +14,7 @@
         </div>
         <div>
           <button class="btn">확인</button>
-          <button class="btn olive">취소</button>
+          <button class="btn olive" @click="closeModal">취소</button>
         </div>
 
       </div>
@@ -28,20 +27,12 @@ import { ref } from 'vue';
 
 const emit = defineEmits(['close']);
 
-const username = ref('');
-const password = ref('');
-
 // 모달 닫기 함수
 const closeModal = () => {
   emit('close');
 };
 
-// 로그인 버튼 클릭 시 처리
-const login = () => {
-  console.log('아이디:', username.value);
-  console.log('비밀번호:', password.value);
-  closeModal(); // 로그인 후 모달 닫기
-};
+
 </script>
 
 <style scoped>
