@@ -4,8 +4,8 @@
 			<h2>모달제목</h2>
 			<!-- slot 들어갈 자리{{모달 내용}} -->
 			<footer>
-				<button @click="closeModal(event)">버튼1</button>
-				<button @click="closeModal(event)">버튼2</button>
+				<button @click.stop="closeModal(event)">버튼1</button>
+				<button @click.stop="closeModal(event)">버튼2</button>
 			</footer>
 		</article>
 	</dialog>
