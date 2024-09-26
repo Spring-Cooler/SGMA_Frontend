@@ -2,7 +2,7 @@
 	<div>
 		<h1>스터디 일정</h1>
 		<!-- Calendar Component -->
-		<v-calendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" />
+		<v-calendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" expanded />
 
 		<!-- Schedule Modal -->
 		<ScheduleModal v-if="isModalVisible" :selectedDate="selectedDate" :events="selectedEvents"
@@ -28,8 +28,11 @@ const attributes = computed(() => [
 	{
 		key: 'events',
 		dates: events.value.map(event => event.start),
-		dot: true,
-
+		dot: {
+			style: {
+				backgroundColor: 'green'
+			}
+		},
 	},
 ]);
 
