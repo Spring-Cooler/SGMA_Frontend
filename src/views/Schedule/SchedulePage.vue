@@ -112,14 +112,19 @@ const customCalendarStyles = {
 </script>
 
 <style scoped>
+.main-content {
+	margin-left: 42rem;
+	margin-top: 10rem;
+}
+
 #schedule-page {
 	display: flex;
 	height: 100vh;
+	flex-direction: column;
 	/* 전체 높이를 설정하여 뷰포트에 맞춤 */
 }
 
 #schedule-header {
-	position: absolute;
 	width: 100%;
 	height: 10%;
 	left: 10%;

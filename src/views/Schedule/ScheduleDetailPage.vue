@@ -1,8 +1,8 @@
 <template>
-	<Navigation />
-	<StudySideBar />
-	<div class="schedule-detail-page">
-		<div class="schedule-detail-container">
+	<div id="schedule-detail">
+		<Navigation />
+		<StudySideBar />
+		<main class="main-content">
 			<h1>{{ schedule.title }}</h1>
 			<p><strong>시작:</strong> {{ schedule.startTime }}</p>
 			<p><strong>종료:</strong> {{ schedule.endTime }}</p>
@@ -10,7 +10,7 @@
 			<!-- <button class="btn back" @click="goBack">Back to Schedule</button> -->
 			<br>
 			<button class="btn">시험 응시</button>
-		</div>
+		</main>
 	</div>
 </template>
 
@@ -48,19 +48,10 @@ const goBack = () => {
 </script>
 
 <style scoped>
-.schedule-detail-page {
-	position: absolute;
-	padding: 20px;
-	width: 100%;
+#schedule-detail {
+	display: flex;
 	height: 100vh;
-}
-
-.schedule-detail-container {
-	width: 100%;
-	margin: 0 auto;
-	padding: 20px;
-	background-color: #f5f5f5;
-	border-radius: 8px;
+	/* 전체 높이를 설정하여 뷰포트에 맞춤 */
 }
 
 h1 {
