@@ -1,38 +1,75 @@
 <template>
   <div class="modal-overlay" @click.self="closeModal">
     <div class="modal-content">
+      <!-- Close Button -->
       <button class="close-btn" @click="closeModal">×</button>
+
+      <!-- Modal Header -->
       <div class="modal-header">
         <h2>SGMA</h2>
       </div>
+
+      <!-- Modal Body -->
       <div class="modal-body">
-        <h2></h2>
-        <div class="sns-login">
-          <hr />
-          <span>SNS LOGIN</span>
-          <hr />
+        <!-- Date Title -->
+        <h2>{{ formatDate(selectedDate) }}</h2>
+
+        <!-- Event List -->
+        <div v-if="events.length">
+          <ul class="event-list">
+            <li v-for="event in events" :key="event.id">
+              <strong>{{ event.title }}</strong> - {{ event.details }}
+            </li>
+          </ul>
         </div>
-        <div>
-          <button class="btn">확인</button>
-          <button class="btn olive" @click="closeModal">취소</button>
+        <div v-else>
+          <p>No events scheduled for this day.</p>
         </div>
 
+        <!-- Create Schedule Button -->
+        <div class="modal-footer">
+          <button class="btn" @click="createSchedule">Create Schedule</button>
+          <button class="btn olive" @click="closeModal">Cancel</button>
+        </div>
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { defineProps, defineEmits } from 'vue';
 
+// Define props
+const props = defineProps({
+  selectedDate: {
+    type: Date,
+    required: true,
+  },
+  events: {
+    type: Array,
+    default: () => []
+  }
+});
+
+// Emit close event
 const emit = defineEmits(['close']);
 
-// 모달 닫기 함수
+// Modal close function
 const closeModal = () => {
   emit('close');
 };
 
+// Create schedule function
+const createSchedule = () => {
+  alert(`Creating new schedule for ${props.selectedDate.toDateString()}`);
+  // Emit an event or handle schedule creation here
+};
 
+// Format date for display
+const formatDate = (date) => {
+  if (!date) return '';
+  return date.toDateString();
+};
 </script>
 
 <style scoped>
@@ -52,10 +89,9 @@ const closeModal = () => {
 .modal-content {
   background-color: white;
   border-radius: 10px;
-  width: 400px;
-  /* 너비를 640px에서 400px로 줄였습니다 */
-  height: 480px;
-  /* 너비를 640px에서 400px로 줄였습니다 */
+  width: 60%;
+  height: 50%;
+  /* Allow modal height to adjust based on content */
   padding: 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -78,85 +114,45 @@ const closeModal = () => {
   color: #8bc34a;
 }
 
-.modal-body input {
-  width: 100%;
-  padding: 1rem;
+.modal-body h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.event-list {
+  list-style: none;
+  padding: 0;
   margin: 1rem 0;
-  border: 1px solid #ddd;
+}
+
+.event-list li {
+  margin-bottom: 0.5rem;
+}
+
+.modal-footer {
+  margin-top: 1.5rem;
+}
+
+.btn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
   border-radius: 5px;
-  font-size: 1.6rem;
-}
-
-/* 로그인 버튼 이미지 설정 */
-.login-btn {
-  width: 100%;
-  height: 5rem;
-  /* 버튼 높이 설정 */
-  border: none;
-  background-image: url('@/assets/images/btn_login.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
   cursor: pointer;
-  margin-bottom: 1.5rem;
-  /* 아래 요소와 간격 추가 */
+  margin: 0.5rem;
 }
 
-/* SNS 로그인 버튼 */
-.sns-login {
-  display: flex;
-  align-items: center;
-  margin: 1.5rem 0;
+.btn:hover {
+  background-color: #45a049;
 }
 
-.sns-login hr {
-  flex: 1;
-  border: none;
-  border-top: 1px solid #ddd;
+.btn.olive {
+  background-color: #8bc34a;
 }
 
-.sns-login span {
-  margin: 0 1rem;
-  color: #888;
-}
-
-/* SNS 버튼 스타일 */
-.sns-buttons {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.sns-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  border: none;
-  cursor: pointer;
-  background-size: cover;
-  /* 이미지를 버튼 크기에 맞춤 */
-  background-repeat: no-repeat;
-  background-position: center;
-}
-
-/* 카카오 버튼 이미지 설정 */
-.kakao {
-  background-image: url('@/assets/images/btn_kakao.png');
-}
-
-/* 네이버 버튼 이미지 설정 */
-.naver {
-  background-image: url('@/assets/images/btn_naver.png');
-}
-
-.login-options {
-  margin-top: 1rem;
-  font-size: 1.2rem;
-  color: #888;
-}
-
-.login-options a {
-  color: #8bc34a;
-  text-decoration: none;
+.btn.olive:hover {
+  background-color: #7aae42;
 }
 </style>

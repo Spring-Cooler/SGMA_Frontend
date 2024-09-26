@@ -1,8 +1,13 @@
 <template>
-	<h1>스터디 일정</h1>
+	<div>
+		<h1>스터디 일정</h1>
+		<!-- Calendar Component -->
+		<v-calendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" />
 
-	<VCalendar v-model="selectedDate" :attributes="attributes" @dayclick="onDayClick" expanded />
-	<ScheduleModal v-if="isModalVisible" @close="closeModal" />
+		<!-- Schedule Modal -->
+		<ScheduleModal v-if="isModalVisible" :selectedDate="selectedDate" :events="selectedEvents"
+			@close="closeModal" />
+	</div>
 </template>
 
 <script setup>
@@ -24,19 +29,14 @@ const attributes = computed(() => [
 		key: 'events',
 		dates: events.value.map(event => event.start),
 		dot: true,
-		popover: {
-			label: (date) => {
-				const event = events.value.find(e => isSameDate(e.start, date));
-				return event ? event.title : '';
-			},
-		},
+
 	},
 ]);
 
-// Event handler for date click
+// Event handler for day click
 const onDayClick = (day) => {
+	console.log(`onDayClick called: ${day.date}`);
 	selectedDate.value = day.date;
-	console.log(`selectedDate: ${selectedDate.value}`)
 	isModalVisible.value = true;
 };
 
@@ -44,6 +44,10 @@ const selectedEvents = computed(() => {
 	if (!selectedDate.value) return [];
 	return events.value.filter(event => isSameDate(event.start, selectedDate.value));
 });
+
+const closeModal = () => {
+	isModalVisible.value = false;
+};
 
 // Compare dates
 const isSameDate = (date1, date2) => {
@@ -53,14 +57,10 @@ const isSameDate = (date1, date2) => {
 		date1.getDate() === date2.getDate()
 	);
 };
-// Method to close the modal
-const closeModal = () => {
-	isModalVisible.value = false;
-};
 </script>
 
 <style scoped>
-template {
-	position: relative
+div {
+	position: relative;
 }
 </style>
