@@ -1,5 +1,8 @@
 <template>
 	<aside class="side-nav">
+		<div class="study-name olive">
+			<span>올림픽스터디</span>
+		</div>
 		<div class="menu-container">
 			<SideBarMenu to="/">홈</SideBarMenu>
 			<SideBarMenu to="/study-groups">스터디 그룹 찾기</SideBarMenu>
@@ -12,7 +15,7 @@
 </template>
 
 <script setup>
-import SideBarMenu from './SideBarMenu.vue';
+import SideBarMenu from '@/components/layouts/SideBarMenu.vue';
 </script>
 
 <style scoped>
@@ -28,10 +31,24 @@ import SideBarMenu from './SideBarMenu.vue';
 	border-right: 1px solid #8c8c8c;
 }
 
+.study-name {
+	font-size: 3rem;
+	height: 10rem;
+	text-align: center;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.study-name>span {
+	color: white;
+	font-weight: 900;
+}
+
 .menu-container {
 	display: flex;
 	flex-direction: column;
 	width: 100%;
-	margin-top: 5rem;
+	margin-top: 2rem;
 }
 </style>
