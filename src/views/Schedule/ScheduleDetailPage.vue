@@ -8,7 +8,8 @@
 			<p><strong>내용:</strong> {{ schedule.details }}</p>
 			<!-- <button class="btn back" @click="goBack">Back to Schedule</button> -->
 			<br>
-			<button class="btn">시험 응시</button>
+			<button class="btn" v-if="participate">시험 응시</button>
+			<button class="btn" v-else @click="participateInSchedule">일정 참여</button>
 		</div>
 	</div>
 </template>
@@ -27,7 +28,7 @@ const schedule = ref({
 	endTime: '',
 	details: ''
 });
-
+let participate = ref(false);
 // 라우터와 현재 경로 정보를 사용
 const route = useRoute();
 const router = useRouter();
@@ -44,6 +45,10 @@ onMounted(() => {
 const goBack = () => {
 	router.push('/study-schedule');
 };
+
+const participateInSchedule = () => {
+	participate.value = true;
+}
 </script>
 
 <style scoped>
