@@ -93,8 +93,8 @@
 
     const confirm = async () => {
         let response = await axios.delete(`/api/study-group/boards/${props.id}`);
-        router.go(-1);
         modalVisibility.value = false;
+        router.go(-1);
     }
 
     const cancel = () => {
