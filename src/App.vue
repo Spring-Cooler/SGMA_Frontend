@@ -1,27 +1,15 @@
 <template class="root-container">
   <Navigation />
   <SideBar />
-  <SingleBoard /> 
-  <!-- <List /> -->
-  <!-- <main class="main">
-    router view들어갈 자리(class="main-content") 
-    <div class="main-content">
-      <SchedulePage />
-    </div>
-  </main> -->
-  <!-- <router-view /> 여기에 라우터가 활성화된 컴포넌트를 렌더링 -->
+  <RouterView/>
 
-    <router-view /> <!-- 여기에 라우터가 활성화된 컴포넌트를 렌더링 -->
 </template>
 
 <script setup>
+import Navigation from '@/components/layouts/Navigation.vue';
+import SideBar from '@/components/layouts/SideBar.vue';
+
 
 </script>
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;700&display=swap');
-
-body {
-  font-family: 'Noto Sans', sans-serif;
-}
-</style>
+<style scoped></style>
