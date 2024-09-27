@@ -49,7 +49,7 @@ const props = defineProps({
 const schedule = ref({
 	id: '',
 	title: '',
-	start: '',
+	scheduledDate: '',
 	startTime: '',
 	endTime: '',
 	details: ''
@@ -67,7 +67,7 @@ onMounted(() => {
 		schedule.value.id = props.schedule.id;
 		// console.log(schedule.value)
 		schedule.value.title = props.schedule.title;
-		schedule.value.start = props.schedule.start.split('T')[0].replaceAll("-", "  ");
+		schedule.value.scheduledDate = props.schedule.scheduledDate.split('T')[0].replaceAll("-", "  ");
 		schedule.value.details = props.schedule.details;
 		schedule.value.startTime = props.schedule.startTime;
 		schedule.value.endTime = props.schedule.endTime;

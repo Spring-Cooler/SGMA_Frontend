@@ -31,7 +31,7 @@ const isModalVisible = ref(false);
 const events = ref([
 	{
 		id: 1,
-		start: new Date(2024, 8, 5),
+		scheduledDate: new Date(2024, 8, 5),
 		startTime: '09:00',
 		endTime: '10:00',
 		title: '올림픽스터디',
@@ -39,7 +39,7 @@ const events = ref([
 	},
 	{
 		id: 2,
-		start: new Date(2024, 8, 10),
+		scheduledDate: new Date(2024, 8, 10),
 		startTime: '14:00',
 		endTime: '15:30',
 		title: '피그마스터디',
@@ -47,7 +47,7 @@ const events = ref([
 	},
 	{
 		id: 3,
-		start: new Date(2024, 8, 19),
+		scheduledDate: new Date(2024, 8, 19),
 		startTime: '13:00',
 		endTime: '14:00',
 		title: '코테스터디',
@@ -55,7 +55,7 @@ const events = ref([
 	},
 	{
 		id: 4,
-		start: new Date(2024, 8, 19),
+		scheduledDate: new Date(2024, 8, 19),
 		startTime: '15:00',
 		endTime: '16:00',
 		title: '자바스터디',
@@ -66,7 +66,7 @@ const events = ref([
 const attributes = computed(() => [
 	{
 		key: 'events',
-		dates: events.value.map(event => event.start),
+		dates: events.value.map(event => event.scheduledDate),
 		bar: {
 			style: {
 				backgroundColor: 'orange',
@@ -84,7 +84,7 @@ const onDayClick = (day) => {
 
 const selectedEvents = computed(() => {
 	if (!selectedDate.value) return [];
-	return events.value.filter(event => isSameDate(event.start, selectedDate.value));
+	return events.value.filter(event => isSameDate(event.scheduledDate, selectedDate.value));
 });
 
 const closeModal = () => {
