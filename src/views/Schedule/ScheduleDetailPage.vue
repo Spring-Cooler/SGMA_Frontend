@@ -32,7 +32,7 @@
 			<div class="schedule-buttons" v-if="participate && schedule.testStatus">
 				<!-- buttons -->
 				<button class="btn">문제 출제</button>
-				<button class="btn">시험 응시</button>
+				<button class="btn" @click="goToExamPage">시험 응시</button>
 
 			</div>
 		</div>
@@ -98,9 +98,10 @@ onMounted(() => {
 });
 
 // 스케줄 목록으로 돌아가기
-const goBack = () => {
-	router.push('/study-schedule');
-};
+const goToExamPage = () => {
+	const scheduleId = 1;
+	router.push(`/exams/${scheduleId}`);
+}
 
 const toggleParticipate = () => {
 	participate.value = !participate.value;
