@@ -1,7 +1,8 @@
 <template>
 	<Navigation />
-	<div class="schedule-detail-page">
-		<div class="schedule-detail-container">
+	<GroupSideBar />
+	<main class="main">
+		<div class="main-content">
 			<h1>{{ schedule.title }}</h1>
 			<p><strong>시작:</strong> {{ schedule.startTime }}</p>
 			<p><strong>종료:</strong> {{ schedule.endTime }}</p>
@@ -11,7 +12,7 @@
 			<button class="btn" v-if="participate">시험 응시</button>
 			<button class="btn" v-else @click="participateInSchedule">일정 참여</button>
 		</div>
-	</div>
+	</main>
 </template>
 
 <script setup>
