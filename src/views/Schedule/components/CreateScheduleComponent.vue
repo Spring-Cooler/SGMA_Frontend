@@ -9,12 +9,14 @@
       <input id="description" v-model="description" type="text" placeholder="Enter description" />
     </div>
     <div class="form-group">
-      <label for="start-time">Start Time</label>
-      <input id="start-time" v-model="startTime" type="time" />
+      <label>Start Time</label>
+      <!-- <input id="start-time" v-model="startTime" type="time" /> -->
+      <VDatePicker v-model="startTime" id="start-time" mode="time" />
     </div>
     <div class="form-group">
-      <label for="end-time">End Time</label>
-      <input id="end-time" v-model="endTime" type="time" />
+      <label>End Time</label>
+      <VDatePicker v-model="endTime" id="end-time" mode="time" />
+      <!-- <input id="end-time" v-model="endTime" type="time" /> -->
     </div>
     <div class="buttons">
       <button class="btn confirm" @click="confirmSchedule">Confirm</button>
@@ -25,6 +27,8 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+// Import the VDatePicker component if it's not already imported
+// import VDatePicker from 'path-to-your-component/VDatePicker.vue';
 
 // Props to receive initial event data if in edit mode
 const props = defineProps({
@@ -39,8 +43,8 @@ const emit = defineEmits(['add-schedule', 'update-schedule', 'close']);
 // Reactive form fields
 const title = ref('');
 const description = ref('');
-const startTime = ref('');
-const endTime = ref('');
+const startTime = ref(new Date());
+const endTime = ref(new Date());
 
 // Watch the initialEvent prop and pre-fill the form fields when provided
 watch(() => props.initialEvent, (newEvent) => {
@@ -50,13 +54,27 @@ watch(() => props.initialEvent, (newEvent) => {
     startTime.value = newEvent.startTime;
     endTime.value = newEvent.endTime;
   } else {
-    clearForm(); // Clear the form if no initial event
+    // clearForm(); // Clear the form if no initial event
   }
 }, { immediate: true });
+
+// Function to clear the form fields
+const clearForm = () => {
+  title.value = '';
+  description.value = '';
+  startTime.value = new Date();
+  endTime.value = new Date();
+};
 
 const confirmSchedule = () => {
   if (!title.value || !startTime.value || !endTime.value) {
     alert('Please fill all required fields.');
+    return;
+  }
+
+  // Ensure startTime is before endTime
+  if (startTime.value >= endTime.value) {
+    alert('Start time must be before end time.');
     return;
   }
 
@@ -82,12 +100,6 @@ const closeForm = () => {
   clearForm();
 };
 
-const clearForm = () => {
-  title.value = '';
-  description.value = '';
-  startTime.value = '';
-  endTime.value = '';
-};
 </script>
 
 <style scoped>
