@@ -38,7 +38,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import ScheduleListItem from './ScheduleListItem.vue';
 import CreateScheduleComponent from './CreateScheduleComponent.vue';
@@ -59,6 +59,14 @@ const emit = defineEmits(['close']);
 const router = useRouter();
 const showCreateForm = ref(false);
 
+// Reactive local copy of the events array
+const eventList = ref([...props.events]);
+
+// Watch for changes in props.events and update local eventList accordingly
+watch(() => props.events, (newEvents) => {
+  eventList.value = [...newEvents];
+}, { immediate: true });
+
 const closeModal = () => {
   emit('close');
 };
@@ -69,7 +77,7 @@ const formatDate = (date) => {
 };
 
 const sortedEvents = computed(() => {
-  return props.events.slice().sort((a, b) => {
+  return eventList.value.slice().sort((a, b) => {
     const timeA = a.startTime.split(':').map(Number);
     const timeB = b.startTime.split(':').map(Number);
     const endTimeA = a.endTime.split(':').map(Number);
@@ -88,15 +96,15 @@ const onModify = (event) => {
 
 const onRemove = (event) => {
   if (confirm(`Are you sure you want to remove the event: ${event.title}?`)) {
-    const index = props.events.indexOf(event);
+    const index = eventList.value.indexOf(event);
     if (index > -1) {
-      props.events.splice(index, 1);
+      eventList.value.splice(index, 1);
     }
   }
 };
 
 const addSchedule = (newEvent) => {
-  props.events.push(newEvent);
+  eventList.value.push(newEvent);
   showCreateForm.value = false;
 };
 
