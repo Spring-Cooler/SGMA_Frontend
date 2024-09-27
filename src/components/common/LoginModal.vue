@@ -35,7 +35,7 @@
   import { ref } from 'vue';
 
   // 외부에서 받아온 이벤트 정의
-  const emit = defineEmits(['close', 'openRegister']);
+  const emit = defineEmits(['close', 'goToStep1']);
 
   const username = ref('');
   const password = ref('');
@@ -55,7 +55,7 @@
     const goToRegister = () => {
         console.log('회원가입 모달 열기 이벤트 발생');
       // setTimeout 없이 순서를 조정
-        emit('openRegister'); // 회원가입 모달 열기 이벤트 먼저 발생
+        emit('goToStep1'); // 회원가입 모달 열기 이벤트 먼저 발생
         emit('close'); // 로그인 모달 닫기 이벤트 나중에 발생
 
     };
@@ -99,7 +99,7 @@
   }
   
   .modal-header h2 {
-    margin: 3rem;
+    margin: 2rem;
     font-size: 6rem;
     color: #a1b872;
   }
