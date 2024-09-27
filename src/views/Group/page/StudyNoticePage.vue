@@ -19,7 +19,7 @@
         <div class="notice-list" v-else>
           <div v-for="(item, index) in items" :key="index">
             <!-- 데이터를 바탕으로 표시할 컴포넌트 -->
-            <Notice :data="item"></Notice>
+            <Notice :data="item" @detail="detail(item.notice_id)"></Notice>
           </div>
         </div>
         <Pagination :data="pageInfo" @changePage="handlePageChange"></Pagination>   
@@ -37,13 +37,14 @@ import Notice from '../components/Notice.vue';
 import Pagination from '@/components/common/Pagination.vue';
 import axios from 'axios';
 import { ref, reactive, onMounted, watch } from 'vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
 const items = ref([]);
 const loading = ref(true);
 const groupId = ref(1);
 const currentPage = ref(1);
 const route = useRoute();
+const router = useRouter();
 let pageInfo = reactive({});
 
 const fetchData = async () => {
@@ -55,8 +56,10 @@ const fetchData = async () => {
     } else {
       response = await axios.get(`/api/study-group/notices/group-id/${groupId.value}/title/${route.query.title}?page=${currentPage.value}`);
     }
-    items.value = response.data.data.elements;
-    pageInfo = response.data.data;
+    if(response.data.data !== null) {
+      items.value = response.data.data.elements;
+      pageInfo = response.data.data;
+    }
   } catch (error) {
     console.error(error);
   } finally {
@@ -74,6 +77,10 @@ const handlePageChange = (newPage) => {
     currentPage.value = newPage;
     fetchData();
     window.scrollTo({ top: 0 });
+}
+
+const detail = (id) => { 
+    router.push(`/study-groups/1/notices/${id}`);
 }
 
 onMounted(() => {

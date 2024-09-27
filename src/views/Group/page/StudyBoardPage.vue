@@ -58,8 +58,10 @@
         } else {
           response = await axios.get(`/api/study-group/boards/group-id/${groupId.value}/title/${route.query.title}?page=${currentPage.value}`);
         }
-        items.value = response.data.data.elements;
-        pageInfo = response.data.data;
+        if(response.data.data !== null) {
+          items.value = response.data.data.elements;
+          pageInfo = response.data.data;
+        }
       } catch (error) {
         console.error(error);
       } finally {
