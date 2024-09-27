@@ -22,12 +22,13 @@
           <p>No events scheduled for this day.</p>
         </div>
 
-        <!-- Create Schedule Form -->
-        <CreateScheduleComponent v-if="showCreateForm" @add-schedule="addSchedule" @close="closeCreateForm" />
+        <!-- Create or Modify Schedule Form -->
+        <CreateScheduleComponent v-if="showCreateForm || eventToEdit" :initial-event="eventToEdit"
+          @add-schedule="addSchedule" @update-schedule="updateSchedule" @close="closeCreateForm" />
 
         <!-- Create Schedule Button -->
         <div class="modal-footer">
-          <button class="btn sprout" @click="showCreateForm = true">
+          <button class="btn sprout" @click="openCreateForm">
             Create Schedule
           </button>
           <button class="btn olive" @click="closeModal">Cancel</button>
@@ -58,6 +59,7 @@ const emit = defineEmits(['close']);
 
 const router = useRouter();
 const showCreateForm = ref(false);
+const eventToEdit = ref(null); // Store the event being edited
 
 // Reactive local copy of the events array
 const eventList = ref([...props.events]);
@@ -90,8 +92,25 @@ const sortedEvents = computed(() => {
   });
 });
 
+// Open create form for a new event
+const openCreateForm = () => {
+  eventToEdit.value = null; // Reset the event to edit
+  showCreateForm.value = true;
+};
+
+// Handle modifying an existing event
 const onModify = (event) => {
-  alert(`Modify event: ${event.title}`);
+  eventToEdit.value = { ...event }; // Clone the event to edit
+  showCreateForm.value = false;
+};
+
+// Update event after modification
+const updateSchedule = (updatedEvent) => {
+  const index = eventList.value.findIndex(event => event.id === updatedEvent.id);
+  if (index !== -1) {
+    eventList.value[index] = updatedEvent; // Replace the event in the list
+  }
+  closeCreateForm();
 };
 
 const onRemove = (event) => {
@@ -105,11 +124,12 @@ const onRemove = (event) => {
 
 const addSchedule = (newEvent) => {
   eventList.value.push(newEvent);
-  showCreateForm.value = false;
+  closeCreateForm();
 };
 
 const closeCreateForm = () => {
   showCreateForm.value = false;
+  eventToEdit.value = null; // Reset the event to edit
 };
 </script>
 

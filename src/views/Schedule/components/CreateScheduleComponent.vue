@@ -24,14 +24,35 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 
-const emit = defineEmits(['add-schedule', 'close']);
+// Props to receive initial event data if in edit mode
+const props = defineProps({
+  initialEvent: {
+    type: Object,
+    default: () => null,
+  },
+});
 
+const emit = defineEmits(['add-schedule', 'update-schedule', 'close']);
+
+// Reactive form fields
 const title = ref('');
 const description = ref('');
 const startTime = ref('');
 const endTime = ref('');
+
+// Watch the initialEvent prop and pre-fill the form fields when provided
+watch(() => props.initialEvent, (newEvent) => {
+  if (newEvent) {
+    title.value = newEvent.title;
+    description.value = newEvent.description;
+    startTime.value = newEvent.startTime;
+    endTime.value = newEvent.endTime;
+  } else {
+    clearForm(); // Clear the form if no initial event
+  }
+}, { immediate: true });
 
 const confirmSchedule = () => {
   if (!title.value || !startTime.value || !endTime.value) {
@@ -39,15 +60,20 @@ const confirmSchedule = () => {
     return;
   }
 
-  const newEvent = {
-    id: Date.now(),
+  const eventDetails = {
+    id: props.initialEvent ? props.initialEvent.id : Date.now(),
     title: title.value,
     description: description.value,
     startTime: startTime.value,
     endTime: endTime.value,
   };
 
-  emit('add-schedule', newEvent);
+  if (props.initialEvent) {
+    emit('update-schedule', eventDetails); // Emit update event in edit mode
+  } else {
+    emit('add-schedule', eventDetails); // Emit add event in create mode
+  }
+
   clearForm();
 };
 

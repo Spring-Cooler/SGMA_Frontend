@@ -4,13 +4,20 @@
 	<main class="main">
 		<div class="main-content">
 			<h1>{{ schedule.title }}</h1>
-			<p><strong>시작:</strong> {{ schedule.startTime }}</p>
-			<p><strong>종료:</strong> {{ schedule.endTime }}</p>
-			<p><strong>내용:</strong> {{ schedule.details }}</p>
-			<!-- <button class="btn back" @click="goBack">Back to Schedule</button> -->
+			<div>
+				<!-- schedule body container -->
+				<p><strong>시작:</strong> {{ schedule.startTime }}</p>
+				<p><strong>종료:</strong> {{ schedule.endTime }}</p>
+				<p><strong>내용:</strong> {{ schedule.details }}</p>
+			</div>
 			<br>
-			<button class="btn" v-if="participate">시험 응시</button>
-			<button class="btn" v-else @click="participateInSchedule">일정 참여</button>
+			<div class="schedule-content">
+				<!-- buttons -->
+				<button class="btn" v-if="participate">문제 출제하기</button>
+				<button class="btn" v-if="participate">시험 응시</button>
+				<button class="btn" v-else @click="participateInSchedule">일정 참여</button>
+			</div>
+
 		</div>
 	</main>
 </template>
@@ -67,6 +74,14 @@ h1 {
 p {
 	font-size: 1.5rem;
 	margin: 0.5rem 0;
+}
+
+.schedule-content {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: right;
+	gap: 2rem;
 }
 
 .btn.back {
