@@ -9,7 +9,7 @@
       
       <div class="post-actions">
         <span class="like-count" @click="toggleLike">
-          <i class="fa-solid fa-heart" :style="{ color: isLiked ? 'red' : 'gray' }"></i> {{ likeCount }}
+          <i class="fa-solid fa-heart" :class="{ 'like-heart': isAnimating }" :style="{ color: isLiked ? 'red' : 'gray' }"></i> {{ likeCount }}
         </span>
         <span class="comment-count"><i class="fa-solid fa-comment"></i> 1</span>
         <button class="delete-btn" @click="showModal">삭제하기</button>
@@ -63,7 +63,7 @@
             <div v-if="isReplying" class="reply-input-container">
               <input v-model="replyText" class="reply-input" placeholder="답글을 입력하세요..." />
             </div>
-            <div class="buttons">
+            <div v-if="isReplying" div class="buttons">
               <button class="submit-reply-btn" @click="submitReply">등록</button>
               <button class="cancel-reply-btn" @click="toggleReply">취소</button>
             </div>
@@ -106,6 +106,7 @@ import DeleteModal from './components/DeleteModal.vue';
 const isModalVisible = ref(false);
 const isReplying = ref(false); // 답글 입력 창 상태 관리
 const replyText = ref(''); 
+const isAnimating = ref(false); // 좋아요 애니메이션 상태 관리
 
 // 좋아요 상태와 좋아요 수 관리
 const isLiked = ref(false); // 좋아요 상태를 관리
@@ -127,12 +128,19 @@ const handleCancel = () => {
 };
 // 좋아요 토글 함수
 const toggleLike = () => {
-  if (isLiked.value) {
-    likeCount.value--; // 좋아요를 취소하면 수 감소
-  } else {
-    likeCount.value++; // 좋아요를 누르면 수 증가
+  if (!isAnimating.value) { // 애니메이션이 진행 중이 아닐 때만 실행
+    if (isLiked.value) {
+      likeCount.value--; // 좋아요를 취소하면 수 감소
+    } else {
+      likeCount.value++; // 좋아요를 누르면 수 증가
+    }
+    isLiked.value = !isLiked.value; // 상태를 토글
+
+    isAnimating.value = true; // 애니메이션 시작
+    setTimeout(() => {
+      isAnimating.value = false; // 애니메이션 종료 후 상태 초기화
+    }, 500); // 애니메이션 지속 시간과 일치시킴 (0.5초)
   }
-  isLiked.value = !isLiked.value; // 상태를 토글
 };
 
 const toggleReply = () => {
@@ -218,6 +226,7 @@ const submitReply = () => {
 }
 
 .post-header {
+  width:800px;
   border-bottom: 1px solid #eee;
   display: flex;
   justify-content: flex-start; /* 요소들을 왼쪽 정렬 */
@@ -534,5 +543,33 @@ const submitReply = () => {
   display: flex;
   margin-left:450px;
   padding:10px;
+}
+@keyframes like-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5); /* 커지는 애니메이션 */
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.like-heart {
+  display: inline-block;
+  animation: like-animation 0.5s ease-out; /* 애니메이션 0.5초 동안 실행 */
+}
+
+.like-count {
+  display: flex;
+  align-items: center;
+  font-size: 14px;
+  color: #888;
+}
+
+.like-count i {
+  margin-right: 5px;
+  transition: color 0.3s; /* 색상 전환 애니메이션 */
 }
 </style>
