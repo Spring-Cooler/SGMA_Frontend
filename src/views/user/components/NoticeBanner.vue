@@ -56,8 +56,8 @@
 /* 안내사항 아이콘 */
 .notice-icon img {
   width: 80px; /* 아이콘 크기 조정 */
-  height: auto;
-  margin-top: 10px;
+  height: 40px;
+  margin-top: 40px;
   margin-bottom: 30px;
 }
 
@@ -80,9 +80,14 @@
 }
 
 /* 공지사항 변경 버튼 컨테이너 */
+/* 이미지 버튼 스타일 */
 .button-container img {
   width: 60px; /* 버튼 이미지 크기 조정 */
-  height: auto;
+  height: 20px;
+  position: absolute; /* 부모 요소(.notice-banner) 기준으로 위치 지정 */
+  bottom: 30px; /* 배너의 아래쪽에서 20px 떨어진 위치 */
+  left: 45px; /* 배너의 왼쪽에서 20px 떨어진 위치 */
+  cursor: pointer; /* 클릭할 수 있는 손가락 모양 커서 */
 }
 
 /* 오른쪽 컨텐츠 스타일 */
