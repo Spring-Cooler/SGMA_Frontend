@@ -20,8 +20,7 @@
   
   const router = useRouter();
   const route = useRoute();
-  
-  const isActive = computed(() => route.path === props.to);
+  const isActive = computed(() => route.path.includes(props.to));
   
   function navigate() {
 	if (!props.to) {

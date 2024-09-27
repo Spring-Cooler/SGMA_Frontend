@@ -7,6 +7,9 @@
                 <i class="fa-solid fa-crown"></i>
             </div>
         </div>
+        <div v-if="isManagement">
+            <TinyButton class="sunset-orange" label="추방"></TinyButton>
+        </div>
     </div>
 </template>
 
@@ -18,10 +21,15 @@ const props = defineProps({
     data: {
         type: Object,
         required: true
+    },
+    management: {
+        type: Boolean,
+        default: false
     }
 });
 
 const isOwner = props.data.group_role == 'ROLE_OWNER';
+const isManagement = props.management;
 
 </script>
 
