@@ -69,7 +69,7 @@ const attributes = computed(() => [
 		dates: events.value.map(event => event.start),
 		bar: {
 			style: {
-				backgroundColor: 'gray',
+				backgroundColor: 'orange',
 			},
 		},
 	},

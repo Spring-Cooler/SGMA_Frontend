@@ -20,7 +20,6 @@
 				</div>
 				<button class="btn" v-else @click="participateInSchedule">일정 참여</button>
 			</div>
-
 		</div>
 	</main>
 </template>
