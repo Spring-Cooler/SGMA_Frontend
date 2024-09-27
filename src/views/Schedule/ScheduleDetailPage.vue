@@ -3,9 +3,7 @@
 	<GroupSideBar />
 	<main class="main">
 		<div class="main-content">
-			<div class="schedule-header">
-				<h1>{{ schedule.title }}</h1>
-			</div>
+			<Title>{{ schedule.title }}</Title>
 			<div class="schedule-content">
 				<!-- schedule body container -->
 				<p><strong>날짜:</strong> {{ schedule.start }}</p>
@@ -16,8 +14,10 @@
 			<br>
 			<div>
 				<!-- buttons -->
-				<button class="btn" v-if="participate">문제 출제하기</button>
-				<button class="btn" v-if="participate">시험 응시</button>
+				<div class="schdule-buttons" v-if="participate">
+					<button class="btn">문제 출제하기</button>
+					<button class="btn">시험 응시</button>
+				</div>
 				<button class="btn" v-else @click="participateInSchedule">일정 참여</button>
 			</div>
 
@@ -30,7 +30,7 @@ import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import Navigation from '@/components/layouts/Navigation.vue';
 import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
-
+import Title from '@/components/common/Title.vue';
 const props = defineProps({
 	id: {
 		type: String,
@@ -87,30 +87,20 @@ const participateInSchedule = () => {
 </script>
 
 <style scoped>
-#schedule-detail {
-	display: flex;
-	height: 100vh;
-	/* 전체 높이를 설정하여 뷰포트에 맞춤 */
-}
-
-.schedule-header {
-	width: 100%;
-	display: flex;
-	justify-content: left;
-	align-items: center;
-	margin-top: 2rem;
-}
-
 .schedule-content {
 	width: 100%;
 	margin-top: 5.3rem;
 	display: flex;
 	flex-direction: column;
 	justify-content: left;
-
-
 }
 
+.schdule-buttons {
+	display: flex;
+	flex-direction: row;
+	gap: 2rem;
+	justify-content: right;
+}
 
 h1 {
 	font-size: 3rem;
@@ -122,13 +112,6 @@ p {
 	margin: 0.5rem 0;
 }
 
-.schedule-content {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	justify-content: right;
-	gap: 2rem;
-}
 
 .btn.back {
 	margin-top: 1rem;
