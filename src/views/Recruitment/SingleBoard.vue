@@ -7,10 +7,10 @@
         </div>
       </div>
       
-      
-    
       <div class="post-actions">
-        <span class="like-count"><i class="fa-solid fa-heart"></i> 22</span>
+        <span class="like-count" @click="toggleLike">
+          <i class="fa-solid fa-heart" :style="{ color: isLiked ? 'red' : 'gray' }"></i> {{ likeCount }}
+        </span>
         <span class="comment-count"><i class="fa-solid fa-comment"></i> 3</span>
         <button class="delete-btn">삭제하기</button>
         <button class="edit-btn">수정하기</button>
@@ -20,8 +20,9 @@
 
     <div class="post-content">
       <p class="post-date">
-        모집 시작일: 2024년 9월 20일 <br>
-        모집 마감일: 2024년 9월 24일
+        <i class="fa-regular fa-calendar-check"></i>
+         모집 시작일: 2024년 9월 20일 <br>
+        <i class="fa-regular fa-calendar-xmark"></i> 모집 마감일: 2024년 9월 24일
       </p>
       <br>
       <p>안녕하세요! 디자인 스터디입니다.</p>
@@ -37,25 +38,63 @@
     <button class="apply-btn">지원하기</button>
 
     <div class="comment-section">
-      <h2>댓글 3</h2>
-      <textarea class="comment-input" placeholder="댓글을 남겨보세요."></textarea>
+      <h2><i class="fa-regular fa-comment"></i> 댓글 3</h2>
+      <input class="comment-input" placeholder="댓글을 남겨보세요."></input>
+    </div>
       <button class="submit-comment-btn">등록하기</button>
       <ul class="comment-list">
         <li class="comment-item">
-          <span class="comment-author">김한수</span> - 와~~! 디자인 스터디 모집 글 올려주셨군요
-        </li>
-        <li class="comment-item">
-          <span class="comment-author">이유리</span> - 네 맞아요~~~
-        </li>
-        <li class="comment-item">
-          <span class="comment-author">이유리</span> - 제가 참여하고 싶어요 ㅠㅠ
+          <span class="comment-author-icon"></span>
+          <div class="comment-content">
+            <span>
+              <span class="comment-author">김윤수</span>
+              <span class="comment-date">2023. 7. 18</span>
+            </span>
+            <p class="comment-text">와~~~~ 드디어 모집 글 올리셨군요</p>
+            <button class="comment-btn">답글달기</button>
+          </div>
+            <li class="comment-reply">
+              <span class="comment-reply-author-icon"></span>
+              <div class="comment-reply-content">
+                <span>
+                  <span class="comment-reply-author">이유빈</span>
+                  <span class="comment-reply-date">2023. 7. 19</span>
+                </span>
+                <p class="comment-reply-text">와~~~~ </p>
+              </div>
+            </li>
+            <li class="comment-reply">
+              <span class="comment-reply-author-icon"></span>
+              <div class="comment-reply-content">
+                <span>
+                  <span class="comment-reply-author">이유빈</span>
+                  <span class="comment-reply-date">2023. 7. 19</span>
+                </span>
+                <p class="comment-reply-text">와~~~~ </p>
+              </div>
+            </li>
         </li>
       </ul>
-    </div>
+    
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
+
+// 좋아요 상태와 좋아요 수 관리
+const isLiked = ref(false); // 좋아요 상태를 관리
+const likeCount = ref(22);  // 좋아요 수를 관리
+
+// 좋아요 토글 함수
+const toggleLike = () => {
+  if (isLiked.value) {
+    likeCount.value--; // 좋아요를 취소하면 수 감소
+  } else {
+    likeCount.value++; // 좋아요를 누르면 수 증가
+  }
+  isLiked.value = !isLiked.value; // 상태를 토글
+};
 </script>
 
 <style scoped>
@@ -118,6 +157,7 @@
 }
 
 .post-header {
+  border-bottom: 1px solid #eee;
   display: flex;
   justify-content: flex-start; /* 요소들을 왼쪽 정렬 */
   align-items: center;
@@ -135,9 +175,11 @@
 
 .post-actions {
   margin-top: 323px;
+  margin-bottom: 27px;
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 10px; 
+  cursor: pointer;
 }
 
 .like-count, .comment-count {
@@ -149,6 +191,7 @@
 
 .like-count i, .comment-count i {
   margin-right: 5px;
+  transition: color 0.3s;
 }
 .delete-btn{
   width: 84px;
@@ -191,7 +234,10 @@
 
 .post-content {
   margin-bottom: 20px;
-  font-size:16px
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 25.60px;
+  word-wrap: break-word
 }
 
 .post-date{
@@ -226,28 +272,45 @@
 }
 
 .comment-section h2 {
-  margin-bottom: 10px;
+  color: #212224;
+  font-size: 16px;
+  font-family: Noto Sans;
+  font-weight: 400;
+  line-height: 24px;
+  word-wrap: break-word
 }
 
 .comment-input {
-  width: 100%;
-  height: 80px;
+  width: 792px;
+  height: 48px;
   padding: 10px;
   font-size: 14px;
   border: 1px solid #ddd;
-  border-radius: 4px;
-  margin-bottom: 10px;
+  border-radius: 6px;
+  margin-bottom: 1px;
+  color:#ADB3BA;
+  font-size: 16px;
+  font-family: Noto Sans;
+  font-weight: 500;
+  line-height: 28px;
+  word-wrap: break-word; 
 }
 
 .submit-comment-btn {
+  white-space: nowrap;
+  width: 84px;
+  height: 32px;
   display: inline-block;
   padding: 8px 16px;
   font-size: 14px;
   color: #fff;
-  background-color: #A1B872;
+  background-color: #ADB3BA;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  margin-left: 708px;
+  margin-top: 8px;
+
 }
 
 .submit-comment-btn:hover {
@@ -260,13 +323,110 @@
   margin-top: 20px;
 }
 
+
 .comment-item {
-  padding: 10px;
-  border-bottom: 1px solid #eee;
+  display: flex; /* 수평 배치 */
+  align-items: flex-start; /* 아이콘과 텍스트가 위쪽에 맞춰 정렬되도록 설정 */
+  
+  border-bottom: 1px solid #eee; /* 아래 경계선 */
+}
+
+.comment-author-icon {
+  width: 30px; /* 아이콘 크기 조정 */
+  height: 30px; /* 아이콘 크기 조정 */
+  border-radius: 50%; /* 원형으로 만들기 */
+  background-color: #ccc; /* 배경색 설정 */
+  margin-right: 10px; /* 아이콘과 텍스트 간의 간격 조절 */
+  flex-shrink: 0; /* 아이콘이 크기에 맞춰 줄어들지 않도록 설정 */
+}
+
+.comment-content {
+  display: flex;
+  flex-direction: column; /* 텍스트와 날짜를 수직 배치 */
 }
 
 .comment-author {
-  font-weight: bold;
-  margin-right: 5px;
+  font-weight: bold; /* 글자 두께 조절 */
+  margin-right: 5px; /* 이름과 날짜 간격 */
+  font-size:16px
+}
+
+.comment-date {
+  font-size: 12px; /* 날짜 크기 조정 */
+  color: #888; /* 날짜 색상 조정 */
+  margin-bottom: 5px; /* 날짜와 텍스트 사이의 간격 조정 */
+}
+
+.comment-text {
+  color: #212224;
+  font-size: 16px;
+  font-family: Noto Sans;
+  font-weight: 400;
+  line-height: 25.60px;
+  word-wrap: break-word
+}
+.comment-btn{
+  margin-top:5px;
+  background-color: white;
+  color: #868C94;
+  font-size: 12px;
+  font-family: Noto Sans;
+  font-weight: 500;
+  line-height: 18px;
+  word-wrap: break-word;
+  width:45px;
+  height: 18px;
+  border: none;
+  white-space: nowrap;
+  margin-bottom:17px;
+}
+
+
+.comment-reply {
+  display: flex;
+  align-items: flex-start;
+  margin-left: 50px;
+  border-bottom: 1px solid #eee;
+  margin-top: 16px;
+}
+
+.comment-reply-author-icon {
+  width: 30px; /* 아이콘 크기 조정 */
+  height: 30px; /* 아이콘 크기 조정 */
+  border-radius: 50%; /* 원형으로 만들기 */
+  background-color: #ccc; /* 배경색 설정 */
+  margin-right: 10px; /* 아이콘과 텍스트 간의 간격 조절 */
+  flex-shrink: 0; /* 아이콘이 크기에 맞춰 줄어들지 않도록 설정 */
+}
+
+.comment-reply-content {
+  display: flex;
+  flex-direction: column; /* 텍스트와 날짜를 수직 배치 */
+  margin-top:4px;
+}
+
+.comment-reply-author {
+  font-weight: bold; /* 글자 두께 조절 */
+  margin-right: 5px; /* 이름과 날짜 간격 */
+  font-size:16px
+}
+
+.comment-reply-date {
+  font-size: 12px; /* 날짜 크기 조정 */
+  color: #888; /* 날짜 색상 조정 */
+  margin-bottom: 5px; /* 날짜와 텍스트 사이의 간격 조정 */
+}
+
+.comment-reply-text {
+  color: #212224;
+  font-size: 16px;
+  font-family: Noto Sans;
+  font-weight: 400;
+  line-height: 25.60px;
+  margin-bottom:40px;
+  word-wrap: break-word
+}
+.fa-regular fa-comment{
+  font-size: 16px;
 }
 </style>
