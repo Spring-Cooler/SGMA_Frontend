@@ -1,5 +1,5 @@
 <template>
-    <div class="study-member-page">
+    <div class="study-member-manage-page">
         <!-- 상단 네비게이션 -->
         <Navigation />
         <!-- 사이드 바-->
@@ -10,16 +10,12 @@
             <div class="main-content">
                 <Title>스터디 그룹원</Title>
                 <div class="button-container">
-                    <MediumButton label="신청자 관리"></MediumButton>
-                    <MediumButton label="그룹원 관리" @click="handleManagementClick"></MediumButton>
+                    <TinyButton class="light-gray" label="취소" @click="goBack"></TinyButton>
                 </div>
                 <div class="member-container">
-                    <div class="member-list" v-if="loading">Loading...</div>
-                    <div class="member-list" v-else>
-                        <div v-for="(item, index) in items" :key="index">
-                            <!-- 데이터를 바탕으로 표시할 컴포넌트 -->
-                            <Member :data="item"></Member>
-                        </div>
+                    <div v-for="(item, index) in items" :key="index">
+                        <!-- 데이터를 바탕으로 표시할 컴포넌트 -->
+                        <Member :data="item" :management="true"></Member>
                     </div>
                 </div>
             </div>
@@ -31,7 +27,7 @@
 import Navigation from '@/components/layouts/Navigation.vue';
 import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 import Title from '@/components/common/Title.vue';
-import MediumButton from '@/components/common/MediumButton.vue';
+import TinyButton from '@/components/common/TinyButton.vue';
 import Member from '../components/Member.vue';
 import axios from 'axios';
 import { ref, reactive, onMounted, watch } from 'vue';
@@ -54,8 +50,8 @@ const fetchData = async () => {
     }
 }
 
-function handleManagementClick() {
-	router.push({path: '/study-groups/1/members/management'});
+function goBack() {
+	router.go(-1);
 }
 
 onMounted(() => {

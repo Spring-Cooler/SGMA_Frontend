@@ -4,7 +4,7 @@
             <i class="fa-solid fa-caret-left"></i>
         </button>
         <span>{{ data.page_no }} / {{ data.end_page }}</span>
-        <button class="next" @click="nextPage" :disabled="data.page_no === totalPages">
+        <button class="next" @click="nextPage" :disabled="data.page_no === data.end_page">
             <i class="fa-solid fa-caret-right"></i>
         </button>
     </div>

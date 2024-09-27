@@ -32,30 +32,56 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, inject } from 'vue';
 
 // 외부에서 받아온 이벤트 정의
-const emit = defineEmits(['close', 'openRegister']);
+const emit = defineEmits(['close', 'goToStep1']);
+
+// 상태와 메서드 `inject`로 받아오기
+const user = inject('user');
+const setUserData = inject('setUserData');
 
 const username = ref('');
 const password = ref('');
+
 
 // 모달 닫기 함수
 const closeModal = () => {
   emit('close');
 };
+
 // 로그인 처리 함수
-const login = () => {
-  console.log('아이디:', username.value);
-  console.log('비밀번호:', password.value);
-  closeModal(); // 로그인 후 모달 닫기
+const login = async () => {
+  try {
+    const response = await fetch('http://localhost:8080/user-service/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        user_auth_id: username.value,
+        password: password.value,
+        signup_path: 'NORMAL'
+      })
+    });
+    const result = await response.json();
+    if (result.success) {
+      // 로그인 성공 시 사용자 데이터를 부모 컴포넌트로 전달
+      setUserData(result.data); // setUserData 메서드로 사용자 정보 설정
+      closeModal(); // 모달 닫기
+    } else {
+      alert('로그인 실패');
+    }
+  } catch (error) {
+    console.error('로그인 오류:', error);
+  }
 };
 
 // 회원가입 모달로 이동
 const goToRegister = () => {
   console.log('회원가입 모달 열기 이벤트 발생');
   // setTimeout 없이 순서를 조정
-  emit('openRegister'); // 회원가입 모달 열기 이벤트 먼저 발생
+  emit('goToStep1'); // 회원가입 모달 열기 이벤트 먼저 발생
   emit('close'); // 로그인 모달 닫기 이벤트 나중에 발생
 
 };
@@ -99,7 +125,7 @@ const goToRegister = () => {
 }
 
 .modal-header h2 {
-  margin: 3rem;
+  margin: 2rem;
   font-size: 6rem;
   color: #a1b872;
 }
