@@ -26,6 +26,7 @@
     import PostBody from '@/components/layouts/PostBody.vue';
     import DeleteModal from '@/components/common/DeleteModal.vue';
     import { ref, onMounted } from 'vue';
+    import { useRouter } from 'vue-router';
     import axios from 'axios';
 
     const props = defineProps({
@@ -34,6 +35,7 @@
             required: true
         }
     })
+    const router = useRouter();
 
     const item = ref({});
     const loading = ref(true);
@@ -89,7 +91,9 @@
         modalVisibility.value = true;
     };
 
-    const confirm = () => {
+    const confirm = async () => {
+        let response = await axios.delete(`/api/study-group/boards/${props.id}`);
+        router.go(-1);
         modalVisibility.value = false;
     }
 
