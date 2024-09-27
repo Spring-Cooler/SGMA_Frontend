@@ -6,9 +6,9 @@
 			<Title>{{ schedule.title }}</Title>
 			<div class="schedule-content">
 				<!-- schedule body container -->
-				<p><strong>날짜:</strong> {{ schedule.start }}</p>
-				<p><strong>시작:</strong> {{ schedule.startTime }}</p>
-				<p><strong>종료:</strong> {{ schedule.endTime }}</p>
+				<p><strong>일정 시작 시간:</strong> {{ schedule.start }} {{ schedule.startTime }} </p>
+				<p><strong>일정 종료 시간:</strong> {{ schedule.start }} {{ schedule.endTime }}</p>
+
 				<p><strong>내용:</strong> {{ schedule.details }}</p>
 			</div>
 			<br>
