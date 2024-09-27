@@ -13,6 +13,7 @@
 					schedule.start }} {{
 						schedule.endTime }}</p>
 
+				<p class="schedule-subtitle"><strong>참여자 수:</strong> {{ schedule.numParticipants }}</p>
 				<p class="schedule-subtitle"><strong>내용:</strong> {{ schedule.details }}</p>
 				<p class="schedule-subtitle"><strong>시험 여부:</strong> {{ schedule.testStatus ? 'Y' : 'N' }}</p>
 				<p class="schedule-subtitle" v-if="schedule.testStatus"><strong>출제 문제 수:</strong> {{
@@ -60,7 +61,8 @@ const schedule = ref({
 	endTime: '',
 	details: '',
 	testStatus: false,
-	numProblemsPerParticipant: 0
+	numProblemsPerParticipant: 0,
+	numParticipants: 0
 });
 let participate = ref(false);
 // 라우터와 현재 경로 정보를 사용
@@ -81,6 +83,7 @@ onMounted(() => {
 		schedule.value.endTime = props.schedule.endTime;
 		schedule.value.testStatus = props.schedule.testStatus;
 		schedule.value.numProblemsPerParticipant = props.schedule.numProblemsPerParticipant;
+		schedule.value.numParticipants = props.schedule.numParticipants;
 		console.log(schedule.value.numProblemsPerParticipant)
 
 
