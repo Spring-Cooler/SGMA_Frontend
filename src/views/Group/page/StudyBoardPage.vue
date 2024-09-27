@@ -9,7 +9,7 @@
         <main class="main">
             <div class="main-content">
                 <Title>스터디 자유게시판</Title>
-                <SearchBar></SearchBar>
+                <SearchBar path="/study-groups/1/boards"></SearchBar>
                 <div class="board-info">
                   <div class="board-no">번호</div>
                   <div class="board-title">제목</div>
@@ -37,17 +37,26 @@
     import Board from '../components/Board.vue';
     import Pagination from '@/components/common/Pagination.vue';
     import axios from 'axios';
-    import { ref, reactive, onMounted } from 'vue';
+    import { ref, reactive, onMounted, watch } from 'vue';
+    import { useRoute } from 'vue-router';
 
     const items = ref([]);
     const loading = ref(true);
     const groupId = ref(1);
     const currentPage = ref(1);
+    const route = useRoute();
     let pageInfo = reactive({});
 
     const fetchData = async () => {
       try {
-        const response = await axios.get(`/api/study-group/boards/group-id/${groupId.value}?page=${currentPage.value}`);
+        let response; // response 변수를 미리 선언
+
+        // route.query.title이 undefined인지 확인
+        if (typeof route.query.title === 'undefined') {
+          response = await axios.get(`/api/study-group/boards/group-id/${groupId.value}?page=${currentPage.value}`);
+        } else {
+          response = await axios.get(`/api/study-group/boards/group-id/${groupId.value}/title/${route.query.title}?page=${currentPage.value}`);
+        }
         items.value = response.data.data.elements;
         pageInfo = response.data.data;
       } catch (error) {
@@ -56,6 +65,12 @@
         loading.value = false;
       }
     }
+
+    // 쿼리 매개변수 변경 감지 및 데이터 가져오기
+    watch(() => route.query.title, () => {
+        currentPage.value = 1; // 검색 시 첫 페이지로 리셋
+        fetchData();
+    });
 
     const handlePageChange = (newPage) => {
         currentPage.value = newPage;
