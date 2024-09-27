@@ -9,6 +9,7 @@ import StudyNoticePage from "@/views/Group/page/StudyNoticePage.vue";
 import StudyBoardPage from "@/views/Group/page/StudyBoardPage.vue";
 import StudyMemberPage from "@/views/Group/page/StudyMemberPage.vue";
 import StudyRecruitmentPage from "@/views/Group/page/StudyRecruitmentPage.vue";
+import StudyMemberManagePage from "@/views/Group/page/StudyMemberManagePage.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -45,6 +46,11 @@ const routes = [
     path: "/study-groups/1/recruitments",
     name: "StudyRecruitmentPage",
     component: StudyRecruitmentPage
+  },
+  {
+    path: "/study-groups/1/members/management",
+    name: "StudyMemberManagePage",
+    component: StudyMemberManagePage
   },
 ];
 

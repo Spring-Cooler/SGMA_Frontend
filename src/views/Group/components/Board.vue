@@ -1,9 +1,9 @@
 <template>
     <div class="board">
-        <div class="board-no">{{ data.board_id }}</div>
-        <div class="board-title">{{ data.title }}</div>
-        <div class="board-writer">{{ data.nickname }}</div>
-        <div class="board-created-at">{{ formatDate(data.created_at) }}</div>
+        <div class="board-no">{{ props.data.board_id }}</div>
+        <div class="board-title">{{ props.data.title }}</div>
+        <div class="board-writer">{{ props.data.nickname }}</div>
+        <div class="board-created-at">{{ formatDate(props.data.created_at) }}</div>
     </div>
 </template>
 
@@ -34,6 +34,7 @@ function formatDate(isoDateStr) {
         font-size: 2rem;
         font-weight: 500;
         border-top: 1px solid #EAECEE;
+        cursor: pointer;
     }
 
     .board-no {
