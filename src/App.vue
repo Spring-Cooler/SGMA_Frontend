@@ -45,7 +45,3 @@ body {
   font-family: 'Noto Sans', sans-serif;
 }
 </style>
-
-</script>
-
-<style scoped></style>
