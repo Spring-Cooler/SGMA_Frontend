@@ -25,11 +25,11 @@
 			<br>
 			<div>
 				<!-- buttons -->
-				<div class="schdule-buttons" v-if="participate">
+				<div class="schdule-buttons" v-if="participate && schedule.testStatus">
 					<button class="btn">문제 출제하기</button>
 					<button class="btn">시험 응시</button>
 				</div>
-				<button class="btn" v-else @click="participateInSchedule">일정 참여</button>
+				<button class="btn" v-else @click="toggleParticipate">{{ participate ? '일정 참여 취소' : '일정 참여' }}</button>
 			</div>
 		</div>
 
@@ -98,8 +98,8 @@ const goBack = () => {
 	router.push('/study-schedule');
 };
 
-const participateInSchedule = () => {
-	participate.value = true;
+const toggleParticipate = () => {
+	participate.value = !participate.value;
 }
 </script>
 
