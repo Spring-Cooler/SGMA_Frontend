@@ -1,21 +1,40 @@
 <template class="root-container">
-  <Navigation />
-  <SideBar />
-  <SingleBoard /> 
-  <!-- <List /> -->
-  <!-- <main class="main">
-    router view들어갈 자리(class="main-content") 
-    <div class="main-content">
-      <SchedulePage />
-    </div>
-  </main> -->
-  <!-- <router-view /> 여기에 라우터가 활성화된 컴포넌트를 렌더링 -->
-
-    <router-view /> <!-- 여기에 라우터가 활성화된 컴포넌트를 렌더링 -->
+  <router-view /> <!-- 여기에 라우터가 활성화된 컴포넌트를 렌더링 -->
 </template>
 
-<script setup>
+<script>
+import { reactive, provide } from 'vue';
 
+export default {
+  setup() {
+    // 사용자 정보 상태 관리
+    const user = reactive({
+      userIdentifier: null,
+      accessToken: null,
+      accessTokenExpiry: null,
+      refreshToken: null,
+      refreshTokenExpiry: null
+    });
+
+    // 사용자 정보 저장 메서드
+    const setUserData = (userData) => {
+      user.userIdentifier = userData.user_identifier;
+      user.accessToken = userData.access_token;
+      user.accessTokenExpiry = userData.access_token_expiry;
+      user.refreshToken = userData.refresh_token;
+      user.refreshTokenExpiry = userData.refresh_token_expiry;
+    };
+
+    // 사용자 상태 제공
+    provide('user', user);
+    provide('setUserData', setUserData); // setUserData 메서드도 제공
+
+    return {
+      user,
+      setUserData
+    };
+  }
+};
 </script>
 
 <style scoped>

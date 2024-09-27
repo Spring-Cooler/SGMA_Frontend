@@ -202,6 +202,19 @@ onUnmounted(() => {
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
   text-align: left; /* 왼쪽 정렬 */
+  animation: slide-up 0.3s ease-out; /* 애니메이션 효과 추가 */
+  }
+
+  /* 슬라이드 애니메이션 */
+@keyframes slide-up {
+  from {
+    transform: translateY(50px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 
