@@ -50,11 +50,9 @@ const endTime = ref(new Date());
 watch(() => props.initialEvent, (newEvent) => {
   if (newEvent) {
     title.value = newEvent.title;
-    description.value = newEvent.description;
+    description.value = newEvent.details;
     startTime.value = newEvent.startTime;
     endTime.value = newEvent.endTime;
-  } else {
-    // clearForm(); // Clear the form if no initial event
   }
 }, { immediate: true });
 
@@ -62,8 +60,8 @@ watch(() => props.initialEvent, (newEvent) => {
 const clearForm = () => {
   title.value = '';
   description.value = '';
-  startTime.value = new Date();
-  endTime.value = new Date();
+
+
 };
 
 const confirmSchedule = () => {

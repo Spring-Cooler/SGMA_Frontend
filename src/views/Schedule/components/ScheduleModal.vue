@@ -101,6 +101,7 @@ const openCreateForm = () => {
 // Handle modifying an existing event
 const onModify = (event) => {
   eventToEdit.value = { ...event }; // Clone the event to edit
+  console.log(eventToEdit.value);
   showCreateForm.value = false;
 };
 
