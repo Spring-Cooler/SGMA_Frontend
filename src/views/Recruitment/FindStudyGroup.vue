@@ -1,35 +1,41 @@
 <template>
-    <div class="status-container">
-    <!-- 각 상태 버튼 -->
-        <div class="status" :class="{ active: activeStatus === '전체' }" @click="setActive('전체')">전체</div>
-        <div class="status" :class="{ active: activeStatus === '모집중' }" @click="setActive('모집중')">모집중</div>
-        <div class="status" :class="{ active: activeStatus === '모집완료' }" @click="setActive('모집완료')">모집완료</div>
-        
-        <div class="board-search-bar">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" v-model="searchText" placeholder="관심스터디를 검색해 보세요!" />
-        </div>
-        <button class="search-btn olive">검색</button>
-        
-        <div class="tag-search-bar" @click="toggleTagDropdown">
-            <i class="fa-light fa-hashtag"></i>
-            <span>{{ selectedTag || '태그로 검색해 보세요!' }}</span>
-            <i1 class="fa-solid fa-caret-down" style="color: #a1b868;"></i1>
-        </div>
-        <div class="tag-dropdown" v-if="isDropdownOpen">
-            <div class="tag-item" v-for="tag in tags" :key="tag" @click="selectTag(tag)">
-                {{ tag }}
+    <div class="find-study-group">
+        <Navigation />
+        <SideBar />
+        <div class="status-container">
+        <!-- 각 상태 버튼 -->
+            <div class="status" :class="{ active: activeStatus === '전체' }" @click="setActive('전체')">전체</div>
+            <div class="status" :class="{ active: activeStatus === '모집중' }" @click="setActive('모집중')">모집중</div>
+            <div class="status" :class="{ active: activeStatus === '모집완료' }" @click="setActive('모집완료')">모집완료</div>
+            
+            <div class="board-search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" v-model="searchText" placeholder="관심스터디를 검색해 보세요!" />
             </div>
+            <button class="search-btn olive">검색</button>
+            
+            <div class="tag-search-bar" @click="toggleTagDropdown">
+                <i class="fa-light fa-hashtag"></i>
+                <span>{{ selectedTag || '태그로 검색해 보세요!' }}</span>
+                <i1 class="fa-solid fa-caret-down" style="color: #a1b868;"></i1>
+            </div>
+            <div class="tag-dropdown" v-if="isDropdownOpen">
+                <div class="tag-item" v-for="tag in tags" :key="tag" @click="selectTag(tag)">
+                    {{ tag }}
+                </div>
+            </div>
+            <button class="reset-btn" @click="resetTag">
+                <i class="fa-solid fa-rotate"></i>
+                초기화
+            </button>
         </div>
-        <button class="reset-btn" @click="resetTag">
-            <i class="fa-solid fa-rotate"></i>
-            초기화
-        </button>
     </div>
     
 </template>
 
 <script setup>
+import Navigation from '@/components/layouts/Navigation.vue';
+import SideBar from '@/components/layouts/SideBar.vue';
 import { ref } from 'vue';
 
 // 현재 활성화된 상태를 관리

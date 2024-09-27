@@ -1,13 +1,9 @@
 <template class="root-container">
-  <Navigation />
-  <SideBar />
-  <RouterView/>
+  <router-view/>
 
 </template>
 
 <script setup>
-import Navigation from '@/components/layouts/Navigation.vue';
-import SideBar from '@/components/layouts/SideBar.vue';
 
 
 </script>
