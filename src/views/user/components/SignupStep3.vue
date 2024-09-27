@@ -168,7 +168,8 @@ const completeSignup = () => {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 2rem;
+  font-size: 3.2rem;
+  opacity: 50%;
   background: none;
   border: none;
   cursor: pointer;
@@ -180,7 +181,7 @@ const completeSignup = () => {
 }
 .modal-header h2 {
     margin: 2rem;
-    font-size: 6rem;
+    font-size: 5rem;
     color: #a1b872;
   }
   
