@@ -13,11 +13,15 @@
                     <TinyButton class="light-gray" label="취소" @click="goBack"></TinyButton>
                 </div>
                 <div class="member-container">
-                    <div v-for="(item, index) in items" :key="index">
-                        <!-- 데이터를 바탕으로 표시할 컴포넌트 -->
-                        <Member :data="item" :management="true"></Member>
+                    <div class="member-list" v-if="loading">Loading...</div>
+                    <div class="member-list" v-else>
+                        <div v-for="(item, index) in items" :key="index">
+                            <!-- 데이터를 바탕으로 표시할 컴포넌트 -->
+                            <Member :data="item" :management="true" @kick="kick(item.member_id)"></Member>
+                        </div>
                     </div>
                 </div>
+                <DeleteModal :isVisible="modalVisibility" @confirm="confirm" @cancel="cancel">해당 회원을 추방하시겠습니까?</DeleteModal>
             </div>
         </main>
     </div>
@@ -29,6 +33,7 @@ import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 import Title from '@/components/common/Title.vue';
 import TinyButton from '@/components/common/TinyButton.vue';
 import Member from '../components/Member.vue';
+import DeleteModal from '@/components/common/DeleteModal.vue';
 import axios from 'axios';
 import { ref, reactive, onMounted, watch } from 'vue';
 import { useRouter } from 'vue-router';
@@ -37,6 +42,8 @@ const items = ref([]);
 const loading = ref(true);
 const groupId = ref(1);
 const router = useRouter();
+const modalVisibility = ref(false);
+const memberId = ref(null);
 
 const fetchData = async () => {
     try {
@@ -48,6 +55,28 @@ const fetchData = async () => {
     } finally {
         loading.value = false;
     }
+}
+
+const kick = (id) => {
+    console.log(id);
+    modalVisibility.value = true;
+    memberId.value = id;
+}
+
+const confirm = async () => {
+    try {
+        let response; // response 변수를 미리 선언
+        response = await axios.delete(`/api/study-group/members/${memberId.value}`);
+        console.log(response);
+    } catch (error) {
+        console.error(error);
+    }
+    modalVisibility.value = false;
+    fetchData();
+}
+
+const cancel = () => {
+    modalVisibility.value = false;
 }
 
 function goBack() {
@@ -72,6 +101,7 @@ onMounted(() => {
         display: flex;
         width: 100%;
         flex-direction: column;
+        margin-top: 2rem;
     }
 
     .member-list {
