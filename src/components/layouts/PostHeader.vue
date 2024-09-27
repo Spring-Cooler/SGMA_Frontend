@@ -1,9 +1,10 @@
 <template>
     <div class="post-header">
-        <div class="writer-info">
+        <div class="writer-info" v-if="!isNotice">
             <img class="writer-profile-image" src='../../assets/images/default_profile.svg' alt="profile_image">
             <div class="writer-name">{{props.data.nickname}}</div>
         </div>
+        <div class="writer-info" v-else></div>
         <div class="post-actions">
             <div v-if="!isNotice">
                 <span class="like-count" @click="toggleLike">
