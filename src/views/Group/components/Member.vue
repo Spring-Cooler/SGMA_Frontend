@@ -7,15 +7,15 @@
                 <i class="fa-solid fa-crown"></i>
             </div>
         </div>
-        <div v-if="isManagement">
-            <TinyButton class="sunset-orange" label="추방"></TinyButton>
+        <div v-if="isManagement && !isOwner">
+            <TinyButton class="sunset-orange" label="추방" @click="kick"></TinyButton>
         </div>
     </div>
 </template>
 
 <script setup>
 import TinyButton from '@/components/common/TinyButton.vue';
-import { computed } from 'vue';
+import { computed, defineEmits } from 'vue';
 
 const props = defineProps({
     data: {
@@ -30,6 +30,11 @@ const props = defineProps({
 
 const isOwner = props.data.group_role == 'ROLE_OWNER';
 const isManagement = props.management;
+const emit = defineEmits(['kick']);
+
+const kick = () => {
+    emit('kick');
+}
 
 </script>
 

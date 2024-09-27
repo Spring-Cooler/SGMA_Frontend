@@ -8,7 +8,7 @@
 
 		<!-- Action Buttons -->
 		<div class="event-actions">
-			<button class="btn modify" @click.stop="modifyEvent">Modify</button>
+			<button class="btn popsicle" @click.stop="modifyEvent">Modify</button>
 			<button class="btn remove" @click.stop="removeEvent">Remove</button>
 		</div>
 	</li>
@@ -35,7 +35,8 @@ const router = useRouter();
 const goToDetail = () => {
 	router.push({
 		name: "ScheduleDetailPage",
-		params: { schedule: JSON.stringify(props.event) }
+		params: { id: props.event.id },
+		query: { schedule: JSON.stringify(props.event) },
 	});
 };
 
@@ -90,7 +91,7 @@ const removeEvent = () => {
 }
 
 .btn.remove {
-	background-color: orange;
+	background-color: red;
 	color: white;
 }
 
