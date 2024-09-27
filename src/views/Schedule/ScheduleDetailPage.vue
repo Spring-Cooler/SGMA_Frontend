@@ -23,13 +23,16 @@
 
 			</div>
 			<br>
-			<div>
+			<hr>
+			<div class="schdule-buttons">
+				<button :class="{ 'btn': true, 'orange': !participate, 'sunset-orange': participate }"
+					@click="toggleParticipate">{{
+						participate ? '일정 참여 취소' : '일정 참여' }}</button>
 				<!-- buttons -->
-				<div class="schdule-buttons" v-if="participate && schedule.testStatus">
+				<template v-if="participate && schedule.testStatus">
 					<button class="btn">문제 출제하기</button>
 					<button class="btn">시험 응시</button>
-				</div>
-				<button class="btn" v-else @click="toggleParticipate">{{ participate ? '일정 참여 취소' : '일정 참여' }}</button>
+				</template>
 			</div>
 		</div>
 
@@ -115,6 +118,7 @@ const toggleParticipate = () => {
 
 .schedule-subtitle {
 	font-size: 2rem;
+	margin: 0.5rem 0;
 }
 
 .schdule-buttons {
@@ -127,25 +131,5 @@ const toggleParticipate = () => {
 h1 {
 	font-size: 3rem;
 	margin-bottom: 1rem;
-}
-
-p {
-	font-size: 1.5rem;
-	margin: 0.5rem 0;
-}
-
-
-.btn.back {
-	margin-top: 1rem;
-	padding: 10px 20px;
-	background-color: #8bc34a;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-}
-
-.btn.back:hover {
-	background-color: #7aae42;
 }
 </style>
