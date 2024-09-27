@@ -200,7 +200,8 @@ const eyeClosed = eyeClosedIcon; // 비밀번호 숨김 아이콘 경로
     position: absolute;
     top: 1rem;
     right: 1rem;
-    font-size: 2rem;
+       font-size: 3.2rem;
+    opacity: 50%;
     background: none;
     border: none;
     cursor: pointer;
@@ -213,7 +214,7 @@ const eyeClosed = eyeClosedIcon; // 비밀번호 숨김 아이콘 경로
   
   .modal-header h2 {
     margin: 2rem;
-    font-size: 6rem;
+    font-size: 5rem;
     color: #a1b872;
   }
   

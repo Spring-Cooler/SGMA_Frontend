@@ -197,7 +197,7 @@ onUnmounted(() => {
   background-color: white;
   border-radius: 10px;
   width: 400px;
-  height: 480px; /* 높이 조정 */
+  height: 480px; /* 모달의 높이를 고정 */
   padding: 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -251,7 +251,8 @@ onUnmounted(() => {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 2rem;
+  font-size: 3.2rem;
+  opacity: 50%;
   background: none;
   border: none;
   cursor: pointer;
@@ -264,7 +265,7 @@ onUnmounted(() => {
 
 .modal-header h2 {
   margin: 2rem;
-    font-size: 6rem;
+    font-size: 5rem;
     color: #a1b872;
 }
 

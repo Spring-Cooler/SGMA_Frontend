@@ -110,7 +110,8 @@
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 2rem;
+  font-size: 3.2rem;
+  opacity: 50%;
   background: none;
   border: none;
   cursor: pointer;
