@@ -22,9 +22,15 @@
           <p>No events scheduled for this day.</p>
         </div>
 
+        <!-- Create or Modify Schedule Form -->
+        <CreateScheduleComponent v-if="showCreateForm || eventToEdit" :initial-event="eventToEdit"
+          @add-schedule="addSchedule" @update-schedule="updateSchedule" @close="closeCreateForm" />
+
         <!-- Create Schedule Button -->
         <div class="modal-footer">
-          <button class="btn sprout" @click="createSchedule">Create Schedule</button>
+          <button class="btn sprout" @click="openCreateForm">
+            Create Schedule
+          </button>
           <button class="btn olive" @click="closeModal">Cancel</button>
         </div>
       </div>
@@ -33,11 +39,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
-import { useRouter } from 'vue-router'; // Vue Router 사용을 위해 import
-import ScheduleListItem from './ScheduleListItem.vue'; // ScheduleListItem 컴포넌트 import
+import { ref, computed, watch } from 'vue';
+import { useRouter } from 'vue-router';
+import ScheduleListItem from './ScheduleListItem.vue';
+import CreateScheduleComponent from './CreateScheduleComponent.vue';
 
-// Define props
 const props = defineProps({
   selectedDate: {
     type: Date,
@@ -49,31 +55,31 @@ const props = defineProps({
   },
 });
 
-// Define emits
 const emit = defineEmits(['close']);
 
-// Vue Router 사용 설정
 const router = useRouter();
+const showCreateForm = ref(false);
+const eventToEdit = ref(null); // Store the event being edited
 
-// 모달 닫기 함수
+// Reactive local copy of the events array
+const eventList = ref([...props.events]);
+
+// Watch for changes in props.events and update local eventList accordingly
+watch(() => props.events, (newEvents) => {
+  eventList.value = [...newEvents];
+}, { immediate: true });
+
 const closeModal = () => {
   emit('close');
 };
 
-// 스케줄 생성 함수
-const createSchedule = () => {
-  alert(`Creating new schedule for ${props.selectedDate.toDateString()}`);
-};
-
-// 날짜 포맷팅 함수
 const formatDate = (date) => {
   if (!date) return 'Invalid Date';
   return date.toDateString();
 };
 
-// 정렬된 이벤트 리스트 계산
 const sortedEvents = computed(() => {
-  return props.events.slice().sort((a, b) => {
+  return eventList.value.slice().sort((a, b) => {
     const timeA = a.startTime.split(':').map(Number);
     const timeB = b.startTime.split(':').map(Number);
     const endTimeA = a.endTime.split(':').map(Number);
@@ -86,20 +92,45 @@ const sortedEvents = computed(() => {
   });
 });
 
-// 이벤트 수정 함수
-const onModify = (event) => {
-  // 직접 이동하지 않고 부모로 이벤트를 전달
-  alert(`Modify event: ${event.title}`);
+// Open create form for a new event
+const openCreateForm = () => {
+  eventToEdit.value = null; // Reset the event to edit
+  showCreateForm.value = true;
 };
 
-// 이벤트 제거 함수
+// Handle modifying an existing event
+const onModify = (event) => {
+  eventToEdit.value = { ...event }; // Clone the event to edit
+  console.log(eventToEdit.value);
+  showCreateForm.value = false;
+};
+
+// Update event after modification
+const updateSchedule = (updatedEvent) => {
+  const index = eventList.value.findIndex(event => event.id === updatedEvent.id);
+  if (index !== -1) {
+    eventList.value[index] = updatedEvent; // Replace the event in the list
+  }
+  closeCreateForm();
+};
+
 const onRemove = (event) => {
   if (confirm(`Are you sure you want to remove the event: ${event.title}?`)) {
-    const index = props.events.indexOf(event);
+    const index = eventList.value.indexOf(event);
     if (index > -1) {
-      props.events.splice(index, 1); // 이벤트 리스트에서 제거
+      eventList.value.splice(index, 1);
     }
   }
+};
+
+const addSchedule = (newEvent) => {
+  eventList.value.push(newEvent);
+  closeCreateForm();
+};
+
+const closeCreateForm = () => {
+  showCreateForm.value = false;
+  eventToEdit.value = null; // Reset the event to edit
 };
 </script>
 

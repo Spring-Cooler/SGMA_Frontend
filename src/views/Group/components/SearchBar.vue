@@ -4,8 +4,8 @@
         <i class="fa-solid fa-magnifying-glass"></i>
         <input type="text" class="search-bar" placeholder="검색어를 입력해주세요">
       </div>
-      <SmallButton class="c-e99a24" label="검색"></SmallButton>
-      <SmallButton class="c-e99a24" label="글쓰기"></SmallButton>
+      <SmallButton class="popsicle" label="검색"></SmallButton>
+      <SmallButton class="popsicle" label="글쓰기"></SmallButton>
     </div>
 </template>
 
@@ -61,9 +61,5 @@ export default {
 
 .search-bar-wrapper input::placeholder {
   color: #8c8c8c;
-}
-
-.c-e99a24 {
-  background-color: #e99a24;
 }
 </style>

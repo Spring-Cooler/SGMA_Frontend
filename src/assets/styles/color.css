@@ -1,25 +1,31 @@
 .sprout {
-  background-color: #cadbae;
+  background-color: #cadbae !important;
 }
 
 .olive {
-  background-color: #a1b872;
+  background-color: #a1b872 !important;
 }
 
 .kaitoke {
-  background-color: #003e19;
+  background-color: #003e19 !important;
 }
 
 .straw {
-  background-color: #e5d67b;
+  background-color: #e5d67b !important;
 }
 
 .mango {
-  background-color: #ffe083;
+  background-color: #ffe083 !important;
 }
+
 .popsicle {
-  background-color: #e99a24;
+  background-color: #e99a24 !important;
 }
+
 .basicText{
-  background-color: #525150;
+  background-color: #525150 !important;
+}
+
+.sunset-orange{
+  background-color: #F35757 !important;
 }
