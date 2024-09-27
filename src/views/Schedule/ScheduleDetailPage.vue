@@ -28,6 +28,16 @@ import { useRoute, useRouter } from 'vue-router';
 import Navigation from '@/components/layouts/Navigation.vue';
 import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 
+const props = defineProps({
+	id: {
+		type: String,
+		required: true,
+	},
+	schedule: {
+		type: Object,
+		default: () => { null }
+	}
+})
 // 스케줄 정보를 담을 ref 변수
 const schedule = ref({
 	id: '',
@@ -43,10 +53,12 @@ const router = useRouter();
 
 // 컴포넌트가 마운트될 때 라우터 파라미터로 전달된 스케줄 정보 가져오기
 onMounted(() => {
-	const scheduleData = route.params.schedule;
-	if (scheduleData) {
-		schedule.value = JSON.parse(scheduleData);
+	if (props.schedule) {
+		console.log('Received schedule:', props.schedule);
+	} else {
+		console.log('No schedule passed. Fetch from store or API using ID:', props.id);
 	}
+
 });
 
 // 스케줄 목록으로 돌아가기

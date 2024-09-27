@@ -35,7 +35,8 @@ const router = useRouter();
 const goToDetail = () => {
 	router.push({
 		name: "ScheduleDetailPage",
-		params: { schedule: JSON.stringify(props.event) }
+		params: { id: props.event.id },
+		query: { schedule: JSON.stringify(props.event) },
 	});
 };
 

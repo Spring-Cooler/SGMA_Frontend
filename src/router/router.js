@@ -20,30 +20,33 @@ const routes = [
     component: SchedulePage,
   },
   {
-    path: "/study-schedule/1/details",
+    path: "/study-groups/1/schedules/:id",
     name: "ScheduleDetailPage",
     component: ScheduleDetailPage,
-    props: true,
+    props: route => ({
+      id: route.params.id,
+      schedule: route.query.schedule ? JSON.parse(route.query.schedule) : null,
+    }),
   },
   {
     path: "/study-groups/1/notices",
     name: "StudyNoticePage",
-    component: StudyNoticePage
+    component: StudyNoticePage,
   },
   {
     path: "/study-groups/1/boards",
     name: "StudyBoardPage",
-    component: StudyBoardPage
+    component: StudyBoardPage,
   },
   {
     path: "/study-groups/1/members",
     name: "StudyMemberPage",
-    component: StudyMemberPage
+    component: StudyMemberPage,
   },
   {
     path: "/study-groups/1/recruitments",
     name: "StudyRecruitmentPage",
-    component: StudyRecruitmentPage
+    component: StudyRecruitmentPage,
   },
 ];
 
