@@ -38,6 +38,7 @@ const props = defineProps({
   font-weight: 400;
   line-height: 3rem;
   word-wrap: break-word;
+  border-bottom: 1px solid #EAECEE;
 }
 
 .post-content {
