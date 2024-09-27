@@ -28,7 +28,7 @@
 
         <!-- Create Schedule Button -->
         <div class="modal-footer">
-          <button class="btn sprout" @click="openCreateForm">
+          <button class="btn popsicle" @click="openCreateForm">
             Create Schedule
           </button>
           <button class="btn olive" @click="closeModal">Cancel</button>

@@ -55,6 +55,12 @@ const parseTimeString = (timeString, date = new Date()) => {
   parsedDate.setHours(hours, minutes, 0, 0);
   return parsedDate;
 };
+// Utility function to format date object into "HH:mm" time string
+const formatTime = (date) => {
+  const hours = date.getHours().toString().padStart(2, '0');
+  const minutes = date.getMinutes().toString().padStart(2, '0');
+  return `${hours}:${minutes}`;
+};
 
 // Watch the initialEvent prop and pre-fill the form fields when provided
 watch(() => props.initialEvent, (newEvent) => {
@@ -91,8 +97,8 @@ const confirmSchedule = () => {
     id: props.initialEvent ? props.initialEvent.id : Date.now(),
     title: title.value,
     description: description.value,
-    startTime: startTime.value.toISOString(), // Convert to a suitable format if needed
-    endTime: endTime.value.toISOString(), // Convert to a suitable format if needed
+    startTime: formatTime(startTime.value), // Convert to a suitable format if needed
+    endTime: formatTime(endTime.value), // Convert to a suitable format if needed
   };
 
   if (props.initialEvent) {
