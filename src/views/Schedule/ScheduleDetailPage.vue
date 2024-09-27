@@ -4,6 +4,12 @@
 	<main class="main">
 		<div class="main-content">
 			<Title>{{ schedule.title }}</Title>
+			<div class="schedule-buttons">
+				<button
+					:class="{ 'btn': true, 'orange': !participate, 'sunset-orange': participate, 'btn-participate': true }"
+					@click="toggleParticipate">{{
+						participate ? '참여 취소' : '일정 참여' }}</button>
+			</div>
 			<div class="schedule-content">
 				<!-- schedule body container -->
 				<p class="schedule-subtitle"><i class="fa-regular fa-calendar"></i> <strong>일정 시작 시간:</strong> {{
@@ -22,17 +28,12 @@
 
 
 			</div>
-			<br>
-			<hr>
-			<div class="schdule-buttons">
-				<button :class="{ 'btn': true, 'orange': !participate, 'sunset-orange': participate }"
-					@click="toggleParticipate">{{
-						participate ? '일정 참여 취소' : '일정 참여' }}</button>
+
+			<div class="schedule-buttons" v-if="participate && schedule.testStatus">
 				<!-- buttons -->
-				<template v-if="participate && schedule.testStatus">
-					<button class="btn">문제 출제하기</button>
-					<button class="btn">시험 응시</button>
-				</template>
+				<button class="btn">문제 출제</button>
+				<button class="btn">시험 응시</button>
+
 			</div>
 		</div>
 
@@ -108,6 +109,19 @@ const toggleParticipate = () => {
 </script>
 
 <style scoped>
+.btn-participate {
+	margin-right: 3rem;
+}
+
+.schedule-buttons {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: right;
+	gap: 2rem;
+}
+
+
 .schedule-content {
 	width: 100%;
 	margin-top: 5.3rem;
@@ -121,12 +135,7 @@ const toggleParticipate = () => {
 	margin: 0.5rem 0;
 }
 
-.schdule-buttons {
-	display: flex;
-	flex-direction: row;
-	gap: 2rem;
-	justify-content: right;
-}
+
 
 h1 {
 	font-size: 3rem;

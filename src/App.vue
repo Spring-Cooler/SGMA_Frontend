@@ -1,10 +1,11 @@
 <template class="root-container">
-  <router-view /> <!-- 여기에 라우터가 활성화된 컴포넌트를 렌더링 -->
+  <router-view /> 여기에 라우터가 활성화된 컴포넌트를 렌더링
+  <!-- <SingleBoard /> -->
 </template>
 
 <script>
 import { reactive, provide } from 'vue';
-
+// import SingleBoard from './views/Recruitment/SingleBoard.vue';
 export default {
   setup() {
     // 사용자 정보 상태 관리
