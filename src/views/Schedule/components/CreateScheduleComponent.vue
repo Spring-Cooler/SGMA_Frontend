@@ -46,13 +46,21 @@ const description = ref('');
 const startTime = ref(new Date());
 const endTime = ref(new Date());
 
+// Parsing utility to convert time strings to Date objects compatible with VDatePicker
+const parseTimeString = (timeString, date = new Date()) => {
+  const [hours, minutes] = timeString.split(':').map(Number);
+  const parsedDate = new Date(date);
+  parsedDate.setHours(hours, minutes, 0, 0);
+  return parsedDate;
+};
+
 // Watch the initialEvent prop and pre-fill the form fields when provided
 watch(() => props.initialEvent, (newEvent) => {
   if (newEvent) {
     title.value = newEvent.title;
     description.value = newEvent.details;
-    startTime.value = newEvent.startTime;
-    endTime.value = newEvent.endTime;
+    startTime.value = parseTimeString(newEvent.startTime, newEvent.start); // Assuming 'start' is the base date for time parsing
+    endTime.value = parseTimeString(newEvent.endTime, newEvent.start); // Assuming 'start' is the base date for time parsing
   }
 }, { immediate: true });
 
@@ -60,10 +68,11 @@ watch(() => props.initialEvent, (newEvent) => {
 const clearForm = () => {
   title.value = '';
   description.value = '';
-
-
+  startTime.value = new Date();
+  endTime.value = new Date();
 };
 
+// Confirm the schedule and emit the appropriate event
 const confirmSchedule = () => {
   if (!title.value || !startTime.value || !endTime.value) {
     alert('Please fill all required fields.');
@@ -80,8 +89,8 @@ const confirmSchedule = () => {
     id: props.initialEvent ? props.initialEvent.id : Date.now(),
     title: title.value,
     description: description.value,
-    startTime: startTime.value,
-    endTime: endTime.value,
+    startTime: startTime.value.toISOString(), // Convert to a suitable format if needed
+    endTime: endTime.value.toISOString(), // Convert to a suitable format if needed
   };
 
   if (props.initialEvent) {
@@ -97,7 +106,6 @@ const closeForm = () => {
   emit('close');
   clearForm();
 };
-
 </script>
 
 <style scoped>
