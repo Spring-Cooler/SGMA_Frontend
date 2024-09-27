@@ -11,11 +11,11 @@
     <div class="form-group">
       <label>Start Time</label>
       <!-- <input id="start-time" v-model="startTime" type="time" /> -->
-      <VDatePicker v-model="startTime" id="start-time" mode="time" />
+      <VDatePicker v-model="startTime" id="start-time" mode="time" :rules="timeRules" />
     </div>
     <div class="form-group">
       <label>End Time</label>
-      <VDatePicker v-model="endTime" id="end-time" mode="time" />
+      <VDatePicker v-model="endTime" id="end-time" mode="time" :rules="timeRules" />
       <!-- <input id="end-time" v-model="endTime" type="time" /> -->
     </div>
     <div class="buttons">
@@ -37,7 +37,9 @@ const props = defineProps({
     default: () => null,
   },
 });
-
+const timeRules = ref({
+  minutes: { interval: 15 }
+})
 const emit = defineEmits(['add-schedule', 'update-schedule', 'close']);
 
 // Reactive form fields
