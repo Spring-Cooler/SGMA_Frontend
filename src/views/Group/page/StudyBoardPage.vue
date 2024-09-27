@@ -20,7 +20,7 @@
                 <div class="board-list" v-else>
                   <div v-for="(item, index) in items" :key="index">
                     <!-- 데이터를 바탕으로 표시할 컴포넌트 -->
-                    <Board :data="item"></Board>
+                    <Board :data="item" @detail="detail(item.board_id)"></Board>
                   </div>
                 </div>
                 <Pagination :data="pageInfo" @changePage="handlePageChange"></Pagination>             
@@ -38,13 +38,14 @@
     import Pagination from '@/components/common/Pagination.vue';
     import axios from 'axios';
     import { ref, reactive, onMounted, watch } from 'vue';
-    import { useRoute } from 'vue-router';
+    import { useRoute, useRouter } from 'vue-router';
 
     const items = ref([]);
     const loading = ref(true);
     const groupId = ref(1);
     const currentPage = ref(1);
     const route = useRoute();
+    const router = useRouter();
     let pageInfo = reactive({});
 
     const fetchData = async () => {
@@ -76,6 +77,10 @@
         currentPage.value = newPage;
         fetchData();
         window.scrollTo({ top: 0 });
+    }
+
+    const detail = (id) => { 
+        router.push(`/study-groups/1/boards/${id}`);
     }
 
     onMounted(() => {

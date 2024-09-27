@@ -11,6 +11,7 @@ import StudyMemberPage from "@/views/Group/page/StudyMemberPage.vue";
 import StudyRecruitmentPage from "@/views/Group/page/StudyRecruitmentPage.vue";
 import StudyMemberManagePage from "@/views/Group/page/StudyMemberManagePage.vue";
 import CreateGroup from "@/views/Recruitment/CreateGroup.vue";
+import StudyBoardDetailPage from "@/views/Group/page/StudyBoardDetailPage.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -56,6 +57,12 @@ const routes = [
     path: "/study-groups/1/members/management",
     name: "StudyMemberManagePage",
     component: StudyMemberManagePage
+  },
+  {
+    path: "/study-groups/1/boards/:id",
+    name: "StudyBoardDetailPage",
+    component: StudyBoardDetailPage,
+    props: true
   },
 ];
 
