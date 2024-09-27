@@ -3,15 +3,18 @@
 	<GroupSideBar />
 	<main class="main">
 		<div class="main-content">
-			<h1>{{ schedule.title }}</h1>
-			<div>
+			<div class="schedule-header">
+				<h1>{{ schedule.title }}</h1>
+			</div>
+			<div class="schedule-content">
 				<!-- schedule body container -->
+				<p><strong>날짜:</strong>{{ schedule.start }}</p>
 				<p><strong>시작:</strong> {{ schedule.startTime }}</p>
 				<p><strong>종료:</strong> {{ schedule.endTime }}</p>
 				<p><strong>내용:</strong> {{ schedule.details }}</p>
 			</div>
 			<br>
-			<div class="schedule-content">
+			<div>
 				<!-- buttons -->
 				<button class="btn" v-if="participate">문제 출제하기</button>
 				<button class="btn" v-if="participate">시험 응시</button>
@@ -42,6 +45,7 @@ const props = defineProps({
 const schedule = ref({
 	id: '',
 	title: '',
+	start: '',
 	startTime: '',
 	endTime: '',
 	details: ''
@@ -51,6 +55,7 @@ let participate = ref(false);
 const route = useRoute();
 const router = useRouter();
 
+
 // 컴포넌트가 마운트될 때 라우터 파라미터로 전달된 스케줄 정보 가져오기
 onMounted(() => {
 	if (props.schedule) {
@@ -58,9 +63,11 @@ onMounted(() => {
 		schedule.value.id = props.schedule.id;
 		// console.log(schedule.value)
 		schedule.value.title = props.schedule.title;
+		schedule.value.start = props.schedule.start;
 		schedule.value.details = props.schedule.details;
 		schedule.value.startTime = props.schedule.startTime;
 		schedule.value.endTime = props.schedule.endTime;
+
 
 
 	} else {
@@ -86,6 +93,24 @@ const participateInSchedule = () => {
 	/* 전체 높이를 설정하여 뷰포트에 맞춤 */
 }
 
+.schedule-header {
+	width: 100%;
+	display: flex;
+	justify-content: left;
+	align-items: center;
+	margin-top: 2rem;
+}
+
+.schedule-content {
+	width: 100%;
+	margin-top: 5.3rem;
+	display: flex;
+	flex-direction: column;
+	justify-content: left;
+
+}
+
+
 h1 {
 	font-size: 3rem;
 	margin-bottom: 1rem;
@@ -99,7 +124,7 @@ p {
 .schedule-content {
 	width: 100%;
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: right;
 	gap: 2rem;
 }
