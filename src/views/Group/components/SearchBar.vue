@@ -2,21 +2,40 @@
     <div class="search-container">
       <div class="search-bar-wrapper">
         <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" class="search-bar" placeholder="검색어를 입력해주세요">
+        <input type="text" 
+        class="search-bar" 
+        placeholder="검색어를 입력해주세요" 
+        v-model="searchQuery">
       </div>
-      <SmallButton class="popsicle" label="검색"></SmallButton>
+      <SmallButton class="popsicle" label="검색" @click="navigate"></SmallButton>
       <SmallButton class="popsicle" label="글쓰기"></SmallButton>
     </div>
 </template>
 
-<script>
-import SmallButton from '@/components/common/SmallButton.vue';
+<script setup>
+  import SmallButton from '@/components/common/SmallButton.vue';
+  import { ref } from 'vue';
+  import { useRouter } from 'vue-router';
+  import { computed } from 'vue';
 
-export default {
-    components: {
-        SmallButton,
-    },
-};
+  const props = defineProps({
+    path: {
+        type: String,
+        required: true
+    }
+  });
+  
+  const router = useRouter();
+
+  const searchQuery = ref('');
+
+  function navigate() {
+    if(!searchQuery.value) {
+      router.push({path: props.path});
+      return;
+    }
+	  router.push({path: props.path, query: {title: searchQuery.value}});
+  }
 </script>
 
 <style scoped>
