@@ -6,10 +6,14 @@
 			<Title>{{ schedule.title }}</Title>
 			<div class="schedule-content">
 				<!-- schedule body container -->
-				<p><strong>일정 시작 시간:</strong> {{ schedule.start }} {{ schedule.startTime }} </p>
-				<p><strong>일정 종료 시간:</strong> {{ schedule.start }} {{ schedule.endTime }}</p>
+				<p class="schedule-subtitle"><i class="fa-regular fa-calendar"></i> <strong>일정 시작 시간:</strong> {{
+					schedule.start }} {{
+						schedule.startTime }} </p>
+				<p class="schedule-subtitle"><i class="fa-regular fa-calendar"></i> <strong>일정 종료 시간:</strong> {{
+					schedule.start }} {{
+						schedule.endTime }}</p>
 
-				<p><strong>내용:</strong> {{ schedule.details }}</p>
+				<p class="schedule-subtitle"><strong>내용:</strong> {{ schedule.details }}</p>
 			</div>
 			<br>
 			<div>
@@ -21,6 +25,7 @@
 				<button class="btn" v-else @click="participateInSchedule">일정 참여</button>
 			</div>
 		</div>
+
 	</main>
 </template>
 
@@ -92,6 +97,10 @@ const participateInSchedule = () => {
 	display: flex;
 	flex-direction: column;
 	justify-content: left;
+}
+
+.schedule-subtitle {
+	font-size: 2rem;
 }
 
 .schdule-buttons {
