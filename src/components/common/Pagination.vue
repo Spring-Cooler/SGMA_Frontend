@@ -19,8 +19,6 @@ const props = defineProps({
     }
 });
 
-console.log(props.data.end_page);
-
 const emit = defineEmits();
 
 // 페이지 이동 함수
