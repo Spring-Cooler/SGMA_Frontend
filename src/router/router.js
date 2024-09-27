@@ -10,18 +10,19 @@ import StudyBoardPage from "@/views/Group/page/StudyBoardPage.vue";
 import StudyMemberPage from "@/views/Group/page/StudyMemberPage.vue";
 import StudyRecruitmentPage from "@/views/Group/page/StudyRecruitmentPage.vue";
 import StudyMemberManagePage from "@/views/Group/page/StudyMemberManagePage.vue";
+import CreateGroup from "@/views/Recruitment/CreateGroup.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/mypage", name: "MyPage", component: MyPage },
   { path: '/study-groups', name: 'FindStudyGroups', component: FindStudyGroups },
-  { path: '/create-group', name: 'WriteRecruitBoard', component: WriteRecruitBoard },
-  
-  //   { path: '/create-group', name: 'CreateGroup', component: CreateGroup },
+  { path: '/create-group', name: 'CreateGroup', component: CreateGroup },
+
   {
     path: "/study-groups/1/schedules",
     component: SchedulePage,
   },
+
   {
     path: "/study-schedule/1/details",
     name: "ScheduleDetailPage",
