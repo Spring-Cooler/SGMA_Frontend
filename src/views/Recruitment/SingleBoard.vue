@@ -1,4 +1,6 @@
 <template>
+  <Navigation />
+  <SideBar />
   <div class="post-container">
     <div class="post-header">
       <div class="post-title">디자인 스터디 모집합니다!!
@@ -101,6 +103,8 @@
 
 <script setup>
 import { ref } from 'vue';
+import SideBar from '@/components/layouts/SideBar.vue';
+import Navigation from '@/components/layouts/Navigation.vue';
 import DeleteModal from './components/DeleteModal.vue';
 
 const isModalVisible = ref(false);

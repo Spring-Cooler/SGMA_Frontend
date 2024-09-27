@@ -1,13 +1,14 @@
 <template class="root-container">
-  <Navigation />
-  <SideBar />
-  <RouterView/>
+
+  <!-- <router-view/> -->
+  <List />
 
 </template>
 
 <script setup>
 import Navigation from '@/components/layouts/Navigation.vue';
 import SideBar from '@/components/layouts/SideBar.vue';
+import List from '@/views/Recruitment/List.vue';
 
 
 </script>
