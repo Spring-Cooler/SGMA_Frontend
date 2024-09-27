@@ -11,8 +11,14 @@
         <span class="like-count" @click="toggleLike">
           <i class="fa-solid fa-heart" :style="{ color: isLiked ? 'red' : 'gray' }"></i> {{ likeCount }}
         </span>
-        <span class="comment-count"><i class="fa-solid fa-comment"></i> 3</span>
-        <button class="delete-btn">삭제하기</button>
+        <span class="comment-count"><i class="fa-solid fa-comment"></i> 1</span>
+        <button class="delete-btn" @click="showModal">삭제하기</button>
+        <DeleteModal
+          v-if="isModalVisible"
+          :isVisible="isModalVisible"
+          @confirm="handleConfirm"
+          @cancel="handleCancel"
+        />
         <button class="edit-btn">수정하기</button>
       </div>
     </div>
@@ -38,10 +44,10 @@
     <button class="apply-btn">지원하기</button>
 
     <div class="comment-section">
-      <h2><i class="fa-regular fa-comment"></i> 댓글 3</h2>
+      <h2><i class="fa-regular fa-comment"></i> 댓글 1</h2>
       <input class="comment-input" placeholder="댓글을 남겨보세요."></input>
     </div>
-      <button class="submit-comment-btn">등록하기</button>
+      <button class="submit-comment-btn" @click="addComment">등록하기</button>
       <ul class="comment-list">
         <li class="comment-item">
           <span class="comment-author-icon"></span>
@@ -51,8 +57,20 @@
               <span class="comment-date">2023. 7. 18</span>
             </span>
             <p class="comment-text">와~~~~ 드디어 모집 글 올리셨군요</p>
-            <button class="comment-btn">답글달기</button>
-          </div>
+            <button class="comment-btn"  @click="toggleReply">답글달기</button>
+
+
+            <div v-if="isReplying" class="reply-input-container">
+              <input v-model="replyText" class="reply-input" placeholder="답글을 입력하세요..." />
+            </div>
+            <div class="buttons">
+              <button class="submit-reply-btn" @click="submitReply">등록</button>
+              <button class="cancel-reply-btn" @click="toggleReply">취소</button>
+            </div>
+            
+
+          
+          <ul class="reply-list">
             <li class="comment-reply">
               <span class="comment-reply-author-icon"></span>
               <div class="comment-reply-content">
@@ -73,6 +91,8 @@
                 <p class="comment-reply-text">와~~~~ </p>
               </div>
             </li>
+          </ul>
+        </div>
         </li>
       </ul>
     
@@ -81,11 +101,30 @@
 
 <script setup>
 import { ref } from 'vue';
+import DeleteModal from './components/DeleteModal.vue';
+
+const isModalVisible = ref(false);
+const isReplying = ref(false); // 답글 입력 창 상태 관리
+const replyText = ref(''); 
 
 // 좋아요 상태와 좋아요 수 관리
 const isLiked = ref(false); // 좋아요 상태를 관리
 const likeCount = ref(22);  // 좋아요 수를 관리
 
+
+const showModal = () => {
+  isModalVisible.value = true;
+};
+
+const handleConfirm = () => {
+  // 삭제 확인 로직 처리
+  isModalVisible.value = false;
+  console.log('삭제가 확인되었습니다.');
+};
+
+const handleCancel = () => {
+  isModalVisible.value = false;
+};
 // 좋아요 토글 함수
 const toggleLike = () => {
   if (isLiked.value) {
@@ -94,6 +133,21 @@ const toggleLike = () => {
     likeCount.value++; // 좋아요를 누르면 수 증가
   }
   isLiked.value = !isLiked.value; // 상태를 토글
+};
+
+const toggleReply = () => {
+  isReplying.value = !isReplying.value;
+  replyText.value = ''; // 입력 창 초기화
+};
+
+
+
+const submitReply = () => {
+  if (replyText.value.trim()) {
+    // 여기서 실제로 답글을 추가하는 로직을 구현해야 함
+    console.log('등록된 답글:', replyText.value);
+    toggleReply(); // 답글 입력 창 닫기
+  }
 };
 </script>
 
@@ -140,6 +194,13 @@ const toggleLike = () => {
   font-weight: bold;
   white-space: nowrap;
   margin-top: 30px;
+}
+
+.reply-list{
+  border-top: 1px solid #eee;
+  display:flex;
+  flex-direction: column;
+  align-items: flex-end;
 }
 
 .post-title {
@@ -280,6 +341,10 @@ const toggleLike = () => {
   word-wrap: break-word
 }
 
+/* .reply-list{
+  margin-top: 70px;
+  margin-left: 10px
+} */
 .comment-input {
   width: 792px;
   height: 48px;
@@ -325,10 +390,10 @@ const toggleLike = () => {
 
 
 .comment-item {
-  display: flex; /* 수평 배치 */
-  align-items: flex-start; /* 아이콘과 텍스트가 위쪽에 맞춰 정렬되도록 설정 */
-  
-  border-bottom: 1px solid #eee; /* 아래 경계선 */
+  display: flex; /* 수평 배치를 위해 flex 사용 */
+  align-items: flex-start; /* 아이콘과 텍스트가 수평으로 배치되도록 설정 */
+  padding-bottom: 10px; /* 댓글 간 간격 */
+  margin-bottom: 10px; /* 댓글 간 간격 */
 }
 
 .comment-author-icon {
@@ -338,11 +403,13 @@ const toggleLike = () => {
   background-color: #ccc; /* 배경색 설정 */
   margin-right: 10px; /* 아이콘과 텍스트 간의 간격 조절 */
   flex-shrink: 0; /* 아이콘이 크기에 맞춰 줄어들지 않도록 설정 */
+  
 }
 
 .comment-content {
   display: flex;
   flex-direction: column; /* 텍스트와 날짜를 수직 배치 */
+  
 }
 
 .comment-author {
@@ -366,6 +433,7 @@ const toggleLike = () => {
   word-wrap: break-word
 }
 .comment-btn{
+  cursor:pointer;
   margin-top:5px;
   background-color: white;
   color: #868C94;
@@ -388,6 +456,7 @@ const toggleLike = () => {
   margin-left: 50px;
   border-bottom: 1px solid #eee;
   margin-top: 16px;
+  margin-bottom: 40px;
 }
 
 .comment-reply-author-icon {
@@ -402,6 +471,7 @@ const toggleLike = () => {
 .comment-reply-content {
   display: flex;
   flex-direction: column; /* 텍스트와 날짜를 수직 배치 */
+  width: 744px;
   margin-top:4px;
 }
 
@@ -428,5 +498,41 @@ const toggleLike = () => {
 }
 .fa-regular fa-comment{
   font-size: 16px;
+}
+.submit-reply-btn, .cancel-reply-btn {
+  padding: 5px 10px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+}
+.submit-reply-btn {
+  background-color: #8fa561;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-right: 10px; 
+}
+
+.cancel-reply-btn {
+  background-color: #aaa;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.reply-input {
+  width: 600px;
+  flex: 1;
+  padding: 5px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+.buttons{
+  display: flex;
+  margin-left:450px;
+  padding:10px;
 }
 </style>
