@@ -2,21 +2,27 @@
     <div class="member">
         <div class="member-info">
             <img src="../../../assets/images/default_profile.svg" alt="profile">
-            <span><slot></slot></span>
-            <i class="fa-solid fa-crown"></i>
+            <span>{{ props.data.nickname }}</span>
+            <div v-if="isOwner">
+                <i class="fa-solid fa-crown"></i>
+            </div>
         </div>
-        <TinyButton class="sunset-orange hidden" label="추방"></TinyButton>
     </div>
 </template>
 
-<script>
+<script setup>
 import TinyButton from '@/components/common/TinyButton.vue';
+import { computed } from 'vue';
 
-export default{
-    components: {
-        TinyButton,
-    },
-};
+const props = defineProps({
+    data: {
+        type: Object,
+        required: true
+    }
+});
+
+const isOwner = props.data.group_role == 'ROLE_OWNER';
+
 </script>
 
 <style>
@@ -24,7 +30,7 @@ export default{
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding-bottom: 1rem;
+        padding-bottom: 2rem;
         border-bottom: 1px solid #EAECEE;
         margin-top: 2rem;
     }
@@ -32,6 +38,7 @@ export default{
     .member-info {
         display: flex;
         align-items: center;
+        cursor: pointer;
     }
 
     .member-info img {
