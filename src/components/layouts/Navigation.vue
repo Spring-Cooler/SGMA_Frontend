@@ -18,58 +18,118 @@
 	  <LoginModal
 		v-if="isLoginModalVisible"
 		@close="closeLoginModal"
-		@openRegister="openRegisterModal" 
+		@goToStep1="openRegisterModal"
 	  />
   
-	  <!-- 회원가입 모달 -->
-	  <RegisterModal
-		v-if="isRegisterModalVisible"
+	  <!-- 회원가입 단계별 모달 -->
+	  <SignupStep1
+		v-if="isRegisterModalVisible && currentSignupStep === 1"
 		@close="closeRegisterModal"
-		@openLogin="openLoginModal" 
+		@goToStep2="goToStep2"  
+		@openLogin="openLoginModal"
 	  />
+	  <SignupStep2
+		v-if="isRegisterModalVisible && currentSignupStep === 2"
+		@close="closeRegisterModal"
+		@goToStep1="openRegisterModal"
+		@goToStep3="goToStep3"
+		@openPrivacyPolicy="openPrivacyPolicyModal" 
+	  />
+	  <SignupStep3
+		v-if="isRegisterModalVisible && currentSignupStep === 3"
+		@close="closeRegisterModal"
+		@goToStep2="goToStep2"
+		@complete="completeSignup"
+	  />
+	   <!-- 개인정보 처리방침 모달 -->
+	   <PrivacyPolicyModal v-if="isPrivacyPolicyModalVisible" @close="closePrivacyPolicyModal" />
+
 	</header>
   </template>
   
   <script setup>
   import { ref } from 'vue';
-  import { useRouter, useRoute } from 'vue-router';
+  import { useRouter } from 'vue-router';
   import LoginModal from '@/components/common/LoginModal.vue';
-  import RegisterModal from '@/views/user/components/RegisterModal.vue';
-
+  import SignupStep1 from '@/views/user/components/SignupStep1.vue';
+  import SignupStep2 from '@/views/user/components/SignupStep2.vue';
+  import SignupStep3 from '@/views/user/components/SignupStep3.vue';
+  import PrivacyPolicyModal from '@/views/user/components/PrivacyPolicyModal.vue'; // PrivacyPolicyModal
+  
   const router = useRouter();
-
-  function navigate() {
-	router.push("/"); // 지정된 경로로 이동 
-  }
   
   // 모달 상태 변수
   const isLoginModalVisible = ref(false);
   const isRegisterModalVisible = ref(false);
+  const currentSignupStep = ref(1); // 회원가입 단계를 1로 초기화
+  const isPrivacyPolicyModalVisible = ref(false); // 개인정보 처리방침 모달 상태
   
-  // 로그인 모달 열기
-  const openLoginModal = () => {
-	isLoginModalVisible.value = true;
-	isRegisterModalVisible.value = false; // 회원가입 모달을 닫음
-  };
-  
-  // 로그인 모달 닫기
-  const closeLoginModal = () => {
-	isLoginModalVisible.value = false;
-  };
-  
-  // 회원가입 모달 열기
-  const openRegisterModal = () => {
-	isLoginModalVisible.value = false; // 로그인 모달을 닫음
-	isRegisterModalVisible.value = true;
-  };
+	// 로그인 모달 열기
+	const openLoginModal = () => {
+	console.log("openLoginModal triggered");
+	isLoginModalVisible.value = true; // 로그인 모달 열기
+	isRegisterModalVisible.value = false; // 회원가입 모달 닫기
+	};
+	// 로그인 모달 닫기
+const closeLoginModal = () => {
+  console.log("closeLoginModal triggered");
+  isLoginModalVisible.value = false; // 로그인 모달 닫기
+};
+
+
+	// 회원가입 모달 열기
+	const openRegisterModal = () => {
+		console.log("openRegisterModal triggered");
+		isLoginModalVisible.value = false; // 로그인 모달 닫기
+		isRegisterModalVisible.value = true; // 회원가입 모달 열기
+		currentSignupStep.value = 1; // 회원가입 1단계로 초기화
+	};
   
   // 회원가입 모달 닫기
   const closeRegisterModal = () => {
 	isRegisterModalVisible.value = false;
+	currentSignupStep.value = 1; // 단계 초기화
   };
+
+	// Navigation.vue에서 이벤트 핸들러 정의
+	const goToStep2 = () => {
+	console.log('goToStep2 received');
+	currentSignupStep.value = 2; // 명확하게 Step 2로 이동
+	console.log(`Current step: ${currentSignupStep.value}`);
+	};
+
+// Navigation.vue에서 이벤트 핸들러 정의
+	const goToStep3 = () => {
+	console.log('goToStep2 received');
+	currentSignupStep.value = 3; // 명확하게 Step 2로 이동
+	};	
+
+
+	// 개인정보 처리방침 모달 열기
+	const openPrivacyPolicyModal = () => {
+	isPrivacyPolicyModalVisible.value = true;
+	isRegisterModalVisible.value = false;
+	};
+
+	// 개인정보 처리방침 모달 닫기
+	const closePrivacyPolicyModal = () => {
+	isPrivacyPolicyModalVisible.value = false;
+	isRegisterModalVisible.value = true; // 다시 회원가입 모달로 돌아가기
+	};
+  
+  // 회원가입 완료
+  const completeSignup = () => {
+	console.log("회원가입이 완료되었습니다!");
+	closeRegisterModal(); // 회원가입 모달 닫기
+  };
+  
+  function navigate() {
+	router.push("/"); // 지정된 경로로 이동 
+  }
   </script>
   
   <style scoped>
+  /* 상단 네비게이션 스타일 */
   .top-nav {
 	position: fixed;
 	top: 0;
@@ -80,9 +140,10 @@
 	height: 9rem;
 	background-color: #ffffff;
 	border-bottom: 1px solid #8c8c8c;
-	z-index: 1000; /* z-index를 높여서 상단에 위치하도록 설정 */
+	z-index: 1000;
   }
-
+  
+  /* 로고 스타일 */
   .top-left-menu-container {
 	display: flex;
 	justify-content: center;
@@ -103,6 +164,7 @@
 	font-weight: 700;
   }
   
+  /* 우측 메뉴 스타일 */
   .top-right-menu-container {
 	display: flex;
 	gap: 4rem;
