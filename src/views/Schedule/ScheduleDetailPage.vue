@@ -55,6 +55,14 @@ const router = useRouter();
 onMounted(() => {
 	if (props.schedule) {
 		console.log('Received schedule:', props.schedule);
+		schedule.value.id = props.schedule.id;
+		// console.log(schedule.value)
+		schedule.value.title = props.schedule.title;
+		schedule.value.details = props.schedule.details;
+		schedule.value.startTime = props.schedule.startTime;
+		schedule.value.endTime = props.schedule.endTime;
+
+
 	} else {
 		console.log('No schedule passed. Fetch from store or API using ID:', props.id);
 	}
