@@ -8,7 +8,7 @@
 			</div>
 			<div class="schedule-content">
 				<!-- schedule body container -->
-				<p><strong>날짜:</strong>{{ schedule.start }}</p>
+				<p><strong>날짜:</strong> {{ schedule.start }}</p>
 				<p><strong>시작:</strong> {{ schedule.startTime }}</p>
 				<p><strong>종료:</strong> {{ schedule.endTime }}</p>
 				<p><strong>내용:</strong> {{ schedule.details }}</p>
@@ -63,7 +63,7 @@ onMounted(() => {
 		schedule.value.id = props.schedule.id;
 		// console.log(schedule.value)
 		schedule.value.title = props.schedule.title;
-		schedule.value.start = props.schedule.start;
+		schedule.value.start = props.schedule.start.split('T')[0].replaceAll("-", "  ");
 		schedule.value.details = props.schedule.details;
 		schedule.value.startTime = props.schedule.startTime;
 		schedule.value.endTime = props.schedule.endTime;
@@ -107,6 +107,7 @@ const participateInSchedule = () => {
 	display: flex;
 	flex-direction: column;
 	justify-content: left;
+
 
 }
 
