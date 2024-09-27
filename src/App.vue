@@ -1,5 +1,4 @@
 <template class="root-container">
-
   <router-view /> <!-- 여기에 라우터가 활성화된 컴포넌트를 렌더링 -->
 </template>
 
@@ -24,6 +23,9 @@ export default {
       user.accessTokenExpiry = userData.access_token_expiry;
       user.refreshToken = userData.refresh_token;
       user.refreshTokenExpiry = userData.refresh_token_expiry;
+
+      // 사용자 정보 콘솔에 출력
+      console.log('로그인 성공! 사용자 정보:', user);
     };
 
     // 사용자 상태 제공
@@ -45,7 +47,3 @@ body {
   font-family: 'Noto Sans', sans-serif;
 }
 </style>
-
-</script>
-
-<style scoped></style>

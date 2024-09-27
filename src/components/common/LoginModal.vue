@@ -1,5 +1,5 @@
 <template>
-    <div class="modal-overlay" @click.self="closeModal">
+    <div class="modal-overlay">
       <div class="modal-content">
         <button class="close-btn" @click="closeModal">×</button>
         <div class="modal-header">
@@ -7,7 +7,17 @@
         </div>
         <div class="modal-body">
           <input type="text" placeholder="아이디" v-model="username" />
-          <input type="password" placeholder="비밀번호" v-model="password" />
+          <div class="password-input-container">
+              <input 
+                :type="passwordVisible ? 'text' : 'password'" 
+                placeholder="비밀번호 입력" 
+                v-model="password" 
+                maxlength="24" 
+              />
+              <i class="eye-icon" @click="togglePasswordVisibility">
+                <img :src="passwordVisible ? eyeOpenIcon : eyeClosedIcon" alt="eye icon" />
+              </i>
+            </div>
           <button class="login-btn" @click="login">로그인</button>
           <div class="sns-login">
             <hr />
@@ -32,7 +42,10 @@
   </template>
   
   <script setup>
-import { ref, inject } from 'vue';
+    import { ref, inject } from 'vue';
+    import axios from 'axios'; // axios 가져오기
+    import eyeOpenIcon from '@/assets/images/eye_open.png';
+    import eyeClosedIcon from '@/assets/images/eye_closed.png';
 
   // 외부에서 받아온 이벤트 정의
   const emit = defineEmits(['close', 'goToStep1']);
@@ -43,39 +56,54 @@ import { ref, inject } from 'vue';
 
   const username = ref('');
   const password = ref('');
+
+  const passwordVisible = ref(false); // 비밀번호 표시 여부
   
   
   // 모달 닫기 함수
   const closeModal = () => {
   emit('close');
   };
+  // 눈 아이콘 경로 설정
+const eyeOpen = eyeOpenIcon; // 비밀번호 표시 아이콘 경로
+const eyeClosed = eyeClosedIcon; // 비밀번호 숨김 아이콘 경로
 
-  // 로그인 처리 함수
-  const login = async () => {
-    try {
-      const response = await fetch('http://localhost:8080/user-service/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          user_auth_id: username.value,
-          password: password.value,
-          signup_path: 'NORMAL'
-        })
-      });
-      const result = await response.json();
-      if (result.success) {
-        // 로그인 성공 시 사용자 데이터를 부모 컴포넌트로 전달
-        setUserData(result.data); // setUserData 메서드로 사용자 정보 설정
-        closeModal(); // 모달 닫기
-      } else {
-        alert('로그인 실패');
-      }
-    } catch (error) {
-      console.error('로그인 오류:', error);
-    }
+    // 비밀번호 표시/숨기기 토글 함수
+    const togglePasswordVisibility = () => {
+    passwordVisible.value = !passwordVisible.value;
   };
+
+// 로그인 처리 함수
+const login = async () => {
+  try {
+    // axios를 사용하여 로그인 요청
+    const response = await axios.post('/user-service/login', {
+      user_auth_id: username.value,
+      password: password.value,
+      signup_path: 'NORMAL'
+    });
+
+    if (response.data.success) {
+      // 로그인 성공 시 사용자 데이터를 부모 컴포넌트로 전달
+      setUserData(response.data.data); // setUserData 메서드로 사용자 정보 설정
+      closeModal(); // 모달 닫기
+    } else {
+      // 서버에서 반환한 오류 메시지 표시
+      alert(response.data.error.message || '로그인에 실패했습니다.');
+    }
+  } catch (error) {
+    // 네트워크 오류나 서버 오류가 발생한 경우
+    console.error('로그인 오류:', error);
+
+    // axios 오류 응답 객체가 있을 경우, 더 구체적인 메시지 출력
+    if (error.response && error.response.data && error.response.data.error)         {
+      alert(error.response.data.error.message || '로그인 요청이 거부되었습니다.');
+    } else {
+      alert('로그인 요청이 실패했습니다. 서버 상태를 확인해주세요.');
+    }
+  }
+};
+
 
     // 회원가입 모달로 이동
     const goToRegister = () => {
@@ -140,6 +168,37 @@ import { ref, inject } from 'vue';
     margin: 1rem;
   }
   
+
+  /* 비밀번호 입력 필드 컨테이너 */
+  .password-input-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+  
+  .modal-body input {
+    width: 360px;
+    height: 40px;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 1.6rem;
+
+  }
+  
+  /* 눈 아이콘 스타일링 */
+  .eye-icon {
+    position: absolute;
+    right: 20px; /* 아이콘을 오른쪽 끝에 배치 */
+    cursor: pointer;
+  }
+  
+  .eye-icon img {
+    width: 16px; /* 아이콘 너비 조정 */
+    height: 16px; /* 아이콘 높이 조정 */
+    opacity: 0.5;
+  }
+
   .login-btn {
     width: 360px;
     height: 40px;
