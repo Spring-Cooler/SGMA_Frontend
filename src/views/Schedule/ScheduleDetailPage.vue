@@ -100,6 +100,7 @@ const goBack = () => {
 
 const toggleParticipate = () => {
 	participate.value = !participate.value;
+	schedule.value.numParticipants += (participate.value ? 1 : -1);
 }
 </script>
 
