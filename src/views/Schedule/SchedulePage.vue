@@ -36,6 +36,10 @@ const events = ref([
 		endTime: '10:00',
 		title: '올림픽스터디',
 		details: '올림픽 내용 복습.',
+		testStatus: true,
+		numProblemsPerParticipant: 3,
+
+
 	},
 	{
 		id: 2,
@@ -44,6 +48,9 @@ const events = ref([
 		endTime: '15:30',
 		title: '피그마스터디',
 		details: '피그마 설계.',
+		testStatus: false
+
+
 	},
 	{
 		id: 3,
@@ -52,6 +59,10 @@ const events = ref([
 		endTime: '14:00',
 		title: '코테스터디',
 		details: '코테코테.',
+		testStatus: true,
+		numProblemsPerParticipant: 4
+
+
 	},
 	{
 		id: 4,
@@ -60,6 +71,10 @@ const events = ref([
 		endTime: '16:00',
 		title: '자바스터디',
 		details: '자바.',
+		testStatus: true,
+		numProblemsPerParticipant: 2
+
+
 	},
 ]);
 
