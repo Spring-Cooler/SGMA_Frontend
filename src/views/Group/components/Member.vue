@@ -15,7 +15,7 @@
 
 <script setup>
 import TinyButton from '@/components/common/TinyButton.vue';
-import { computed, defineEmits } from 'vue';
+import { defineEmits } from 'vue';
 
 const props = defineProps({
     data: {
