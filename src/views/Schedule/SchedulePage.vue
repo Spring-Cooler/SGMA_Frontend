@@ -35,31 +35,31 @@ const events = ref([
 		startTime: '09:00',
 		endTime: '10:00',
 		title: '올림픽스터디',
-		details: 'Discussion about project.',
+		details: '올림픽 내용 복습.',
 	},
 	{
 		id: 2,
 		start: new Date(2024, 8, 10),
 		startTime: '14:00',
 		endTime: '15:30',
-		title: 'Interview w/ Figma',
-		details: 'UI/UX Interview.',
+		title: '피그마스터디',
+		details: '피그마 설계.',
 	},
 	{
 		id: 3,
 		start: new Date(2024, 8, 19),
 		startTime: '13:00',
 		endTime: '14:00',
-		title: 'St. Patrick\'s Day Celebration',
-		details: 'Celebration day activities.',
+		title: '코테스터디',
+		details: '코테코테.',
 	},
 	{
 		id: 4,
 		start: new Date(2024, 8, 19),
 		startTime: '15:00',
 		endTime: '16:00',
-		title: 'St. Patrick\'s Day Celebration',
-		details: 'Celebration day activities.',
+		title: '자바스터디',
+		details: '자바.',
 	},
 ]);
 
@@ -77,7 +77,7 @@ const attributes = computed(() => [
 
 // Event handler for day click
 const onDayClick = (day) => {
-	console.log(`onDayClick called: ${day.date}`);
+	// console.log(`onDayClick called: ${day.date}`);
 	selectedDate.value = day.date;
 	isModalVisible.value = true;
 };
@@ -117,7 +117,7 @@ const customCalendarStyles = {
 	margin-top: 9.4rem;
 }
 
-.schedule-header > span {
+.schedule-header>span {
 	font-size: 4rem;
 	font-weight: 900;
 }

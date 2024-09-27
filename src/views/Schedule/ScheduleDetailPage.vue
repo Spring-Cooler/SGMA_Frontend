@@ -1,16 +1,25 @@
 <template>
 	<Navigation />
-	<div class="schedule-detail-page">
-		<div class="schedule-detail-container">
+	<GroupSideBar />
+	<main class="main">
+		<div class="main-content">
 			<h1>{{ schedule.title }}</h1>
-			<p><strong>Start Time:</strong> {{ schedule.startTime }}</p>
-			<p><strong>End Time:</strong> {{ schedule.endTime }}</p>
-			<p><strong>Details:</strong> {{ schedule.details }}</p>
-			<!-- <button class="btn back" @click="goBack">Back to Schedule</button> -->
+			<div>
+				<!-- schedule body container -->
+				<p><strong>시작:</strong> {{ schedule.startTime }}</p>
+				<p><strong>종료:</strong> {{ schedule.endTime }}</p>
+				<p><strong>내용:</strong> {{ schedule.details }}</p>
+			</div>
 			<br>
-			<button class="btn">시험 응시</button>
+			<div class="schedule-content">
+				<!-- buttons -->
+				<button class="btn" v-if="participate">문제 출제하기</button>
+				<button class="btn" v-if="participate">시험 응시</button>
+				<button class="btn" v-else @click="participateInSchedule">일정 참여</button>
+			</div>
+
 		</div>
-	</div>
+	</main>
 </template>
 
 <script setup>
@@ -27,7 +36,7 @@ const schedule = ref({
 	endTime: '',
 	details: ''
 });
-
+let participate = ref(false);
 // 라우터와 현재 경로 정보를 사용
 const route = useRoute();
 const router = useRouter();
@@ -44,22 +53,17 @@ onMounted(() => {
 const goBack = () => {
 	router.push('/study-schedule');
 };
+
+const participateInSchedule = () => {
+	participate.value = true;
+}
 </script>
 
 <style scoped>
-.schedule-detail-page {
-	position: absolute;
-	padding: 20px;
-	width: 100%;
+#schedule-detail {
+	display: flex;
 	height: 100vh;
-}
-
-.schedule-detail-container {
-	width: 100%;
-	margin: 0 auto;
-	padding: 20px;
-	background-color: #f5f5f5;
-	border-radius: 8px;
+	/* 전체 높이를 설정하여 뷰포트에 맞춤 */
 }
 
 h1 {
@@ -70,6 +74,14 @@ h1 {
 p {
 	font-size: 1.5rem;
 	margin: 0.5rem 0;
+}
+
+.schedule-content {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: right;
+	gap: 2rem;
 }
 
 .btn.back {
