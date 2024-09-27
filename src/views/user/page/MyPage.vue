@@ -7,10 +7,12 @@
         <h1>내 프로필</h1>
         <div class="profile-card">
           <div class="profile-left">
-            <div
+             <!-- 아바타 이미지 -->
+             <img
               class="avatar"
-              :style="{ backgroundImage: 'url(' + user.profileImage + ')' }"
-            ></div>
+              :src="user.profileImage || 'https://example.com/default-profile.png'"
+              alt="프로필 이미지"
+            />
             <div class="profile-info">
               <div class="name">{{ user.userName }}</div>
               <p class="user-id">{{ user.userAuthId }}</p>
