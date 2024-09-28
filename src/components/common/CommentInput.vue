@@ -1,44 +1,24 @@
 <template>
-    <div class="comment-input-container">
-        <input class="comment-input" placeholder="댓글을 남겨보세요." v-model="data.content"></input>
+    <form class="comment-input-container" @submit.prevent="addComment">
+        <input class="comment-input" placeholder="댓글을 남겨보세요." v-model="content" required></input>
         <div class="submit-comment-wrapper">
-          <SmallButton class="light-gray btn" label="등록하기" @click="addComment"></SmallButton>
+          <SmallButton type="submit" class="light-gray btn" label="등록하기"></SmallButton>
         </div>
-    </div>
+    </form>
 </template>
 
 <script setup>
 import SmallButton from './SmallButton.vue';
-import axios from 'axios';
-import { reactive } from 'vue';
+import { ref } from 'vue';
 
-const props = defineProps({
-    boardId: {
-        type: String,
-        required: true,
-    }
-})
-
-const data = reactive({
-    content: '',
-    member_id: 1,
-    board_id: props.boardId,
-});
+const content = ref('');
 
 const emit = defineEmits(['add']);
 
-const addComment = async () => {
-    try {
-        let response = (await axios.post(`/api/study-group/board/comments`, data)).data;
-        if(response.success) {
-          data.content = '';
-          emit('add');
-        }
-    } catch (error) {
-        console.error(error);
-    }
+const addComment = () => {
+  emit('add', content.value);
+  content.value = '';
 }
-
 </script>
 
 <style scoped>
