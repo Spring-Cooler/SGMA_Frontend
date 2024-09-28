@@ -29,10 +29,11 @@ const emit = defineEmits(['add']);
 
 const addComment = async () => {
     try {
-        let response = await axios.post(`/api/study-group/board/comments`, data)
-        console.log(response);
-        data.content = '';
-        emit('add');
+        let response = (await axios.post(`/api/study-group/board/comments`, data)).data;
+        if(response.success) {
+          data.content = '';
+          emit('add');
+        }
     } catch (error) {
         console.error(error);
     }

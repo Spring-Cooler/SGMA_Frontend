@@ -107,6 +107,7 @@
     const fetchComments = async () => {
       try {
         let response = (await axios.get(`/api/study-group/board/comments/board-id/${props.boardId}`)).data;
+        comments.value = response.data.length;
         if(typeof response !== 'undefined')
             commentList.value = response.data;
       } catch (error) {
