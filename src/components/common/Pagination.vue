@@ -1,10 +1,10 @@
 <template>
     <div class="pagination">
-        <button class="prev" @click="prevPage" :disabled="data.page_no === 1">
+        <button class="prev" @click="prevPage" :disabled="props.data.page_no === 1 || typeof props.data.page_no === 'undefined'">
             <i class="fa-solid fa-caret-left"></i>
         </button>
-        <span>{{ data.page_no }} / {{ data.end_page }}</span>
-        <button class="next" @click="nextPage" :disabled="data.page_no === data.end_page">
+        <span>{{ props.data.page_no }} / {{ props.data.end_page }}</span>
+        <button class="next" @click="nextPage" :disabled="props.data.page_no === props.data.end_page || typeof props.data.page_no === 'undefined'">
             <i class="fa-solid fa-caret-right"></i>
         </button>
     </div>

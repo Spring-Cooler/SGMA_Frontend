@@ -15,7 +15,7 @@ export default defineConfig({
         changeOrigin: true, // 다른 도메인으로의 요청 허용
       },
       '/api': {
-        target: 'http://localhost:3457',  // 백엔드 서버 주소
+        target: 'http://localhost:8892',  // 백엔드 서버 주소
         changeOrigin: true,               // 다른 도메인으로의 요청 허용
         // pathRewrite 설정 없이 '/api' 경로를 그대로 전달
       },

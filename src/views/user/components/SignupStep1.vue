@@ -135,12 +135,6 @@ const goToLogin = () => {
 
 // 다음 단계로 이동하는 함수
 const goToNextStep = () => {
-  // if (isButtonClicked) return; // 이미 버튼이 클릭된 상태라면 함수 종료
-  // isButtonClicked = true; // 버튼 클릭 상태로 변경
-  // setTimeout(() => {
-  //   isButtonClicked = false; // 500ms 후에 클릭 상태 초기화
-  // }, 500);
-
   if (canProceed.value) {
     console.log('Next step button clicked'); // 클릭 로그 확인
     emit('goToStep2'); // 'next' 대신 구체적인 단계명 지정
@@ -197,7 +191,7 @@ onUnmounted(() => {
   background-color: white;
   border-radius: 10px;
   width: 400px;
-  height: 480px; /* 높이 조정 */
+  height: 480px; /* 모달의 높이를 고정 */
   padding: 2rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: relative;
@@ -251,7 +245,8 @@ onUnmounted(() => {
   position: absolute;
   top: 1rem;
   right: 1rem;
-  font-size: 2rem;
+  font-size: 3.2rem;
+  opacity: 50%;
   background: none;
   border: none;
   cursor: pointer;
@@ -264,7 +259,7 @@ onUnmounted(() => {
 
 .modal-header h2 {
   margin: 2rem;
-    font-size: 6rem;
+    font-size: 5rem;
     color: #a1b872;
 }
 

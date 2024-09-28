@@ -1,51 +1,42 @@
 <template>
   <div class="mypage">
-    <!-- 상단 네비게이션 -->
     <Navigation />
-    <!-- 사이드 바-->
     <SideBar />
-
-    <!-- 메인 컨텐츠 영역 -->
     <div class="content">
       <section class="profile-section">
         <h1>내 프로필</h1>
         <div class="profile-card">
-          <!-- 1. 프로필 정보 섹션 -->
           <div class="profile-left">
-            <div class="avatar"></div>
+             <!-- 아바타 이미지 -->
+             <img
+              class="avatar"
+              :src="user.profileImage || 'https://example.com/default-profile.png'"
+              alt="프로필 이미지"
+            />
             <div class="profile-info">
-              <div class="name">{{ userName }}</div>
-              <p class="user-id">{{ userId }}</p>
+              <div class="name">{{ user.userName }}</div>
+              <p class="user-id">{{ user.userAuthId }}</p>
             </div>
           </div>
-
-          <!-- 2. 수정 버튼 섹션 -->
           <div class="profile-buttons">
             <button class="profile-edit-btn">프로필 수정</button>
             <button class="password-change-btn">비밀번호 변경</button>
           </div>
         </div>
-
-        <!-- 3. 프로필 정보 섹션 및 하단 버튼 -->
         <div class="profile-details">
           <div class="profile-field">
-            <span>닉네임</span><span>{{ userNickname }}</span>
+            <span>닉네임</span><span>{{ user.nickname }}</span>
           </div>
           <div class="profile-field">
-            <span>회원가입 구분</span><span>KAKAO</span>
+            <span>회원가입 구분</span><span>{{ user.signupPath }}</span>
           </div>
           <div class="profile-field">
-            <span>이메일</span><span>{{ userEmail }}</span>
+            <span>이메일</span><span>{{ user.email }}</span>
           </div>
-          <!-- 하단 큰 버튼들 -->
           <button class="btn primary-btn">내가 가입한 스터디 그룹 가기</button>
         </div>
-
-        <!-- 탈퇴하기 버튼을 오른쪽 정렬 -->
-        <button class="danger-btn">SGMA <br> 탈퇴하기</button>
+        <button class="danger-btn">SGMA <br />탈퇴하기</button>
       </section>
-
-      <!-- 내가 모집글에 쓴 댓글 목록 섹션 -->
       <section class="comments-section">
         <h1>내가 모집글에 쓴 댓글 목록</h1>
         <div class="comment-card">
@@ -53,22 +44,6 @@
           <p>내가 작성한 댓글 내용</p>
           <span class="tag">모집종료</span>
         </div>
-        <div class="comment-card">
-          <h3>코테 스터디원 구합니다~~</h3>
-          <p>내가 작성한 댓글 내용</p>
-          <span class="tag">모집종료</span>
-        </div>
-        <div class="comment-card">
-          <h3>코테로 KAKAO 장원급제</h3>
-          <p>안녕하세요! 코테 스터디 모집합니다...</p>
-          <span class="tag">모집종료</span>
-        </div>
-        <div class="comment-card">
-          <h3>토익이 안되면 토이크에크 스터디</h3>
-          <p>팩트 폭행으로 3년 동안 감옥 갔다가...</p>
-          <span class="tag">모집중</span>
-        </div>
-        <!-- 더 많은 댓글 카드 추가 가능 -->
       </section>
     </div>
   </div>
@@ -77,12 +52,20 @@
 <script setup>
 import Navigation from '@/components/layouts/Navigation.vue';
 import SideBar from '@/components/layouts/SideBar.vue';
+import { inject, watch } from 'vue';
 
-// 이 값들은 추후 Vuex에서 가져올 예정
-const userName = '조이름님';
-const userId = 'changuk0308';
-const userNickname = '조찬국';
-const userEmail = 'chanu****@n****.com';
+const user = inject('user');
+
+// 주입된 사용자 정보를 감시하여 변화가 있을 때마다 콘솔에 출력
+watch(
+  () => user,
+  (newUser) => {
+    console.log('MyProfile에서 사용자 정보가 변경됨:', newUser);
+  },
+  { deep: true } // 객체 내부의 모든 속성 변화를 감시
+);
+
+console.log('MyProfile에서 초기 사용자 정보:', user);
 </script>
 
 <style scoped>
@@ -140,6 +123,8 @@ const userEmail = 'chanu****@n****.com';
   width: 10rem;
   height: 10rem;
   background-color: #cccccc;
+  background-size: cover;
+  background-position: center;
   border-radius: 50%;
   margin-right: 1.5rem;
 }
@@ -254,43 +239,42 @@ const userEmail = 'chanu****@n****.com';
   text-align: center;
 }
   
-  /* 댓글 목록 섹션 */
-  .comments-section {
-    flex: 1; /* 나머지 공간을 차지 */
-    padding: 2rem;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-    overflow-y: auto; /* 내용이 많을 때 스크롤 */
-  }
-  
-  .comment-card {
-    display: flex;
-    flex-direction: column;
-    padding: 1.5rem;
-    background-color: #fafafa;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    margin-bottom: 1.5rem;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  .comment-card h3 {
-    margin: 0;
-    font-size: 1.6rem;
-  }
-  
-  .comment-card p {
-    margin: 0.5rem 0;
-    color: #666;
-  }
-  
-  .tag {
-    align-self: flex-end;
-    background-color: #ffeb3b;
-    padding: 0.3rem 0.6rem;
-    font-size: 1.2rem;
-    border-radius: 5px;
-  }
-  </style>
-  
+/* 댓글 목록 섹션 */
+.comments-section {
+  flex: 1; /* 나머지 공간을 차지 */
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+  overflow-y: auto; /* 내용이 많을 때 스크롤 */
+}
+
+.comment-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-card h3 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.comment-card p {
+  margin: 0.5rem 0;
+  color: #666;
+}
+
+.tag {
+  align-self: flex-end;
+  background-color: #ffeb3b;
+  padding: 0.3rem 0.6rem;
+  font-size: 1.2rem;
+  border-radius: 5px;
+}
+</style>

@@ -58,7 +58,6 @@ const fetchData = async () => {
 }
 
 const kick = (id) => {
-    console.log(id);
     modalVisibility.value = true;
     memberId.value = id;
 }

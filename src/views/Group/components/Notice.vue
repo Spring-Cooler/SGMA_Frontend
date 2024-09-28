@@ -1,5 +1,5 @@
 <template>
-    <div class="notice">
+    <div class="notice" @click="detail">
         <div class="notice-no">{{ props.data.notice_id }}</div>
         <div class="notice-title">{{ props.data.title }}</div>
         <div class="notice-created-at">{{ formatDate(props.data.created_at) }}</div>
@@ -7,12 +7,20 @@
 </template>
 
 <script setup>
+import { defineEmits } from 'vue';
+
 const props = defineProps({
     data: {
         type: Object,
         required: true
     }
 });
+
+const emit = defineEmits(['detail']);
+
+const detail = () => {
+    emit('detail');
+}
 
 function formatDate(isoDateStr) {
   const date = new Date(isoDateStr);  // ISO 8601 날짜 문자열을 Date 객체로 변환

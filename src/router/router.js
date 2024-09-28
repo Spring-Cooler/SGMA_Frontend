@@ -12,6 +12,8 @@ import StudyRecruitmentPage from "@/views/Group/page/StudyRecruitmentPage.vue";
 import StudyMemberManagePage from "@/views/Group/page/StudyMemberManagePage.vue";
 import CreateGroup from "@/views/Recruitment/CreateGroup.vue";
 import ExamPage from "@/views/Problem/ExamPage.vue";
+import StudyBoardDetailPage from "@/views/Group/page/StudyBoardDetailPage.vue";
+import StudyNoticeDetailPage from "@/views/Group/page/StudyNoticeDetailPage.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -62,6 +64,18 @@ const routes = [
     path: `/exams/:scheduleId`,
     name: "ExamPage",
     component: ExamPage,
+  },
+  {
+    path: "/study-groups/:groupId/boards/:boardId",
+    name: "StudyBoardDetailPage",
+    component: StudyBoardDetailPage,
+    props: true,
+  },
+  {
+    path: "/study-groups/1/notices/:id",
+    name: "StudyNoticeDetailPage",
+    component: StudyNoticeDetailPage,
+    props: true,
   },
 ];
 
