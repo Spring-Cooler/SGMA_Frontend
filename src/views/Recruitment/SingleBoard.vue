@@ -106,6 +106,18 @@ import { ref } from 'vue';
 import SideBar from '@/components/layouts/SideBar.vue';
 import Navigation from '@/components/layouts/Navigation.vue';
 import DeleteModal from './components/DeleteModal.vue';
+import axios from 'axios';
+
+const props = defineProps({
+        groupId: {
+            type: Number,
+            required: true
+        },
+        boardId: {
+            type: Number,
+            required: true
+        }
+    })
 
 const isModalVisible = ref(false);
 const isReplying = ref(false); // 답글 입력 창 상태 관리
