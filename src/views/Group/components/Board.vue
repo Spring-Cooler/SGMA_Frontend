@@ -1,5 +1,5 @@
 <template>
-    <div class="board">
+    <div class="board" @click="detail">
         <div class="board-no">{{ props.data.board_id }}</div>
         <div class="board-title">{{ props.data.title }}</div>
         <div class="board-writer">{{ props.data.nickname }}</div>
@@ -8,12 +8,20 @@
 </template>
 
 <script setup>
+import { defineEmits } from 'vue';
+
 const props = defineProps({
     data: {
         type: Object,
         required: true
     }
 });
+
+const emit = defineEmits(['detail']);
+
+const detail = () => {
+    emit('detail');
+}
 
 function formatDate(isoDateStr) {
   const date = new Date(isoDateStr);  // ISO 8601 날짜 문자열을 Date 객체로 변환
