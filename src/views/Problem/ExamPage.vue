@@ -26,21 +26,14 @@
 			<div class="menu-container">
 				<div class="top-menu-container">
 					<button v-for="n in problemInfos.length" class="btn problem-btn" :key="n"
-						@click="problemIndex = n - 1; console.log(problemIndex)">{{ n }}</button>
-					<!-- <button type="button" id="btn1" class="btn problem-btn">1</button>
-					<button type="button" id="btn2" class="btn problem-btn">2</button>
-					<button type="button" id="btn3" class="btn problem-btn">3</button>
-					<button type="button" id="btn4" class="btn problem-btn">4</button>
-					<button type="button" id="btn5" class="btn problem-btn">5</button>
-					<button type="button" id="btn6" class="btn problem-btn">6</button>
-					<button type="button" id="btn7" class="btn problem-btn">7</button>
-					<button type="button" id="btn8" class="btn problem-btn">8</button>
-					<button type="button" id="btn9" class="btn problem-btn">9</button>
-					<button type="button" id="btn10" class="btn problem-btn">10</button> -->
+						@click="problemIndex = n - 1;">{{ n }}</button>
+
 				</div>
 				<div class="bottom-menu-container">
-					<button type="button" id="prev" class="btn move-btn">이전 문제</button>
-					<button type="button" id="next" class="btn move-btn">다음 문제</button>
+					<button type="button" id="prev" @click="problemIndex -= 1;" :disabled="problemIndex < 1"
+						class="btn move-btn">이전 문제</button>
+					<button type="button" id="next" class="btn move-btn"
+						:disabled="problemInfos.length <= problemIndex">다음 문제</button>
 					<button type="button" id="submit" class="btn submit-btn">제출하기</button>
 				</div>
 			</div>
