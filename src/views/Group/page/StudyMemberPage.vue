@@ -41,7 +41,8 @@ const items = ref([]);
 const loading = ref(true);
 const groupId = ref(1);
 const router = useRouter();
-const accessToken = JSON.parse(localStorage.getItem('token')).accessToken;
+const accessToken = 
+    localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 
 const fetchData = async () => {
     try {
@@ -64,6 +65,10 @@ function handleManagementClick() {
 }
 
 onMounted(() => {
+    if(accessToken === null) {
+            alert("로그인을 해주세요.");
+            router.push(`/`);
+        }
     fetchData();
 });
 </script>

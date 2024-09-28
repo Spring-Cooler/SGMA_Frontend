@@ -46,7 +46,8 @@
     const currentPage = ref(1);
     const route = useRoute();
     const router = useRouter();
-    const accessToken = JSON.parse(localStorage.getItem('token')).accessToken;
+    const accessToken = 
+      localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
     let pageInfo = reactive({});
 
     const fetchData = async () => {
@@ -95,6 +96,10 @@
     }
 
     onMounted(() => {
+      if(accessToken === null) {
+            alert("로그인을 해주세요.");
+            router.push(`/`);
+        }
       fetchData();
     });
 </script>

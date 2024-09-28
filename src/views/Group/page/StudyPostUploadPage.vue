@@ -52,7 +52,8 @@ const route = useRoute();
 
 const router = useRouter();
 
-const accessToken = JSON.parse(localStorage.getItem('token')).accessToken;
+const accessToken = 
+    localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 
 const loading = ref(false);
 
@@ -125,6 +126,10 @@ const uploadPost = async () => {
 }
 
 onMounted(() => {
+    if(accessToken === null) {
+            alert("로그인을 해주세요.");
+            router.push(`/`);
+        }
     loading.value = !(postData.value && postData.value.post_type); // 데이터가 없을 경우 로딩 유지
 });
 

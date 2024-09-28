@@ -55,7 +55,8 @@
     })
     const router = useRouter();
     const store = useStore();
-    const accessToken = JSON.parse(localStorage.getItem('token')).accessToken;
+    const accessToken = 
+        localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 
     const commentList = ref([]);
     const replyList = ref({});
@@ -266,6 +267,10 @@
     }
 
     onMounted(() => {
+        if(accessToken === null) {
+            alert("로그인을 해주세요.");
+            router.push(`/`);
+        }
         fetchData();
         fetchComments();
     })
