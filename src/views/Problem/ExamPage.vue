@@ -13,7 +13,7 @@
 					</div>
 					<form class="problem-choice">
 						<label for="" v-for="(item, index) in current_problem.choices">
-							<input type="radio" name="chk_ans">
+							<input type="radio" name="chk_ans" :value="index" v-model="selected_answer">
 							<p>{{ index }}. {{ item }}</p>
 						</label>
 					</form>
@@ -56,16 +56,38 @@ let problemInfos = ref([
 		problem_content: "올림픽을 최초로 개최한 국가는?",
 		problem_type: "MULTIPLE",
 		choices: ["이탈리아", "스페인", "로마", "그리스"]
-	}])
+	},
+	{
+		problem_id: 3,
+		problem_content: '다음중 올림픽 마스코트가 아닌 것은?',
+		problem_type: 'MULTIPLE',
+		choices: ['웬록', '미샤', '수호랑', '후추'],
+	},
+	{
+		problem_id: 4,
+		problem_content: '올림픽에서 처음으로 실시된 종목은?',
+		problem_type: 'MULTIPLE',
+		choices: ['수영', '육상', '복싱', '사격'],
+	},
+])
 let current_problem = ref(problemInfos.value[problemIndex.value])
 // console.log(problemInfos[problemIndex.value])
 // console.log(current_problem.value)
 
-let selected_answer = ref(0);
-watch(problemIndex, (newIndex) => {
-	current_problem.value = problemInfos.value[newIndex];
 
+let submitted_answers = ref({});
+let selected_answer = ref(0);
+
+
+watch(problemIndex, (oldIndex, newIndex) => {
+	if (oldIndex != newIndex && selected_answer.value !== null) {
+		submitted_answers.value[oldIndex] = selected_answer.value;
+	}
+	current_problem.value = problemInfos.value[newIndex];
+	selected_answer.value = submitted_answers.value[newIndex] ?? null;
 })
+
+
 </script>
 
 
