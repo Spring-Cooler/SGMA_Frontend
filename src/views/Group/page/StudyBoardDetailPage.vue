@@ -9,9 +9,9 @@
                 <div class="post-container loading" v-if="loading">Loading...</div>
                 <div class="post-container" v-else>
                     <Title>{{title}}</Title>
-                    <PostHeader :data="headerData" :isNotice="false" @deletePost="deletePost"></PostHeader>
+                    <PostHeader :data="headerData" :isNotice="false" @deletePost="toggleModal"></PostHeader>
                     <PostBody :data="bodyData" :isPerm="true"></PostBody>
-                    <DeleteModal :isVisible="modalVisibility" @confirm="confirm" @cancel="cancel">해당 게시글을 삭제하시겠습니까?</DeleteModal>
+                    <DeleteModal :isVisible="modalVisibility" @confirm="deletePost" @cancel="toggleModal">해당 게시글을 삭제하시겠습니까?</DeleteModal>
                     <CommentHeader :data="headerData" :boardId="props.boardId" @add="addComment"></CommentHeader>
                     <CommentBody v-for="(commentDetail, index) in commentList" :key="index">
                         <Comment :data="commentDetail" @remove="deleteComment" :commentId="commentDetail.comment_id"></Comment>
@@ -121,24 +121,20 @@
         })
     }
 
-    const deletePost = () => {
-        modalVisibility.value = true;
+    const toggleModal = () => {
+        modalVisibility.value = !modalVisibility.value;
     };
 
     const deleteComment = async () => {
         await fetchComments();
     }
 
-    const confirm = async () => {
+    const deletePost = async () => {
         let response = (await axios.delete(`/api/study-group/boards/${props.boardId}`)).data;
         if (response.success) {
             modalVisibility.value = false;
             router.go(-1);
         }
-    }
-
-    const cancel = () => {
-        modalVisibility.value = false;
     }
 
     onMounted(() => {
