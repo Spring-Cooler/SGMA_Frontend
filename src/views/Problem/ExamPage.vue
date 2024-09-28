@@ -12,12 +12,12 @@
 						<p>{{ problemIndex + 1 }}. {{ current_problem.problem_content }}</p>
 					</div>
 					<form class="problem-choice">
-						<label for="" v-for="(item, index) in current_problem.choices">
-							<input type="radio" name="chk_ans" :value="index" v-model="selected_answer">
-							<p>{{ index }}. {{ item }}</p>
+						<label v-for="(item, index) in current_problem.choices" :key="index">
+							<input type="radio" name="chk_ans" :value="index"
+								v-model="current_problem.submitted_answer">
+							<p>{{ index + 1 }}. {{ item }}</p>
 						</label>
 					</form>
-
 				</div>
 			</section>
 		</main>
@@ -25,15 +25,15 @@
 			<div class="info">문제 리스트</div>
 			<div class="menu-container">
 				<div class="top-menu-container">
-					<button v-for="n in problemInfos.length" class="btn problem-btn" :key="n"
-						@click="problemIndex = n - 1;">{{ n }}</button>
-
+					<button v-for="(problem, idx) in problemInfos" class="btn problem-btn" :key="problem.problem_id"
+						@click="problemIndex = idx">{{ idx + 1 }}</button>
 				</div>
 				<div class="bottom-menu-container">
-					<button type="button" id="prev" @click="problemIndex -= 1;" :disabled="problemIndex < 1"
-						class="btn move-btn">이전 문제</button>
-					<button type="button" id="next" @click="problemIndex += 1;" class="btn move-btn"
-						:disabled="problemInfos.length <= problemIndex">다음 문제</button>
+					<button type="button" id="prev" @click="problemIndex = Math.max(0, problemIndex - 1)"
+						:disabled="problemIndex < 1" class="btn move-btn">이전 문제</button>
+					<button type="button" id="next"
+						@click="problemIndex = Math.min(problemInfos.length - 1, problemIndex + 1)" class="btn move-btn"
+						:disabled="problemIndex >= problemInfos.length - 1">다음 문제</button>
 					<button type="button" id="submit" class="btn submit-btn">제출하기</button>
 				</div>
 			</div>
@@ -43,52 +43,50 @@
 
 <script setup>
 import { ref, watch } from 'vue';
+
 let problemIndex = ref(0);
 let problemInfos = ref([
 	{
-		problem_id: 1,
+		problem_id: 3,
 		problem_content: "다음중 오륜기에 들어가는 색이 아닌 것은?",
 		problem_type: "MULTIPLE",
-		choices: ["빨간색", "파란색", "노란색", "보라색"]
+		choices: ["빨간색", "파란색", "노란색", "보라색"],
+		submitted_answer: -1
 	},
 	{
-		problem_id: 2,
+		problem_id: 7,
 		problem_content: "올림픽을 최초로 개최한 국가는?",
 		problem_type: "MULTIPLE",
-		choices: ["이탈리아", "스페인", "로마", "그리스"]
+		choices: ["이탈리아", "스페인", "로마", "그리스"],
+		submitted_answer: -1
 	},
 	{
-		problem_id: 3,
+		problem_id: 20,
 		problem_content: '다음중 올림픽 마스코트가 아닌 것은?',
 		problem_type: 'MULTIPLE',
 		choices: ['웬록', '미샤', '수호랑', '후추'],
+		submitted_answer: -1
 	},
 	{
-		problem_id: 4,
+		problem_id: 50,
 		problem_content: '올림픽에서 처음으로 실시된 종목은?',
 		problem_type: 'MULTIPLE',
 		choices: ['수영', '육상', '복싱', '사격'],
+		submitted_answer: -1
 	},
-])
-let current_problem = ref(problemInfos.value[problemIndex.value])
-// console.log(problemInfos[problemIndex.value])
-// console.log(current_problem.value)
+]);
 
+let current_problem = ref(problemInfos.value[problemIndex.value]);
 
-let submitted_answers = ref({});
-let selected_answer = ref(0);
-
-
-watch(problemIndex, (oldIndex, newIndex) => {
-	if (oldIndex != newIndex && selected_answer.value !== null) {
-		submitted_answers.value[oldIndex] = selected_answer.value;
-	}
+watch(problemIndex, (newIndex) => {
 	current_problem.value = problemInfos.value[newIndex];
-	selected_answer.value = submitted_answers.value[newIndex] ?? null;
-})
-
+});
 
 </script>
+
+<style scoped>
+/* Add styles here... */
+</style>
 
 
 <style scoped>
@@ -348,56 +346,5 @@ input[type='radio']:checked {
 	background-color: #A1B872;
 	/*체크 시 내부 원 색상*/
 	border: none;
-}
-
-/* 노트북 */
-@media screen and (max-width: 1683px) {
-	:root {
-		font-size: 8px;
-	}
-}
-
-@media screen and (max-width: 1439px) {
-	:root {
-		font-size: 7px;
-	}
-}
-
-/* 태블릿 */
-@media screen and (max-width: 1023px) {
-	:root {
-		font-size: 6px;
-	}
-}
-
-/* 모바일 */
-@media screen and (max-width: 767px) {
-	:root {
-		font-size: 4.5px;
-	}
-}
-
-@media screen and (max-width: 600px) {
-	:root {
-		font-size: 3.2px;
-	}
-}
-
-@media screen and (max-width: 424px) {
-	:root {
-		font-size: 2.5px;
-	}
-}
-
-@media screen and (max-width: 374px) {
-	:root {
-		font-size: 2px;
-	}
-}
-
-@media screen and (max-width: 319px) {
-	:root {
-		font-size: 1.8px;
-	}
 }
 </style>
