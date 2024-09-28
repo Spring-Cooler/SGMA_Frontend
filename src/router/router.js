@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/user/page/Home.vue"; // 홈 화면 컴포넌트
 import MyPage from "@/views/user/page/MyPage.vue"; // 마이페이지 컴포넌트
-import FindStudyGroups from '@/views/Recruitment/FindStudyGroup.vue'; // 스터디 그룹 찾기 컴포넌트
+import FindStudyGroups from "@/views/Recruitment/FindStudyGroup.vue"; // 스터디 그룹 찾기 컴포넌트
 // import CreateGroup from '@/views/CreateGroup.vue'; // 스터디 그룹 만들기 컴포넌트
 import SchedulePage from "@/views/Schedule/SchedulePage.vue";
 import ScheduleDetailPage from "@/views/Schedule/ScheduleDetailPage.vue";
@@ -11,6 +11,7 @@ import StudyMemberPage from "@/views/Group/page/StudyMemberPage.vue";
 import StudyRecruitmentPage from "@/views/Group/page/StudyRecruitmentPage.vue";
 import StudyMemberManagePage from "@/views/Group/page/StudyMemberManagePage.vue";
 import CreateGroup from "@/views/Recruitment/CreateGroup.vue";
+import ExamPage from "@/views/Problem/ExamPage.vue";
 import StudyBoardDetailPage from "@/views/Group/page/StudyBoardDetailPage.vue";
 import StudyNoticeDetailPage from "@/views/Group/page/StudyNoticeDetailPage.vue";
 import StudyPostModifyPage from "@/views/Group/page/StudyPostModifyPage.vue";
@@ -18,8 +19,8 @@ import StudyPostModifyPage from "@/views/Group/page/StudyPostModifyPage.vue";
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/mypage", name: "MyPage", component: MyPage },
-  { path: '/study-groups', name: 'FindStudyGroups', component: FindStudyGroups },
-  { path: '/create-group', name: 'CreateGroup', component: CreateGroup },
+  { path: "/study-groups", name: "FindStudyGroups", component: FindStudyGroups },
+  { path: "/create-group", name: "CreateGroup", component: CreateGroup },
 
   {
     path: "/study-groups/1/schedules",
@@ -58,19 +59,24 @@ const routes = [
   {
     path: "/study-groups/:groupId/members/management",
     name: "StudyMemberManagePage",
-    component: StudyMemberManagePage
+    component: StudyMemberManagePage,
+  },
+  {
+    path: `/exams/:scheduleId`,
+    name: "ExamPage",
+    component: ExamPage,
   },
   {
     path: "/study-groups/:groupId/boards/:boardId",
     name: "StudyBoardDetailPage",
     component: StudyBoardDetailPage,
-    props: true
+    props: true,
   },
   {
     path: "/study-groups/:groupId/notices/:noticeId",
     name: "StudyNoticeDetailPage",
     component: StudyNoticeDetailPage,
-    props: true
+    props: true,
   },
   {
     path: "/study-groups/:groupId/boards/:boardId/modify",

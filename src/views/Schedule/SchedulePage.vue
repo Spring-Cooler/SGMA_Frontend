@@ -88,7 +88,7 @@ const attributes = computed(() => [
 		dates: events.value.map(event => event.scheduledDate),
 		bar: {
 			style: {
-				backgroundColor: 'orange',
+				backgroundColor: 'gray',
 			},
 		},
 	},

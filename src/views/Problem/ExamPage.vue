@@ -1,0 +1,346 @@
+<template>
+	<header class="top-nav">
+		<div class="test-title">
+			<p>올림픽 문제 스터디</p>
+		</div>
+	</header>
+	<main class="main">
+		<section clas="main-content">
+			<div class="problem-container">
+				<div class="problem-content">
+					<p>{{ problemIndex }}. {{ current_problem.problem_content }}</p>
+				</div>
+				<form action="" class="problem-choice">
+					<label for="" v-for="item in current_problem.choices">
+						<input type="radio" name="chk_ans" value="">
+						<p>{{ item }}</p>
+					</label>
+				</form>
+
+			</div>
+		</section>
+	</main>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import Title from '@/components/common/Title.vue';
+let problemIndex = ref(0);
+let problemInfos = ref([{
+	problemId: 1,
+	problem_content: "다음중 오륜기에 들어가는 색이 아닌 것은?",
+	problem_type: "MULTIPLE",
+	choices: ["빨간색", "파란색", "노란색", "보라색"]
+
+}])
+let current_problem = ref(problemInfos.value[problemIndex.value])
+console.log(problemInfos[problemIndex.value])
+console.log(current_problem.value)
+</script>
+<style scoped>
+body,
+html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+ul,
+li,
+dl,
+dt,
+dd,
+p,
+span {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+li {
+	list-style: none;
+}
+
+*,
+:after,
+:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+:root {
+	font-size: 10px;
+	font-family: 'Noto Sans';
+	color: #202020;
+}
+
+.root-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100vh;
+}
+
+.top-nav {
+	position: fixed;
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	height: 16rem;
+	background-color: #A1B872;
+	font-size: 6rem;
+	font-weight: 600;
+	color: #FFFFFF;
+}
+
+.test-title {
+	display: flex;
+	height: 100%;
+	align-items: center;
+	margin-left: 14rem;
+}
+
+.timer-wrapper {
+	display: flex;
+	height: 100%;
+	width: 45rem;
+	justify-content: center;
+	align-items: center;
+	margin-right: 1.4rem;
+}
+
+.timer {
+	display: flex;
+	height: 11.5rem;
+	width: 100%;
+	border-radius: 1rem;
+	background-color: #7F915B;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.timer i {
+	font-size: 7.2rem;
+}
+
+.main {
+	display: flex;
+	justify-content: center;
+	width: calc(100% - 48rem);
+	height: 100%;
+	margin-top: 16rem;
+}
+
+.main-content {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 70%;
+	background-color: #FFFFFF;
+}
+
+.side-nav {
+	position: fixed;
+	right: 0px;
+	bottom: 0px;
+	display: flex;
+	flex-direction: column;
+	width: 48rem;
+	height: calc(100% - 16rem);
+	background-color: #E0E9C8;
+}
+
+.info {
+	display: flex;
+	width: 100%;
+	height: 10.8rem;
+	justify-content: center;
+	align-items: center;
+	background-color: #7F915B;
+	font-size: 3.2rem;
+	font-weight: 700;
+	color: #FFFFFF;
+}
+
+.menu-container {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	height: calc(100% - 10.8rem);
+}
+
+.top-menu-container {
+	display: flex;
+	flex-wrap: wrap;
+	width: 40rem;
+	gap: 2rem;
+	margin-top: 4.6rem;
+}
+
+.bottom-menu-container {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 2rem;
+	justify-content: center;
+	margin-bottom: 4rem;
+}
+
+.btn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background-color: #FFFFFF;
+	border: none;
+	box-shadow: 0rem 0.2rem 0.4rem #8c8c8c;
+	border-radius: 1rem;
+	font-size: 2rem;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.problem-btn {
+	height: 6rem;
+	width: 6rem;
+}
+
+.problem-btn:hover {
+	background-color: #f1f1f1;
+	transition: 0.2s ease-in;
+}
+
+.move-btn {
+	height: 8rem;
+	width: 18rem;
+}
+
+.move-btn:hover {
+	background-color: #f1f1f1;
+	transition: 0.2s ease-in;
+}
+
+.submit-btn {
+	height: 8rem;
+	width: 38rem;
+	color: #FFFFFF;
+	background-color: #FFE083;
+	border: none;
+}
+
+.submit-btn:hover {
+	background-color: #ffda6c;
+	transition: 0.2s ease-in;
+}
+
+.problem-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	margin-top: 15rem;
+}
+
+.problem-content {
+	display: flex;
+	font-size: 4rem;
+	font-weight: 600;
+}
+
+.problem-choice {
+	display: flex;
+	flex-direction: column;
+	font-size: 3.6rem;
+	font-weight: 400;
+}
+
+.problem-choice label {
+	display: flex;
+	align-items: center;
+	flex-direction: row;
+	gap: 1em;
+	margin-top: 4.8rem;
+	cursor: pointer;
+}
+
+/* 기본스타일 제거, 버튼 모양 재설정 */
+input[type='radio'] {
+	flex-shrink: 0;
+	-webkit-appearance: none;
+	/* 웹킷 브라우저에서 기본 스타일 제거*/
+	-moz-appearance: none;
+	/* 모질라 브라우저에서 기본 스타일 제거*/
+	appearance: none;
+	/*기본 브라우저에서 기본 스타일 제거*/
+	width: 3.6rem;
+	height: 3.6rem;
+	border: 1px solid #8c8c8c;
+	/*체크되지 않았을 때의 테두리 색상*/
+	border-radius: 50%;
+	outline: none;
+	/*focus 시에 나타나는 기본 스타일 제거*/
+	cursor: pointer;
+	margin-top: 0.9rem;
+}
+
+/* 체크 시 버튼 모양 스타일*/
+input[type='radio']:checked {
+	background-color: #A1B872;
+	/*체크 시 내부 원 색상*/
+	border: none;
+}
+
+/* 노트북 */
+@media screen and (max-width: 1683px) {
+	:root {
+		font-size: 8px;
+	}
+}
+
+@media screen and (max-width: 1439px) {
+	:root {
+		font-size: 7px;
+	}
+}
+
+/* 태블릿 */
+@media screen and (max-width: 1023px) {
+	:root {
+		font-size: 6px;
+	}
+}
+
+/* 모바일 */
+@media screen and (max-width: 767px) {
+	:root {
+		font-size: 4.5px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	:root {
+		font-size: 3.2px;
+	}
+}
+
+@media screen and (max-width: 424px) {
+	:root {
+		font-size: 2.5px;
+	}
+}
+
+@media screen and (max-width: 374px) {
+	:root {
+		font-size: 2px;
+	}
+}
+
+@media screen and (max-width: 319px) {
+	:root {
+		font-size: 1.8px;
+	}
+}
+</style>
