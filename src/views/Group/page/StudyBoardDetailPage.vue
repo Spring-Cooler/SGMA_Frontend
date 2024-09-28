@@ -14,7 +14,11 @@
                     <DeleteModal :isVisible="modalVisibility" @confirm="deletePost" @cancel="toggleModal">해당 게시글을 삭제하시겠습니까?</DeleteModal>
                     <CommentHeader :data="headerData" :boardId="props.boardId" @add="addComment"></CommentHeader>
                     <CommentBody v-for="(commentDetail, index) in commentList" :key="index">
-                        <Comment :data="commentDetail" @remove="deleteComment" :commentId="commentDetail.comment_id"></Comment>
+                        <Comment :data="commentDetail" @add="addReply()" @remove="deleteComment" :commentId="commentDetail.comment_id">
+                            <ReplyBody v-for="(replyDetail, replyIndex) in replyList[commentDetail.comment_id]" :key="replyIndex">
+                                <Reply :data="replyDetail" @remove="deleteReply" :replyId="replyDetail.reply_id"></Reply>
+                            </ReplyBody>
+                        </Comment>
                     </CommentBody>
                 </div>
             </div>
@@ -32,17 +36,19 @@
     import CommentHeader from '@/components/layouts/CommentHeader.vue';
     import CommentBody from '@/components/layouts/CommentBody.vue';
     import Comment from '@/components/common/Comment.vue';
+    import Reply from '@/components/common/Reply.vue';
     import { ref, onMounted } from 'vue';
     import { useRouter } from 'vue-router';
     import axios from 'axios';
+import ReplyBody from '@/components/layouts/ReplyBody.vue';
 
     const props = defineProps({
         groupId: {
-            type: Number,
+            type: String,
             required: true
         },
         boardId: {
-            type: Number,
+            type: String,
             required: true
         }
     })
@@ -50,6 +56,7 @@
     const isValid = ref(true);
 
     const commentList = ref([]);
+    const replyList = ref({});
 
     const boardDetail = ref({});
     const loading = ref(true);
@@ -108,11 +115,27 @@
       try {
         let response = (await axios.get(`/api/study-group/board/comments/board-id/${props.boardId}`)).data;
         comments.value = response.data.length;
-        if(typeof response !== 'undefined')
+        if(response.success) {
             commentList.value = response.data;
+            for(const comment of commentList.value) {
+                fetchReplies(comment.comment_id);
+            }
+        }
       } catch (error) {
         console.error(error);
       }
+    }
+
+    const fetchReplies = async (commentId) => {
+        try {
+            let response = (await axios.get(`/api/study-group/board/replies/comment-id/${commentId}`)).data;
+            comments.value += response.data.length;
+            if(response.success) {
+                replyList.value[commentId] = response.data;
+            }
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     const addComment = async () => {
@@ -122,11 +145,19 @@
         })
     }
 
+    const addReply = async () => {
+        await fetchComments();
+    }
+
     const toggleModal = () => {
         modalVisibility.value = !modalVisibility.value;
     };
 
     const deleteComment = async () => {
+        await fetchComments();
+    }
+
+    const deleteReply = async () => {
         await fetchComments();
     }
 

@@ -34,7 +34,7 @@ import Title from '@/components/common/Title.vue';
 import MediumButton from '@/components/common/MediumButton.vue';
 import Member from '../components/Member.vue';
 import axios from 'axios';
-import { ref, reactive, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const items = ref([]);
