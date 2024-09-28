@@ -21,7 +21,7 @@
           <input type="text" placeholder="이름 입력" v-model="name" maxlength="6"/>
           <input type="email" placeholder="이메일 입력" v-model="email" maxlength="24"/>
            <!-- 이메일 유효성 검사 메시지 -->
-           <p v-if="!isEmailValid" class="error-text">유효한 이메일을 입력해주세요.</p>
+           <span v-if="!isEmailValid" class="error-text">유효한 이메일을 입력해주세요.</span>
         </div>
         
         <div class="verification-container"> <!-- 3번: 체크박스와 버튼 정렬 -->

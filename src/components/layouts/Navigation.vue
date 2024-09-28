@@ -1,6 +1,6 @@
 <template>
 	<header class="top-nav">
-	<div class="top-left-menu-container" @click="navigate">
+	<div class="top-left-menu-container" @click="navigateToHome">
 		<img class="logo hide-text" src="@/assets/logo.svg" alt="logo" />
 		<span>SGMA</span>
 	</div>
@@ -109,6 +109,12 @@ watch(
 const toggleDropdown = () => {
 	isDropdownVisible.value = !isDropdownVisible.value;
 };
+
+// 마이페이지로 이동
+const navigateToHome = () => {
+	router.push('/');
+};
+
 
 // 마이페이지로 이동
 const navigateToMypage = () => {
