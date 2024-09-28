@@ -6,10 +6,10 @@
         <GroupSideBar />
         <main class="main">
             <div class="main-content">
-                <div class="post-container" v-if="loading">Loading...</div>
+                <div class="post-container loading" v-if="loading">Loading...</div>
                 <div class="post-container" v-else>
                     <Title>{{title}}</Title>
-                    <PostHeader :data="headerData" :isNotice="true" @deletePost="deletePost"></PostHeader>
+                    <PostHeader :data="headerData" :isNotice="true" @modifyPost="goModifyPost" @deletePost="deletePost"></PostHeader>
                     <PostBody :data="bodyData" :isPerm="true"></PostBody>
                     <DeleteModal :isVisible="modalVisibility" @confirm="confirm" @cancel="cancel">해당 게시글을 삭제하시겠습니까?</DeleteModal>
                 </div>
@@ -26,17 +26,18 @@
     import PostBody from '@/components/layouts/PostBody.vue';
     import DeleteModal from '@/components/common/DeleteModal.vue';
     import { ref, onMounted } from 'vue';
+    import { useStore } from 'vuex';
     import { useRouter } from 'vue-router';
     import axios from 'axios';
 
     const props = defineProps({
-        id: {
+        noticeId: {
             type: String,
             required: true
         }
     })
     const router = useRouter();
-    const isValid = ref(true);
+    const store = useStore();
 
     const item = ref({});
     const loading = ref(true);
@@ -63,13 +64,13 @@
 
     const fetchData = async () => {
       try {
-        let response; // response 변수를 미리 선언
+        let response = (await axios.get(`/api/study-group/notices/${props.noticeId}`)).data;
 
-        response = await axios.get(`/api/study-group/notices/${props.id}`);
-        if(response.data.data===null) {
-            throw response.data.error;
+        if (!response.success) {
+            return;
         }
-        item.value = response.data.data;
+        loading.value = false;
+        item.value = response.data;
 
         title.value = item.value.title;
         nickname.value = item.value.nickname;
@@ -83,12 +84,8 @@
             endDate.value = item.value.recruitment_end_time;
         }
         content.value = item.value.content;
-
       } catch (error) {
         console.error(error);
-        isValid.value = false;
-      } finally {
-        (isValid.value) ? loading.value = false : loading.value = true;
       }
     }
 
@@ -97,7 +94,7 @@
     };
 
     const confirm = async () => {
-        let response = await axios.delete(`/api/study-group/notices/${props.id}`);
+        let response = (await axios.delete(`/api/study-group/notices/${props.noticeId}`)).data;
         if(response.success) {
             modalVisibility.value = false;
             router.go(-1);
@@ -106,6 +103,16 @@
 
     const cancel = () => {
         modalVisibility.value = false;
+    }
+
+    const goModifyPost = () => {
+        store.commit('setPostData', {
+            id: props.noticeId,
+            title: title.value,
+            content: content.value,
+            post_type: 'notice'
+        });
+        router.push(`/study-groups/1/notices/${props.noticeId}/modify`);
     }
 
     onMounted(() => {
@@ -117,6 +124,17 @@
     .post-container {
         display: flex;
         flex-direction: column;
+        align-items: center;
         width: 100%;
+        min-height: 100vh;
+    }
+
+    .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        font-size: 4rem;
     }
 </style>
