@@ -6,9 +6,10 @@
 	</header>
 	<main class="main">
 		<section clas="main-content">
-
 			<div class="problem-container">
-				<Title>{{ current_problem.problem_content }}</Title>
+				<div class="problem-content">
+					<p>{{ problemIndex }}. {{ current_problem.problem_content }}</p>
+				</div>
 				<form action="" class="problem-choice">
 					<label for="" v-for="item in current_problem.choices">
 						<input type="radio" name="chk_ans" value="">
@@ -36,8 +37,54 @@ let current_problem = ref(problemInfos.value[problemIndex.value])
 console.log(problemInfos[problemIndex.value])
 console.log(current_problem.value)
 </script>
-
 <style scoped>
+body,
+html {
+	height: 100%;
+	margin: 0;
+	padding: 0;
+}
+
+ul,
+li,
+dl,
+dt,
+dd,
+p,
+span {
+	margin: 0;
+	padding: 0;
+}
+
+a {
+	text-decoration: none;
+}
+
+li {
+	list-style: none;
+}
+
+*,
+:after,
+:before {
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
+}
+
+:root {
+	font-size: 10px;
+	font-family: 'Noto Sans';
+	color: #202020;
+}
+
+.root-container {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100vh;
+}
+
 .top-nav {
 	position: fixed;
 	display: flex;
@@ -244,5 +291,56 @@ input[type='radio']:checked {
 	background-color: #A1B872;
 	/*체크 시 내부 원 색상*/
 	border: none;
+}
+
+/* 노트북 */
+@media screen and (max-width: 1683px) {
+	:root {
+		font-size: 8px;
+	}
+}
+
+@media screen and (max-width: 1439px) {
+	:root {
+		font-size: 7px;
+	}
+}
+
+/* 태블릿 */
+@media screen and (max-width: 1023px) {
+	:root {
+		font-size: 6px;
+	}
+}
+
+/* 모바일 */
+@media screen and (max-width: 767px) {
+	:root {
+		font-size: 4.5px;
+	}
+}
+
+@media screen and (max-width: 600px) {
+	:root {
+		font-size: 3.2px;
+	}
+}
+
+@media screen and (max-width: 424px) {
+	:root {
+		font-size: 2.5px;
+	}
+}
+
+@media screen and (max-width: 374px) {
+	:root {
+		font-size: 2px;
+	}
+}
+
+@media screen and (max-width: 319px) {
+	:root {
+		font-size: 1.8px;
+	}
 }
 </style>
