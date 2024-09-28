@@ -32,7 +32,7 @@
 				<div class="bottom-menu-container">
 					<button type="button" id="prev" @click="problemIndex -= 1;" :disabled="problemIndex < 1"
 						class="btn move-btn">이전 문제</button>
-					<button type="button" id="next" class="btn move-btn"
+					<button type="button" id="next" @click="problemIndex += 1;" class="btn move-btn"
 						:disabled="problemInfos.length <= problemIndex">다음 문제</button>
 					<button type="button" id="submit" class="btn submit-btn">제출하기</button>
 				</div>
@@ -60,8 +60,11 @@ let problemInfos = ref([
 let current_problem = ref(problemInfos.value[problemIndex.value])
 // console.log(problemInfos[problemIndex.value])
 // console.log(current_problem.value)
+
+let selected_answer = ref(0);
 watch(problemIndex, (newIndex) => {
 	current_problem.value = problemInfos.value[newIndex];
+
 })
 </script>
 
