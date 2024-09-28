@@ -7,6 +7,8 @@
       </div>
       <div class="modal-body">
         <input type="text" placeholder="아이디" v-model="username" />
+          <!-- 아이디 입력 에러 메시지 -->
+          <span v-if="usernameError" class="error-message">{{ usernameError }}</span>
         <div class="password-input-container">
           <input 
             :type="passwordVisible ? 'text' : 'password'" 
@@ -18,6 +20,10 @@
             <img :src="passwordVisible ? eyeOpenIcon : eyeClosedIcon" alt="eye icon" />
           </i>
         </div>
+
+        <!-- 비밀번호 입력 에러 메시지 -->
+        <span v-if="passwordError" class="error-message">{{ passwordError }}</span>
+
         <button class="login-btn" @click="login">로그인</button>
         <div class="sns-login">
           <hr />
@@ -59,6 +65,10 @@ const setUserData = inject('setUserData'); // 사용자 데이터 설정 함수
 const username = ref('');
 const password = ref('');
 
+// 에러 메시지 상태 변수 정의
+const usernameError = ref(''); // 아이디 에러 메시지 상태
+const passwordError = ref(''); // 비밀번호 에러 메시지 상태
+
 const passwordVisible = ref(false); // 비밀번호 표시 여부
 
 // 모달 닫기 함수
@@ -74,9 +84,22 @@ const eyeClosed = eyeClosedIcon; // 비밀번호 숨김 아이콘 경로
 const togglePasswordVisibility = () => {
   passwordVisible.value = !passwordVisible.value;
 };
-
 // 로그인 처리 함수
 const login = async () => {
+  // 기존 에러 메시지 초기화
+  usernameError.value = '';
+  passwordError.value = '';
+
+  // 입력값 유효성 검사
+  if (!username.value) {
+    usernameError.value = '아이디를 입력하세요.';
+    return;
+  }
+  if (!password.value) {
+    passwordError.value = '비밀번호를 입력하세요.';
+    return;
+  }
+
   try {
     // axios를 사용하여 로그인 요청
     const response = await axios.post('/user-service/login', {
@@ -92,7 +115,7 @@ const login = async () => {
       closeModal(); // 모달 닫기
     } else {
       // 서버에서 반환한 오류 메시지 표시
-      alert(response.data.error.message || '로그인에 실패했습니다.');
+      passwordError.value = response.data.error.message || '로그인에 실패했습니다.';
     }
   } catch (error) {
     // 네트워크 오류나 서버 오류가 발생한 경우
@@ -100,9 +123,9 @@ const login = async () => {
 
     // axios 오류 응답 객체가 있을 경우, 더 구체적인 메시지 출력
     if (error.response && error.response.data && error.response.data.error) {
-      alert(error.response.data.error.message || '로그인 요청이 거부되었습니다.');
+      passwordError.value = error.response.data.error.message || '로그인 요청이 거부되었습니다. 서버 상태를 확인해주세요.';
     } else {
-      alert('로그인 요청이 실패했습니다. 서버 상태를 확인해주세요.');
+      passwordError.value = '로그인 요청이 실패했습니다. 서버 상태를 확인해주세요.';
     }
   }
 };
@@ -133,13 +156,14 @@ const getUserInfo = async (accessToken) => {
         user_identifier: response.data.data.user_identifier
       });
     } else {
-      alert('사용자 정보를 가져오지 못했습니다.');
+      usernameError.value = '사용자 정보를 가져오지 못했습니다.';
     }
   } catch (error) {
     console.error('사용자 정보 조회 오류:', error);
-    alert('사용자 정보 조회에 실패했습니다.');
+    usernameError.value = '사용자 정보 조회에 실패했습니다.';
   }
 };
+
 
 // 회원가입 모달로 이동
 const goToRegister = () => {
@@ -320,4 +344,15 @@ const goToRegister = () => {
   color: #888888;
   text-decoration: none;
 }
+
+/* 컴포넌트 내에만 적용되는 에러 메시지 스타일 */
+.error-message {
+  color: red; /* 에러 메시지 색상 */
+  font-size: rem; /* 글자 크기 */
+  margin-top: 0.5rem; /* 위 여백 */
+  margin-left: 1.5rem; /* 위 여백 */
+  display: block; /* 블록 요소로 설정 */
+  text-align: left;
+}
+
 </style>
