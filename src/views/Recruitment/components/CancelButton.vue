@@ -9,16 +9,17 @@
   
   <style scoped>
   .cancel-button {
+    white-space: nowrap;
     background-color: #E99A24; /* 취소 버튼 색상 */
     color: white;
     font-size: 24px;
     font-family: Noto Sans;
     font-weight: 600;
-    width: 80px;
-    height: 48px;
-    border-radius: 4px;
-    margin-left: 1020px;
-    margin-top: 8px;
+    width: 8rem;
+    height: 4.8rem;
+    margin-left: 102rem;
+    margin-top: 0.8rem;
+    border: none;
   }
   </style>
   

@@ -165,51 +165,51 @@ const submitReply = () => {
 
 <style scoped>
 .post-title {
-  width: 875px;
-  height: 67px;
-  margin-top: 200px;
+  width: 87.5rem;
+  height: 6.7rem;
+  margin-top: 20rem;
   margin-right: auto; /* 오른쪽 여백을 자동으로 설정하여 왼쪽 정렬 */
   margin-left: 0; /* 왼쪽 여백을 0으로 설정 */
   color: #212224;
-  font-size: 40px;
+  font-size: 4rem;
   font-family: Noto Sans;
   font-weight: 400;
-  line-height: 60px;
+  line-height: 6rem;
   word-wrap: break-word;
   white-space: nowrap;
 }
 
 .post-container {
-  margin-left: 679px;
+  margin-left: 67.9rem;
   max-width: 100%;
-  margin-right: 5px;
-  padding: 20px;
+  margin-right: 0.5rem;
+  padding: 2rem;
   background-color: #fff;
-  border-radius: 8px;
+  border-radius: 0.8rem;
 }
 
 
 
 .author-icon {
-  margin-top: 26px;
-  width: 50px;
-  height: 50px;
+  margin-top: 2.6rem;
+  width: 5rem;
+  height: 5rem;
   border-radius: 50%;
   background-color: #ccc;
-  margin-right: 10px;
+  margin-right: 1rem;
   
 }
 
 .author-name {
-  margin-left:72px;
-  font-size: 16px;
+  margin-left:7.2rem;
+  font-size: 1.6rem;
   font-weight: bold;
   white-space: nowrap;
-  margin-top: 30px;
+  margin-top: 3rem;
 }
 
 .reply-list{
-  border-top: 1px solid #eee;
+  border-top: 0.1rem solid #eee;
   display:flex;
   flex-direction: column;
   align-items: flex-end;
@@ -217,87 +217,87 @@ const submitReply = () => {
 
 .post-title {
   width: auto; /* 너비를 자동으로 조정 */
-  margin-top: 130px;
+  margin-top: 13rem;
   margin-right: 0; /* 오른쪽 여백 제거 */
   margin-left: 0; /* 왼쪽 여백을 0으로 설정 */
   color: #212224;
-  font-size: 40px;
+  font-size: 4rem;
   font-family: Noto Sans;
   font-weight: 400;
-  line-height: 60px;
+  line-height: 6rem;
   word-wrap: break-word;
   white-space: nowrap;
 }
 
 .post-header {
   width:800px;
-  border-bottom: 1px solid #eee;
+  border-bottom: 0.1rem solid #eee;
   display: flex;
   justify-content: flex-start; /* 요소들을 왼쪽 정렬 */
   align-items: center;
-  margin-bottom: 20px;
-  gap: 10px; /* 요소들 간의 간격 추가 */
+  margin-bottom: 2rem;
+  gap: 1rem; /* 요소들 간의 간격 추가 */
 }
 
 .post-info {
   display: flex;
   align-items: center;
-  margin-right: 20px; /* 제목과 작성자 아이콘 사이의 간격 설정 */
+  margin-right: 2rem; /* 제목과 작성자 아이콘 사이의 간격 설정 */
 }
 
 
 
 .post-actions {
-  margin-top: 323px;
-  margin-bottom: 27px;
+  margin-top: 32.3rem;
+  margin-bottom: 2.7rem;
   display: flex;
   align-items: center;
-  gap: 10px; 
+  gap: 1rem; 
   cursor: pointer;
 }
 
 .like-count, .comment-count {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 1.4rem;
   color: #888;
 }
 
 .like-count i, .comment-count i {
-  margin-right: 5px;
+  margin-right: 0.5rem;
   transition: color 0.3s;
 }
 .delete-btn{
-  width: 84px;
+  width: 8.4rem;
   height: 100%;
-  padding: 5.5px 16px;
-  font-size: 14px;
-  border: 1px #DCDFE3 solid;
+  padding: 0.55rem 1.6rem;
+  font-size: 1.4rem;
+  border: 0.1rem #DCDFE3 solid;
   cursor: pointer;
   color: #940000;
   font-family: Noto Sans;
   font-weight: 500;
-  line-height: 21px;
+  line-height: 2.1rem;
   word-wrap: break-word;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
   display: inline-flex;
   white-space: nowrap;
 }
 .edit-btn {
-  padding: 5.5px 16px;
-  font-size: 14px;
-  border: 1px #DCDFE3 solid;
+  padding: 0.55rem 1.6rem;
+  font-size: 1.4rem;
+  border: 0.1rem #DCDFE3 solid;
   cursor: pointer;
   color: #202020;
   font-family: Noto Sans;
   font-weight: 500;
-  line-height: 21px;
+  line-height: 2.1rem;
   word-wrap: break-word;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 1rem;
   display: inline-flex;
   white-space: nowrap;
 }
@@ -307,33 +307,33 @@ const submitReply = () => {
 }
 
 .post-content {
-  margin-bottom: 20px;
-  font-size: 16px;
+  margin-bottom: 2rem;
+  font-size: 1.6rem;
   font-weight: 400;
-  line-height: 25.60px;
+  line-height: 2.56rem;
   word-wrap: break-word
 }
 
 .post-date{
-  margin-bottom: 10px;
-  font-size:16px
+  margin-bottom: 1rem;
+  font-size:1.6rem;
 }
 
 
 
 .apply-btn {
-  margin-left: 665px;
+  margin-left: 66.5rem;
   display: block;
-  width: 96px;
-  padding: 10px 0;
-  font-size: 18px;
+  width: 9.6rem;
+  padding: 1rem 0;
+  font-size: 1.8rem;
   color: #fff;
   background-color: #A1B872;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.4rem;
   cursor: pointer;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 3rem;
 }
 
 .apply-btn:hover {
@@ -341,16 +341,15 @@ const submitReply = () => {
 }
 
 .comment-section {
-  border-top: 1px solid #eee;
-  padding-top: 20px;
+  padding-top: 2rem;
 }
 
 .comment-section h2 {
   color: #212224;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-family: Noto Sans;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 2.4rem;
   word-wrap: break-word
 }
 
@@ -359,35 +358,35 @@ const submitReply = () => {
   margin-left: 10px
 } */
 .comment-input {
-  width: 792px;
-  height: 48px;
-  padding: 10px;
-  font-size: 14px;
-  border: 1px solid #ddd;
-  border-radius: 6px;
-  margin-bottom: 1px;
+  width: 79.2rem;
+  height: 4.8rem;
+  padding: 1rem;
+  font-size: 1.4rem;
+  border: 0.1rem solid #ddd;
+  border-radius: 0.6rem;
+  margin-bottom: 0.1rem;
   color:#ADB3BA;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-family: Noto Sans;
   font-weight: 500;
-  line-height: 28px;
+  line-height: 2.8rem;
   word-wrap: break-word; 
 }
 
 .submit-comment-btn {
   white-space: nowrap;
-  width: 84px;
-  height: 32px;
+  width: 8.4rem;
+  height: 3.2rem;
   display: inline-block;
-  padding: 8px 16px;
-  font-size: 14px;
+  padding: 0.8rem 1.6rem;
+  font-size: 1.4rem;
   color: #fff;
   background-color: #ADB3BA;
   border: none;
-  border-radius: 4px;
+  border-radius: 0.4rem;
   cursor: pointer;
-  margin-left: 708px;
-  margin-top: 8px;
+  margin-left: 70.8rem;
+  margin-top: 0.8rem;
 
 }
 
@@ -398,23 +397,23 @@ const submitReply = () => {
 .comment-list {
   list-style: none;
   padding: 0;
-  margin-top: 20px;
+  margin-top: 2rem;
 }
 
 
 .comment-item {
   display: flex; /* 수평 배치를 위해 flex 사용 */
   align-items: flex-start; /* 아이콘과 텍스트가 수평으로 배치되도록 설정 */
-  padding-bottom: 10px; /* 댓글 간 간격 */
-  margin-bottom: 10px; /* 댓글 간 간격 */
+  padding-bottom: 1rem; /* 댓글 간 간격 */
+  margin-bottom: 1rem; /* 댓글 간 간격 */
 }
 
 .comment-author-icon {
-  width: 30px; /* 아이콘 크기 조정 */
-  height: 30px; /* 아이콘 크기 조정 */
+  width: 3rem; /* 아이콘 크기 조정 */
+  height: 3rem; /* 아이콘 크기 조정 */
   border-radius: 50%; /* 원형으로 만들기 */
   background-color: #ccc; /* 배경색 설정 */
-  margin-right: 10px; /* 아이콘과 텍스트 간의 간격 조절 */
+  margin-right: 1rem; /* 아이콘과 텍스트 간의 간격 조절 */
   flex-shrink: 0; /* 아이콘이 크기에 맞춰 줄어들지 않도록 설정 */
   
 }
@@ -427,93 +426,93 @@ const submitReply = () => {
 
 .comment-author {
   font-weight: bold; /* 글자 두께 조절 */
-  margin-right: 5px; /* 이름과 날짜 간격 */
-  font-size:16px
+  margin-right: 0.5rem; /* 이름과 날짜 간격 */
+  font-size:1.6rem
 }
 
 .comment-date {
-  font-size: 12px; /* 날짜 크기 조정 */
+  font-size: 1.2rem; /* 날짜 크기 조정 */
   color: #888; /* 날짜 색상 조정 */
-  margin-bottom: 5px; /* 날짜와 텍스트 사이의 간격 조정 */
+  margin-bottom: 0.5rem; /* 날짜와 텍스트 사이의 간격 조정 */
 }
 
 .comment-text {
   color: #212224;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-family: Noto Sans;
   font-weight: 400;
-  line-height: 25.60px;
+  line-height: 2.56rem;
   word-wrap: break-word
 }
 .comment-btn{
   cursor:pointer;
-  margin-top:5px;
+  margin-top:0.5rem;
   background-color: white;
   color: #868C94;
-  font-size: 12px;
+  font-size: 1.2rem;
   font-family: Noto Sans;
   font-weight: 500;
-  line-height: 18px;
+  line-height: 1.8rem;
   word-wrap: break-word;
-  width:45px;
-  height: 18px;
+  width:4.5rem;
+  height: 1.8rem;
   border: none;
   white-space: nowrap;
-  margin-bottom:17px;
+  margin-bottom:1.7rem;
 }
 
 
 .comment-reply {
   display: flex;
   align-items: flex-start;
-  margin-left: 50px;
-  border-bottom: 1px solid #eee;
-  margin-top: 16px;
-  margin-bottom: 40px;
+  margin-left: 5rem;
+  border-bottom: 0.1rem solid #eee;
+  margin-top: 1.6rem;
+  margin-bottom: 4rem;
 }
 
 .comment-reply-author-icon {
-  width: 30px; /* 아이콘 크기 조정 */
-  height: 30px; /* 아이콘 크기 조정 */
+  width: 3rem; /* 아이콘 크기 조정 */
+  height: 3rem; /* 아이콘 크기 조정 */
   border-radius: 50%; /* 원형으로 만들기 */
   background-color: #ccc; /* 배경색 설정 */
-  margin-right: 10px; /* 아이콘과 텍스트 간의 간격 조절 */
+  margin-right: 1rem; /* 아이콘과 텍스트 간의 간격 조절 */
   flex-shrink: 0; /* 아이콘이 크기에 맞춰 줄어들지 않도록 설정 */
 }
 
 .comment-reply-content {
   display: flex;
   flex-direction: column; /* 텍스트와 날짜를 수직 배치 */
-  width: 744px;
-  margin-top:4px;
+  width: 74.4rem;
+  margin-top:0.4rem;
 }
 
 .comment-reply-author {
   font-weight: bold; /* 글자 두께 조절 */
-  margin-right: 5px; /* 이름과 날짜 간격 */
-  font-size:16px
+  margin-right: 0.5rem; /* 이름과 날짜 간격 */
+  font-size:1.6rem;
 }
 
 .comment-reply-date {
-  font-size: 12px; /* 날짜 크기 조정 */
+  font-size: 1.2rem; /* 날짜 크기 조정 */
   color: #888; /* 날짜 색상 조정 */
-  margin-bottom: 5px; /* 날짜와 텍스트 사이의 간격 조정 */
+  margin-bottom: 0.5rem; /* 날짜와 텍스트 사이의 간격 조정 */
 }
 
 .comment-reply-text {
   color: #212224;
-  font-size: 16px;
+  font-size: 1.6rem;
   font-family: Noto Sans;
   font-weight: 400;
-  line-height: 25.60px;
-  margin-bottom:40px;
+  line-height: 2.56rem;
+  margin-bottom:4rem;
   word-wrap: break-word
 }
 .fa-regular fa-comment{
-  font-size: 16px;
+  font-size: 1.6rem;
 }
 .submit-reply-btn, .cancel-reply-btn {
-  padding: 5px 10px;
+  padding: 0.5rem 1rem;
   cursor: pointer;
   border: none;
   border-radius: 5px;
@@ -522,31 +521,31 @@ const submitReply = () => {
   background-color: #8fa561;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
   cursor: pointer;
-  margin-right: 10px; 
+  margin-right: 1rem; 
 }
 
 .cancel-reply-btn {
   background-color: #aaa;
   color: white;
   border: none;
-  padding: 10px 20px;
-  border-radius: 5px;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
   cursor: pointer;
 }
 .reply-input {
-  width: 600px;
+  width: 60rem;
   flex: 1;
-  padding: 5px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
+  padding: 0.5rem;
+  border: 0.1rem solid #ddd;
+  border-radius: 0.5rem;
 }
 .buttons{
   display: flex;
-  margin-left:450px;
-  padding:10px;
+  margin-left:45rem;
+  padding:1rem;
 }
 @keyframes like-animation {
   0% {
@@ -568,12 +567,12 @@ const submitReply = () => {
 .like-count {
   display: flex;
   align-items: center;
-  font-size: 14px;
+  font-size: 1.4rem;
   color: #888;
 }
 
 .like-count i {
-  margin-right: 5px;
+  margin-right: 0.5rem;
   transition: color 0.3s; /* 색상 전환 애니메이션 */
 }
 </style>
