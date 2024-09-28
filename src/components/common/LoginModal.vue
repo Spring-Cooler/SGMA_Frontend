@@ -6,7 +6,9 @@
         <h2>SGMA</h2>
       </div>
       <div class="modal-body">
-        <input type="text" placeholder="아이디" v-model="username" />
+        <input type="text" placeholder="아이디"
+         v-model="username"
+        @keyup.enter="login" />
           <!-- 아이디 입력 에러 메시지 -->
           <span v-if="usernameError" class="error-message">{{ usernameError }}</span>
         <div class="password-input-container">
@@ -15,6 +17,7 @@
             placeholder="비밀번호 입력" 
             v-model="password" 
             maxlength="24" 
+            @keyup.enter="login"
           />
           <i class="eye-icon" @click="togglePasswordVisibility">
             <img :src="passwordVisible ? eyeOpenIcon : eyeClosedIcon" alt="eye icon" />
@@ -315,8 +318,8 @@ const goToRegister = () => {
 
 /* 컴포넌트 내에만 적용되는 에러 메시지 스타일 */
 .error-message {
-  color: red; /* 에러 메시지 색상 */
-  font-size: rem; /* 글자 크기 */
+  color: #E1523A;
+  font-size: 1.4rem;  
   margin-top: 0.5rem; /* 위 여백 */
   margin-left: 1.5rem; /* 위 여백 */
   display: block; /* 블록 요소로 설정 */

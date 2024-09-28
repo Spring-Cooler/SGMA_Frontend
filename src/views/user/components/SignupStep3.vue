@@ -1,12 +1,12 @@
+<!-- Step 3: 닉네임 입력 및 회원가입 -->
 <template>
   <div class="modal-overlay">
     <div class="modal-content">
       <button class="close-btn" @click="closeModal">×</button>
 
-      <!-- 페이지 번호 표시 -->
       <div class="page-indicator">
         <span>3</span>
-        <span>3</span> <!-- Step 3 of 3 -->
+        <span>3</span>
       </div>
 
       <div class="modal-header">
@@ -15,7 +15,6 @@
 
       <div class="modal-body">
         <div class="message-container">
-          <!-- 1번: 인사말 -->
           <p class="first-text">마지막이에요!</p>
           <p class="second-text">프로필 사진과 닉네임을 설정해주세요.</p>
         </div>
@@ -29,21 +28,13 @@
             </div>
           </label>
           <input type="text" placeholder="닉네임 입력" v-model="nickname" maxlength="10" />
+          <span v-if="nicknameError" class="error-text">{{ nicknameError }}</span>
         </div>
       </div>
 
       <div class="modal-footer">
-        <YesNoButton
-          type="cancel"
-          label="이전"
-          @click="goToPreviousStep"
-        />
-        <YesNoButton
-          type="complete"
-          label="완료"
-          @click="completeSignup"
-          :disabled="!canComplete"
-        />
+        <YesNoButton type="cancel" label="이전" @click="goToPreviousStep" />
+        <YesNoButton type="complete" label="완료" @click="completeSignup" :disabled="!canComplete" />
       </div>
     </div>
   </div>
@@ -52,13 +43,33 @@
 <script setup>
 import { ref, computed } from 'vue';
 import YesNoButton from '@/components/common/YesNoButton.vue'; // YesNoButton 컴포넌트 임포트
+import { signupUser } from '@/api/user.js'; // 회원가입 API 함수 임포트
+import { useRouter } from 'vue-router'; // vue-router 임포트
 
 // 외부에서 받아온 이벤트 정의
-const emit = defineEmits(['close', 'goToStep2', 'complete']); // complete 이벤트 추가
+const emit = defineEmits(['close', 'goToStep2']);
+const props = defineProps({
+  username: {
+    type: String,
+    required: true,
+  },
+  password: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+});
+
+// 라우터 사용 설정
+const router = useRouter();
 
 // 닉네임과 프로필 사진을 위한 데이터
 const nickname = ref('');
 const profilePicture = ref('');
+const nicknameError = ref('');
 
 // 닉네임과 프로필 사진이 모두 입력되어야만 완료 버튼이 활성화됨
 const canComplete = computed(() => {
@@ -84,14 +95,35 @@ const closeModal = () => {
 
 // 이전 단계로 이동
 const goToPreviousStep = () => {
-  emit('goToStep2'); // Step2로 이동
+  emit('goToStep2'); // Step 2로 이동
 };
 
 // 회원가입 완료 함수
-const completeSignup = () => {
-  if (canComplete.value) {
-    console.log('회원가입 완료 클릭됨');
-    emit('complete'); // 부모 컴포넌트에 회원가입 완료 이벤트 발생
+const completeSignup = async () => {
+  nicknameError.value = '';
+
+  if (!canComplete.value) {
+    return;
+  }
+
+  try {
+    // 최종 회원가입 API 호출
+    await signupUser({
+      user_auth_id: props.username,  // Step 2에서 전달받은 아이디
+      password: props.password,      // Step 2에서 전달받은 비밀번호
+      user_name: props.username,     // 임시로 username을 user_name으로 사용
+      nickname: nickname.value,      // 입력된 닉네임
+      email: props.email,            // Step 2에서 전달받은 이메일
+      signup_path: 'NORMAL',         // 회원가입 경로, NORMAL 설정
+    });
+
+    alert('회원가입이 완료되었습니다! 홈 화면으로 이동합니다.');
+
+    // 모달을 닫고 홈 화면으로 이동
+    closeModal(); // 모달 닫기
+    router.push('/'); // 홈 화면으로 이동
+  } catch (error) {
+    nicknameError.value = '회원가입에 실패했습니다. 다시 시도해주세요.';
   }
 };
 </script>
@@ -265,7 +297,7 @@ input[type="text"] {
   width: 140px;
   height: 40px;
   padding: 0.8rem;
-  border: 1.5px solid #C5CCD2;
+  border: 1.5px solid #c5ccd2;
   border-radius: 5px;
   font-size: 1.6rem;
   text-align: center; /* 텍스트 가운데 정렬 */

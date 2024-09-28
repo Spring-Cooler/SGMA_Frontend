@@ -108,7 +108,41 @@ export const getUserComments = async (userId, accessToken) => {
   }
 };
 
+/**
+ * 닉네임 중복 확인 함수
+ * @param {String} nickname - 확인할 닉네임
+ * @returns {Object} 중복 여부 데이터
+ */
+export const validateNickname = async (nickname) => {
+  try {
+    const response = await axios.post('/user-service/api/users/nickname/validate', {
+      nickname: nickname
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('validateNickname 에러:', error);
+    throw error;
+  }
+};
 
+/**
+ * 사용자 인증 ID 중복 확인 함수
+ * @param {String} userAuthId - 확인할 사용자 인증 ID
+ * @returns {Object} 중복 여부 데이터
+ */
+export const validateUserAuthId = async (userAuthId) => {
+  try {
+    const response = await axios.post('/user-service/api/users/user-id/validate', 
+      {
+        user_auth_id: userAuthId
+      },
+    );
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('validateUserAuthId 에러:', error);
+    throw error;
+  }
+};
 
 /**
  * 회원가입 시 인증번호 이메일 전송 함수

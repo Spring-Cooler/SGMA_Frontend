@@ -190,7 +190,8 @@ const closeModal = () => {
 
 // 다음 버튼 활성화 여부 계산
 const canProceed = computed(() => {
-  return name.value !== '' && isEmailValid.value && isVerified.value; // 이름, 유효한 이메일, 인증 성공 여부 확인
+  // return name.value !== '' && isEmailValid.value && isVerified.value; // 이름, 유효한 이메일, 인증 성공 여부 확인
+  return true;
 });
 
 // 로그인 모달로 이동
