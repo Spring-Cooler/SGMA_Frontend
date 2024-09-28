@@ -91,6 +91,12 @@ const toggleLike = () => {
     gap: 1rem;
 }
 
+.writer-info img {
+        height: 4.8rem;
+        width: 4.8rem;
+        border-radius: 50%;
+}
+
 .post-actions {
   display: flex;
   align-items: center;
@@ -108,10 +114,26 @@ const toggleLike = () => {
   align-items: center;
   font-size: 2rem;
   color: #888;
+  gap: 1rem;
 }
 
-.like-count i, .comment-count i {
-  margin-right: 1rem;
+.like-count i {
   transition: color 0.3s;
+}
+
+.like-heart {
+  animation: like-animation 0.5s ease-out; /* 애니메이션 0.5초 동안 실행 */
+}
+
+@keyframes like-animation {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.5); /* 커지는 애니메이션 */
+  }
+  100% {
+    transform: scale(1);
+  }
 }
 </style>

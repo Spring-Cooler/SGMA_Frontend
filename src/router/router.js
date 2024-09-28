@@ -60,7 +60,7 @@ const routes = [
     component: StudyMemberManagePage
   },
   {
-    path: "/study-groups/1/boards/:id",
+    path: "/study-groups/:groupId/boards/:boardId",
     name: "StudyBoardDetailPage",
     component: StudyBoardDetailPage,
     props: true

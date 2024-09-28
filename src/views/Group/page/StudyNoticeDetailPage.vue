@@ -36,6 +36,7 @@
         }
     })
     const router = useRouter();
+    const isValid = ref(true);
 
     const item = ref({});
     const loading = ref(true);
@@ -65,6 +66,9 @@
         let response; // response 변수를 미리 선언
 
         response = await axios.get(`/api/study-group/notices/${props.id}`);
+        if(response.data.data===null) {
+            throw response.data.error;
+        }
         item.value = response.data.data;
 
         title.value = item.value.title;
@@ -82,8 +86,9 @@
 
       } catch (error) {
         console.error(error);
+        isValid.value = false;
       } finally {
-        loading.value = false;
+        (isValid.value) ? loading.value = false : loading.value = true;
       }
     }
 
@@ -93,8 +98,10 @@
 
     const confirm = async () => {
         let response = await axios.delete(`/api/study-group/notices/${props.id}`);
-        modalVisibility.value = false;
-        router.go(-1);
+        if(response.success) {
+            modalVisibility.value = false;
+            router.go(-1);
+        }
     }
 
     const cancel = () => {
