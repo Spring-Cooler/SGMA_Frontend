@@ -4,6 +4,12 @@
 	<main class="main">
 		<div class="main-content">
 			<Title>{{ schedule.title }}</Title>
+			<div class="schedule-buttons">
+				<button
+					:class="{ 'btn': true, 'orange': !participate, 'sunset-orange': participate, 'btn-participate': true }"
+					@click="toggleParticipate">{{
+						participate ? '참여 취소' : '일정 참여' }}</button>
+			</div>
 			<div class="schedule-content">
 				<!-- schedule body container -->
 				<p class="schedule-subtitle"><i class="fa-regular fa-calendar"></i> <strong>일정 시작 시간:</strong> {{
@@ -22,14 +28,12 @@
 
 
 			</div>
-			<br>
-			<div>
+
+			<div class="schedule-buttons" v-if="participate && schedule.testStatus">
 				<!-- buttons -->
-				<div class="schdule-buttons" v-if="participate">
-					<button class="btn">문제 출제하기</button>
-					<button class="btn">시험 응시</button>
-				</div>
-				<button class="btn" v-else @click="participateInSchedule">일정 참여</button>
+				<button class="btn">문제 출제</button>
+				<button class="btn" @click="goToExamPage">시험 응시</button>
+
 			</div>
 		</div>
 
@@ -94,16 +98,31 @@ onMounted(() => {
 });
 
 // 스케줄 목록으로 돌아가기
-const goBack = () => {
-	router.push('/study-schedule');
-};
+const goToExamPage = () => {
+	const scheduleId = 1;
+	router.push(`/exams/${scheduleId}`);
+}
 
-const participateInSchedule = () => {
-	participate.value = true;
+const toggleParticipate = () => {
+	participate.value = !participate.value;
+	schedule.value.numParticipants += (participate.value ? 1 : -1);
 }
 </script>
 
 <style scoped>
+.btn-participate {
+	margin-right: 3rem;
+}
+
+.schedule-buttons {
+	width: 100%;
+	display: flex;
+	flex-direction: row;
+	justify-content: right;
+	gap: 2rem;
+}
+
+
 .schedule-content {
 	width: 100%;
 	margin-top: 5.3rem;
@@ -114,37 +133,13 @@ const participateInSchedule = () => {
 
 .schedule-subtitle {
 	font-size: 2rem;
-}
-
-.schdule-buttons {
-	display: flex;
-	flex-direction: row;
-	gap: 2rem;
-	justify-content: right;
-}
-
-h1 {
-	font-size: 3rem;
-	margin-bottom: 1rem;
-}
-
-p {
-	font-size: 1.5rem;
 	margin: 0.5rem 0;
 }
 
 
-.btn.back {
-	margin-top: 1rem;
-	padding: 10px 20px;
-	background-color: #8bc34a;
-	color: white;
-	border: none;
-	border-radius: 5px;
-	cursor: pointer;
-}
 
-.btn.back:hover {
-	background-color: #7aae42;
+h1 {
+	font-size: 3rem;
+	margin-bottom: 1rem;
 }
 </style>

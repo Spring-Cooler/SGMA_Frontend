@@ -213,8 +213,7 @@ const closeCreateForm = () => {
   background-color: #0069d9;
 }
 
-.btn.remove {
-  background-color: orange;
+.btn {
   color: white;
 }
 
