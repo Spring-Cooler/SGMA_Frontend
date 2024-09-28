@@ -58,9 +58,7 @@ const emit = defineEmits(['close', 'goToStep1']);
 
 // 상태와 메서드 `inject`로 받아오기
 const token = inject('token'); // 토큰 상태
-const user = inject('user'); // 사용자 상태
 const setTokenData = inject('setTokenData'); // 토큰 데이터 설정 함수
-const setUserData = inject('setUserData'); // 사용자 데이터 설정 함수
 
 const username = ref('');
 const password = ref('');
@@ -84,6 +82,7 @@ const eyeClosed = eyeClosedIcon; // 비밀번호 숨김 아이콘 경로
 const togglePasswordVisibility = () => {
   passwordVisible.value = !passwordVisible.value;
 };
+
 // 로그인 처리 함수
 const login = async () => {
   // 기존 에러 메시지 초기화
@@ -110,8 +109,16 @@ const login = async () => {
 
     if (response.data.success) {
       // 로그인 성공 시 토큰 데이터를 설정 (setTokenData 사용)
-      setTokenData(response.data.data); // 토큰 정보 설정
-      await getUserInfo(response.data.data.access_token); // 사용자 정보 가져오기
+      const tokenData = {
+        user_identifier: response.data.data.user_identifier,
+        access_token: response.data.data.access_token,
+        access_token_expiry: response.data.data.access_token_expiry,
+        refresh_token: response.data.data.refresh_token,
+        refresh_token_expiry: response.data.data.refresh_token_expiry,
+      };
+
+      setTokenData(tokenData); // 토큰 정보 설정
+
       closeModal(); // 모달 닫기
     } else {
       // 서버에서 반환한 오류 메시지 표시
@@ -129,41 +136,6 @@ const login = async () => {
     }
   }
 };
-
-// 사용자 정보 조회 함수
-const getUserInfo = async (accessToken) => {
-  try {
-    const response = await axios.get('/user-service/api/users/user-id/17', {
-      headers: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    });
-
-    if (response.data.success) {
-      // 사용자 정보 설정 (setUserData 사용, password는 제외)
-      setUserData({
-        user_id: response.data.data.user_id,
-        user_name: response.data.data.user_name,
-        user_auth_id: response.data.data.user_auth_id,
-        nickname: response.data.data.nickname,
-        email: response.data.data.email,
-        user_status: response.data.data.user_status,
-        created_at: response.data.data.created_at,
-        withdrawn_at: response.data.data.withdrawn_at,
-        profile_image: response.data.data.profile_image,
-        accept_status: response.data.data.accept_status,
-        signup_path: response.data.data.signup_path,
-        user_identifier: response.data.data.user_identifier
-      });
-    } else {
-      usernameError.value = '사용자 정보를 가져오지 못했습니다.';
-    }
-  } catch (error) {
-    console.error('사용자 정보 조회 오류:', error);
-    usernameError.value = '사용자 정보 조회에 실패했습니다.';
-  }
-};
-
 
 // 회원가입 모달로 이동
 const goToRegister = () => {
@@ -188,6 +160,11 @@ const goToRegister = () => {
 }
 
 .modal-content {
+  display: flex; /* Flexbox 레이아웃 사용 */
+  flex-direction: column; /* 수직 정렬 */
+  align-items: center; /* 수평 가운데 정렬 */
+  justify-content: center;
+
   background-color: white;
   border-radius: 10px;
   width: 400px;
@@ -224,7 +201,7 @@ const goToRegister = () => {
 
 .modal-header h2 {
   margin: 2rem;
-  font-size: 6rem;
+  font-size: 5rem;
   color: #a1b872;
 }
 
@@ -243,15 +220,6 @@ const goToRegister = () => {
   position: relative;
   display: flex;
   align-items: center;
-}
-
-.modal-body input {
-  width: 360px;
-  height: 40px;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 1.6rem;
 }
 
 /* 눈 아이콘 스타일링 */
