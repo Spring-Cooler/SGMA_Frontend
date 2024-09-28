@@ -14,7 +14,7 @@ import { reactive } from 'vue';
 
 const props = defineProps({
     boardId: {
-        type: Number,
+        type: String,
         required: true,
     }
 })
@@ -64,7 +64,7 @@ const addComment = async () => {
   display: flex;
   justify-content: right;
   align-items: flex-start;
-  margin-bottom: 10rem;
+  margin-bottom: 7.5rem;
   width: 100%;
 }
 

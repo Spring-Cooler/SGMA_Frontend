@@ -9,12 +9,16 @@
                 <div class="post-container loading" v-if="loading">Loading...</div>
                 <div class="post-container" v-else>
                     <Title>{{title}}</Title>
-                    <PostHeader :data="headerData" :isNotice="false" @deletePost="toggleModal"></PostHeader>
+                    <PostHeader :data="headerData" :isNotice="false" @modifyPost="goModifyPost" @deletePost="toggleModal"></PostHeader>
                     <PostBody :data="bodyData" :isPerm="true"></PostBody>
                     <DeleteModal :isVisible="modalVisibility" @confirm="deletePost" @cancel="toggleModal">해당 게시글을 삭제하시겠습니까?</DeleteModal>
                     <CommentHeader :data="headerData" :boardId="props.boardId" @add="addComment"></CommentHeader>
                     <CommentBody v-for="(commentDetail, index) in commentList" :key="index">
-                        <Comment :data="commentDetail" @remove="deleteComment" :commentId="commentDetail.comment_id"></Comment>
+                        <Comment :data="commentDetail" @add="addReply()" @remove="deleteComment(commentDetail.comment_id)" :commentId="commentDetail.comment_id">
+                            <ReplyBody v-for="(replyDetail, replyIndex) in replyList[commentDetail.comment_id]" :key="replyIndex">
+                                <Reply :data="replyDetail" @remove="deleteReply(replyDetail.reply_id, commentDetail.comment_id)" :replyId="replyDetail.reply_id"></Reply>
+                            </ReplyBody>
+                        </Comment>
                     </CommentBody>
                 </div>
             </div>
@@ -32,24 +36,28 @@
     import CommentHeader from '@/components/layouts/CommentHeader.vue';
     import CommentBody from '@/components/layouts/CommentBody.vue';
     import Comment from '@/components/common/Comment.vue';
+    import Reply from '@/components/common/Reply.vue';
     import { ref, onMounted } from 'vue';
+    import { useStore } from 'vuex';
     import { useRouter } from 'vue-router';
     import axios from 'axios';
+import ReplyBody from '@/components/layouts/ReplyBody.vue';
 
     const props = defineProps({
         groupId: {
-            type: Number,
+            type: String,
             required: true
         },
         boardId: {
-            type: Number,
+            type: String,
             required: true
         }
     })
     const router = useRouter();
-    const isValid = ref(true);
+    const store = useStore();
 
     const commentList = ref([]);
+    const replyList = ref({});
 
     const boardDetail = ref({});
     const loading = ref(true);
@@ -81,7 +89,11 @@
         let response; // response 변수를 미리 선언
 
         response = (await axios.get(`/api/study-group/boards/${props.boardId}`)).data;
-        if(!response.success) return;
+        if (!response.success) {
+            return;
+        }
+
+        loading.value = false;
         boardDetail.value = response.data;
 
         title.value = boardDetail.value.title;
@@ -98,22 +110,39 @@
         content.value = boardDetail.value.content;
       } catch (error) {
         console.error(error);
-        isValid.value = false;
-      } finally {
-        (isValid.value) ? loading.value = false : loading.value = true;
       }
     }
 
     const fetchComments = async () => {
       try {
-        let response = (await axios.get(`/api/study-group/board/comments/board-id/${props.boardId}`)).data;
-        comments.value = response.data.length;
-        if(typeof response !== 'undefined')
-            commentList.value = response.data;
+        let response = await axios.get(`/api/study-group/board/comments/board-id/${props.boardId}`);
+        if (response.data.success && response.data.data) {
+            comments.value = response.data.data.length;
+            commentList.value = response.data.data;
+            for(const comment of commentList.value) {
+                fetchReplies(comment.comment_id);
+            }
+        }
       } catch (error) {
         console.error(error);
       }
     }
+
+    const fetchReplies = async (commentId) => {
+        try {
+            let response = await axios.get(`/api/study-group/board/replies/comment-id/${commentId}`);
+            if (response.data.success && response.data.data) {
+                comments.value += response.data.data.length;
+                replyList.value[commentId] = response.data.data;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const toggleModal = () => {
+        modalVisibility.value = !modalVisibility.value;
+    };
 
     const addComment = async () => {
         await fetchComments();
@@ -122,20 +151,38 @@
         })
     }
 
-    const toggleModal = () => {
-        modalVisibility.value = !modalVisibility.value;
-    };
-
-    const deleteComment = async () => {
+    const addReply = async () => {
         await fetchComments();
+    }
+
+    const deleteComment = async (commentId) => {
+        // 댓글 리스트에서 해당 댓글 제거
+        commentList.value = commentList.value.filter(comment => comment.comment_id !== commentId);
+        comments.value -= 1; // 댓글 수 감소
+    }
+
+    const deleteReply = async (replyId, commentId) => {
+        // 대댓글 리스트에서 해당 대댓글 제거
+        replyList.value[commentId] = replyList.value[commentId].filter(reply => reply.reply_id !== replyId);
+        comments.value -= 1; // 댓글 수 감소
     }
 
     const deletePost = async () => {
         let response = (await axios.delete(`/api/study-group/boards/${props.boardId}`)).data;
         if (response.success) {
             modalVisibility.value = false;
-            router.go(-1);
+            router.push(`/study-groups/1/boards`);
         }
+    }
+
+    const goModifyPost = () => {
+        store.commit('setPostData', {
+            id: props.boardId,
+            title: title.value,
+            content: content.value,
+            post_type: 'board',
+        });
+        router.push(`/study-groups/1/boards/${props.boardId}/modify`);
     }
 
     onMounted(() => {
@@ -148,13 +195,17 @@
     .post-container {
         display: flex;
         flex-direction: column;
-        justify-content: center;
         align-items: center;
         width: 100%;
         min-height: 100vh;
     }
 
     .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
         font-size: 4rem;
     }
 </style>

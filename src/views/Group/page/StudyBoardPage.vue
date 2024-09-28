@@ -9,7 +9,7 @@
         <main class="main">
             <div class="main-content">
                 <Title>스터디 자유게시판</Title>
-                <SearchBar path="/study-groups/1/boards"></SearchBar>
+                <SearchBar path="/study-groups/1/boards" postType="board"></SearchBar>
                 <div class="board-info">
                   <div class="board-no">번호</div>
                   <div class="board-title">제목</div>

@@ -22,17 +22,18 @@
     </div>
     <div class="reply-input-container">
         <div v-if="isReplying" class="reply-input-wrapper">
-            <input v-model="replyText" class="reply-input" placeholder="답글을 입력하세요..." />
+            <input v-model="data.content" class="reply-input" placeholder="답글을 입력하세요..." />
         </div>
         <div v-if="isReplying" class="btn-container">
             <TinyButton class="btn " @click="submitReply" label="등록"></TinyButton>
             <TinyButton class="btn light-gray" @click="toggleReply" label="취소"></TinyButton>
         </div>
     </div>
+    <slot></slot>
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 import TinyButton from './TinyButton.vue';
 import axios from 'axios';
 import DeleteModal from './DeleteModal.vue';
@@ -48,22 +49,31 @@ const props = defineProps({
   }
 })
 
-const emit = defineEmits(['remove']);
+const data = reactive({
+    content: '',
+    member_id: 1,
+    comment_id: props.commentId,
+});
+
+const emit = defineEmits(['add','remove']);
 
 const isReplying = ref(false); // 답글 입력 창 상태 관리
-const replyText = ref(''); 
 const modalVisibility = ref(false);
 
 const toggleReply = () => {
   isReplying.value = !isReplying.value;
-  replyText.value = ''; // 입력 창 초기화
+  data.content = '';
 };
 
-const submitReply = () => {
-  if (replyText.value.trim()) {
-    // 여기서 실제로 답글을 추가하는 로직을 구현해야 함
-    console.log('등록된 답글:', replyText.value);
-    toggleReply(); // 답글 입력 창 닫기
+const submitReply = async () => {
+  try {
+    let response = (await axios.post(`/api/study-group/board/replies`, data)).data;
+    if(response.success) {
+      toggleReply(); // 답글 입력 창 닫기
+      emit('add');
+    } 
+  } catch (error) {
+    console.error(error);
   }
 };
 

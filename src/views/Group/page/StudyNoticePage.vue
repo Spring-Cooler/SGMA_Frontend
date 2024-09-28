@@ -9,7 +9,7 @@
     <main class="main">
       <div class="main-content">
         <Title>스터디 공지사항</Title>
-        <SearchBar path="/study-groups/1/notices"></SearchBar>
+        <SearchBar path="/study-groups/1/notices" postType="notice"></SearchBar>
         <div class="notice-info">
           <div class="notice-no">번호</div>
           <div class="notice-title">제목</div>
