@@ -9,7 +9,7 @@
 		<!-- Action Buttons -->
 		<div class="event-actions">
 			<button class="btn popsicle" @click.stop="modifyEvent">Modify</button>
-			<button class="btn remove" @click.stop="removeEvent">Remove</button>
+			<button class="btn sunset-orange" @click.stop="removeEvent">Remove</button>
 		</div>
 	</li>
 </template>

@@ -35,7 +35,7 @@ import TinyButton from '@/components/common/TinyButton.vue';
 import Member from '../components/Member.vue';
 import DeleteModal from '@/components/common/DeleteModal.vue';
 import axios from 'axios';
-import { ref, reactive, onMounted, watch } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 const items = ref([]);
