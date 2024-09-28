@@ -13,19 +13,21 @@
                 <div class="reply-btn-wrapper">
                     <span class="reply-btn"  @click="toggleReply">답글달기</span>
                 </div>
-                <div v-if="isReplying" class="reply-input-container">
-                  <input v-model="replyText" class="reply-input" placeholder="답글을 입력하세요..." />
-                </div>
-                <div v-if="isReplying" class="btn-container">
-                  <TinyButton class="btn " @click="submitReply" label="등록"></TinyButton>
-                  <TinyButton class="btn light-gray" @click="toggleReply" label="취소"></TinyButton>
-                </div>
             </div>
         </div>
         <button class="delete-btn" @click="toggleModal">
             <span>x</span>
         </button>
         <DeleteModal :isVisible="modalVisibility" @confirm="deleteComment" @cancel="toggleModal">해당 댓글을 삭제하시겠습니까?</DeleteModal>
+    </div>
+    <div class="reply-input-container">
+        <div v-if="isReplying" class="reply-input-wrapper">
+            <input v-model="replyText" class="reply-input" placeholder="답글을 입력하세요..." />
+        </div>
+        <div v-if="isReplying" class="btn-container">
+            <TinyButton class="btn " @click="submitReply" label="등록"></TinyButton>
+            <TinyButton class="btn light-gray" @click="toggleReply" label="취소"></TinyButton>
+        </div>
     </div>
 </template>
 
@@ -157,9 +159,21 @@ function formatDate(isoDateStr) {
     border: none;
 }
 
+.reply-input-container {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  width: 100rem;
+  margin-left: 5.8rem;
+}
+
+.reply-input-wrapper {
+  display: flex;
+}
+
 .reply-input {
   height: 4rem;
-  width: 100rem;
+  width: 100%;
   padding: 1rem;
   border: 1px solid #ddd;
   border-radius: 1rem;
