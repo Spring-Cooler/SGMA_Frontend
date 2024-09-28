@@ -107,3 +107,131 @@ export const getUserComments = async (userId, accessToken) => {
     throw error;
   }
 };
+
+
+
+/**
+ * 회원가입 시 인증번호 이메일 전송 함수
+ * @param {String} email - 인증번호를 받을 이메일 주소
+ * @returns {Object} API 응답 데이터
+ */
+export const sendSignupVerificationEmail = async (email) => {
+  try {
+    const response = await axios.post('/user-service/api/users/verification-email/signup', {
+      email: email
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('sendSignupVerificationEmail 에러:', error);
+    throw error;
+  }
+};
+
+/**
+ * 아이디 찾기 시 인증번호 이메일 전송 함수
+ * @param {String} nickname - 닉네임
+ * @param {String} email - 인증번호를 받을 이메일 주소
+ * @returns {Object} API 응답 데이터
+ */
+export const sendAuthIdVerificationEmail = async (nickname, email) => {
+  try {
+    const response = await axios.post('/user-service/api/users/verification-email/auth-id', {
+      nickname: nickname,
+      email: email
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('sendAuthIdVerificationEmail 에러:', error);
+    throw error;
+  }
+};
+
+
+/**
+ * 비밀번호 찾기 시 인증번호 이메일 전송 함수
+ * @param {String} userAuthId - 사용자 인증 ID
+ * @param {String} email - 인증번호를 받을 이메일 주소
+ * @returns {Object} API 응답 데이터
+ */
+export const sendPasswordResetVerificationEmail = async (userAuthId, email) => {
+  try {
+    const response = await axios.post('/user-service/api/users/verification-email/user-password', {
+      user_auth_id: userAuthId,
+      email: email
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('sendPasswordResetVerificationEmail 에러:', error);
+    throw error;
+  }
+};
+
+
+/**
+ * 인증번호 확인 함수
+ * @param {String} email - 인증번호가 전송된 이메일 주소
+ * @param {String} code - 입력한 인증번호
+ * @returns {Object} API 응답 데이터
+ */
+export const confirmVerificationCode = async (email, code) => {
+  try {
+    const response = await axios.post('/user-service/api/users/verification-email/confirmation', {
+      email: email,
+      code: code
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('confirmVerificationCode 에러:', error);
+    throw error;
+  }
+};
+
+
+/**
+ * 일반 회원가입 함수
+ * @param {Object} userData - 회원가입 데이터 (user_auth_id, user_name, password, nickname, email, signup_path)
+ * @returns {Object} API 응답 데이터
+ */
+export const signupUser = async (userData) => {
+  try {
+    const response = await axios.post('/user-service/api/users/signup/normal', userData);
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('signupUser 에러:', error);
+    throw error;
+  }
+};
+
+/**
+ * 카카오 로그인 함수
+ * @param {String} code - 카카오 OAuth 인증 코드
+ * @returns {Object} API 응답 데이터
+ */
+export const kakaoLogin = async (code) => {
+  try {
+    const response = await axios.post('/user-service/api/users/oauth2/kakao', {
+      code: code
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('kakaoLogin 에러:', error);
+    throw error;
+  }
+};
+
+/**
+ * 네이버 로그인 함수
+ * @param {String} code - 네이버 OAuth 인증 코드
+ * @returns {Object} API 응답 데이터
+ */
+export const naverLogin = async (code) => {
+  try {
+    const response = await axios.post('/user-service/api/users/oauth2/naver', {
+      code: code
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('naverLogin 에러:', error);
+    throw error;
+  }
+};
