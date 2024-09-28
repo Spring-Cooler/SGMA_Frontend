@@ -88,7 +88,17 @@ const uploadPost = async () => {
         default: console.error("게시글 타입 에러");
     }
     if(response.success) {
-        router.go(-1);
+        switch (postData.value.post_type) {
+            case 'board':
+                router.push(`/study-groups/${route.params.groupId}/boards/${response.data.board_id}`); 
+                break;
+            case 'notice': 
+                router.push(`/study-groups/${route.params.groupId}/notices/${response.data.notice_id}`); 
+                break;
+            case 'schedule': 
+                break;
+            default: console.error("게시글 타입 에러");
+        }
     }
 }
 

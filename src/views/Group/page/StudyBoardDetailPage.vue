@@ -171,7 +171,7 @@ import ReplyBody from '@/components/layouts/ReplyBody.vue';
         let response = (await axios.delete(`/api/study-group/boards/${props.boardId}`)).data;
         if (response.success) {
             modalVisibility.value = false;
-            router.go(-1);
+            router.push(`/study-groups/1/boards`);
         }
     }
 

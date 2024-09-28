@@ -97,7 +97,7 @@
         let response = (await axios.delete(`/api/study-group/notices/${props.noticeId}`)).data;
         if(response.success) {
             modalVisibility.value = false;
-            router.go(-1);
+            router.push(`/study-groups/1/notices`);
         }
     }
 
