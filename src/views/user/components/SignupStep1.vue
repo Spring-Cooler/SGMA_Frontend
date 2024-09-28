@@ -135,12 +135,6 @@ const goToLogin = () => {
 
 // 다음 단계로 이동하는 함수
 const goToNextStep = () => {
-  // if (isButtonClicked) return; // 이미 버튼이 클릭된 상태라면 함수 종료
-  // isButtonClicked = true; // 버튼 클릭 상태로 변경
-  // setTimeout(() => {
-  //   isButtonClicked = false; // 500ms 후에 클릭 상태 초기화
-  // }, 500);
-
   if (canProceed.value) {
     console.log('Next step button clicked'); // 클릭 로그 확인
     emit('goToStep2'); // 'next' 대신 구체적인 단계명 지정
