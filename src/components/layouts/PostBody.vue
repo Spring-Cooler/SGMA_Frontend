@@ -14,7 +14,6 @@
 import StartDate from '@/components/common/StartDate.vue';
 import EndDate from '@/components/common/EndDate.vue';
 import PostContent from '@/components/common/PostContent.vue';
-import { ref } from 'vue';
 
 const props = defineProps({
         data: {
