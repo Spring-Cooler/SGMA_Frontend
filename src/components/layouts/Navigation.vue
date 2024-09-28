@@ -83,10 +83,8 @@ import defaultProfileImage from '@/assets/images/default_profile.svg';
 const router = useRouter();
 
 // 사용자 정보 및 로그인 상태 주입받기
-const user = inject('user');
 const token = inject('token');
 const setTokenData = inject('setTokenData');
-const setUserData = inject('setUserData');
 
 const isLoggedIn = ref(false); // 로그인 상태 확인
 const isDropdownVisible = ref(false); // 드롭다운 메뉴 상태
@@ -110,7 +108,7 @@ const toggleDropdown = () => {
 	isDropdownVisible.value = !isDropdownVisible.value;
 };
 
-// 마이페이지로 이동
+// 홈 페이지로 이동
 const navigateToHome = () => {
 	router.push('/');
 };
@@ -121,36 +119,26 @@ const navigateToMypage = () => {
 	router.push('/mypage');
 	isDropdownVisible.value = false; // 드롭다운 닫기
 };
-
 // 로그아웃 처리
 const logout = () => {
-	// 토큰과 사용자 정보를 초기화
-	setTokenData({ access_token: null, access_token_expiry: null, refresh_token: null, refresh_token_expiry: null });
-	setUserData({
-	user_id: null,
-	user_auth_id: null,
-	user_identifier: null,
-	user_name: null,
-	nickname: null,
-	email: null,
-	user_status: null,
-	created_at: null,
-	withdrawn_at: null,
-	profile_image: null,
-	accept_status: null,
-	signup_path: null,
-	});
+  // 토큰과 사용자 정보를 초기화
+  setTokenData({
+    user_identifier: null,
+    access_token: null,
+    access_token_expiry: null,
+    refresh_token: null,
+    refresh_token_expiry: null,
+  });
 
-	// localStorage 비우기
-	localStorage.removeItem('token');
-	localStorage.removeItem('user');
+  // localStorage 초기화
+  localStorage.removeItem('token');
+  localStorage.removeItem('userId');
 
-	// 로그인 상태와 드롭다운 초기화
-	isLoggedIn.value = false;
-	isDropdownVisible.value = false;
+  // 로그인 상태 갱신
+  isLoggedIn.value = false;
 
-	// 로그인 페이지로 이동 (또는 다른 페이지)
-	router.push('/');
+  // 로그아웃 후 홈으로 이동
+  router.push('/');
 };
 
 // 모달 상태 변수
