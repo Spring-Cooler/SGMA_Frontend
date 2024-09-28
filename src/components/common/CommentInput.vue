@@ -64,7 +64,7 @@ const addComment = async () => {
   display: flex;
   justify-content: right;
   align-items: flex-start;
-  margin-bottom: 10rem;
+  margin-bottom: 7.5rem;
   width: 100%;
 }
 

@@ -17,7 +17,7 @@
                 </span>
             </div>
             <TinyButton class="light-gray" label="목록" @click="goBack"></TinyButton>
-            <TinyButton class="light-gray" label="수정"></TinyButton>
+            <TinyButton class="light-gray" label="수정" @click="modifyPost"></TinyButton>
             <TinyButton class="sunset-orange" label="삭제" @click="deletePost"></TinyButton>
         </div>
     </div>
@@ -43,11 +43,15 @@ const props = defineProps({
 const isLiked = ref(false); // 좋아요 상태를 관리
 const likeCount = ref(props.data.likes);  // 좋아요 수를 관리
 const isAnimating = ref(false); // 좋아요 애니메이션 상태 관리
-const emit = defineEmits(['deletePost'])
+const emit = defineEmits(['modifyPost','deletePost']);
 const router = useRouter();
 
 const goBack = () => {
     router.go(-1);
+}
+
+const modifyPost = () => {
+    emit('modifyPost');
 }
 
 const deletePost = () => {
