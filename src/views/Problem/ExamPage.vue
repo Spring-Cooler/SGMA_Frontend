@@ -9,12 +9,12 @@
 			<section class="main-contents">
 				<div class="problem-container">
 					<div class="problem-content">
-						<p>{{ problemIndex }}. {{ current_problem.problem_content }}</p>
+						<p>{{ problemIndex + 1 }}. {{ current_problem.problem_content }}</p>
 					</div>
 					<form class="problem-choice">
-						<label for="" v-for="item in current_problem.choices">
-							<input type="radio" name="chk_ans" value="">
-							<p>{{ item }}</p>
+						<label for="" v-for="(item, index) in current_problem.choices">
+							<input type="radio" name="chk_ans">
+							<p>{{ index }}. {{ item }}</p>
 						</label>
 					</form>
 
@@ -25,7 +25,9 @@
 			<div class="info">문제 리스트</div>
 			<div class="menu-container">
 				<div class="top-menu-container">
-					<button type="button" id="btn1" class="btn problem-btn">1</button>
+					<button v-for="n in problemInfos.length" class="btn problem-btn" :key="n"
+						@click="problemIndex = n - 1; console.log(problemIndex)">{{ n }}</button>
+					<!-- <button type="button" id="btn1" class="btn problem-btn">1</button>
 					<button type="button" id="btn2" class="btn problem-btn">2</button>
 					<button type="button" id="btn3" class="btn problem-btn">3</button>
 					<button type="button" id="btn4" class="btn problem-btn">4</button>
@@ -34,7 +36,7 @@
 					<button type="button" id="btn7" class="btn problem-btn">7</button>
 					<button type="button" id="btn8" class="btn problem-btn">8</button>
 					<button type="button" id="btn9" class="btn problem-btn">9</button>
-					<button type="button" id="btn10" class="btn problem-btn">10</button>
+					<button type="button" id="btn10" class="btn problem-btn">10</button> -->
 				</div>
 				<div class="bottom-menu-container">
 					<button type="button" id="prev" class="btn move-btn">이전 문제</button>
@@ -47,20 +49,30 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import Title from '@/components/common/Title.vue';
+import { ref, watch } from 'vue';
 let problemIndex = ref(0);
-let problemInfos = ref([{
-	problemId: 1,
-	problem_content: "다음중 오륜기에 들어가는 색이 아닌 것은?",
-	problem_type: "MULTIPLE",
-	choices: ["빨간색", "파란색", "노란색", "보라색"]
-
-}])
+let problemInfos = ref([
+	{
+		problem_id: 1,
+		problem_content: "다음중 오륜기에 들어가는 색이 아닌 것은?",
+		problem_type: "MULTIPLE",
+		choices: ["빨간색", "파란색", "노란색", "보라색"]
+	},
+	{
+		problem_id: 2,
+		problem_content: "올림픽을 최초로 개최한 국가는?",
+		problem_type: "MULTIPLE",
+		choices: ["이탈리아", "스페인", "로마", "그리스"]
+	}])
 let current_problem = ref(problemInfos.value[problemIndex.value])
-console.log(problemInfos[problemIndex.value])
-console.log(current_problem.value)
+// console.log(problemInfos[problemIndex.value])
+// console.log(current_problem.value)
+watch(problemIndex, (newIndex) => {
+	current_problem.value = problemInfos.value[newIndex];
+})
 </script>
+
+
 <style scoped>
 body,
 html {
@@ -230,6 +242,7 @@ li {
 }
 
 .problem-btn {
+	color: black;
 	height: 6rem;
 	width: 6rem;
 }
@@ -240,6 +253,7 @@ li {
 }
 
 .move-btn {
+	color: black;
 	height: 8rem;
 	width: 18rem;
 }
