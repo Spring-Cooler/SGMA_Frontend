@@ -1,6 +1,6 @@
 <template>
   <section class="comments-section">
-    <h1>내가 모집글에 쓴 댓글 목록</h1>
+    <h1>내가 모집글에 쓴 댓글</h1>
     <div v-if="comments.length > 0" v-for="comment in comments" :key="comment.comment_id" class="comment-card">
       <p class="study-group-name">{{ comment.study_group_name }}</p> <!-- 스터디 그룹 이름 -->
       <h3>{{ comment.recruitment_board_title }}</h3> <!-- 게시글 제목 -->
@@ -43,7 +43,7 @@ const fetchUserComments = async () => {
     console.log("userId:", token.userId);
     console.log("accessToken:", token.accessToken);
     
-    const response = await getUserComments(6, token.accessToken);
+    const response = await getUserComments(token.userId, token.accessToken);
     console.log('API 응답 데이터:', response.data);
 
     if (response.data && response.data.comments) {
@@ -180,7 +180,8 @@ onMounted(fetchUserComments);
   position: absolute; /* 태그를 카드 안에서 상대적으로 위치 설정 */
   top: 1.5rem; /* 상단 위치 조정 */
   right: 1.5rem; /* 우측 위치 조정 */
-  background-color: #a1b872;
+  background-color: #ffff;
+  border: 1.2px solid #a1b872;
   width: 8rem;
   height: 3.2rem;
   font-size: 1.4rem; /* 폰트 크기 살짝 조정 */
@@ -188,13 +189,15 @@ onMounted(fetchUserComments);
   align-items: center; /* 수직 가운데 정렬 */
   justify-content: center; /* 수평 가운데 정렬 */
   text-align: center;
-  color: #fff; /* 글자 색상을 흰색으로 변경 */
+  color: #a1b872; /* 글자 색상을 흰색으로 변경 */
   border-radius: 5px; /* 둥근 모서리 */
 }
 
 /* 비활성 상태 태그 */
 .tag.inactive {
-  background-color: #ff6363; /* 비활성 상태일 때 색상 변경 */
+  color: #ff6363; /* 글자 색상을 흰색으로 변경 */
+  background-color: #ffff;
+  border: 1.2px solid #ff6363;
 }
 
 /* 댓글이 없을 때의 스타일 */
