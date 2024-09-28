@@ -19,20 +19,21 @@
 		</div>
 		<div class="user-profile" v-if="isLoggedIn">
 		<img
-			:src="user.profileImage || 'https://example.com/default-profile.png'"
+			:src="  defaultProfileImage || user.profileImage "
 			class="profile-avatar"
 			alt="프로필 이미지"
 			@click="toggleDropdown"
 		/>
 		<!-- 드롭다운 메뉴 -->
 		<div v-if="isDropdownVisible" class="dropdown-menu">
-			<button class="dropdown-item" @click="navigateToMypage">
-			<i class="fa-solid fa-user"></i> 마이페이지
-			</button>
-			<button class="dropdown-item" @click="logout">
-			<i class="fa-solid fa-right-from-bracket"></i> 로그아웃
-			</button>
-		</div>
+  <button class="dropdown-item" @click="navigateToMypage">
+    <i class="fa-solid fa-user custom-icon"></i> 마이페이지
+  </button>
+  <button class="dropdown-item" @click="logout">
+    <i class="fa-solid fa-right-from-bracket custom-icon"></i> 로그아웃
+  </button>
+</div>
+
 		</div>
 	</div>
 
@@ -77,7 +78,8 @@ import SignupStep1 from '@/views/user/components/SignupStep1.vue';
   import SignupStep2 from '@/views/user/components/SignupStep2.vue';
   import SignupStep3 from '@/views/user/components/SignupStep3.vue';
   import PrivacyPolicyModal from '@/views/user/components/PrivacyPolicyModal.vue'; // PrivacyPolicyModal
-
+// 기본 프로필 이미지 import
+import defaultProfileImage from '@/assets/images/default_profile.svg';
 const router = useRouter();
 
 // 사용자 정보 및 로그인 상태 주입받기
@@ -296,7 +298,7 @@ margin: 0 1.5rem; /* 좌우 여백으로 위치 조정 */
 display: flex;
 align-items: center;
 justify-content: center;
-width: 12rem; /* 고정 너비 설정 */
+width: 10rem; /* 고정 너비 설정 */
 gap: 1rem; /* 여백 조정 */
 }
 
@@ -311,18 +313,28 @@ width: 10rem;
 display: flex;
 align-items: center;
 justify-content: center;
-width: 12rem; /* 동일한 고정 너비 설정 */
+width: 10rem; /* 동일한 고정 너비 설정 */
 }
+
+/* 사용자 프로필 섹션 */
+.user-profile .profile-avatar {
+  width: 6rem; /* 원하는 너비로 설정 */
+  height: 6rem; /* 원하는 높이로 설정 */
+  object-fit: cover; /* 이미지가 찌그러지지 않고 잘 맞게 표시됨 */
+  border-radius: 50%; /* 원형으로 만들기 위해 사용 */
+}
+
 
 /* 드롭다운 메뉴 스타일 */
 .dropdown-menu {
 	position: absolute;
-	top: 5rem; /* 프로필 이미지 바로 아래에 위치 */
-	right: 0;
+	top: 7.6rem; /* 프로필 이미지 바로 아래에 위치 */
+	right: 8rem;
 	background-color: #ffffff;
 	border: 1px solid #ccc;
 	border-radius: 10px;
-	box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+	box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15), /* 기본 그림자 */
+              0 2px 4px rgba(0, 0, 0, 0.05);   /* 추가적인 약한 그림자 */
 	z-index: 1001; /* 네비게이션보다 위에 보이도록 설정 */
 }
 
@@ -330,9 +342,12 @@ width: 12rem; /* 동일한 고정 너비 설정 */
 	display: flex;
 	align-items: center;
 	gap: 1rem;
-	width: 150px;
+	width: 20rem;
+	height: 5rem;
 	padding: 1rem;
-	font-size: 1.6rem;
+	font-size: 2rem;
+	border: 1px solid #ddd;
+	border-radius: 10px;
 	background-color: #ffffff;
 	border: none;
 	cursor: pointer;
@@ -342,9 +357,8 @@ width: 12rem; /* 동일한 고정 너비 설정 */
 	background-color: #f0f0f0; /* hover 시 회색 배경 */
 }
 
-.user-name {
-	font-size: 1.8rem;
-	font-weight: 600;
-	color: #202020;
+/* 특정 클래스 .custom-icon에 대해 opacity 적용 */
+.custom-icon {
+  opacity: 0.5; /* 아이콘 투명도를 50%로 설정 */
 }
 </style>
