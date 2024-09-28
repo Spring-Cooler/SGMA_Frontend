@@ -15,6 +15,7 @@ import ExamPage from "@/views/Problem/ExamPage.vue";
 import StudyBoardDetailPage from "@/views/Group/page/StudyBoardDetailPage.vue";
 import StudyNoticeDetailPage from "@/views/Group/page/StudyNoticeDetailPage.vue";
 import StudyPostModifyPage from "@/views/Group/page/StudyPostModifyPage.vue";
+import StudyPostUploadPage from "@/views/Group/page/StudyPostUploadPage.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -88,6 +89,18 @@ const routes = [
     path: "/study-groups/:groupId/notices/:noticeId/modify",
     name: "StudyNoticeModifyPage",
     component: StudyPostModifyPage,
+    props: true
+  },
+  {
+    path: "/study-groups/:groupId/boards/upload",
+    name: "StudyBoardUploadPage",
+    component: StudyPostUploadPage,
+    props: true
+  },
+  {
+    path: "/study-groups/:groupId/notices/upload",
+    name: "StudyNoticeUploadPage",
+    component: StudyPostUploadPage,
     props: true
   },
 ];
