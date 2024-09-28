@@ -14,13 +14,18 @@ import CreateGroup from "@/views/Recruitment/CreateGroup.vue";
 import ExamPage from "@/views/Problem/ExamPage.vue";
 import StudyBoardDetailPage from "@/views/Group/page/StudyBoardDetailPage.vue";
 import StudyNoticeDetailPage from "@/views/Group/page/StudyNoticeDetailPage.vue";
+import Applicant from "@/views/Recruitment/Applicant.vue";
+import SingleBoard from "@/views/Recruitment/SingleBoard.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/mypage", name: "MyPage", component: MyPage },
+  { path: '/study-groups', name: 'FindStudyGroups', component: FindStudyGroups },
+  { path: '/create-group', name: 'CreateGroup', component: CreateGroup },
+  { path: '/applicant', name: 'Applicant', component: Applicant },
+  { path: '/board', name: 'SingleBoard', component: SingleBoard},
   { path: "/study-groups", name: "FindStudyGroups", component: FindStudyGroups },
   { path: "/create-group", name: "CreateGroup", component: CreateGroup },
-
   {
     path: "/study-groups/1/schedules",
     component: SchedulePage,
