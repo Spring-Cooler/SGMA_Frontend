@@ -37,6 +37,7 @@
         }
     })
     const router = useRouter();
+    const accessToken = JSON.parse(localStorage.getItem('token')).accessToken;
     const store = useStore();
 
     const item = ref({});
@@ -64,7 +65,11 @@
 
     const fetchData = async () => {
       try {
-        let response = (await axios.get(`/api/study-group/notices/${props.noticeId}`)).data;
+        let response = (await axios.get(`/study-group-service/api/study-group/notices/${props.noticeId}`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })).data;
 
         if (!response.success) {
             return;
@@ -94,7 +99,11 @@
     };
 
     const confirm = async () => {
-        let response = (await axios.delete(`/api/study-group/notices/${props.noticeId}`)).data;
+        let response = (await axios.delete(`/study-group-service/api/study-group/notices/${props.noticeId}`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })).data;
         if(response.success) {
             modalVisibility.value = false;
             router.push(`/study-groups/1/notices`);

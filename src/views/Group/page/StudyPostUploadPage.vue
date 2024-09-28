@@ -52,6 +52,8 @@ const route = useRoute();
 
 const router = useRouter();
 
+const accessToken = JSON.parse(localStorage.getItem('token')).accessToken;
+
 const loading = ref(false);
 
 const postData = computed(() => store.getters.getPostData);
@@ -75,25 +77,45 @@ const uploadPost = async () => {
         case 'board': 
             boardData.value.title = postData.value.title;
             boardData.value.content = postData.value.content;
-            response = (await axios.post(`/api/study-group/boards`, boardData.value)).data; 
+            response = (await axios.post(`/study-group-service/api/study-group/boards`, boardData.value,{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data; 
             break;
         case 'notice': 
             noticeData.value.title = postData.value.title;
             noticeData.value.content = postData.value.content;
-            response = (await axios.post(`/api/study-group/notices`, noticeData.value)).data; 
+            response = (await axios.post(`/study-group-service/api/study-group/notices`, noticeData.value,{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data; 
             break;
         case 'schedule': 
-            response = await axios.post(`/api/study-group/schedules/`); 
+            response = await axios.post(`/study-group-service/api/study-group/schedules/`,{
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            }); 
             break;
         default: console.error("게시글 타입 에러");
     }
     if(response.success) {
         switch (postData.value.post_type) {
             case 'board':
-                router.push(`/study-groups/${route.params.groupId}/boards/${response.data.board_id}`); 
+                router.push(`/study-groups/${route.params.groupId}/boards/${response.data.board_id}`,{
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                }); 
                 break;
             case 'notice': 
-                router.push(`/study-groups/${route.params.groupId}/notices/${response.data.notice_id}`); 
+                router.push(`/study-groups/${route.params.groupId}/notices/${response.data.notice_id}`,{
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                }); 
                 break;
             case 'schedule': 
                 break;

@@ -22,8 +22,8 @@ const props = defineProps({
 
 const emit = defineEmits(['add']);
 
-const addComments = () => {
-    emit('add');
+const addComments = (content) => {
+    emit('add', content);
 }
 
 </script>

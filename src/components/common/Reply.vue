@@ -21,7 +21,6 @@
 
 <script setup>
 import { ref } from 'vue';
-import axios from 'axios';
 import DeleteModal from './DeleteModal.vue';
 
 const props = defineProps({
@@ -43,16 +42,9 @@ const toggleModal = () => {
   modalVisibility.value = !modalVisibility.value;
 }
 
-const deleteReply = async () => {
-  try {
-    let response = (await axios.delete(`/api/study-group/board/replies/${props.replyId}`)).data;
-    if(response.success) {
-      modalVisibility.value = false;
-      emit('remove');
-    }
-  } catch (error) {
-    console.log(error);
-  }
+const deleteReply = () => {
+  modalVisibility.value = false;
+  emit('remove');
 }
 
 function formatDate(isoDateStr) {

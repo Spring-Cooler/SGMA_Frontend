@@ -50,6 +50,8 @@ const store = useStore();
 
 const router = useRouter();
 
+const accessToken = JSON.parse(localStorage.getItem('token')).accessToken;
+
 const loading = ref(false);
 
 const postData = computed(() => store.getters.getPostData);
@@ -72,15 +74,27 @@ const modifyPost = async () => {
         case 'board': 
             boardData.value.title = postData.value.title;
             boardData.value.content = postData.value.content;
-            response = (await axios.put(`/api/study-group/boards`, boardData.value)).data; 
+            response = (await axios.put(`/study-group-service/api/study-group/boards`, boardData.value,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })).data; 
             break;
         case 'notice': 
             noticeData.value.title = postData.value.title;
             noticeData.value.content = postData.value.content;
-            response = (await axios.put(`/api/study-group/notices`, noticeData.value)).data; 
+            response = (await axios.put(`/study-group-service/api/study-group/notices`, noticeData.value,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })).data; 
             break;
         case 'schedule': 
-            response = await axios.put(`/api/study-group/schedules/`); 
+            response = await axios.put(`/study-group-service/api/study-group/schedules/`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }); 
             break;
         default: console.error("게시글 타입 에러");
     }

@@ -20,22 +20,21 @@
         </button>
         <DeleteModal :isVisible="modalVisibility" @confirm="deleteComment" @cancel="toggleModal">해당 댓글을 삭제하시겠습니까?</DeleteModal>
     </div>
-    <div class="reply-input-container">
+    <form class="reply-input-container" @submit.prevent="submitReply">
         <div v-if="isReplying" class="reply-input-wrapper">
-            <input v-model="data.content" class="reply-input" placeholder="답글을 입력하세요..." />
+            <input v-model="content" class="reply-input" placeholder="답글을 입력하세요..." required/>
         </div>
         <div v-if="isReplying" class="btn-container">
-            <TinyButton class="btn " @click="submitReply" label="등록"></TinyButton>
+            <TinyButton type="submit" class="btn" label="등록"></TinyButton>
             <TinyButton class="btn light-gray" @click="toggleReply" label="취소"></TinyButton>
         </div>
-    </div>
+      </form>
     <slot></slot>
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref } from 'vue';
 import TinyButton from './TinyButton.vue';
-import axios from 'axios';
 import DeleteModal from './DeleteModal.vue';
 
 const props = defineProps({
@@ -49,48 +48,30 @@ const props = defineProps({
   }
 })
 
-const data = reactive({
-    content: '',
-    member_id: 1,
-    comment_id: props.commentId,
-});
-
 const emit = defineEmits(['add','remove']);
 
 const isReplying = ref(false); // 답글 입력 창 상태 관리
 const modalVisibility = ref(false);
 
+const content = ref('');
+
 const toggleReply = () => {
   isReplying.value = !isReplying.value;
-  data.content = '';
+  content.value = '';
 };
 
-const submitReply = async () => {
-  try {
-    let response = (await axios.post(`/api/study-group/board/replies`, data)).data;
-    if(response.success) {
-      toggleReply(); // 답글 입력 창 닫기
-      emit('add');
-    } 
-  } catch (error) {
-    console.error(error);
-  }
+const submitReply = () => {
+  emit('add', props.commentId, content.value);
+  toggleReply(); // 답글 입력 창 닫기
 };
 
 const toggleModal = () => {
   modalVisibility.value = !modalVisibility.value;
 }
 
-const deleteComment = async () => {
-  try {
-    let response = (await axios.delete(`/api/study-group/board/comments/${props.commentId}`)).data;
-    if(response.success) {
-      modalVisibility.value = false;
-      emit('remove');
-    }
-  } catch (error) {
-    console.log(error);
-  }
+const deleteComment = () => {
+  modalVisibility.value = false;
+  emit('remove');
 }
 
 function formatDate(isoDateStr) {

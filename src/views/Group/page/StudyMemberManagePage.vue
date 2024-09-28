@@ -42,13 +42,18 @@ const items = ref([]);
 const loading = ref(true);
 const groupId = ref(1);
 const router = useRouter();
+const accessToken = JSON.parse(localStorage.getItem('token')).accessToken;
 const modalVisibility = ref(false);
 const memberId = ref(null);
 
 const fetchData = async () => {
     try {
         let response; // response 변수를 미리 선언
-        response = await axios.get(`/api/study-group/members/group-id/${groupId.value}`);
+        response = await axios.get(`/study-group-service/api/study-group/members/group-id/${groupId.value}`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         items.value = response.data.data;
     } catch (error) {
         console.error(error);
@@ -65,8 +70,11 @@ const kick = (id) => {
 const confirm = async () => {
     try {
         let response; // response 변수를 미리 선언
-        response = await axios.delete(`/api/study-group/members/${memberId.value}`);
-        console.log(response);
+        response = await axios.delete(`/study-group-service/api/study-group/members/${memberId.value}`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
     } catch (error) {
         console.error(error);
     }
