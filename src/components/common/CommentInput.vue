@@ -14,7 +14,7 @@ import { reactive } from 'vue';
 
 const props = defineProps({
     boardId: {
-        type: Number,
+        type: String,
         required: true,
     }
 })

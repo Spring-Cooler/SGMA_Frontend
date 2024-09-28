@@ -1,6 +1,6 @@
 <template>
     <div class="comment-header">
-        <CommentInfo :comments="props.data.comments"></CommentInfo>
+        <CommentInfo :comments="props.data.comments.value"></CommentInfo>
         <CommentInput :boardId="props.boardId" @add="addComments"></CommentInput>
     </div>
 </template>
@@ -15,7 +15,7 @@ const props = defineProps({
       required: true,
     },
     boardId: {
-      type: Number,
+      type: String,
       required: true,
     }
 })
