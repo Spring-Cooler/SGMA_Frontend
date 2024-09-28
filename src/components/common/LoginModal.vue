@@ -144,7 +144,7 @@ const getUserInfo = async (accessToken) => {
 // 회원가입 모달로 이동
 const goToRegister = () => {
   emit('goToStep1');
-  emit('close');
+  // emit('close');
 };
 </script>
 
