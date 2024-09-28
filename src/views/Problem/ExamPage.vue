@@ -1,16 +1,16 @@
-<template>
+<template class="root-container">
 	<header class="top-nav">
 		<div class="test-title">
 			<p>올림픽 문제 스터디</p>
 		</div>
 	</header>
 	<main class="main">
-		<section clas="main-content">
+		<section class="main-contents">
 			<div class="problem-container">
 				<div class="problem-content">
 					<p>{{ problemIndex }}. {{ current_problem.problem_content }}</p>
 				</div>
-				<form action="" class="problem-choice">
+				<form class="problem-choice">
 					<label for="" v-for="item in current_problem.choices">
 						<input type="radio" name="chk_ans" value="">
 						<p>{{ item }}</p>
@@ -20,6 +20,28 @@
 			</div>
 		</section>
 	</main>
+	<aside class="side-nav">
+		<div class="info">문제 리스트</div>
+		<div class="menu-container">
+			<div class="top-menu-container">
+				<button type="button" id="btn1" class="btn problem-btn">1</button>
+				<button type="button" id="btn2" class="btn problem-btn">2</button>
+				<button type="button" id="btn3" class="btn problem-btn">3</button>
+				<button type="button" id="btn4" class="btn problem-btn">4</button>
+				<button type="button" id="btn5" class="btn problem-btn">5</button>
+				<button type="button" id="btn6" class="btn problem-btn">6</button>
+				<button type="button" id="btn7" class="btn problem-btn">7</button>
+				<button type="button" id="btn8" class="btn problem-btn">8</button>
+				<button type="button" id="btn9" class="btn problem-btn">9</button>
+				<button type="button" id="btn10" class="btn problem-btn">10</button>
+			</div>
+			<div class="bottom-menu-container">
+				<button type="button" id="prev" class="btn move-btn">이전 문제</button>
+				<button type="button" id="next" class="btn move-btn">다음 문제</button>
+				<button type="button" id="submit" class="btn submit-btn">제출하기</button>
+			</div>
+		</div>
+	</aside>
 </template>
 
 <script setup>
@@ -133,9 +155,10 @@ li {
 	width: calc(100% - 48rem);
 	height: 100%;
 	margin-top: 16rem;
+	margin-left: 0;
 }
 
-.main-content {
+.main-contents {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
