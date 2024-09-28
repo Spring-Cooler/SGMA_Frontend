@@ -132,17 +132,22 @@ label {
 
 
 .create-btn {
-  padding: 1rem 2rem;
-  background-color: #a1b872;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.6rem;
-  cursor: pointer;
-  margin-top:48rem;
-  width: 11.2rem;
-  margin-left:98.8rem;
-  height:5.6rem;
+    
+padding: 1rem 2rem;
+background-color: #a1b872;
+color: #ffffff;
+border: none;
+border-radius: 0.5rem;
+font-size: 2rem;
+cursor: pointer;
+margin-top:48rem;
+width: 11.2rem;
+margin-left:98.8rem;
+height:5.6rem;
+font-family: Noto Sans;
+font-weight: 600;
+line-height: 3rem;
+word-wrap: break-word
 }
 
 .submit-btn:hover {
