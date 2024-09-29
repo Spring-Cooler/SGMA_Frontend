@@ -22,10 +22,10 @@ import SingleBoard from "@/views/Recruitment/SingleBoard.vue";
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/mypage", name: "MyPage", component: MyPage },
-  { path: '/study-groups', name: 'FindStudyGroups', component: FindStudyGroups },
-  { path: '/create-group', name: 'CreateGroup', component: CreateGroup },
-  { path: '/applicant', name: 'Applicant', component: Applicant },
-  { path: '/board', name: 'SingleBoard', component: SingleBoard},
+  { path: "/study-groups", name: "FindStudyGroups", component: FindStudyGroups },
+  { path: "/create-group", name: "CreateGroup", component: CreateGroup },
+  { path: "/applicant", name: "Applicant", component: Applicant },
+  { path: "/board", name: "SingleBoard", component: SingleBoard },
   { path: "/study-groups", name: "FindStudyGroups", component: FindStudyGroups },
   { path: "/create-group", name: "CreateGroup", component: CreateGroup },
   {
@@ -68,9 +68,10 @@ const routes = [
     component: StudyMemberManagePage,
   },
   {
-    path: `/exams/:scheduleId`,
+    path: `/study-problems/schedules/:scheduleId`,
     name: "ExamPage",
     component: ExamPage,
+    props: true,
   },
   {
     path: "/study-groups/:groupId/boards/:boardId",
@@ -88,25 +89,25 @@ const routes = [
     path: "/study-groups/:groupId/boards/:boardId/modify",
     name: "StudyBoardModifyPage",
     component: StudyPostModifyPage,
-    props: true
+    props: true,
   },
   {
     path: "/study-groups/:groupId/notices/:noticeId/modify",
     name: "StudyNoticeModifyPage",
     component: StudyPostModifyPage,
-    props: true
+    props: true,
   },
   {
     path: "/study-groups/:groupId/boards/upload",
     name: "StudyBoardUploadPage",
     component: StudyPostUploadPage,
-    props: true
+    props: true,
   },
   {
     path: "/study-groups/:groupId/notices/upload",
     name: "StudyNoticeUploadPage",
     component: StudyPostUploadPage,
-    props: true
+    props: true,
   },
 ];
 

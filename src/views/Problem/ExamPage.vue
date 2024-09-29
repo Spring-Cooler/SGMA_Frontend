@@ -8,13 +8,16 @@
 		<main class="main">
 			<section class="main-contents">
 				<div class="problem-container">
-					<div class="problem-content">
-						<p>{{ problemIndex + 1 }}. {{ current_problem.problem_content }}</p>
+					<!-- Add v-if to check if current_problem is defined -->
+					<div class="problem-content" v-if="current_problem">
+						<p>{{ problemIndex + 1 }}. {{ current_problem.content }}</p>
 					</div>
-					<form class="problem-choice">
+
+					<!-- Similarly, add a v-if check before rendering the choices -->
+					<form class="problem-choice" v-if="current_problem && current_problem.choices">
 						<label v-for="(item, index) in current_problem.choices" :key="index">
 							<input type="radio" name="chk_ans" :value="index"
-								v-model="current_problem.submitted_answer">
+								v-model="current_problem.submitted_answer" />
 							<p>{{ index + 1 }}. {{ item }}</p>
 						</label>
 					</form>
@@ -25,15 +28,22 @@
 			<div class="info">문제 리스트</div>
 			<div class="menu-container">
 				<div class="top-menu-container">
+					<!-- Safeguard against undefined problemInfos -->
 					<button v-for="(problem, idx) in problemInfos" class="btn problem-btn" :key="problem.problem_id"
-						@click="problemIndex = idx">{{ idx + 1 }}</button>
+						@click="problemIndex = idx">
+						{{ idx + 1 }}
+					</button>
 				</div>
 				<div class="bottom-menu-container">
 					<button type="button" id="prev" @click="problemIndex = Math.max(0, problemIndex - 1)"
-						:disabled="problemIndex < 1" class="btn move-btn">이전 문제</button>
+						:disabled="problemIndex < 1" class="btn move-btn">
+						이전 문제
+					</button>
 					<button type="button" id="next"
 						@click="problemIndex = Math.min(problemInfos.length - 1, problemIndex + 1)" class="btn move-btn"
-						:disabled="problemIndex >= problemInfos.length - 1">다음 문제</button>
+						:disabled="problemIndex >= problemInfos.length - 1">
+						다음 문제
+					</button>
 					<button type="button" id="submit" class="btn submit-btn">제출하기</button>
 				</div>
 			</div>
@@ -42,51 +52,65 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onMounted } from 'vue';
+import axios from 'axios';
+import { useRouter } from 'vue-router';
 
-let problemIndex = ref(0);
-let problemInfos = ref([
-	{
-		problem_id: 3,
-		problem_content: "다음중 오륜기에 들어가는 색이 아닌 것은?",
-		problem_type: "MULTIPLE",
-		choices: ["빨간색", "파란색", "노란색", "보라색"],
-		submitted_answer: -1
-	},
-	{
-		problem_id: 7,
-		problem_content: "올림픽을 최초로 개최한 국가는?",
-		problem_type: "MULTIPLE",
-		choices: ["이탈리아", "스페인", "로마", "그리스"],
-		submitted_answer: -1
-	},
-	{
-		problem_id: 20,
-		problem_content: '다음중 올림픽 마스코트가 아닌 것은?',
-		problem_type: 'MULTIPLE',
-		choices: ['웬록', '미샤', '수호랑', '후추'],
-		submitted_answer: -1
-	},
-	{
-		problem_id: 50,
-		problem_content: '올림픽에서 처음으로 실시된 종목은?',
-		problem_type: 'MULTIPLE',
-		choices: ['수영', '육상', '복싱', '사격'],
-		submitted_answer: -1
-	},
-]);
-
-let current_problem = ref(problemInfos.value[problemIndex.value]);
-
-watch(problemIndex, (newIndex) => {
-	current_problem.value = problemInfos.value[newIndex];
+const props = defineProps({
+	scheduleId: {
+		type: String,
+		required: true
+	}
 });
 
+const router = useRouter();
+const accessToken = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
+
+let problemIndex = ref(0);
+let problemInfos = ref([]);
+let current_problem = ref(null);  // Initialize current_problem as null
+
+// Watch for changes in problemIndex and update current_problem
+watch(problemIndex, (newIndex) => {
+	if (problemInfos.value.length > 0) {
+		current_problem.value = problemInfos.value[newIndex];
+	}
+});
+
+// Fetch data function
+const fetchData = async () => {
+	try {
+		const response = (await axios.get(`/schedule-service/api/study-problems/schedules/${props.scheduleId}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		})).data;
+		console.log(response)
+		if (response.success) {
+			console.log('if문')
+			problemInfos.value = response.data;
+			console.log(problemInfos.value);
+			// Set the current problem to the first one after fetching data
+			current_problem.value = problemInfos.value[problemIndex.value];
+		}
+	} catch (error) {
+		console.error("Error fetching data:", error);
+	}
+};
+
+onMounted(() => {
+	if (!accessToken) {
+		alert('로그인을 해주세요');
+		router.push('/');
+		return;
+	}
+
+	// Fetch data when the component is mounted
+	fetchData();
+});
 </script>
 
-<style scoped>
-/* Add styles here... */
-</style>
+
 
 
 <style scoped>
