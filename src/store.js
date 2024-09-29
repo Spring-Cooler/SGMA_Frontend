@@ -12,6 +12,7 @@ const store = createStore({
       member_id: '',
       post_type: '',
       category: '',
+      group_name: '',
     }
   },
   mutations: {

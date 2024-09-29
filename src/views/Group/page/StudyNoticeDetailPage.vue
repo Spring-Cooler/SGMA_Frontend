@@ -1,17 +1,27 @@
 <template>
     <div class="study-notice-detail-page">
-        <!-- 상단 네비게이션 -->
         <Navigation />
-        <!-- 사이드 바-->
         <GroupSideBar />
         <main class="main">
             <div class="main-content">
                 <div class="post-container loading" v-if="loading">Loading...</div>
                 <div class="post-container" v-else>
-                    <Title>{{title}}</Title>
-                    <PostHeader :data="headerData" :isNotice="true" @modifyPost="goModifyPost" @deletePost="deletePost"></PostHeader>
+                    <Title>{{noticeDetail.title}}</Title>
+                    <PostHeader 
+                        :data="headerData" 
+                        :isNotice="true"
+                         @modifyPost="goModifyPost" 
+                         @deletePost="handleDeletePost"
+                    >
+                    </PostHeader>
                     <PostBody :data="bodyData" :isPerm="true"></PostBody>
-                    <DeleteModal :isVisible="modalVisibility" @confirm="confirm" @cancel="cancel">해당 게시글을 삭제하시겠습니까?</DeleteModal>
+                    <DeleteModal 
+                        :isVisible="modalVisibility" 
+                        @confirm="handleConfirm" 
+                        @cancel="handleCancel"
+                    >
+                        해당 게시글을 삭제하시겠습니까?
+                    </DeleteModal>
                 </div>
             </div>
         </main>
@@ -25,104 +35,83 @@
     import PostHeader from '@/components/layouts/PostHeader.vue';
     import PostBody from '@/components/layouts/PostBody.vue';
     import DeleteModal from '@/components/common/DeleteModal.vue';
-    import { ref, onMounted } from 'vue';
+    import { ref, reactive, onMounted } from 'vue';
     import { useStore } from 'vuex';
-    import { useRouter } from 'vue-router';
+    import { useRouter, useRoute } from 'vue-router';
     import axios from 'axios';
 
-    const props = defineProps({
-        noticeId: {
-            type: String,
-            required: true
-        }
-    })
     const router = useRouter();
+    const route = useRoute();
     const accessToken = 
         localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
     const store = useStore();
 
-    const item = ref({});
+    const memberList = ref([]);
+    const memberMap = ref({});
+
+    const noticeDetail = ref({});
     const loading = ref(true);
     const modalVisibility = ref(false);
 
-    const title = ref(null);
-    const nickname = ref(null);
-    const likes = ref(0);
+    const headerData = reactive({
+    })
 
-    const startDate = ref(null);
-    const endDate = ref(null);
-    const content = ref(null);
+    const bodyData = reactive({
+        content: '',
+    })
 
-    const headerData = {
-        nickname: nickname,
-        likes: likes,
-    }
+    const fetchNoticeData = async () => {
+        try {
+            const response = (await axios.get(`/study-group-service/api/study-group/notices/${route.params.noticeId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
 
-    const bodyData = {
-        startDate: null,
-        endDate: null,
-        content: content,
-    }
-
-    const fetchData = async () => {
-      try {
-        let response = (await axios.get(`/study-group-service/api/study-group/notices/${props.noticeId}`,{
-            headers: {
-                Authorization: `Bearer ${accessToken}`
+            if (response.success) {
+                noticeDetail.value = response.data;
+                bodyData.content = noticeDetail.value.content;
+                loading.value = false;
             }
-        })).data;
-
-        if (!response.success) {
-            return;
+        } catch (error) {
+            console.error(error);
         }
-        loading.value = false;
-        item.value = response.data;
-
-        title.value = item.value.title;
-        nickname.value = item.value.nickname;
-        likes.value = item.value.likes;
-
-        if (typeof item.value.schedule_start_time !== 'undefined') {
-            startDate.value = item.value.schedule_start_time;
-            endDate.value = item.value.schedule_end_time;
-        } else if (typeof item.value.recruitment_start_time !== 'undefined') {
-            startDate.value = item.value.recruitment_start_time;
-            endDate.value = item.value.recruitment_end_time;
-        }
-        content.value = item.value.content;
-      } catch (error) {
-        console.error(error);
-      }
     }
 
-    const deletePost = () => {
+    const handleDeletePost = () => {
         modalVisibility.value = true;
     };
 
-    const confirm = async () => {
-        let response = (await axios.delete(`/study-group-service/api/study-group/notices/${props.noticeId}`,{
-            headers: {
-                Authorization: `Bearer ${accessToken}`
+    const handleConfirm = async () => {
+        try {
+            const response = (await axios.delete(`/study-group-service/api/study-group/notices/${route.params.noticeId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+            if(response.success) {
+                modalVisibility.value = false;
+                router.push(`/study-groups/${route.params.groupId}/notices`);
             }
-        })).data;
-        if(response.success) {
-            modalVisibility.value = false;
-            router.push(`/study-groups/1/notices`);
+        } catch (error) {
+            console.error(error);
         }
     }
 
-    const cancel = () => {
+    const handleCancel = () => {
         modalVisibility.value = false;
     }
 
     const goModifyPost = () => {
         store.commit('setPostData', {
-            id: props.noticeId,
-            title: title.value,
-            content: content.value,
+            id: route.params.noticeId,
+            title: noticeDetail.value.title,
+            content: noticeDetail.value.content,
             post_type: 'notice'
         });
-        router.push(`/study-groups/1/notices/${props.noticeId}/modify`);
+        router.push(`/study-groups/${route.params.groupId}/notices/${route.params.noticeId}/modify`);
     }
 
     onMounted(() => {
@@ -130,7 +119,7 @@
             alert("로그인을 해주세요.");
             router.push(`/`);
         }
-        fetchData();
+        fetchNoticeData();
     })
 </script>
 

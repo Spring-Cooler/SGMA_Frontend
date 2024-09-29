@@ -47,7 +47,7 @@ import Navigation from '@/components/layouts/Navigation.vue';
 import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 import Title from '@/components/common/Title.vue';
 const props = defineProps({
-	id: {
+	scheduleId: {
 		type: String,
 		required: true,
 	},
@@ -99,8 +99,8 @@ onMounted(() => {
 
 // 스케줄 목록으로 돌아가기
 const goToExamPage = () => {
-	const scheduleId = 1;
-	router.push(`/exams/${scheduleId}`);
+	const scheduleId = 3;
+	router.push(`/study-problems/schedules/${scheduleId}`);
 }
 
 const toggleParticipate = () => {

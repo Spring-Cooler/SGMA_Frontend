@@ -14,7 +14,7 @@
         <!-- Event List -->
         <div v-if="sortedEvents.length">
           <ul class="event-list">
-            <ScheduleListItem v-for="event in sortedEvents" :key="event.id" :event="event" @modify="onModify"
+            <ScheduleListItem v-for="event in sortedEvents" :key="event.schedule_id" :event="event" @modify="onModify"
               @remove="onRemove" />
           </ul>
         </div>

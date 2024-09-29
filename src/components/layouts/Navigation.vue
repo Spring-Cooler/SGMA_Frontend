@@ -41,6 +41,8 @@
 		v-if="isLoginModalVisible"
 		@close="closeLoginModal"
 		@goToStep1="openRegisterModal"
+		@openPasswordReset="openPasswordResetModal"
+		@openFindId="openFindIdModal" 
 	  />
   
 	  <!-- 회원가입 단계별 모달 -->
@@ -63,11 +65,47 @@
 	  <!-- 개인정보 처리방침 모달 -->
 	  <PrivacyPolicyModal v-if="isPrivacyPolicyModalVisible" @close="closePrivacyPolicyModal" />
 
+	  <!-- 회원 재활성화 모달 -->
 	  <AccountReactivationModal
       v-if="isAccountReactivationModalVisible"
       :userAuthId="userAuthId"
       @close="closeAccountReactivationModal"
-    />
+	  />
+
+	 <!-- 비밀번호 찾기 Step1 모달 -->
+	<PasswordResetStep1
+	v-if="isPasswordResetModalVisible && currentPasswordResetStep === 1"
+	@close="closePasswordResetModal"
+	@goToPasswordResetStep2="goToPasswordResetStep2"
+	@update="updatePasswordResetData" 
+	@openLogin="openLoginModal"
+	:passwordResetData="passwordResetData" 
+	/>
+	<!-- Navigation.vue의 PasswordResetStep2 연결 -->
+	<PasswordResetStep2
+	v-if="isPasswordResetModalVisible && currentPasswordResetStep === 2"
+	@close="closePasswordResetModal"
+	@update="updatePasswordResetData" 
+	@openPasswordReset="openPasswordResetModal"
+	:passwordResetData="passwordResetData"
+	/>
+
+
+	   <!-- 아이디 찾기 Step1 모달 -->
+	<FindIdStep1
+	v-if="isFindIdModalVisible && currentFindIdStep === 1"
+	@close="closeFindIdModal"
+	@goToFindIdStep2="goToFindIdStep2"
+	/>
+  <!-- 아이디 찾기 Step2 모달 -->
+  <FindIdStep2
+  v-if="isFindIdModalVisible && currentFindIdStep === 2" 
+  @close="closeFindIdModal"
+  :nickname="foundNickname"
+  :userAuthId="foundUserAuthId"
+/>
+
+
 	</header>
   </template>
   
@@ -80,6 +118,11 @@
   import PrivacyPolicyModal from '@/views/user/components/PrivacyPolicyModal.vue'; // PrivacyPolicyModal
   import defaultProfileImage from '@/assets/images/default_profile.svg';
   import AccountReactivationModal from '@/views/user/components/AccountReactivationModal.vue';
+  import PasswordResetStep1 from '@/views/user/components/PasswordResetStep1.vue'; // 비밀번호 찾기 Step1 모달
+import PasswordResetStep2 from '@/views/user/components/PasswordResetStep2.vue'; // 비밀번호 찾기 Step2 모달
+
+import FindIdStep1 from '@/views/user/components/FindIdStep1.vue'; // 아이디 찾기 Step1
+import FindIdStep2 from '@/views/user/components/FindIdStep2.vue'; // 아이디 찾기 Step2
 
   const router = useRouter();
   
@@ -92,7 +135,17 @@
 
   const isAccountReactivationModalVisible = ref(false);
   const userAuthId = ref('');
-  
+
+  // 비밀번호 찾기 모달 상태
+const isPasswordResetModalVisible = ref(false);
+const currentPasswordResetStep = ref(1); // 비밀번호 찾기 단계 초기화
+
+// 상태 관리
+const isFindIdModalVisible = ref(false); // 아이디 찾기 모달 가시성
+const currentFindIdStep = ref(1); // 현재 아이디 찾기 단계
+const foundNickname = ref(''); // 찾은 유저 닉네임
+const foundUserAuthId = ref('');   // 찾은 유저 아이디
+
   // 로그인 상태 확인
   const checkLoginStatus = () => {
 	isLoggedIn.value = !!token.accessToken; // accessToken이 존재하면 로그인된 것으로 간주
@@ -170,6 +223,43 @@
   };
   
 
+ // 비밀번호 찾기 상태 데이터 관리
+const passwordResetData = ref({
+  user_auth_id: '', // 아이디
+  email: '', // 이메일
+});
+
+// Step2로 이동하는 함수
+const goToPasswordResetStep2 = (payload) => {
+  if (payload) {
+    // payload가 있을 경우 해당 데이터를 저장
+    passwordResetData.value = {
+      user_auth_id: payload.user_auth_id,
+      email: payload.email,
+    };
+  }
+  // Step2로 이동
+  currentPasswordResetStep.value = 2;
+};
+
+// 비밀번호 찾기 데이터 업데이트
+const updatePasswordResetData = (newData) => {
+  passwordResetData.value = { ...passwordResetData.value, ...newData };
+};
+
+// 비밀번호 찾기 모달 열기
+const openPasswordResetModal = () => {
+ isLoginModalVisible.value = false; // 로그인 모달 닫기
+  isPasswordResetModalVisible.value = true;
+  currentPasswordResetStep.value = 1;
+};
+
+// 비밀번호 찾기 모달 닫기
+const closePasswordResetModal = () => {
+  isPasswordResetModalVisible.value = false;
+  currentPasswordResetStep.value = 1;  // 비밀번호 찾기 단계를 1로 초기화
+};
+
   // 계정 재활성화 모달 열기
 const openAccountReactivationModal = (authId) => {
   userAuthId.value = authId;
@@ -237,6 +327,27 @@ const closeAccountReactivationModal = () => {
 	  isDropdownVisible.value = false;
 	}
   });
+
+// Step2로 이동
+const goToFindIdStep2 = (nickname, userAuthId) => {
+  foundNickname.value = nickname; // 전달받은 아이디 설정
+  foundUserAuthId.value = userAuthId;     // 유저 아이디도 함께 전달
+  currentFindIdStep.value = 2; // Step2로 이동
+};
+
+// 아이디 찾기 모달 열기
+const openFindIdModal = () => {
+console.log('아이디 찾기 모달 열기 함수 호출됨(내비게이션에서)')
+  isFindIdModalVisible.value = true;
+  currentFindIdStep.value = 1; // Step1로 초기화
+};
+
+// 아이디 찾기 모달 닫기
+const closeFindIdModal = () => {
+  isFindIdModalVisible.value = false;
+  currentFindIdStep.value = 1; // 단계 초기화
+};
+
   </script>
   
 

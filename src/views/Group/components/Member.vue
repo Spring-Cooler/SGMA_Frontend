@@ -33,7 +33,7 @@ const isManagement = props.management;
 const emit = defineEmits(['kick']);
 
 const kick = () => {
-    emit('kick');
+    emit('kick', props.data.member_id);
 }
 
 </script>

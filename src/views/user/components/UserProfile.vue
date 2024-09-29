@@ -17,7 +17,7 @@
       </div>
       <div class="profile-buttons">
         <button class="profile-edit-btn"  @click="editProfile">프로필 수정</button>
-        <button class="password-change-btn">비밀번호 변경</button>
+        <button class="password-change-btn" @click="openPasswordChange">비밀번호 변경</button>
       </div>
     </div>
     <div class="profile-details">
@@ -42,7 +42,7 @@ import { ref, inject, onMounted } from 'vue';
 import { getUserById } from '@/api/user';
 
 
-const emit = defineEmits(['edit-profile', 'open-deactivation-modal']); // 부모에게 edit-profile 이벤트를 방출
+const emit = defineEmits(['edit-profile', 'open-deactivation-modal','open-password-change-modal']); // 부모에게 edit-profile 이벤트를 방출
 
 const token = inject('token');
 const user = ref({}); // 사용자 정보를 저장하는 객체
@@ -77,6 +77,12 @@ const editProfile = () => {
 const confirmDeactivation = () => {
   emit('open-deactivation-modal'); // 부모 컴포넌트로 탈퇴 모달 표시 이벤트 방출
 };
+
+// 비밀번호 변경 버튼 클릭 시 호출
+const openPasswordChange = () => {
+  emit('open-password-change-modal'); // 비밀번호 변경 모달 열기
+};
+
 
 </script>
 
