@@ -213,7 +213,7 @@
                     case 'schedule': 
                         break;
                     case 'recruitment':
-                        // 모집글 내용 페이지로 이동
+                        router.push(`/study-groups/${route.params.groupId}/recruitments`);
                         break;
                     default: console.error("게시글 타입 에러");
                 }
