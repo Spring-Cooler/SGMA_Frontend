@@ -1,23 +1,20 @@
 <template>
-    <button class="btn small-btn">
+    <button class="btn tiny-btn">
       {{ label }}
     </button>
   </template>
   
-  <script>
-  export default {
-    name: "SmallButton",
-    props: {
+  <script setup>
+    const props = defineProps({
       label: {
         type: String,
         required: true,
-      },
-    }
-  };
+      }
+    })
   </script>
   
   <style scoped>
-    .small-btn {
+    .tiny-btn {
       height: 4.8rem;
       width: 8rem;
     }
