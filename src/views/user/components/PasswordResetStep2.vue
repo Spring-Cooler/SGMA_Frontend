@@ -19,25 +19,37 @@
             <p class="second-text">비밀번호를 변경해주세요.</p>
           </div>
   
+          <!-- 새 비밀번호 입력 -->
           <div class="input-container">
             <input
-              type="password"
+              :type="newPasswordVisible ? 'text' : 'password'"
               placeholder="새 비밀번호 입력"
               v-model="newPassword"
               maxlength="24"
             />
-            <!-- 비밀번호 길이 에러 -->
-            <span v-if="passwordError" class="error-text">{{ passwordError }}</span>
+            <!-- 눈 아이콘 -->
+            <i class="eye-icon" @click="toggleNewPasswordVisibility">
+              <img :src="newPasswordVisible ? eyeOpenIcon : eyeClosedIcon" alt="eye icon" />
+            </i>
+          </div>
+          <!-- 비밀번호 길이 에러 -->
+          <span v-if="passwordError" class="error-text">{{ passwordError }}</span>
   
+          <!-- 새 비밀번호 확인 -->
+          <div class="input-container">
             <input
-              type="password"
+              :type="confirmPasswordVisible ? 'text' : 'password'"
               placeholder="새 비밀번호 확인"
               v-model="confirmPassword"
               maxlength="24"
             />
-            <!-- 비밀번호 일치 여부 -->
-            <span v-if="passwordMatchMessage" :class="passwordMatchClass">{{ passwordMatchMessage }}</span>
+            <!-- 눈 아이콘 -->
+            <i class="eye-icon" @click="toggleConfirmPasswordVisibility">
+              <img :src="confirmPasswordVisible ? eyeOpenIcon : eyeClosedIcon" alt="eye icon" />
+            </i>
           </div>
+          <!-- 비밀번호 일치 여부 -->
+          <span v-if="passwordMatchMessage" :class="passwordMatchClass">{{ passwordMatchMessage }}</span>
         </div>
   
         <!-- 하단 버튼들 -->
@@ -59,11 +71,13 @@
   </template>
   
   <script setup>
-  import { ref, computed, defineProps, defineEmits, onMounted, watch } from 'vue';
+  import { ref, computed, defineProps, defineEmits, watch } from 'vue';
   import axios from 'axios';
-  import YesNoButton from '@/components/common/YesNoButton.vue'; // YesNoButton 컴포넌트 임포트
+  import YesNoButton from '@/components/common/YesNoButton.vue';
+  import eyeOpenIcon from '@/assets/images/eye_open.png';
+  import eyeClosedIcon from '@/assets/images/eye_closed.png';
   
-  const emit = defineEmits(['close', 'openPasswordReset']); // 모달 닫기 및 step1 이동 이벤트 정의
+  const emit = defineEmits(['close', 'openPasswordReset']);
   
   // Navigation.vue에서 전달받은 passwordResetData
   const props = defineProps({
@@ -72,16 +86,27 @@
       required: true,
       default: () => ({
         user_auth_id: '', // 기본값 설정
-        email: '' // 다른 필드도 필요 시 기본값 추가
-      })
-    }
+      }),
+    },
   });
   
+  // 새 비밀번호, 비밀번호 확인 관련 변수들
   const newPassword = ref('');
   const confirmPassword = ref('');
   const passwordError = ref(''); // 비밀번호 길이 에러 메시지
   const passwordMatchMessage = ref(''); // 비밀번호 일치 여부 메시지
   const passwordMatchClass = ref(''); // 에러 혹은 성공 스타일 클래스
+  const newPasswordVisible = ref(false); // 새 비밀번호 표시 여부
+  const confirmPasswordVisible = ref(false); // 비밀번호 확인 표시 여부
+  
+  // 눈 아이콘 토글 함수
+  const toggleNewPasswordVisibility = () => {
+    newPasswordVisible.value = !newPasswordVisible.value;
+  };
+  
+  const toggleConfirmPasswordVisibility = () => {
+    confirmPasswordVisible.value = !confirmPasswordVisible.value;
+  };
   
   // 비밀번호 유효성 검사 함수
   const isPasswordValid = computed(() => {
@@ -90,7 +115,11 @@
   
   // 제출 가능 여부 (비밀번호 확인이 일치하는지 체크)
   const canSubmit = computed(() => {
-    return newPassword.value.length > 0 && newPassword.value === confirmPassword.value && isPasswordValid.value;
+    return (
+      newPassword.value.length > 0 &&
+      newPassword.value === confirmPassword.value &&
+      isPasswordValid.value
+    );
   });
   
   // 비밀번호 재설정 API 호출 함수
@@ -113,37 +142,35 @@
   
     // 비밀번호 재설정 API 호출 (POST)
     try {
-    const response = await axios.post(`/user-service/api/users/re-password`, {
-        user_auth_id: props.passwordResetData.user_auth_id,  // 변경된 API 엔드포인트 및 요청 데이터
+      const response = await axios.post(`/user-service/api/users/re-password`, {
+        user_auth_id: props.passwordResetData.user_auth_id,
         password: newPassword.value,
-    });
-
-    if (response.data.success) {
+      });
+  
+      if (response.data.success) {
         alert('비밀번호가 성공적으로 변경되었습니다. 다시 로그인 해주세요!');
-        closeModal(); // 성공 시 모달 닫기
-    } else {
+        closeModal();
+      } else {
         alert('비밀번호 변경에 실패했습니다.');
-    }
+      }
     } catch (error) {
-    alert('서버 오류가 발생했습니다.');
-    console.error(error);
+      alert('서버 오류가 발생했습니다.');
+      console.error(error);
     }
-
   };
   
   // Step1로 돌아가기
   const goToStep1 = () => {
-    emit('openPasswordReset'); // step1으로 이동
+    emit('openPasswordReset');
   };
   
   // 모달 닫기 함수
   const closeModal = () => {
-    emit('close'); // 부모 컴포넌트로 close 이벤트 전달
+    emit('close');
   };
   
   // 비밀번호 일치 여부 및 길이 검사
   watch([newPassword, confirmPassword], () => {
-    // 비밀번호 일치 여부 검사
     if (newPassword.value.length > 0 && confirmPassword.value.length > 0) {
       if (newPassword.value === confirmPassword.value) {
         passwordMatchMessage.value = '비밀번호가 일치합니다!';
@@ -156,63 +183,56 @@
       passwordMatchMessage.value = '';
     }
   
-    // 비밀번호 길이 에러 확인
     if (newPassword.value.length > 0 && !isPasswordValid.value) {
       passwordError.value = '비밀번호는 6자 이상이어야 합니다.';
     } else {
       passwordError.value = '';
     }
   });
-  
-  onMounted(() => {
-    console.log('PasswordStep2 mounted. passwordResetData:', props.passwordResetData);
-  });
   </script>
   
   <style scoped>
   /* 오류 텍스트 스타일 */
   .error-text {
-    color: #E1523A;
+    color: #e1523a;
     font-size: 1.4rem;
     margin-top: 0.2rem;
   }
   
   /* 성공 텍스트 스타일 */
   .success-text {
-    color: #02B853;
+    color: #02b853;
     font-size: 1.4rem;
     margin-top: 0.2rem;
   }
-
-  /* 모달 헤더 */
-.modal-header {
-  text-align: center;
-}
-
-.modal-header h2 {
-  margin: 2rem;
-  font-size: 5rem;
-  color: #a1b872;
-}
-
-/* 모달 바디 */
-.modal-body {
-  display: flex; /* 플렉스박스 사용 */
-  flex-direction: column; /* 수직 정렬 */
-  justify-content: space-between; /* 각 행 간격 조정 */
-  align-items: flex-start; /* 모든 요소들을 왼쪽 정렬 */
-  gap: 1rem; /* 각 요소들 사이의 간격 */
-  margin: 0.5rem;
-}
-
-/* 인사말 텍스트 */
-.message-container {
-  display: flex;
-  flex-direction: column;
-}
-
   
-  /* 사용자 아이디 및 안내 텍스트 */
+  /* 모달 헤더 */
+  .modal-header {
+    text-align: center;
+  }
+  
+  .modal-header h2 {
+    margin: 2rem;
+    font-size: 5rem;
+    color: #a1b872;
+  }
+  
+  /* 모달 바디 */
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1rem;
+    margin: 0.5rem;
+  }
+  
+  /* 인사말 텍스트 */
+  .message-container {
+    display: flex;
+    flex-direction: column;
+  }
+  
   .first-text {
     font-size: 2.2rem;
     color: #525150;
@@ -227,6 +247,7 @@
   
   /* 입력 필드 스타일 */
   .input-container {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -240,6 +261,20 @@
     border: 1px solid #ddd;
     border-radius: 5px;
     font-size: 1.6rem;
+  }
+  
+  /* 눈 아이콘 스타일링 */
+  .eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 30%;
+    cursor: pointer;
+  }
+  
+  .eye-icon img {
+    width: 16px;
+    height: 16px;
+    opacity: 0.5;
   }
   
   /* 모달 오버레이 */
@@ -288,7 +323,7 @@
     left: 20px;
     display: flex;
     align-items: center;
-    background-color: #E0E9C8;
+    background-color: #e0e9c8;
     padding: 5px 10px;
     border-radius: 15px;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);

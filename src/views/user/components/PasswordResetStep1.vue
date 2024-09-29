@@ -103,8 +103,8 @@
   
     // canProceed 계산된 속성: 인증이 완료되었을 때만 "다음" 버튼 활성화
     const canProceed = computed(() => {
-    // return isVerified.value; // 인증이 완료되었을 때만 true 반환
-    return true;
+    return isVerified.value; // 인증이 완료되었을 때만 true 반환
+    // return true;
     });
 
 
