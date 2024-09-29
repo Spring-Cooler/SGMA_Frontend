@@ -13,7 +13,7 @@
                     <PostBody :data="bodyData" :isPerm="true"></PostBody>
                     <DeleteModal :isVisible="modalVisibility" @confirm="deletePost" @cancel="toggleModal">해당 게시글을 삭제하시겠습니까?</DeleteModal>
                     <CommentHeader :data="headerData" :boardId="props.boardId" @add="addComment"></CommentHeader>
-                    <CommentBody v-for="(commentDetail, index) in commentList" :key="index">
+                    <CommentBody v-for="(commentDetail, commentIndex) in commentList" :key="commentIndex">
                         <Comment :data="commentDetail" @add="addReply" @remove="deleteComment(commentDetail.comment_id)" :commentId="commentDetail.comment_id">
                             <ReplyBody v-for="(replyDetail, replyIndex) in replyList[commentDetail.comment_id]" :key="replyIndex">
                                 <Reply :data="replyDetail" @remove="deleteReply(replyDetail.reply_id, commentDetail.comment_id)" :replyId="replyDetail.reply_id"></Reply>

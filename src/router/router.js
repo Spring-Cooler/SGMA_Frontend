@@ -108,6 +108,12 @@ const routes = [
     component: StudyPostUploadPage,
     props: true
   },
+  {
+    path: "/study-groups/:groupId/recruitments/upload",
+    name: "StudyRecruitmentUploadPage",
+    component: StudyPostUploadPage,
+    props: true
+  },
 ];
 
 const router = createRouter({

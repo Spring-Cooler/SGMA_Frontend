@@ -4,16 +4,13 @@
     </button>
   </template>
   
-  <script>
-  export default {
-    name: "SmallButton",
-    props: {
+  <script setup>
+    const props = defineProps({
       label: {
         type: String,
         required: true,
-      },
-    }
-  };
+      }
+    })
   </script>
   
   <style scoped>
