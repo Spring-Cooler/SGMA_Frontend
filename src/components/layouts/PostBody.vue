@@ -5,7 +5,7 @@
           <EndDate>종료일: {{props.data.endDate}}</EndDate>
         </div>
         <PostContent>
-            <p v-html="formattedContent"></p>
+            <p class="content">{{ props.data.content }}</p>
         </PostContent>
     </div>
 </template>
@@ -14,7 +14,6 @@
 import StartDate from '@/components/common/StartDate.vue';
 import EndDate from '@/components/common/EndDate.vue';
 import PostContent from '@/components/common/PostContent.vue';
-import { computed } from 'vue';
 
 const props = defineProps({
         data: {
@@ -26,11 +25,6 @@ const props = defineProps({
             required: true
         }
     })
-
-// 줄바꿈(\n)을 <br>로 변환하는 computed property
-const formattedContent = computed(() => {
-    return props.data.content.value.replace(/\n/g, '<br>');
-});    
 </script>
 
 <style scoped>
@@ -51,5 +45,10 @@ const formattedContent = computed(() => {
   flex-direction: column;
   width: 100%;
   margin-top: 3rem;
+}
+
+.content {
+  white-space: pre-wrap; /* 줄바꿈 및 연속된 공백을 유지 */
+  word-wrap: break-word;
 }
 </style>
