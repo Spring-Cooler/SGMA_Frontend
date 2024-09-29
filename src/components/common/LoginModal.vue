@@ -38,7 +38,7 @@
           <button class="sns-btn naver"></button>
         </div>
         <div class="login-options">
-          <a href="#">아이디 찾기</a>
+          <a href="#" @click.prevent="openFindId">아이디 찾기</a>
           <span class="divider">|</span>
           <!-- 비밀번호 찾기 클릭 시 PasswordResetStep1 모달 열기 -->
           <a href="#" @click.prevent="openPasswordReset">비밀번호 찾기</a>
@@ -66,7 +66,7 @@ import eyeClosedIcon from '@/assets/images/eye_closed.png';
 import AccountReactivationModal from '@/views/user/components/AccountReactivationModal.vue'; // 계정 재활성화 모달 추가
 
 // 외부에서 받아온 이벤트 정의
-const emit = defineEmits(['close', 'goToStep1','openPasswordReset']);
+const emit = defineEmits(['close', 'goToStep1','openPasswordReset', 'openFindId']);
 
 // 상태와 메서드 `inject`로 받아오기
 const token = inject('token'); // 토큰 상태
@@ -167,6 +167,12 @@ const login = async () => {
       passwordError.value = '로그인 요청이 실패했습니다. 서버 상태를 확인해주세요.';
     }
   }
+};
+
+// 아이디 찾기 모달 열기
+const openFindId = () => {
+  console.log('아이디 찾기 모달 열기 함수 호출됨(로그인 창에서)')
+  emit('openFindId'); // 아이디 찾기 모달 열기 이벤트 발생
 };
 
 // 비밀번호 찾기 모달 열기

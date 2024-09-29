@@ -87,7 +87,6 @@ const fetchData = async () => {
 		})).data;
 		console.log(response)
 		if (response.success) {
-			console.log('if문')
 			problemInfos.value = response.data;
 			console.log(problemInfos.value);
 			// Set the current problem to the first one after fetching data
