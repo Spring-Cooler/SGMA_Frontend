@@ -13,12 +13,12 @@
                         <div class="upload-category" v-if="postData.post_type === 'recruitment'">
                             <label for="category">카테고리</label>
                             <select id="category" class="category-input" v-model="postData.category" required>
-                              <option value="" disabled selected>카테고리 선택</option>
-                              <option v-for="(category, categoryIndex) in categoryList" 
-                                :key="categoryIndex" 
-                                :value="category.category_id">
-                                {{ category.category_name }}
-                              </option>
+                                <option value="" disabled selected>카테고리 선택</option>
+                                <option v-for="(category, categoryIndex) in categoryList" 
+                                      :key="categoryIndex" 
+                                      :value="category.category_id">
+                                      {{ category.category_name }}
+                                </option>
                             </select>
                         </div>
                         <div class="upload-title">
@@ -69,7 +69,7 @@
     const userId = 
         localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).userId : null;
 
-    const loading = ref(false);
+    const loading = ref(true);
 
     const memberList = ref([]);
     const memberMap = ref({});
@@ -141,7 +141,8 @@
 
     const fetchCategoryData = async () => {
         try {
-            const response = (await axios.get(`/study-group-service/api/study-group/categories`,{
+            const response = (await axios.get(`/study-group-service/api/study-group/categories`,
+            {
                         headers: {
                             Authorization: `Bearer ${accessToken}`
                         }
@@ -150,7 +151,7 @@
                 categoryList.value = response.data;
             }
         } catch (error) {
-            console.log(error);
+            console.error(error);
         }
     }
 
@@ -231,6 +232,7 @@
         postData.value.end_time = '';
         postData.value.id = '';
         postData.value.group_id = '';
+        postData.value.group_name = '';
     };
 
     onMounted(() => {
