@@ -14,10 +14,6 @@
                 <div class="recruitment-content">{{props.data.content}}</div>
             </section>
             <section class="mid-bottom-section">
-                <div class="study-group-member-count">
-                    <i class="fa-solid fa-user"></i>
-                    <span>5</span>
-                </div>
                 <div class="study-group-owner">
                     <span>그룹장:</span>
                     <span>{{props.data.user_nickname}}</span>
