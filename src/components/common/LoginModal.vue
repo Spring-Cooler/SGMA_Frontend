@@ -46,6 +46,13 @@
           <a href="#" @click.prevent="goToRegister">회원가입</a>
         </div>
       </div>
+
+       <!-- 계정 재활성화 모달 추가 -->
+       <AccountReactivationModal
+        v-if="isAccountReactivationModalVisible"
+        @close="closeAccountReactivationModal"
+        :userAuthId="username" 
+      />
     </div>
   </div>
 </template>
@@ -55,6 +62,7 @@ import { ref, inject } from 'vue';
 import axios from 'axios'; // axios 가져오기
 import eyeOpenIcon from '@/assets/images/eye_open.png';
 import eyeClosedIcon from '@/assets/images/eye_closed.png';
+import AccountReactivationModal from '@/views/user/components/AccountReactivationModal.vue'; // 계정 재활성화 모달 추가
 
 // 외부에서 받아온 이벤트 정의
 const emit = defineEmits(['close', 'goToStep1']);
@@ -71,6 +79,19 @@ const usernameError = ref(''); // 아이디 에러 메시지 상태
 const passwordError = ref(''); // 비밀번호 에러 메시지 상태
 
 const passwordVisible = ref(false); // 비밀번호 표시 여부
+// 계정 재활성화 모달 상태 관리
+const isAccountReactivationModalVisible = ref(false);
+
+
+// 계정 재활성화 모달 열기 함수
+const openAccountReactivationModal = () => {
+  isAccountReactivationModalVisible.value = true;
+};
+
+// 계정 재활성화 모달 닫기 함수
+const closeAccountReactivationModal = () => {
+  isAccountReactivationModalVisible.value = false;
+};
 
 // 모달 닫기 함수
 const closeModal = () => {
@@ -131,14 +152,23 @@ const login = async () => {
     // 네트워크 오류나 서버 오류가 발생한 경우
     console.error('로그인 오류:', error);
 
-    // axios 오류 응답 객체가 있을 경우, 더 구체적인 메시지 출력
-    if (error.response && error.response.data && error.response.data.error) {
-      passwordError.value = error.response.data.error.message || '로그인 요청이 거부되었습니다. 서버 상태를 확인해주세요.';
+    if (error.response) {
+      console.log('error.response.data:', error.response.data); // 서버 응답 로그
+      if (error.response.data.error.code === 40320) {
+        console.log('40320 에러 코드 감지됨'); // 에러 코드 감지 확인
+        // 계정 재활성화 모달 표시
+        openAccountReactivationModal(); // 계정 재활성화 모달 열기 함수 호출
+        console.log('isAccountReactivationModalVisible 상태:', isAccountReactivationModalVisible.value);
+      } else {
+        passwordError.value = error.response.data.error.message || '로그인 요청이 거부되었습니다. 서버 상태를 확인해주세요.';
+      }
     } else {
       passwordError.value = '로그인 요청이 실패했습니다. 서버 상태를 확인해주세요.';
     }
   }
 };
+
+
 
 // 회원가입 모달로 이동
 const goToRegister = () => {

@@ -318,14 +318,14 @@ const openPrivacyPolicyModal = () => {
 <style scoped>
 /* 오류 텍스트 스타일 */
 .error-text {
-  color: red;
+  color: #E1523A;
   font-size: 1.4rem;
   margin-top: 0.2rem;
 }
 
 /* 성공 텍스트 스타일 */
 .success-text {
-  color: green;
+  color: #02B853;
   font-size: 1.4rem;
   margin-top: 0.2rem;
 }
