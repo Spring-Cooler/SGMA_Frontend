@@ -41,7 +41,7 @@
       applicants.value = response.data.data || []; // 지원자 데이터를 상태에 저장
       console.log(applicants.value); // 로그로 API 호출 결과 출력
     } catch (err) {
-      error.value = 'Failed to fetch applicants'; // 에러 발생 시 메시지 저장
+      console.log('Failed to fetch applicants'); // 에러 발생 시 메시지 저장
     } finally {
       loading.value = false; // 요청 완료 후 로딩 종료
     }

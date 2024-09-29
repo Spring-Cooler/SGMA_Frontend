@@ -13,7 +13,7 @@ export default defineConfig({
         changeOrigin: true, // 다른 도메인으로의 요청 허용
       },
       '/api': {
-        target: 'http://localhost:12345',  // 백엔드 서버 주소
+        target: 'http://localhost:8080',  // 백엔드 서버 주소
         changeOrigin: true,               // 다른 도메인으로의 요청 허용
         rewrite: (path) => path.replace(/^\/api/, '')
        }, // '/api'를 백엔드 서버 경로에서 제거
