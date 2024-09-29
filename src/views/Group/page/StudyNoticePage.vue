@@ -11,7 +11,7 @@
                     <div class="notice-title">제목</div>
                     <div class="notice-created-at">등록일</div>
                 </div>
-                <div class="notice-list" v-if="loading">Loading...</div>
+                <div class="notice-list loading" v-if="loading">작성된 공지사항이 없습니다.</div>
                 <div class="notice-list" v-else>
                     <div v-for="(notice, noticeIndex) in noticeList" :key="noticeIndex">
                         <Notice :data="notice" @detail="goDetail(notice.notice_id)"></Notice>
@@ -31,7 +31,7 @@
     import Notice from '../components/Notice.vue';
     import Pagination from '@/components/common/Pagination.vue';
     import axios from 'axios';
-    import { ref, reactive, onMounted, watch } from 'vue';
+    import { ref, onMounted, watch } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
 
     const route = useRoute();
@@ -129,9 +129,14 @@
         align-items: center;
     }
 
-    .notice-list {
+    .notice-list{
         display: flex;
         flex-direction: column;
         width: 100%;
+    }
+
+    .loading {
+        align-items: center;
+        font-size: 2rem;
     }
 </style>

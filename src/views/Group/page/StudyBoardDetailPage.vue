@@ -243,7 +243,7 @@
             })).data;
             if (response.success) {
                 modalVisibility.value = false;
-                router.push(`/study-groups/1/boards`);
+                router.push(`/study-groups/${route.params.groupId}/boards`);
             }
         } catch (error) {
             console.error(error);
@@ -294,7 +294,7 @@
             content: boardDetail.value.content,
             post_type: 'board',
         });
-        router.push(`/study-groups/1/boards/${route.params.boardId}/modify`);
+        router.push(`/study-groups/${route.params.groupId}/boards/${route.params.boardId}/modify`);
     }
 
     onMounted(() => {

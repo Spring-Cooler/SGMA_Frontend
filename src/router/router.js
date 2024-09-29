@@ -17,6 +17,7 @@ import StudyPostModifyPage from "@/views/Group/page/StudyPostModifyPage.vue";
 import StudyPostUploadPage from "@/views/Group/page/StudyPostUploadPage.vue";
 import Applicant from "@/views/Recruitment/Applicant.vue";
 import SingleBoard from "@/views/Recruitment/SingleBoard.vue";
+import MyStudyGroupsPage from "@/views/user/page/MyStudyGroupsPage.vue";
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -26,6 +27,7 @@ const routes = [
   { path: '/applicant', name: 'Applicant', component: Applicant },
   { path: '/board', name: 'SingleBoard', component: SingleBoard},
   { path: "/study-groups", name: "FindStudyGroups", component: FindStudyGroups },
+  { path: "/my-study-groups", name: "MyStudyGroupsPage", component: MyStudyGroupsPage },
   {
     path: "/study-groups/:groupId/schedules",
     component: SchedulePage,
