@@ -150,7 +150,7 @@
             if (a.active_status !== 'ACTIVE' && b.active_status === 'ACTIVE') {
                 return 1; // 모집중 아닌 글은 뒤로
             }
-            return b.likes_count - a.likes_count; // 모집 상태가 같으면 좋아요순으로 정렬
+            return b.likes - a.likes; // 모집 상태가 같으면 좋아요순으로 정렬
         });
         
         if (!route.query.status || route.query.status === '') {
