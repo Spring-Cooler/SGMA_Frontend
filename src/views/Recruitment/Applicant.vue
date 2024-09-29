@@ -14,8 +14,8 @@
           <span class="comment-reply-author-icon"></span>
           <span class="nickname">{{ applicant?.nickname }}</span>
           <div class="button-container">
-            <button class="approve-button">승인</button>
-            <button class="reject-button">거절</button>
+            <button class="approve-button" @click="approveApplicant(applicant.user_id, applicant.recruitment_board_id)">승인</button>
+            <button class="reject-button" @click="rejectApplicant(applicant.user_id, applicant.recruitment_board_id)">거절</button>
           </div>
         </li>
       </ul>
@@ -40,10 +40,43 @@
     try {
       const response = await axios.get('api/api/study-applicant/group/1'); // groupId에 맞게 수정
       applicants.value = response.data.data || []; // 지원자 데이터를 상태에 저장
+      console.log(applicants.value); // 로그로 API 호출 결과 출력
     } catch (err) {
       error.value = 'Failed to fetch applicants'; // 에러 발생 시 메시지 저장
     } finally {
       loading.value = false; // 요청 완료 후 로딩 종료
+    }
+  };
+
+  const approveApplicant = async (userId, recruitmentBoardId) => {
+    try {
+      const response = await axios.post(`api/api/study-applicant/${userId}/${recruitmentBoardId}`);
+      alert("승인 완료");
+      await fetchApplicants();
+      const applicant = applicants.value.find(a => a.user_id === userId && a.recruitment_board_id === recruitmentBoardId);
+      if (applicant) {
+      applicant.application_status = 'accept';
+      }
+      // 필요한 후처리 (예: 리스트 갱신 등)
+    } catch (err) {
+      console.error("승인 실패", err);
+      alert("승인 실패");
+    }
+  };
+
+  const rejectApplicant = async (userId, recruitmentBoardId) => {
+    try {
+      const response = await axios.put(`api/api/study-applicant/${userId}/${recruitmentBoardId}`);
+      alert("거절 완료");
+      await fetchApplicants();
+      // 필요한 후처리 (예: 리스트 갱신 등)
+      const applicant = applicants.value.find(a => a.user_id === userId && a.recruitment_board_id === recruitmentBoardId);
+      if (applicant) {
+        applicant.application_status = 'reject'; // 상태를 'reject'로 변경
+      }
+    } catch (err) {
+      console.error("거절 실패", err);
+      alert("거절 실패");
     }
   };
 
