@@ -1,11 +1,7 @@
 <template>
     <div class="study-recruitment-page">
-        <!-- 상단 네비게이션 -->
         <Navigation />
-        <!-- 사이드 바-->
         <GroupSideBar />
-  
-        <!-- 메인 컨텐츠 -->
         <main class="main">
             <div class="main-content">
                 <div class="recruitment-container loading" v-if="loading">Loading...</div>
@@ -14,9 +10,9 @@
                     <div class="recruitment-header">
                         <nav class="recruitment-nav">
                             <ul class="recruitment-menu">
-                                <li  v-for="(menu, index) in menuItems" :key="index" 
-                                    :class="{ active: selectedMenu === index }"
-                                    @click="selectMenu(index)"
+                                <li  v-for="(menu, menuIndex) in menuList" :key="menuIndex" 
+                                    :class="{ active: selectedMenu === menuIndex }"
+                                    @click="handleSelectMenu(menuIndex)"
                                 >
                                     {{ menu }}
                                 </li>
@@ -25,7 +21,7 @@
                         </nav>
                         <LargeButton label="모집글 작성하기" @click="goUploadPost"></LargeButton>
                     </div>
-                    <div class="recruitment-body" v-for="(recruitment, index) in recruitmentList" :key="index">
+                    <div class="recruitment-body" v-for="(recruitment, recruitmentIndex) in recruitmentList" :key="recruitmentIndex">
                         <Recruitment :data="recruitment"></Recruitment>
                     </div>
                 </div>
@@ -46,7 +42,7 @@
     import axios from 'axios';
 
     // 메뉴 항목과 선택된 메뉴를 관리하는 상태 변수
-    const menuItems = ["전체", "모집중", "모집완료"];
+    const menuList = ["전체", "모집중", "모집완료"];
     const selectedMenu = ref(0);
 
     const route = useRoute();
@@ -55,41 +51,46 @@
     const accessToken = 
         localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 
-
     const loading = ref(true);
     const allRecruitments = ref([]); // 전체 모집글 데이터 저장
-    const recruitmentList = ref([]);
-    const statusQuery = ref('');
+    const recruitmentList = ref([]); // 필터된 모집글 데이터 저장
+    const statusQuery = ref(''); // 필터에 사용한 Query
 
-    const fetchData = async () => {
+    const fetchRecruitmentData = async () => {
         try {
-            let response = (await axios.get(`/recruitment-service/api/recruitment-board/group/${route.params.groupId}`,{
+            const response = (await axios.get(`/recruitment-service/api/recruitment-board/group/${route.params.groupId}`,
+            {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
             })).data;
 
-            if (!response.success) {
-                return;
+            if (response.success) {
+                allRecruitments.value = response.data;
+                filterRecruitments(); // 데이터를 가져온 후 필터링을 적용
+                loading.value = false;
             }
-
-            loading.value = false;
-            allRecruitments.value = response.data;
-            filterRecruitments(); // 데이터를 가져온 후 필터링을 적용
         } catch (error) {
             console.error(error);
         }
     }
 
     // 메뉴 선택 함수
-    const selectMenu = (index) => {
-        selectedMenu.value = index;
-        if (index === 0) {
-            statusQuery.value = '';
-        } else if (index === 1) {
-            statusQuery.value = 'active';
-        } else if (index === 2) {
-            statusQuery.value = 'inactive';
+    const handleSelectMenu = (menuIndex) => {
+        selectedMenu.value = menuIndex;
+        switch (menuIndex) {
+            case 0:
+                statusQuery.value = '';
+                break;
+            case 1:
+                statusQuery.value = 'active';
+                break;
+            case 2:
+                statusQuery.value = 'inactive';
+                break;
+            default:
+                statusQuery.value = '';
+                break;
         }
         router.push({path: route.fullpath, query: {status: statusQuery.value}});
     };
@@ -99,7 +100,6 @@
         const activeRecruitments = allRecruitments.value.filter(item => item.active_status === 'ACTIVE');
         const inactiveRecruitments = allRecruitments.value.filter(item => item.active_status === 'INACTIVE');
         
-        // 선택된 메뉴에 따라 모집글을 정렬하여 보여줍니다.
         if (!route.query.status || route.query.status === '') {
             // "전체" 선택 시, 모집중 -> 모집완료 순서로 출력
             recruitmentList.value = [...activeRecruitments, ...inactiveRecruitments];
@@ -115,7 +115,7 @@
     // 라인의 동적 스타일
     const lineStyle = computed(() => {
         return {
-            width: 'calc(100% / ' + menuItems.length + ')',
+            width: 'calc(100% / ' + menuList.length + ')',
             transform: `translateX(${selectedMenu.value * 100}%)`,
             transition: 'transform 0.3s ease',
         };
@@ -123,22 +123,20 @@
 
     const goUploadPost = () => {
         store.commit('setPostData', {
-                post_type: 'recruitment',
+            post_type: 'recruitment',
         });
         router.push(`/study-groups/${route.params.groupId}/recruitments/upload`);
     }
 
     // URL 쿼리 변경을 감지하여 필터링
-    watch(() => route.query.status, () => {
-        filterRecruitments();
-    });
+    watch(() => route.query.status, () => {filterRecruitments();});
 
     onMounted(() => {
         if(accessToken === null) {
             alert("로그인을 해주세요.");
             router.push(`/`);
         }
-        fetchData();
+        fetchRecruitmentData();
     })
 </script>
 
