@@ -7,7 +7,6 @@
       <CancelButton />
     </div>
     <div class="applicant-list">
-      <div v-if="loading">Loading...</div>
       <div v-if="error" class="error">{{ error }}</div>
       <ul v-else>
         <li v-for="applicant in applicants" :key="applicant?.user_id">
@@ -52,6 +51,7 @@
     try {
       const response = await axios.post(`api/api/study-applicant/${userId}/${recruitmentBoardId}`);
       alert("승인 완료");
+      window.location.reload()
       await fetchApplicants();
       const applicant = applicants.value.find(a => a.user_id === userId && a.recruitment_board_id === recruitmentBoardId);
       if (applicant) {
@@ -68,6 +68,7 @@
     try {
       const response = await axios.put(`api/api/study-applicant/${userId}/${recruitmentBoardId}`);
       alert("거절 완료");
+      window.location.reload()
       await fetchApplicants();
       // 필요한 후처리 (예: 리스트 갱신 등)
       const applicant = applicants.value.find(a => a.user_id === userId && a.recruitment_board_id === recruitmentBoardId);
