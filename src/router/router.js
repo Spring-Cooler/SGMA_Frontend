@@ -14,6 +14,8 @@ import CreateGroup from "@/views/Recruitment/CreateGroup.vue";
 import ExamPage from "@/views/Problem/ExamPage.vue";
 import StudyBoardDetailPage from "@/views/Group/page/StudyBoardDetailPage.vue";
 import StudyNoticeDetailPage from "@/views/Group/page/StudyNoticeDetailPage.vue";
+import StudyPostModifyPage from "@/views/Group/page/StudyPostModifyPage.vue";
+import StudyPostUploadPage from "@/views/Group/page/StudyPostUploadPage.vue";
 import Applicant from "@/views/Recruitment/Applicant.vue";
 import SingleBoard from "@/views/Recruitment/SingleBoard.vue";
 
@@ -41,27 +43,27 @@ const routes = [
     }),
   },
   {
-    path: "/study-groups/1/notices",
+    path: "/study-groups/:groupId/notices",
     name: "StudyNoticePage",
     component: StudyNoticePage,
   },
   {
-    path: "/study-groups/1/boards",
+    path: "/study-groups/:groupId/boards",
     name: "StudyBoardPage",
     component: StudyBoardPage,
   },
   {
-    path: "/study-groups/1/members",
+    path: "/study-groups/:groupId/members",
     name: "StudyMemberPage",
     component: StudyMemberPage,
   },
   {
-    path: "/study-groups/1/recruitments",
+    path: "/study-groups/:groupId/recruitments",
     name: "StudyRecruitmentPage",
     component: StudyRecruitmentPage,
   },
   {
-    path: "/study-groups/1/members/management",
+    path: "/study-groups/:groupId/members/management",
     name: "StudyMemberManagePage",
     component: StudyMemberManagePage,
   },
@@ -77,10 +79,40 @@ const routes = [
     props: true,
   },
   {
-    path: "/study-groups/1/notices/:id",
+    path: "/study-groups/:groupId/notices/:noticeId",
     name: "StudyNoticeDetailPage",
     component: StudyNoticeDetailPage,
     props: true,
+  },
+  {
+    path: "/study-groups/:groupId/boards/:boardId/modify",
+    name: "StudyBoardModifyPage",
+    component: StudyPostModifyPage,
+    props: true
+  },
+  {
+    path: "/study-groups/:groupId/notices/:noticeId/modify",
+    name: "StudyNoticeModifyPage",
+    component: StudyPostModifyPage,
+    props: true
+  },
+  {
+    path: "/study-groups/:groupId/boards/upload",
+    name: "StudyBoardUploadPage",
+    component: StudyPostUploadPage,
+    props: true
+  },
+  {
+    path: "/study-groups/:groupId/notices/upload",
+    name: "StudyNoticeUploadPage",
+    component: StudyPostUploadPage,
+    props: true
+  },
+  {
+    path: "/study-groups/:groupId/recruitments/upload",
+    name: "StudyRecruitmentUploadPage",
+    component: StudyPostUploadPage,
+    props: true
   },
 ];
 

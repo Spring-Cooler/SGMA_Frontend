@@ -41,11 +41,17 @@ const items = ref([]);
 const loading = ref(true);
 const groupId = ref(1);
 const router = useRouter();
+const accessToken = 
+    localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 
 const fetchData = async () => {
     try {
         let response; // response 변수를 미리 선언
-        response = await axios.get(`/api/study-group/members/group-id/${groupId.value}`);
+        response = await axios.get(`/study-group-service/api/study-group/members/group-id/${groupId.value}`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         items.value = response.data.data;
     } catch (error) {
         console.error(error);
@@ -59,6 +65,10 @@ function handleManagementClick() {
 }
 
 onMounted(() => {
+    if(accessToken === null) {
+            alert("로그인을 해주세요.");
+            router.push(`/`);
+        }
     fetchData();
 });
 </script>

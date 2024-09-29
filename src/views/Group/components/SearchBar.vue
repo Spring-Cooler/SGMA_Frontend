@@ -7,34 +7,50 @@
         placeholder="검색어를 입력해주세요" 
         v-model="searchQuery">
       </div>
-      <SmallButton class="popsicle" label="검색" @click="navigate"></SmallButton>
-      <SmallButton class="popsicle" label="글쓰기"></SmallButton>
+      <SmallButton class="popsicle" label="검색" @click="goSearch"></SmallButton>
+      <SmallButton class="popsicle" label="글쓰기" @click="goUploadPost"></SmallButton>
     </div>
 </template>
 
 <script setup>
   import SmallButton from '@/components/common/SmallButton.vue';
   import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
-  import { computed } from 'vue';
+  import { useStore } from 'vuex';
+  import { useRoute, useRouter } from 'vue-router';
 
   const props = defineProps({
+    postType: {
+        type: String,
+        required: true
+    },
     path: {
         type: String,
         required: true
     }
   });
   
+  const route = useRoute();
   const router = useRouter();
+  const store = useStore();
 
   const searchQuery = ref('');
 
-  function navigate() {
+  const goSearch = () => {
     if(!searchQuery.value) {
       router.push({path: props.path});
       return;
     }
 	  router.push({path: props.path, query: {title: searchQuery.value}});
+  }
+
+  const goUploadPost = () => {
+    store.commit('setPostData', {
+            post_type: props.postType,
+        });
+    if(props.postType === 'board')
+      router.push(`/study-groups/${route.params.groupId}/boards/upload`);
+    else if(props.postType === 'notice')
+      router.push(`/study-groups/${route.params.groupId}/notices/upload`); 
   }
 </script>
 
