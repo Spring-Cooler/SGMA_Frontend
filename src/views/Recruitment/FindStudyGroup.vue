@@ -13,7 +13,7 @@
                 <i class="fa-solid fa-magnifying-glass"></i>
                 <input type="text" v-model="searchText" placeholder="관심스터디를 검색해 보세요!" />
             </div>
-            <button class="search-btn olive">검색</button>
+            <button class="search-btn olive" @click="searchRecruitment">검색</button>
             
             <div class="tag-search-bar" @click="toggleTagDropdown">
                 <i class="fa-light fa-hashtag"></i>
@@ -134,7 +134,27 @@ const getRecruitmentBoardList = async () => {
     console.error('게시글 조회 중 오류 발생:', error);
   }
 };
+const searchRecruitment = async () => {
+  try {
+    // 검색어가 없을 경우 기본 게시글 목록을 가져옴
+    if (searchText.value.trim() === '') {
+      getRecruitmentBoardList();
+      return;
+    }
+    console.log(searchText.value);
+    // 검색 API 호출
+    const response = await axios.get(`/api/api/recruitment-board/title/${searchText.value}`);
+    if (response.data.success) {
+      recruitmentBoardDetail.value = response.data.data; // 검색 결과 저장
 
+      recruitmentBoardDetail.value = Array.isArray(resultData) ? resultData : [];
+    } else {
+      console.error('검색 요청 실패:', response.data.error);
+    }
+  } catch (error) {
+    console.error('검색 중 오류 발생:', error);
+  }
+};
 
 // 검색 버튼 클릭 시 실행되는 함수
 // const searchRecruitment = () => {
@@ -345,6 +365,7 @@ word-wrap: break-word
 }
 
 .search-btn{
+    cursor:pointer;
     margin-left: 49.7rem;
     margin-top: 18.4rem;
     width: 14rem;
