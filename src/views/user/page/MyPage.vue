@@ -3,19 +3,37 @@
     <Navigation />
     <SideBar />
     <div class="content">
-      <!-- 내 프로필 컴포넌트 -->
-      <UserProfile />
+      <!-- 내 프로필 컴포넌트, 프로필 수정 이벤트를 받음 -->
+      <UserProfile @edit-profile="openProfileEditModal" />
       <!-- 내가 쓴 댓글 목록 컴포넌트 -->
       <UserComments />
+
+       <!-- 프로필 수정 모달 -->
+       <ProfileEditModal v-if="isProfileEditModalVisible" @close="closeProfileEditModal" />
     </div>
   </div>
 </template>
 
 <script setup>
+import { ref } from 'vue';
 import Navigation from '@/components/layouts/Navigation.vue';
 import SideBar from '@/components/layouts/SideBar.vue';
 import UserProfile from '@/views/user/components/UserProfile.vue';
 import UserComments from '@/views/user/components/UserComments.vue';
+import ProfileEditModal from '@/views/user/components/ProfileEditModal.vue'; // 프로필 수정 모달 컴포넌트
+
+// 프로필 수정 모달 상태 관리
+const isProfileEditModalVisible = ref(false);
+
+// 프로필 수정 모달 열기 함수
+const openProfileEditModal = () => {
+  isProfileEditModalVisible.value = true;
+};
+
+// 프로필 수정 모달 닫기 함수
+const closeProfileEditModal = () => {
+  isProfileEditModalVisible.value = false;
+};
 </script>
 
 <style scoped>

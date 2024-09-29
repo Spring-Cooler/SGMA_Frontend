@@ -269,3 +269,89 @@ export const naverLogin = async (code) => {
     throw error;
   }
 };
+
+
+/**
+ * 회원 탈퇴 함수
+ * @param {Number} userId - 탈퇴할 사용자의 ID
+ * @param {String} accessToken - 인증 토큰
+ * @returns {Object} API 응답 데이터
+ */
+export const deactivateUser = async (userId, accessToken) => {
+  try {
+    const response = await axios.patch(`/user-service/api/users/${userId}/deactivate`, {}, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // 인증 헤더 추가
+      },
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('deactivateUser 에러:', error);
+    throw error;
+  }
+};
+
+/**
+ * 회원 재활성화 함수
+ * @param {Number} userId - 재활성화할 사용자의 ID
+ * @param {String} accessToken - 인증 토큰
+ * @returns {Object} API 응답 데이터
+ */
+export const reactivateUser = async (userId, accessToken) => {
+  try {
+    const response = await axios.patch(`/user-service/api/users/${userId}/activate`, {}, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // 인증 헤더 추가
+      },
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('reactivateUser 에러:', error);
+    throw error;
+  }
+};
+
+/**
+ * 회원 프로필 정보 변경 함수
+ * @param {Number} userId - 프로필 정보를 변경할 사용자의 ID
+ * @param {Object} profileData - 변경할 프로필 데이터 (nickname, profile_image)
+ * @param {String} accessToken - 인증 토큰
+ * @returns {Object} API 응답 데이터
+ */
+export const updateUserProfile = async (userId, profileData, accessToken) => {
+  try {
+    const response = await axios.patch(`/user-service/api/users/${userId}/profile`, profileData, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // 인증 헤더 추가
+      },
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('updateUserProfile 에러:', error);
+    throw error; // 에러를 상위로 전달
+  }
+};
+
+
+/**
+ * 비밀번호 재설정 함수
+ * @param {Number} userId - 비밀번호를 재설정할 사용자의 ID
+ * @param {String} newPassword - 새 비밀번호
+ * @param {String} accessToken - 인증 토큰
+ * @returns {Object} API 응답 데이터
+ */
+export const resetUserPassword = async (userId, newPassword, accessToken) => {
+  try {
+    const response = await axios.patch(`/user-service/api/users/${userId}/password`, {
+      password: newPassword
+    }, {
+      headers: {
+        Authorization: `Bearer ${accessToken}`, // 인증 헤더 추가
+      },
+    });
+    return response.data; // API 응답 데이터 반환
+  } catch (error) {
+    console.error('resetUserPassword 에러:', error);
+    throw error;
+  }
+};

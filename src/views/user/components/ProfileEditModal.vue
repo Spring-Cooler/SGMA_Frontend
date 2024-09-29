@@ -3,18 +3,13 @@
     <div class="modal-content">
       <button class="close-btn" @click="closeModal">×</button>
 
-      <div class="page-indicator">
-        <span>3</span>
-        <span>3</span>
-      </div>
-
       <div class="modal-header">
-        <h2>SGMA</h2>
+        <h2>프로필 수정</h2>
       </div>
 
       <div class="modal-body">
         <div class="message-container">
-          <p class="first-text">마지막이에요!</p>
+          <p class="first-text">안녕하세요!</p>
           <p class="second-text">프로필 사진과 닉네임을 설정해주세요.</p>
         </div>
 
@@ -29,7 +24,7 @@
 
           <!-- 닉네임 입력 및 중복 확인 버튼 -->
           <div class="nickname-container">
-            <input type="text" placeholder="닉네임 입력" v-model="nickname" maxlength="10" />
+            <input type="text" placeholder="닉네임 입력" v-model="nickname" maxlength="30" />
             <button class="check-btn" @click="checkNicknameDuplication">중복 확인</button>
           </div>
           <span v-if="nicknameError" class="error-text">{{ nicknameError }}</span>
@@ -40,38 +35,27 @@
       </div>
 
       <div class="modal-footer">
-        <YesNoButton type="cancel" label="이전" @click="goToPreviousStep" />
-        <YesNoButton type="complete" label="완료" @click="completeSignup" :disabled="!canComplete" />
+        <YesNoButton type="cancel" label="취소" @click="closeModal" />
+        <YesNoButton type="complete" label="완료" @click="completeUpdateProfile" :disabled="!canComplete" />
       </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, inject } from 'vue';
 import YesNoButton from '@/components/common/YesNoButton.vue'; // YesNoButton 컴포넌트 임포트
-// import { signupUser, validateNickname } from '@/api/user.js'; // 회원가입 및 닉네임 검증 API 함수 임포트
+import { updateUserProfile, validateNickname } from '@/api/user'; // 필요한 API 함수들 임포트
 import { useRouter } from 'vue-router'; // vue-router 임포트
 
-// 외부에서 받아온 이벤트 정의
-const emit = defineEmits(['close', 'goToStep2']);
-const props = defineProps({
-  username: {
-    type: String,
-    required: true,
-  },
-  password: {
-    type: String,
-    required: true,
-  },
-  email: {
-    type: String,
-    required: true,
-  },
-});
+// 이벤트 방출 함수
+const emit = defineEmits(['close']);
 
 // 라우터 사용 설정
 const router = useRouter();
+
+// 토큰 정보 주입
+const token = inject('token');
 
 // 닉네임과 프로필 사진을 위한 데이터
 const nickname = ref('');
@@ -97,6 +81,7 @@ const handleFileChange = (event) => {
   }
 };
 
+
 // 닉네임 중복 확인 함수
 const checkNicknameDuplication = async () => {
   nicknameError.value = '';
@@ -110,8 +95,6 @@ const checkNicknameDuplication = async () => {
 
   try {
     const response = await validateNickname(nickname.value);
-    console.log(response); // 응답 구조 확인
-
     if (response && response.success) {
       if (!response.data.exist) {
         nicknameDuplicationStatus.value = '사용 가능한 닉네임입니다.';
@@ -128,45 +111,50 @@ const checkNicknameDuplication = async () => {
   }
 };
 
+// completeUpdateProfile 함수
+const completeUpdateProfile = async () => {
+  if (!canComplete.value) return;
+
+  try {
+    // FormData 객체 생성
+    const formData = new FormData();
+    formData.append('nickname', nickname.value);
+
+    // profilePicture가 있을 때는 파일을, 없을 때는 null을 추가
+    if (profilePicture.value) {
+      formData.append('profile_image', profilePicture.value);
+    } else {
+      formData.append('profile_image', null); // 파일이 선택되지 않은 경우 null로 추가
+    }
+
+    console.log("userId:", token.userId);
+    console.log("accessToken:", token.accessToken); // accessToken 값을 출력하여 확인
+
+    const response = await updateUserProfile(token.userId, formData, token.accessToken);
+
+    if (response.success) {
+      alert('프로필이 성공적으로 업데이트되었습니다!');
+      closeModal();
+      router.push('/mypage'); // 마이페이지로 이동
+    } else {
+      alert(`프로필 수정 중 오류가 발생했습니다: ${response.message}`);
+    }
+  } catch (error) {
+    if (error.response && error.response.status === 403) {
+      alert('접근 권한이 없습니다. 다시 로그인해주세요.');
+    } else {
+      alert('프로필 수정 중 오류가 발생했습니다. 다시 시도해주세요.');
+    }
+    console.error('completeUpdateProfile 에러:', error);
+  }
+};
+
+
+
+
 // 모달 닫기 함수
 const closeModal = () => {
   emit('close');
-};
-
-// 이전 단계로 이동
-const goToPreviousStep = () => {
-  emit('goToStep2'); // Step 2로 이동
-};
-
-// 회원가입 완료 함수
-const completeSignup = async () => {
-  nicknameError.value = '';
-
-  if (!canComplete.value) {
-    return;
-  }
-
-
-  try {
-    // // 최종 회원가입 API 호출
-    // await signupUser({
-    //   user_auth_id: props.username,  // Step 1에서 전달받은 아이디
-    //   password: props.password,      // Step 2에서 전달받은 비밀번호
-    //   user_name: props.username,     // 임시로 username을 user_name으로 사용
-    //   nickname: nickname.value,      // 입력된 닉네임
-    //   email: props.email,            // Step 2에서 전달받은 이메일
-    //   signup_path: 'NORMAL',         // 회원가입 경로, NORMAL 설정
-    // });
-
-    alert('회원가입이 완료되었습니다! 홈 화면으로 이동합니다.');
-
-    // 모달을 닫고 홈 화면으로 이동
-    closeModal(); // 모달 닫기
-    router.push('/'); // 홈 화면으로 이동
-  } catch (error) {
-    nicknameError.value = '회원가입에 실패했습니다. 다시 시도해주세요.';
-    console.error('completeSignup 에러:', error);
-  }
 };
 </script>
 
@@ -210,33 +198,6 @@ const completeSignup = async () => {
   }
 }
 
-/* 페이지 번호 표시 */
-.page-indicator {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  display: flex;
-  align-items: center;
-  background-color: #e0e9c8;
-  padding: 5px 10px;
-  border-radius: 15px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.page-indicator span {
-  font-size: 1.4rem;
-  color: #525150;
-  margin: 0 5px;
-}
-
-.page-indicator span:nth-child(1) {
-  font-weight: 700;
-}
-
-.page-indicator span:nth-child(2) {
-  color: #525150;
-}
-
 /* 모달 닫기 버튼 */
 .close-btn {
   position: absolute;
@@ -256,7 +217,7 @@ const completeSignup = async () => {
 
 .modal-header h2 {
   margin: 2rem;
-  font-size: 5rem;
+  font-size: 3rem;
   color: #a1b872;
 }
 
@@ -361,7 +322,8 @@ input[type="text"]:focus {
 /* 중복 확인 버튼 */
 .check-btn {
   padding: 0.6rem 1rem;
-  font-size: 1.4rem;
+  height: 40px;
+  font-size: 1.6rem;
   border: none;
   border-radius: 5px;
   background-color: #a1b872;
