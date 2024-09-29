@@ -15,6 +15,7 @@
 </template>
 
 <script setup>
+import { onMounted } from 'vue';
 import { useRouter } from 'vue-router'; // Vue Router 사용을 위해 import
 
 // Define props
@@ -24,7 +25,9 @@ const props = defineProps({
 		required: true,
 	},
 });
-
+onMounted(() => {
+	console.log(props.event);
+})
 // Define emits
 const emit = defineEmits(['modify', 'remove']);
 
@@ -35,7 +38,7 @@ const router = useRouter();
 const goToDetail = () => {
 	router.push({
 		name: "ScheduleDetailPage",
-		params: { id: props.event.id },
+		params: { scheduleId: props.event.id },
 		query: { schedule: JSON.stringify(props.event) },
 	});
 };

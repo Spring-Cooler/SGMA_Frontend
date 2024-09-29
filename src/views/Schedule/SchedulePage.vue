@@ -19,69 +19,74 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios';
 import ScheduleModal from './components/ScheduleModal.vue';
 import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 import Navigation from '@/components/layouts/Navigation.vue';
 
+const router = useRouter();
+
 const selectedDate = ref(null);
 const isModalVisible = ref(false);
+const props = defineProps({
+	groupId: {
+		type: String,
+		required: true
+	}
+});
 
-// Sample events
-const events = ref([
-	{
-		id: 1,
-		scheduledDate: new Date(2024, 8, 5),
-		startTime: '09:00',
-		endTime: '10:00',
-		title: '올림픽스터디',
-		details: '올림픽 내용 복습.',
-		testStatus: true,
-		numProblemsPerParticipant: 3,
-		numParticipants: 2
+const accessToken = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 
+// Sample events (will be populated with API data)
+const events = ref([]); // Start with an empty array
 
-	},
-	{
-		id: 2,
-		scheduledDate: new Date(2024, 8, 10),
-		startTime: '14:00',
-		endTime: '15:30',
-		title: '피그마스터디',
-		details: '피그마 설계.',
-		testStatus: false,
-		numParticipants: 3
+// Fetch data from the API
+const fetchData = async () => {
+	try {
+		console.log(props.groupId);
+		const response = (await axios.get(`/schedule-service/api/study-schedule/scheduleGroup/${props.groupId}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		})).data;
 
+		if (response.success) {
+			console.log('일정 조회 성공');
+			console.log(response.data);
 
-	},
-	{
-		id: 3,
-		scheduledDate: new Date(2024, 8, 19),
-		startTime: '13:00',
-		endTime: '14:00',
-		title: '코테스터디',
-		details: '코테코테.',
-		testStatus: true,
-		numProblemsPerParticipant: 4,
-		numParticipants: 2
+			// Parse response data into the events array
+			events.value = response.data.map(event => ({
+				id: event.schedule_id,
+				scheduledDate: new Date(event.schedule_start_time),  // Use the start time for the main event date
+				startTime: new Date(event.schedule_start_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),  // Parse time
+				endTime: new Date(event.schedule_end_time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),  // Parse time
+				title: event.title,
+				details: event.content,  // Map 'content' field to 'details'
+				testStatus: event.test_status === 'Y',  // Convert 'Y'/'N' to boolean
+				numProblemsPerParticipant: event.num_problems_per_participant || 0,  // Default to 0 if not provided
+				numParticipants: event.num_participants || 0  // Default to 0 if not provided
+			}));
 
+			console.log('Transformed events:', events.value);
+		}
+	} catch (error) {
+		console.log(`error fetching data: ${error}`);
+	}
+};
 
-	},
-	{
-		id: 4,
-		scheduledDate: new Date(2024, 8, 19),
-		startTime: '15:00',
-		endTime: '16:00',
-		title: '자바스터디',
-		details: '자바.',
-		testStatus: true,
-		numProblemsPerParticipant: 2,
-		numParticipants: 0
+// Run fetchData on mounted
+onMounted(() => {
+	if (!accessToken) {
+		alert('로그인을 해주세요');
+		router.push('/');
+		return;
+	}
+	fetchData();
+});
 
-
-	},
-]);
-
+// Calendar attributes for marking event dates
 const attributes = computed(() => [
 	{
 		key: 'events',
@@ -96,21 +101,22 @@ const attributes = computed(() => [
 
 // Event handler for day click
 const onDayClick = (day) => {
-	// console.log(`onDayClick called: ${day.date}`);
 	selectedDate.value = day.date;
 	isModalVisible.value = true;
 };
 
+// Filter events based on the selected date
 const selectedEvents = computed(() => {
 	if (!selectedDate.value) return [];
 	return events.value.filter(event => isSameDate(event.scheduledDate, selectedDate.value));
 });
 
+// Close modal
 const closeModal = () => {
 	isModalVisible.value = false;
 };
 
-// Compare dates
+// Compare if two dates are the same
 const isSameDate = (date1, date2) => {
 	return (
 		date1.getFullYear() === date2.getFullYear() &&
@@ -149,9 +155,7 @@ const customCalendarStyles = {
 /* Custom styles for the v-calendar container */
 .vc-container {
 	height: 60vw !important;
-	/* Ensuring the container takes full height of the parent */
 	max-height: 60vh !important;
-	/* Remove any height restrictions */
 }
 
 .vc-day {
@@ -164,12 +168,9 @@ const customCalendarStyles = {
 	justify-content: center;
 	align-items: center;
 	border-radius: 0.5rem;
-
-	/* Optional: to make the cells rounded */
 }
 
 .vc-day:hover {
 	background-color: #e0f7fa !important;
-	/* Hover effect */
 }
 </style>
