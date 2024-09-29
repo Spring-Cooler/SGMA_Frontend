@@ -99,8 +99,8 @@ onMounted(() => {
 
 // 스케줄 목록으로 돌아가기
 const goToExamPage = () => {
-	const scheduleId = 1;
-	router.push(`/exams/${scheduleId}`);
+	const scheduleId = 3;
+	router.push(`/study-problems/schedules/${scheduleId}`);
 }
 
 const toggleParticipate = () => {
