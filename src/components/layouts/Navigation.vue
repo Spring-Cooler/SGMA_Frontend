@@ -62,6 +62,12 @@
 	  />
 	  <!-- 개인정보 처리방침 모달 -->
 	  <PrivacyPolicyModal v-if="isPrivacyPolicyModalVisible" @close="closePrivacyPolicyModal" />
+
+	  <AccountReactivationModal
+      v-if="isAccountReactivationModalVisible"
+      :userAuthId="userAuthId"
+      @close="closeAccountReactivationModal"
+    />
 	</header>
   </template>
   
@@ -73,7 +79,8 @@
   import SignupStep2 from '@/views/user/components/SignupStep2.vue';
   import PrivacyPolicyModal from '@/views/user/components/PrivacyPolicyModal.vue'; // PrivacyPolicyModal
   import defaultProfileImage from '@/assets/images/default_profile.svg';
-  
+  import AccountReactivationModal from '@/views/user/components/AccountReactivationModal.vue';
+
   const router = useRouter();
   
   // 사용자 정보 및 로그인 상태 주입받기
@@ -82,6 +89,9 @@
   
   const isLoggedIn = ref(false); // 로그인 상태 확인
   const isDropdownVisible = ref(false); // 드롭다운 메뉴 상태
+
+  const isAccountReactivationModalVisible = ref(false);
+  const userAuthId = ref('');
   
   // 로그인 상태 확인
   const checkLoginStatus = () => {
@@ -159,6 +169,19 @@
 	currentSignupStep.value = 1; // 회원가입 1단계로 초기화
   };
   
+
+  // 계정 재활성화 모달 열기
+const openAccountReactivationModal = (authId) => {
+  userAuthId.value = authId;
+  isAccountReactivationModalVisible.value = true;
+};
+
+// 계정 재활성화 모달 닫기
+const closeAccountReactivationModal = () => {
+  isAccountReactivationModalVisible.value = false;
+};
+
+
   // Step1과 Step2에서 사용할 사용자 데이터
   const userData = ref({
 	name: '', // 사용자 이름

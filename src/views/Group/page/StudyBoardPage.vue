@@ -1,27 +1,22 @@
 <template>
     <div class="study-board-page">
-        <!-- 상단 네비게이션 -->
         <Navigation />
-        <!-- 사이드 바-->
         <GroupSideBar />
-        
-        <!-- 메인 컨텐츠 -->
         <main class="main">
             <div class="main-content">
                 <Title>스터디 자유게시판</Title>
                 <SearchBar path="/study-groups/1/boards" postType="board"></SearchBar>
                 <div class="board-info">
-                  <div class="board-no">번호</div>
-                  <div class="board-title">제목</div>
-                  <div class="board-writer">작성자</div>
-                  <div class="board-created-at">등록일</div>
+                    <div class="board-no">번호</div>
+                    <div class="board-title">제목</div>
+                    <div class="board-writer">작성자</div>
+                    <div class="board-created-at">등록일</div>
                 </div>
                 <div class="board-list" v-if="loading">Loading...</div>
                 <div class="board-list" v-else>
-                  <div v-for="(item, index) in items" :key="index">
-                    <!-- 데이터를 바탕으로 표시할 컴포넌트 -->
-                    <Board :data="item" @detail="detail(item.board_id)"></Board>
-                  </div>
+                    <div v-for="(board, boardIndex) in boardList" :key="boardIndex">
+                        <Board :data="board" @detail="goDetail(board.board_id)"></Board>
+                    </div>
                 </div>
                 <Pagination :data="pageInfo" @changePage="handlePageChange"></Pagination>             
             </div>
@@ -40,43 +35,42 @@
     import { ref, reactive, onMounted, watch } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
 
-    const items = ref([]);
+    const boardList = ref([]);
     const loading = ref(true);
-    const groupId = ref(1);
     const currentPage = ref(1);
     const route = useRoute();
     const router = useRouter();
     const accessToken = 
-      localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
-    let pageInfo = reactive({});
+        localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
+    const pageInfo = ref({});
 
-    const fetchData = async () => {
-      try {
-        let response; // response 변수를 미리 선언
+    const fetchBoardData = async () => {
+        try {
+            let response;
 
-        // route.query.title이 undefined인지 확인
-        if (typeof route.query.title === 'undefined') {
-          response = await axios.get(`/study-group-service/api/study-group/boards/group-id/${groupId.value}?page=${currentPage.value}`,{
-            headers: {
-                Authorization: `Bearer ${accessToken}`
+            if (typeof route.query.title === 'undefined') {
+                response = (await axios.get(`/study-group-service/api/study-group/boards/group-id/${route.params.groupId}?page=${currentPage.value}`, 
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })).data;
+            } else {
+                response = (await axios.get(`/study-group-service/api/study-group/boards/group-id/${route.params.groupId}/title/${route.query.title}?page=${currentPage.value}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })).data;
             }
-        });
-        } else {
-          response = await axios.get(`/study-group-service/api/study-group/boards/group-id/${groupId.value}/title/${route.query.title}?page=${currentPage.value}`,{
-            headers: {
-                Authorization: `Bearer ${accessToken}`
+            if(response.success) {
+                boardList.value = response.data.elements;
+                pageInfo.value = response.data;
+                loading.value = false;
             }
-        });
+        } catch (error) {
+            console.error(error);
         }
-        if(response.data.data !== null) {
-          items.value = response.data.data.elements;
-          pageInfo = response.data.data;
-        }
-      } catch (error) {
-        console.error(error);
-      } finally {
-        loading.value = false;
-      }
     }
 
     // 쿼리 매개변수 변경 감지 및 데이터 가져오기
@@ -91,64 +85,64 @@
         window.scrollTo({ top: 0 });
     }
 
-    const detail = (id) => { 
-        router.push(`/study-groups/1/boards/${id}`);
+    const goDetail = (boardId) => { 
+        router.push(`/study-groups/${route.params.groupId}/boards/${boardId}`);
     }
 
     onMounted(() => {
-      if(accessToken === null) {
+        if(accessToken === null) {
             alert("로그인을 해주세요.");
             router.push(`/`);
         }
-      fetchData();
+        fetchBoardData();
     });
 </script>
 
 <style>
-  .board-info {
-    display: flex;
-    height: 9.2rem;
-    width: 100%;
-    align-items: center;
-    font-size: 2rem;
-    font-weight: 500;
-  }
+    .board-info {
+        display: flex;
+        height: 9.2rem;
+        width: 100%;
+        align-items: center;
+        font-size: 2rem;
+        font-weight: 500;
+    }
 
-  .board-no {
-    display: flex;
-    height: 100%;
-    width: 10%;
-    justify-content: center;
-    align-items: center;
-  }
+    .board-no {
+        display: flex;
+        height: 100%;
+        width: 10%;
+        justify-content: center;
+        align-items: center;
+    }
 
-  .board-title {
-    display: flex;
-    height: 100%;
-    width: 60%;
-    justify-content: center;
-    align-items: center;
-  }
+    .board-title {
+        display: flex;
+        height: 100%;
+        width: 60%;
+        justify-content: center;
+        align-items: center;
+    }
 
-  .board-writer {
-    display: flex;
-    height: 100%;
-    width: 15%;
-    justify-content: center;
-    align-items: center;
-  }
+    .board-writer {
+        display: flex;
+        height: 100%;
+        width: 15%;
+        justify-content: center;
+        align-items: center;
+    }
 
-  .board-created-at {
-    display: flex;
-    height: 100%;
-    width: 15%;
-    justify-content: center;
-    align-items: center;
-  }
+    .board-created-at {
+        display: flex;
+        height: 100%;
+        width: 15%;
+        justify-content: center;
+        align-items: center;
+    }
 
-  .board-list {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-  }
+    .board-list {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
 </style>

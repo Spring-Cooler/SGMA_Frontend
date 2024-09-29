@@ -8,15 +8,37 @@
             <div class="main-content">
                 <div class="post-container loading" v-if="loading">Loading...</div>
                 <div class="post-container" v-else>
-                    <Title>{{title}}</Title>
-                    <PostHeader :data="headerData" :isNotice="false" @modifyPost="goModifyPost" @deletePost="toggleModal"></PostHeader>
+                    <Title>{{boardDetail.title}}</Title>
+                    <PostHeader 
+                        :data="headerData" 
+                        :isNotice="false" 
+                        @modifyPost="goModifyPost" 
+                        @deletePost="toggleModal"
+                    >
+                    </PostHeader>
                     <PostBody :data="bodyData" :isPerm="true"></PostBody>
-                    <DeleteModal :isVisible="modalVisibility" @confirm="deletePost" @cancel="toggleModal">해당 게시글을 삭제하시겠습니까?</DeleteModal>
-                    <CommentHeader :data="headerData" :boardId="props.boardId" @add="addComment"></CommentHeader>
-                    <CommentBody v-for="(commentDetail, index) in commentList" :key="index">
-                        <Comment :data="commentDetail" @add="addReply" @remove="deleteComment(commentDetail.comment_id)" :commentId="commentDetail.comment_id">
+                    <DeleteModal 
+                        :isVisible="modalVisibility" 
+                        @confirm="handleDeletePost" 
+                        @cancel="toggleModal"
+                    >
+                        해당 게시글을 삭제하시겠습니까?
+                    </DeleteModal>
+                    <CommentHeader :data="headerData" @add="handleAddComment"></CommentHeader>
+                    <CommentBody v-for="(commentDetail, commentIndex) in commentList" :key="commentIndex">
+                        <Comment 
+                            :data="commentDetail" 
+                            @add="handleAddReply" 
+                            @remove="handleDeleteComment(commentDetail.comment_id)" 
+                            :commentId="commentDetail.comment_id"
+                        >
                             <ReplyBody v-for="(replyDetail, replyIndex) in replyList[commentDetail.comment_id]" :key="replyIndex">
-                                <Reply :data="replyDetail" @remove="deleteReply(replyDetail.reply_id, commentDetail.comment_id)" :replyId="replyDetail.reply_id"></Reply>
+                                <Reply 
+                                    :data="replyDetail" 
+                                    @remove="handleDeleteReply(replyDetail.reply_id, commentDetail.comment_id)" 
+                                    :replyId="replyDetail.reply_id"
+                                >
+                                </Reply>
                             </ReplyBody>
                         </Comment>
                     </CommentBody>
@@ -39,141 +61,142 @@
     import Reply from '@/components/common/Reply.vue';
     import { ref, onMounted, reactive } from 'vue';
     import { useStore } from 'vuex';
-    import { useRouter } from 'vue-router';
+    import { useRouter, useRoute } from 'vue-router';
     import axios from 'axios';
     import ReplyBody from '@/components/layouts/ReplyBody.vue';
 
-    const props = defineProps({
-        groupId: {
-            type: String,
-            required: true
-        },
-        boardId: {
-            type: String,
-            required: true
-        }
-    })
     const router = useRouter();
+    const route = useRoute();
     const store = useStore();
     const accessToken = 
         localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 
+    const userId = 
+        localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).userId : null;
+
+    const memberList = ref([]);
+    const memberMap = ref({});
+    const memberId = ref();
+    
     const commentList = ref([]);
     const replyList = ref({});
-
     const boardDetail = ref({});
+
     const loading = ref(true);
     const modalVisibility = ref(false);
 
-    const title = ref(null);
-    const nickname = ref(null);
-    const likes = ref(0);
-    const comments = ref(0);
+    const headerData = reactive({
+        nickname: '',
+        likes: 0,
+        comments: 0,
+    })
 
-    const startDate = ref(null);
-    const endDate = ref(null);
-    const content = ref(null);
-
-    const headerData = {
-        nickname: nickname,
-        likes: likes,
-        comments: comments,
-    }
-
-    const bodyData = {
-        startDate: null,
-        endDate: null,
-        content: content,
-    }
+    const bodyData = reactive({
+        content: '',
+    })
 
     const commentData = reactive({
         content: '',
-        member_id: 1,
-        board_id: props.boardId,
+        member_id: null,
+        board_id: route.params.boardId,
     });
 
     const replyData = reactive({
         content: '',
-        member_id: 1,
+        member_id: null,
         comment_id: null,
     });
 
-    const fetchData = async () => {
-      try {
-        let response; // response 변수를 미리 선언
+    const toggleModal = () => {
+        modalVisibility.value = !modalVisibility.value;
+    };
 
-        response = (await axios.get(`/study-group-service/api/study-group/boards/${props.boardId}`,{
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        })).data;
-        if (!response.success) {
-            return;
-        }
-
-        loading.value = false;
-        boardDetail.value = response.data;
-
-        title.value = boardDetail.value.title;
-        nickname.value = boardDetail.value.nickname;
-        likes.value = boardDetail.value.likes;
-
-        if (typeof boardDetail.value.schedule_start_time !== 'undefined') {
-            startDate.value = boardDetail.value.schedule_start_time;
-            endDate.value = boardDetail.value.schedule_end_time;
-        } else if (typeof boardDetail.value.recruitment_start_time !== 'undefined') {
-            startDate.value = boardDetail.value.recruitment_start_time;
-            endDate.value = boardDetail.value.recruitment_end_time;
-        }
-        content.value = boardDetail.value.content;
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    const fetchComments = async () => {
-      try {
-        let response = await axios.get(`/study-group-service/api/study-group/board/comments/board-id/${props.boardId}`,{
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        });
-        if (response.data.success && response.data.data) {
-            comments.value = response.data.data.length;
-            commentList.value = response.data.data;
-            for(const comment of commentList.value) {
-                fetchReplies(comment.comment_id);
-            }
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    const fetchReplies = async (commentId) => {
+    const fetchMemberData = async() => {
         try {
-            let response = await axios.get(`/study-group-service/api/study-group/board/replies/comment-id/${commentId}`,{
+            const response = (await axios.get(`/study-group-service/api/study-group/members/user-id/${userId}`, 
+            {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
-            });
-            if (response.data.success && response.data.data) {
-                comments.value += response.data.data.length;
-                replyList.value[commentId] = response.data.data;
+            })).data;
+            if(response.success) {
+                memberList.value = response.data;
+                for(const member of memberList.value) {
+                    memberMap.value[member.group_id] = member;
+                }
+                if(memberMap.value[route.params.groupId]) {
+                    memberId.value = memberMap.value[route.params.groupId].member_id;
+                    commentData.member_id = memberId.value;
+                    replyData.member_id = memberId.value;
+                }
             }
         } catch (error) {
             console.error(error);
         }
     }
 
-    const toggleModal = () => {
-        modalVisibility.value = !modalVisibility.value;
-    };
+    const fetchBoardData = async () => {
+        try {
+            const response = (await axios.get(`/study-group-service/api/study-group/boards/${route.params.boardId}`, 
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+            if(response.success) {
+                boardDetail.value = response.data;
+                headerData.nickname = boardDetail.value.nickname;
+                headerData.likes = boardDetail.value.likes;
+                bodyData.content = boardDetail.value.content;
+                loading.value = false;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
 
-    const addComment = async (content) => {
+    const fetchCommentData = async () => {
+        try {
+            const response = (await axios.get(`/study-group-service/api/study-group/board/comments/board-id/${route.params.boardId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+            if(response.success) {
+                headerData.comments = response.data.length;
+                commentList.value = response.data;
+                for(const comment of commentList.value) {
+                    fetchReplyData(comment.comment_id);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const fetchReplyData = async (commentId) => {
+        try {
+            const response = (await axios.get(`/study-group-service/api/study-group/board/replies/comment-id/${commentId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+            if(response.success) {
+                headerData.comments += response.data.length;
+                replyList.value[commentId] = response.data;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleAddComment = async (content) => {
         try {
             commentData.content = content;
-            let response = (await axios.post(`/study-group-service/api/study-group/board/comments`, commentData,{
+            const response = (await axios.post(`/study-group-service/api/study-group/board/comments`, commentData, 
+            {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
                 }
@@ -181,7 +204,7 @@
             if(response.success) {
                 commentData.content = '';
             }
-            await fetchComments();
+            await fetchCommentData();
             window.scrollTo({
                 top: document.body.scrollHeight
             })
@@ -190,80 +213,88 @@
         }
     }
 
-    const addReply = async (commentId, content) => {
+    const handleAddReply = async (commentId, content) => {
         try {
             replyData.comment_id = commentId;
             replyData.content = content;
-            let response = (await axios.post(`/study-group-service/api/study-group/board/replies`, replyData,{
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                })).data;
+            const response = (await axios.post(`/study-group-service/api/study-group/board/replies`, replyData,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
             if(response.success) {
                 replyData.comment_id = null
                 replyData.content = '';
-                await fetchComments();
+                await fetchCommentData();
             } 
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
     }
 
-    const deleteComment = async (commentId) => {
+    const handleDeletePost = async () => {
         try {
-            let response = (await axios.delete(`/study-group-service/api/study-group/board/comments/${commentId}`,{
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                })).data;
+            const response = (await axios.delete(`/study-group-service/api/study-group/boards/${route.params.boardId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+            if (response.success) {
+                modalVisibility.value = false;
+                router.push(`/study-groups/1/boards`);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleDeleteComment = async (commentId) => {
+        try {
+            const response = (await axios.delete(`/study-group-service/api/study-group/board/comments/${commentId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
             if(response.success) {
                 // 댓글 리스트에서 해당 댓글 제거
                 commentList.value = commentList.value.filter(comment => comment.comment_id !== commentId);
-                comments.value -= 
+                headerData.comments -= 
                     (typeof replyList.value[commentId] === 'undefined') ? 1 : replyList.value[commentId].length + 1; // 댓글 수 감소
             }
         } catch (error) {
-          console.log(error);
+            console.error(error);
         }
     }
 
-    const deleteReply = async (replyId, commentId) => {
+    const handleDeleteReply = async (replyId, commentId) => {
         try {
-            let response = (await axios.delete(`/study-group-service/api/study-group/board/replies/${replyId}`,{
-                    headers: {
-                        Authorization: `Bearer ${accessToken}`
-                    }
-                })).data;
+            const response = (await axios.delete(`/study-group-service/api/study-group/board/replies/${replyId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
             if(response.success) {
                 // 대댓글 리스트에서 해당 대댓글 제거
                 replyList.value[commentId] = replyList.value[commentId].filter(reply => reply.reply_id !== replyId);
-                comments.value -= 1; // 댓글 수 감소
+                headerData.comments -= 1; // 댓글 수 감소
             }
         } catch (error) {
-          console.log(error);
-        }
-    }
-
-    const deletePost = async () => {
-        let response = (await axios.delete(`/study-group-service/api/study-group/boards/${props.boardId}`,{
-            headers: {
-                Authorization: `Bearer ${accessToken}`
-            }
-        })).data;
-        if (response.success) {
-            modalVisibility.value = false;
-            router.push(`/study-groups/1/boards`);
+            console.error(error);
         }
     }
 
     const goModifyPost = () => {
         store.commit('setPostData', {
-            id: props.boardId,
-            title: title.value,
-            content: content.value,
+            id: route.params.boardId,
+            title: boardDetail.value.title,
+            content: boardDetail.value.content,
             post_type: 'board',
         });
-        router.push(`/study-groups/1/boards/${props.boardId}/modify`);
+        router.push(`/study-groups/1/boards/${route.params.boardId}/modify`);
     }
 
     onMounted(() => {
@@ -271,8 +302,9 @@
             alert("로그인을 해주세요.");
             router.push(`/`);
         }
-        fetchData();
-        fetchComments();
+        fetchMemberData();
+        fetchBoardData();
+        fetchCommentData();
     })
 </script>
 

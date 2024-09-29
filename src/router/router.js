@@ -32,7 +32,6 @@ const routes = [
     path: "/study-groups/1/schedules",
     component: SchedulePage,
   },
-
   {
     path: "/study-groups/1/schedules/:id",
     name: "ScheduleDetailPage",
@@ -86,6 +85,18 @@ const routes = [
     props: true,
   },
   {
+    path: '/board/:id',
+    name: 'SingleBoard',
+    component: SingleBoard,
+    props: true,  // 라우터에서 전달한 파라미터를 props로 받음
+  },
+
+  {
+    path: '/study-groups',
+    name: 'StudyGroups',
+    component: () => import('@/views/Recruitment/FindStudyGroup.vue')  // 페이지 컴포넌트 경로
+  },
+  {
     path: "/study-groups/:groupId/boards/:boardId/modify",
     name: "StudyBoardModifyPage",
     component: StudyPostModifyPage,
@@ -109,7 +120,14 @@ const routes = [
     component: StudyPostUploadPage,
     props: true,
   },
+  {
+    path: "/study-groups/:groupId/recruitments/upload",
+    name: "StudyRecruitmentUploadPage",
+    component: StudyPostUploadPage,
+    props: true
+  },
 ];
+
 
 const router = createRouter({
   history: createWebHistory(),

@@ -11,18 +11,12 @@ const store = createStore({
       group_id: '',
       member_id: '',
       post_type: '',
+      category: '',
     }
   },
   mutations: {
     setPostData(state, postData) {
-      state.postData.id = postData.id;
-      state.postData.title = postData.title;
-      state.postData.content = postData.content;
-      state.postData.start_time = postData.start_time;
-      state.postData.end_time = postData.end_time;
-      state.postData.group_id = postData.group_id;
-      state.postData.member_id = postData.member_id;
-      state.postData.post_type = postData.post_type;
+      state.postData = { ...state.postData, ...postData };
     }
   },
   actions: {
