@@ -47,7 +47,7 @@ import Navigation from '@/components/layouts/Navigation.vue';
 import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 import Title from '@/components/common/Title.vue';
 const props = defineProps({
-	id: {
+	scheduleId: {
 		type: String,
 		required: true,
 	},

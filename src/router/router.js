@@ -37,6 +37,11 @@ const routes = [
     path: "/study-groups/:groupId/schedules/:scheduleId",
     name: "ScheduleDetailPage",
     component: ScheduleDetailPage,
+    props: route => ({
+      scheduleId: route.params.scheduleId,
+      groupId: route.params.groupId,
+      schedule: route.query.schedule ? JSON.parse(route.query.schedule) : null,
+    }),
   },
   {
     path: "/study-groups/:groupId/notices",
