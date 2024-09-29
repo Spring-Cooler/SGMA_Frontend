@@ -128,7 +128,7 @@
             filterRecruitments();
         } else {
             selectedTag.value = index;
-            recruitmentList.value = allRecruitments.value.filter(item => item.study_group_category_id === tagList[index].tagId);
+            recruitmentList.value = recruitmentList.value.filter(item => item.study_group_category_id === tagList[index].tagId);
 
             const activeRecruitments = recruitmentList.value.filter(item => item.active_status === 'ACTIVE');
             const inactiveRecruitments = recruitmentList.value.filter(item => item.active_status === 'INACTIVE');
