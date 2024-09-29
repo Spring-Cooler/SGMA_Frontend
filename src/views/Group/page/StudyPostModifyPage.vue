@@ -50,6 +50,9 @@ const store = useStore();
 
 const router = useRouter();
 
+const accessToken = 
+    localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
+
 const loading = ref(false);
 
 const postData = computed(() => store.getters.getPostData);
@@ -72,15 +75,27 @@ const modifyPost = async () => {
         case 'board': 
             boardData.value.title = postData.value.title;
             boardData.value.content = postData.value.content;
-            response = (await axios.put(`/api/study-group/boards`, boardData.value)).data; 
+            response = (await axios.put(`/study-group-service/api/study-group/boards`, boardData.value,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })).data; 
             break;
         case 'notice': 
             noticeData.value.title = postData.value.title;
             noticeData.value.content = postData.value.content;
-            response = (await axios.put(`/api/study-group/notices`, noticeData.value)).data; 
+            response = (await axios.put(`/study-group-service/api/study-group/notices`, noticeData.value,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })).data; 
             break;
         case 'schedule': 
-            response = await axios.put(`/api/study-group/schedules/`); 
+            response = await axios.put(`/study-group-service/api/study-group/schedules/`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        }); 
             break;
         default: console.error("게시글 타입 에러");
     }
@@ -90,6 +105,10 @@ const modifyPost = async () => {
 }
 
 onMounted(() => {
+    if(accessToken === null) {
+            alert("로그인을 해주세요.");
+            router.push(`/`);
+        }
     loading.value = !(postData.value && postData.value.post_type); // 데이터가 없을 경우 로딩 유지
 });
 

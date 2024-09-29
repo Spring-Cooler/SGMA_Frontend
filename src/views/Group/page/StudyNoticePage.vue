@@ -45,6 +45,8 @@ const groupId = ref(1);
 const currentPage = ref(1);
 const route = useRoute();
 const router = useRouter();
+const accessToken = 
+  localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 let pageInfo = reactive({});
 
 const fetchData = async () => {
@@ -52,9 +54,17 @@ const fetchData = async () => {
     let response; // response 변수를 미리 선언
     // route.query.title이 undefined인지 확인
     if (typeof route.query.title === 'undefined') {
-      response = await axios.get(`/api/study-group/notices/group-id/${groupId.value}?page=${currentPage.value}`);
+      response = await axios.get(`/study-group-service/api/study-group/notices/group-id/${groupId.value}?page=${currentPage.value}`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
     } else {
-      response = await axios.get(`/api/study-group/notices/group-id/${groupId.value}/title/${route.query.title}?page=${currentPage.value}`);
+      response = await axios.get(`/study-group-service/api/study-group/notices/group-id/${groupId.value}/title/${route.query.title}?page=${currentPage.value}`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
     }
     if(response.data.data !== null) {
       items.value = response.data.data.elements;
@@ -84,6 +94,10 @@ const detail = (id) => {
 }
 
 onMounted(() => {
+  if(accessToken === null) {
+            alert("로그인을 해주세요.");
+            router.push(`/`);
+        }
   fetchData();
 });
 </script>
