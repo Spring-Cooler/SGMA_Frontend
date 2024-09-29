@@ -98,6 +98,21 @@ const recruitmentData = ref({
 
 const categoryList = ref([]);
 
+const checkValidTime = () => {
+    // 시간 유효성 검사
+    if (postData.value.start_time && postData.value.end_time) {
+    const startTime = new Date(postData.value.start_time);
+    const endTime = new Date(postData.value.end_time);
+
+        if (endTime <= startTime) {
+            alert("종료 시간이 시작 시간과 같거나 이전일 수 없습니다.");
+            return false;
+        }
+    }
+
+    return true;
+}
+
 const fetchData = async () => {
     try {
         const response = (await axios.get(`/study-group-service/api/study-group/categories`,{
@@ -115,7 +130,7 @@ const fetchData = async () => {
 
 const uploadPost = async () => {
     try {
-        console.log(recruitmentData);
+        if(!checkValidTime()) return;
         let response;
         switch (postData.value.post_type) {
             case 'board': 
@@ -160,20 +175,15 @@ const uploadPost = async () => {
         if(response.success) {
             switch (postData.value.post_type) {
                 case 'board':
-                    router.push(`/study-groups/${route.params.groupId}/boards/${response.data.board_id}`,{
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
-                    }); 
+                    router.push(`/study-groups/${route.params.groupId}/boards/${response.data.board_id}`); 
                     break;
                 case 'notice': 
-                    router.push(`/study-groups/${route.params.groupId}/notices/${response.data.notice_id}`,{
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`
-                        }
-                    }); 
+                    router.push(`/study-groups/${route.params.groupId}/notices/${response.data.notice_id}`); 
                     break;
                 case 'schedule': 
+                    break;
+                case 'recruitment':
+                    // 모집글 내용 페이지로 이동
                     break;
                 default: console.error("게시글 타입 에러");
             }
