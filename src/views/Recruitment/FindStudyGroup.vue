@@ -6,7 +6,7 @@
             <div class="main-content">
                 <div class="recruitment-container loading" v-if="loading">Loading...</div>
                 <div class="recruitment-container" v-else>
-                    <Title>스터디 모집글</Title>
+                    <Title>스터디 그룹 찾기</Title>
                     <div class="recruitment-header">
                         <nav class="recruitment-nav">
                             <ul class="recruitment-menu">
