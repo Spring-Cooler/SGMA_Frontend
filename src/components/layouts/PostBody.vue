@@ -5,7 +5,7 @@
           <EndDate>종료일: {{props.data.endDate}}</EndDate>
         </div>
         <PostContent>
-            {{props.data.content}}
+            <p class="content">{{ props.data.content }}</p>
         </PostContent>
     </div>
 </template>
@@ -45,5 +45,10 @@ const props = defineProps({
   flex-direction: column;
   width: 100%;
   margin-top: 3rem;
+}
+
+.content {
+  white-space: pre-wrap; /* 줄바꿈 및 연속된 공백을 유지 */
+  word-wrap: break-word;
 }
 </style>

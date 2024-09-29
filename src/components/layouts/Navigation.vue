@@ -1,221 +1,244 @@
 <template>
 	<header class="top-nav">
-	<div class="top-left-menu-container" @click="navigateToHome">
+	  <div class="top-left-menu-container" @click="navigateToHome">
 		<img class="logo hide-text" src="@/assets/logo.svg" alt="logo" />
 		<span>SGMA</span>
-	</div>
-	<div class="top-right-menu-container">
+	  </div>
+	  <div class="top-right-menu-container">
 		<div class="search-bar" @click="navigateToSearch">
-		<i class="fa-solid fa-magnifying-glass"></i>
-		<span>스터디 그룹 찾아보기</span>
+		  <i class="fa-solid fa-magnifying-glass"></i>
+		  <span>스터디 그룹 찾아보기</span>
 		</div>
-
-		   <!-- login-btn-wrapper와 user-profile 사이에 구분선 추가 -->
-		   <div v-if="isLoggedIn" class="divider"></div> <!-- 로그인 상태일 때 구분선 표시 -->
-  <div v-if="!isLoggedIn" class="divider"></div> <!-- 비로그인 상태일 때 구분선 표시 -->
-
+  
+		<!-- 로그인 상태에 따른 구분선 -->
+		<div v-if="isLoggedIn" class="divider"></div>
+		<div v-if="!isLoggedIn" class="divider"></div>
+  
 		<div class="login-btn-wrapper" v-if="!isLoggedIn">
-		<button type="button" id="login-btn" class="btn login-btn" @click="openLoginModal">로그인</button>
+		  <button type="button" id="login-btn" class="btn login-btn" @click="openLoginModal">로그인</button>
 		</div>
 		<div class="user-profile" v-if="isLoggedIn">
-		<img
-			:src="  defaultProfileImage || user.profileImage "
+		  <img
+			:src="defaultProfileImage || user.profileImage"
 			class="profile-avatar"
 			alt="프로필 이미지"
 			@click="toggleDropdown"
-		/>
-		<!-- 드롭다운 메뉴 -->
-		<div v-if="isDropdownVisible" class="dropdown-menu">
-  <button class="dropdown-item" @click="navigateToMypage">
-    <i class="fa-solid fa-user custom-icon"></i> 마이페이지
-  </button>
-  <button class="dropdown-item" @click="logout">
-    <i class="fa-solid fa-right-from-bracket custom-icon"></i> 로그아웃
-  </button>
-</div>
-
+		  />
+		  <!-- 드롭다운 메뉴 -->
+		  <div v-if="isDropdownVisible" class="dropdown-menu">
+			<button class="dropdown-item" @click="navigateToMypage">
+			  <i class="fa-solid fa-user custom-icon"></i> 마이페이지
+			</button>
+			<button class="dropdown-item" @click="logout">
+			  <i class="fa-solid fa-right-from-bracket custom-icon"></i> 로그아웃
+			</button>
+		  </div>
 		</div>
-	</div>
-
-	<!-- 로그인 모달 창 -->
-	<LoginModal
+	  </div>
+  
+	  <!-- 로그인 모달 창 -->
+	  <LoginModal
 		v-if="isLoginModalVisible"
 		@close="closeLoginModal"
 		@goToStep1="openRegisterModal"
-	/>
+	  />
+  
+	  <!-- 회원가입 단계별 모달 -->
+	  <SignupStep1
+		v-if="isRegisterModalVisible && currentSignupStep === 1"
+		@close="closeRegisterModal"
+		@openLogin="openLoginModal"
+		@update="updateUserData"
+		@goToStep2="goToStep2"
+		:userData="userData"
+	  />
+	  <SignupStep2
+		v-if="isRegisterModalVisible && currentSignupStep === 2"
+		:userData="userData"
+		@close="closeRegisterModal"
+		@update="updateUserData"
+		@goToStep1="openRegisterModal"
+		@openPrivacyPolicy="openPrivacyPolicyModal"
+	  />
+	  <!-- 개인정보 처리방침 모달 -->
+	  <PrivacyPolicyModal v-if="isPrivacyPolicyModalVisible" @close="closePrivacyPolicyModal" />
 
-	<!-- 회원가입 단계별 모달 -->
-	<!-- 회원가입 단계별 모달 -->
-	<SignupStep1
-	v-if="isRegisterModalVisible && currentSignupStep === 1"
-	@close="closeRegisterModal"
-	@openLogin="openLoginModal" 
-	@goToStep2="goToStep2"  
-  />
-  <SignupStep2
-	v-if="isRegisterModalVisible && currentSignupStep === 2"
-	@close="closeRegisterModal"
-	@goToStep1="openRegisterModal"
-	@goToStep3="goToStep3"
-	@openPrivacyPolicy="openPrivacyPolicyModal" 
-  />
-  <SignupStep3
-	v-if="isRegisterModalVisible && currentSignupStep === 3"
-	@close="closeRegisterModal"
-	@goToStep2="goToStep2"
-	@complete="completeSignup"
-  />
-   <!-- 개인정보 처리방침 모달 -->
-   <PrivacyPolicyModal v-if="isPrivacyPolicyModalVisible" @close="closePrivacyPolicyModal" />
+	  <AccountReactivationModal
+      v-if="isAccountReactivationModalVisible"
+      :userAuthId="userAuthId"
+      @close="closeAccountReactivationModal"
+    />
 	</header>
-</template>
-
-<script setup>
-import { ref, inject, watch } from 'vue';
-import { useRouter } from 'vue-router';
-import LoginModal from '@/components/common/LoginModal.vue';
-import SignupStep1 from '@/views/user/components/SignupStep1.vue';
+  </template>
+  
+  <script setup>
+  import { ref, inject, watch } from 'vue';
+  import { useRouter } from 'vue-router';
+  import LoginModal from '@/components/common/LoginModal.vue';
+  import SignupStep1 from '@/views/user/components/SignupStep1.vue';
   import SignupStep2 from '@/views/user/components/SignupStep2.vue';
-  import SignupStep3 from '@/views/user/components/SignupStep3.vue';
   import PrivacyPolicyModal from '@/views/user/components/PrivacyPolicyModal.vue'; // PrivacyPolicyModal
-// 기본 프로필 이미지 import
-import defaultProfileImage from '@/assets/images/default_profile.svg';
-const router = useRouter();
+  import defaultProfileImage from '@/assets/images/default_profile.svg';
+  import AccountReactivationModal from '@/views/user/components/AccountReactivationModal.vue';
 
-// 사용자 정보 및 로그인 상태 주입받기
-const token = inject('token');
-const setTokenData = inject('setTokenData');
+  const router = useRouter();
+  
+  // 사용자 정보 및 로그인 상태 주입받기
+  const token = inject('token');
+  const setTokenData = inject('setTokenData');
+  
+  const isLoggedIn = ref(false); // 로그인 상태 확인
+  const isDropdownVisible = ref(false); // 드롭다운 메뉴 상태
 
-const isLoggedIn = ref(false); // 로그인 상태 확인
-const isDropdownVisible = ref(false); // 드롭다운 메뉴 상태
-
-// 로그인 상태 확인
-const checkLoginStatus = () => {
+  const isAccountReactivationModalVisible = ref(false);
+  const userAuthId = ref('');
+  
+  // 로그인 상태 확인
+  const checkLoginStatus = () => {
 	isLoggedIn.value = !!token.accessToken; // accessToken이 존재하면 로그인된 것으로 간주
-};
-
-// 로그인 상태 변화 감시
-watch(
+  };
+  
+  // 로그인 상태 변화 감시
+  watch(
 	() => token.accessToken,
 	() => {
-	checkLoginStatus(); // accessToken 변경 시 로그인 상태 확인
+	  checkLoginStatus(); // accessToken 변경 시 로그인 상태 확인
 	},
 	{ immediate: true }
-);
-
-// 드롭다운 메뉴 토글
-const toggleDropdown = () => {
+  );
+  
+  // 드롭다운 메뉴 토글
+  const toggleDropdown = () => {
 	isDropdownVisible.value = !isDropdownVisible.value;
-};
-
-// 홈 페이지로 이동
-const navigateToHome = () => {
+  };
+  
+  // 홈 페이지로 이동
+  const navigateToHome = () => {
 	router.push('/');
-};
-
-
-// 마이페이지로 이동
-const navigateToMypage = () => {
+  };
+  
+  // 마이페이지로 이동
+  const navigateToMypage = () => {
 	router.push('/mypage');
 	isDropdownVisible.value = false; // 드롭다운 닫기
-};
-// 로그아웃 처리
-const logout = () => {
-  // 토큰과 사용자 정보를 초기화
-  setTokenData({
-    user_identifier: null,
-    access_token: null,
-    access_token_expiry: null,
-    refresh_token: null,
-    refresh_token_expiry: null,
-  });
-
-  // localStorage 초기화
-  localStorage.removeItem('token');
-  localStorage.removeItem('userId');
-
-  // 로그인 상태 갱신
-  isLoggedIn.value = false;
-
-  // 로그아웃 후 홈으로 이동
-  router.push('/');
-};
-
-// 모달 상태 변수
-const isLoginModalVisible = ref(false);
-const isRegisterModalVisible = ref(false);
-const currentSignupStep = ref(1); // 회원가입 단계를 1로 초기화
-const isPrivacyPolicyModalVisible = ref(false); // 개인정보 처리방침 모달 상태
-
-// 로그인 모달 열기
-const openLoginModal = () => {
+  };
+  
+  // 로그아웃 처리
+  const logout = () => {
+	// 토큰과 사용자 정보를 초기화
+	setTokenData({
+	  user_identifier: null,
+	  access_token: null,
+	  access_token_expiry: null,
+	  refresh_token: null,
+	  refresh_token_expiry: null,
+	});
+  
+	// localStorage 초기화
+	localStorage.removeItem('token');
+	localStorage.removeItem('userId');
+  
+	// 로그인 상태 갱신
+	isLoggedIn.value = false;
+  
+	// 로그아웃 후 홈으로 이동
+	router.push('/');
+  };
+  
+  // 모달 상태 변수
+  const isLoginModalVisible = ref(false);
+  const isRegisterModalVisible = ref(false);
+  const currentSignupStep = ref(1); // 회원가입 단계를 1로 초기화
+  const isPrivacyPolicyModalVisible = ref(false); // 개인정보 처리방침 모달 상태
+  
+  // 로그인 모달 열기
+  const openLoginModal = () => {
 	isLoginModalVisible.value = true; // 로그인 모달 열기
 	isRegisterModalVisible.value = false; // 회원가입 모달 닫기
-};
-
-// 로그인 모달 닫기
-const closeLoginModal = () => {
+  };
+  
+  // 로그인 모달 닫기
+  const closeLoginModal = () => {
 	isLoginModalVisible.value = false; // 로그인 모달 닫기
-};
-
-// 회원가입 모달 열기
-const openRegisterModal = () => {
+  };
+  
+  // 회원가입 모달 열기
+  const openRegisterModal = () => {
 	isLoginModalVisible.value = false; // 로그인 모달 닫기
 	isRegisterModalVisible.value = true; // 회원가입 모달 열기
 	currentSignupStep.value = 1; // 회원가입 1단계로 초기화
+  };
+  
+
+  // 계정 재활성화 모달 열기
+const openAccountReactivationModal = (authId) => {
+  userAuthId.value = authId;
+  isAccountReactivationModalVisible.value = true;
+};
+
+// 계정 재활성화 모달 닫기
+const closeAccountReactivationModal = () => {
+  isAccountReactivationModalVisible.value = false;
 };
 
 
-// Navigation.vue에서 이벤트 핸들러 정의
-const goToStep2 = () => {
-console.log('goToStep2 received');
-currentSignupStep.value = 2; // 명확하게 Step 2로 이동
-console.log(`Current step: ${currentSignupStep.value}`);
-};
-// Navigation.vue에서 이벤트 핸들러 정의
-const goToStep3 = () => {
-console.log('goToStep2 received');
-currentSignupStep.value = 3; // 명확하게 Step 2로 이동
-};	
-
-// 회원가입 모달 닫기
-const closeRegisterModal = () => {
+  // Step1과 Step2에서 사용할 사용자 데이터
+  const userData = ref({
+	name: '', // 사용자 이름
+	email: '', // 사용자 이메일
+  });
+  
+  // Step1에서 전달받은 데이터 상태 업데이트
+  const updateUserData = (newData) => {
+	userData.value = { ...userData.value, ...newData };
+  };
+  
+  // 회원가입 1단계 모달에서 호출될 함수
+  const goToStep2 = (payload) => {
+	// SignupStep1에서 받은 이름과 이메일을 상태에 저장
+	userData.value.name = payload.name;
+	userData.value.email = payload.email;
+	currentSignupStep.value = 2;
+	console.log('goToStep2 received:', payload);
+  };
+  
+  // 회원가입 모달 닫기
+  const closeRegisterModal = () => {
 	isRegisterModalVisible.value = false;
 	currentSignupStep.value = 1; // 단계 초기화
-};
-
-// 개인정보 처리방침 모달 열기
-const openPrivacyPolicyModal = () => {
+  };
+  
+  // 개인정보 처리방침 모달 열기
+  const openPrivacyPolicyModal = () => {
 	isPrivacyPolicyModalVisible.value = true;
 	isRegisterModalVisible.value = false;
-};
-
-// 개인정보 처리방침 모달 닫기
-const closePrivacyPolicyModal = () => {
+  };
+  
+  // 개인정보 처리방침 모달 닫기
+  const closePrivacyPolicyModal = () => {
 	isPrivacyPolicyModalVisible.value = false;
 	isRegisterModalVisible.value = true; // 다시 회원가입 모달로 돌아가기
-};
-
-// 회원가입 완료
-const completeSignup = () => {
+  };
+  
+  // 회원가입 완료
+  const completeSignup = () => {
 	closeRegisterModal(); // 회원가입 모달 닫기
-};
-
-// 스터디 그룹 찾아보기 페이지로 이동
-const navigateToSearch = () => {
+  };
+  
+  // 스터디 그룹 찾아보기 페이지로 이동
+  const navigateToSearch = () => {
 	router.push('/search');
-};
-
-// 드롭다운 메뉴 외부 클릭 시 닫기
-document.addEventListener('click', (event) => {
-const dropdownElement = document.querySelector('.user-profile');
-if (dropdownElement && !dropdownElement.contains(event.target)) {
-	isDropdownVisible.value = false;
-}
-});
-
-
-</script>
+  };
+  
+  // 드롭다운 메뉴 외부 클릭 시 닫기
+  document.addEventListener('click', (event) => {
+	const dropdownElement = document.querySelector('.user-profile');
+	if (dropdownElement && !dropdownElement.contains(event.target)) {
+	  isDropdownVisible.value = false;
+	}
+  });
+  </script>
+  
 
 <style scoped>
 /* 상단 네비게이션 스타일 */

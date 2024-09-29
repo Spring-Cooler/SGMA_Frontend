@@ -9,7 +9,7 @@
         <main class="main">
             <div class="main-content">
                 <Title>스터디 자유게시판</Title>
-                <SearchBar path="/study-groups/1/boards"></SearchBar>
+                <SearchBar path="/study-groups/1/boards" postType="board"></SearchBar>
                 <div class="board-info">
                   <div class="board-no">번호</div>
                   <div class="board-title">제목</div>
@@ -46,6 +46,8 @@
     const currentPage = ref(1);
     const route = useRoute();
     const router = useRouter();
+    const accessToken = 
+      localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
     let pageInfo = reactive({});
 
     const fetchData = async () => {
@@ -54,9 +56,17 @@
 
         // route.query.title이 undefined인지 확인
         if (typeof route.query.title === 'undefined') {
-          response = await axios.get(`/api/study-group/boards/group-id/${groupId.value}?page=${currentPage.value}`);
+          response = await axios.get(`/study-group-service/api/study-group/boards/group-id/${groupId.value}?page=${currentPage.value}`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         } else {
-          response = await axios.get(`/api/study-group/boards/group-id/${groupId.value}/title/${route.query.title}?page=${currentPage.value}`);
+          response = await axios.get(`/study-group-service/api/study-group/boards/group-id/${groupId.value}/title/${route.query.title}?page=${currentPage.value}`,{
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        });
         }
         if(response.data.data !== null) {
           items.value = response.data.data.elements;
@@ -86,6 +96,10 @@
     }
 
     onMounted(() => {
+      if(accessToken === null) {
+            alert("로그인을 해주세요.");
+            router.push(`/`);
+        }
       fetchData();
     });
 </script>
