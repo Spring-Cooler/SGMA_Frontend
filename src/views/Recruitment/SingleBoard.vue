@@ -114,7 +114,7 @@ import SideBar from '@/components/layouts/SideBar.vue';
 import Navigation from '@/components/layouts/Navigation.vue';
 import DeleteModal from './components/DeleteModal.vue';
 import axios from 'axios';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter} from 'vue-router';
 
 const props = defineProps({
         groupId: {
@@ -179,6 +179,7 @@ const toggleReply = () => {
 
 
 const route = useRoute();
+const router = useRouter();
 const boardId  = route.params.id;
 
 const getBoardDetail = async () => {
@@ -324,8 +325,8 @@ onMounted(() => {
 
 
 .post-actions {
-  margin-top: 32.3rem;
-  margin-bottom: 2.7rem;
+  margin-left: 53rem;
+  margin-top: -6.7rem;
   display: flex;
   align-items: center;
   gap: 1rem; 
@@ -402,6 +403,7 @@ onMounted(() => {
 
 
 .apply-btn {
+  margin-top: 40rem;
   margin-left: 66.5rem;
   display: block;
   width: 9.6rem;
@@ -421,7 +423,7 @@ onMounted(() => {
 }
 
 .comment-section {
-  padding-top: 2rem;
+  margin-left: -2rem;
 }
 
 .comment-section h2 {

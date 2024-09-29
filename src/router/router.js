@@ -83,8 +83,6 @@ const routes = [
     component: StudyNoticeDetailPage,
     props: true,
   },
-<<<<<<< HEAD
-
   {
     path: '/board/:id',
     name: 'SingleBoard',
@@ -96,8 +94,7 @@ const routes = [
     path: '/study-groups',
     name: 'StudyGroups',
     component: () => import('@/views/Recruitment/FindStudyGroup.vue')  // 페이지 컴포넌트 경로
-  }
-=======
+  },
   {
     path: "/study-groups/:groupId/boards/:boardId/modify",
     name: "StudyBoardModifyPage",
@@ -128,7 +125,6 @@ const routes = [
     component: StudyPostUploadPage,
     props: true
   },
->>>>>>> 77ce8715d98d5bd9e4616fb94861b94fe0cb4c7a
 ];
 
 
