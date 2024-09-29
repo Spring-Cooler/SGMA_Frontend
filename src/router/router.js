@@ -29,17 +29,14 @@ const routes = [
   { path: "/study-groups", name: "FindStudyGroups", component: FindStudyGroups },
   { path: "/create-group", name: "CreateGroup", component: CreateGroup },
   {
-    path: "/study-groups/1/schedules",
+    path: "/study-groups/:groupId/schedules",
     component: SchedulePage,
+    props: true,
   },
   {
-    path: "/study-groups/1/schedules/:id",
+    path: "/study-groups/:groupId/schedules/:scheduleId",
     name: "ScheduleDetailPage",
     component: ScheduleDetailPage,
-    props: route => ({
-      id: route.params.id,
-      schedule: route.query.schedule ? JSON.parse(route.query.schedule) : null,
-    }),
   },
   {
     path: "/study-groups/:groupId/notices",
@@ -85,16 +82,16 @@ const routes = [
     props: true,
   },
   {
-    path: '/board/:id',
-    name: 'SingleBoard',
+    path: "/board/:id",
+    name: "SingleBoard",
     component: SingleBoard,
-    props: true,  // 라우터에서 전달한 파라미터를 props로 받음
+    props: true, // 라우터에서 전달한 파라미터를 props로 받음
   },
 
   {
-    path: '/study-groups',
-    name: 'StudyGroups',
-    component: () => import('@/views/Recruitment/FindStudyGroup.vue')  // 페이지 컴포넌트 경로
+    path: "/study-groups",
+    name: "StudyGroups",
+    component: () => import("@/views/Recruitment/FindStudyGroup.vue"), // 페이지 컴포넌트 경로
   },
   {
     path: "/study-groups/:groupId/boards/:boardId/modify",
@@ -124,10 +121,9 @@ const routes = [
     path: "/study-groups/:groupId/recruitments/upload",
     name: "StudyRecruitmentUploadPage",
     component: StudyPostUploadPage,
-    props: true
+    props: true,
   },
 ];
-
 
 const router = createRouter({
   history: createWebHistory(),
