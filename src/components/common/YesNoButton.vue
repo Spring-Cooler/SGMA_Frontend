@@ -1,8 +1,7 @@
 <template>
   <button
     :class="buttonClass"
-    @click="handleClick"
-    :disabled="disabled" 
+    :disabled="disabled"
   >
     {{ label }}
   </button>
@@ -28,13 +27,6 @@ export default {
   computed: {
     buttonClass() {
       return this.type === "cancel" ? "cancel-btn" : "next-btn";
-    },
-  },
-  methods: {
-    handleClick() {
-      if (!this.disabled) {  // disabled 상태가 아니면 클릭 이벤트 발생
-        this.$emit("click");
-      }
     },
   },
 };

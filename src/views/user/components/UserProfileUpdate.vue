@@ -1,4 +1,3 @@
-<!-- Step 3: 닉네임 입력 및 회원가입 -->
 <template>
   <div class="modal-overlay">
     <div class="modal-content">
@@ -27,8 +26,16 @@
               <img v-if="profilePicture" :src="profilePicture" alt="Profile Picture" />
             </div>
           </label>
-          <input type="text" placeholder="닉네임 입력" v-model="nickname" maxlength="10" />
+
+          <!-- 닉네임 입력 및 중복 확인 버튼 -->
+          <div class="nickname-container">
+            <input type="text" placeholder="닉네임 입력" v-model="nickname" maxlength="10" />
+            <button class="check-btn" @click="checkNicknameDuplication">중복 확인</button>
+          </div>
           <span v-if="nicknameError" class="error-text">{{ nicknameError }}</span>
+          <span v-if="nicknameDuplicationStatus" :class="{'success-text': !nicknameError, 'error-text': nicknameError}">
+            {{ nicknameDuplicationStatus }}
+          </span>
         </div>
       </div>
 
@@ -43,7 +50,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import YesNoButton from '@/components/common/YesNoButton.vue'; // YesNoButton 컴포넌트 임포트
-import { signupUser } from '@/api/user.js'; // 회원가입 API 함수 임포트
+// import { signupUser, validateNickname } from '@/api/user.js'; // 회원가입 및 닉네임 검증 API 함수 임포트
 import { useRouter } from 'vue-router'; // vue-router 임포트
 
 // 외부에서 받아온 이벤트 정의
@@ -70,10 +77,12 @@ const router = useRouter();
 const nickname = ref('');
 const profilePicture = ref('');
 const nicknameError = ref('');
+const isNicknameAvailable = ref(false); // 닉네임 사용 가능 여부
+const nicknameDuplicationStatus = ref(''); // 닉네임 중복 검증 결과 메시지
 
-// 닉네임과 프로필 사진이 모두 입력되어야만 완료 버튼이 활성화됨
+// 닉네임만 입력되어야만 완료 버튼이 활성화됨
 const canComplete = computed(() => {
-  return nickname.value !== '' && profilePicture.value !== '';
+  return nickname.value !== '' && isNicknameAvailable.value;
 });
 
 // 파일 선택 시 호출되는 함수
@@ -85,6 +94,37 @@ const handleFileChange = (event) => {
       profilePicture.value = e.target.result;
     };
     reader.readAsDataURL(file);
+  }
+};
+
+// 닉네임 중복 확인 함수
+const checkNicknameDuplication = async () => {
+  nicknameError.value = '';
+  nicknameDuplicationStatus.value = '';
+  isNicknameAvailable.value = false;
+
+  if (!nickname.value) {
+    nicknameError.value = '닉네임을 입력해주세요.';
+    return;
+  }
+
+  try {
+    const response = await validateNickname(nickname.value);
+    console.log(response); // 응답 구조 확인
+
+    if (response && response.success) {
+      if (!response.data.exist) {
+        nicknameDuplicationStatus.value = '사용 가능한 닉네임입니다.';
+        isNicknameAvailable.value = true;
+      } else {
+        nicknameError.value = '이미 사용 중인 닉네임입니다.';
+      }
+    } else {
+      nicknameError.value = '닉네임 중복 확인 중 오류가 발생했습니다.';
+    }
+  } catch (error) {
+    nicknameError.value = '닉네임 중복 확인 중 오류가 발생했습니다.';
+    console.error('checkNicknameDuplication 에러:', error);
   }
 };
 
@@ -106,16 +146,17 @@ const completeSignup = async () => {
     return;
   }
 
+
   try {
-    // 최종 회원가입 API 호출
-    await signupUser({
-      user_auth_id: props.username,  // Step 2에서 전달받은 아이디
-      password: props.password,      // Step 2에서 전달받은 비밀번호
-      user_name: props.username,     // 임시로 username을 user_name으로 사용
-      nickname: nickname.value,      // 입력된 닉네임
-      email: props.email,            // Step 2에서 전달받은 이메일
-      signup_path: 'NORMAL',         // 회원가입 경로, NORMAL 설정
-    });
+    // // 최종 회원가입 API 호출
+    // await signupUser({
+    //   user_auth_id: props.username,  // Step 1에서 전달받은 아이디
+    //   password: props.password,      // Step 2에서 전달받은 비밀번호
+    //   user_name: props.username,     // 임시로 username을 user_name으로 사용
+    //   nickname: nickname.value,      // 입력된 닉네임
+    //   email: props.email,            // Step 2에서 전달받은 이메일
+    //   signup_path: 'NORMAL',         // 회원가입 경로, NORMAL 설정
+    // });
 
     alert('회원가입이 완료되었습니다! 홈 화면으로 이동합니다.');
 
@@ -124,6 +165,7 @@ const completeSignup = async () => {
     router.push('/'); // 홈 화면으로 이동
   } catch (error) {
     nicknameError.value = '회원가입에 실패했습니다. 다시 시도해주세요.';
+    console.error('completeSignup 에러:', error);
   }
 };
 </script>
@@ -211,22 +253,22 @@ const completeSignup = async () => {
 .modal-header {
   text-align: center;
 }
-.modal-header h2 {
-    margin: 2rem;
-    font-size: 5rem;
-    color: #a1b872;
-  }
-  
 
- /* 모달 바디 */
- .modal-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start; /* 상단부터 배치 */
-    gap: 1.5rem; /* 간격을 더 넓게 */
-    margin: 0.5rem;
-    padding: 1rem;
-  }
+.modal-header h2 {
+  margin: 2rem;
+  font-size: 5rem;
+  color: #a1b872;
+}
+
+/* 모달 바디 */
+.modal-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start; /* 상단부터 배치 */
+  gap: 1.5rem; /* 간격을 더 넓게 */
+  margin: 0.5rem;
+  padding: 1rem;
+}
 
 /* 인사말 텍스트 */
 .message-container {
@@ -293,6 +335,13 @@ const completeSignup = async () => {
   left: 0;
 }
 
+/* 닉네임 입력 및 중복 확인 */
+.nickname-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* 닉네임 필드와 버튼 간의 간격 */
+}
+
 input[type="text"] {
   width: 140px;
   height: 40px;
@@ -309,6 +358,21 @@ input[type="text"]:focus {
   outline: none;
 }
 
+/* 중복 확인 버튼 */
+.check-btn {
+  padding: 0.6rem 1rem;
+  font-size: 1.4rem;
+  border: none;
+  border-radius: 5px;
+  background-color: #a1b872;
+  color: white;
+  cursor: pointer;
+}
+
+.check-btn:hover {
+  background-color: #8aa15e;
+}
+
 /* 모달 푸터 */
 .modal-footer {
   position: absolute; /* 모달 콘텐츠 내에서 절대 위치 지정 */
@@ -320,5 +384,19 @@ input[type="text"]:focus {
   margin: 0 auto; /* 좌우 가운데 정렬 */
   left: 0; /* 부모 요소 기준 왼쪽 기준점 */
   right: 0; /* 부모 요소 기준 오른쪽 기준점 */
+}
+
+/* 오류 텍스트 스타일 */
+.error-text {
+  color: red;
+  font-size: 1.4rem;
+  margin-top: 0.2rem;
+}
+
+/* 성공 텍스트 스타일 */
+.success-text {
+  color: green;
+  font-size: 1.4rem;
+  margin-top: 0.2rem;
 }
 </style>
