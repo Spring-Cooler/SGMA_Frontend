@@ -16,9 +16,9 @@
 					<!-- Similarly, add a v-if check before rendering the choices -->
 					<form class="problem-choice" v-if="current_problem && current_problem.choices">
 						<label v-for="(item, index) in current_problem.choices" :key="index">
-							<input type="radio" name="chk_ans" :value="index"
+							<input type="radio" name="chk_ans" :value="index + 1"
 								v-model="current_problem.submitted_answer" />
-							<p>{{ index + 1 }}. {{ item }}</p>
+							<p>{{ index + 1 }}. {{ item.content }}</p>
 						</label>
 					</form>
 				</div>
