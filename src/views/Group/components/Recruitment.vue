@@ -20,13 +20,13 @@
                 </div>
                 <div class="study-group-owner">
                     <span>그룹장:</span>
-                    <span>{{props.data.group_id}}</span>
+                    <span>{{props.data.user_nickname}}</span>
                 </div>
                 <div class="recruitment-created-at">{{getTimeDifference(props.data.created_at)}}</div>
             </section>
         </section>
         <section class="right-section">
-            <div class="recruitment-category">{{props.data.study_group_category_id}}</div>
+            <div class="recruitment-category">{{props.data.study_group_category_name}}</div>
             <div class="like-count">
                 <i class="fa-regular fa-heart"></i>
                 <span>{{props.data.likes}}</span>
