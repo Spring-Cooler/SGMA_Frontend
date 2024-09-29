@@ -40,7 +40,8 @@
         <div class="login-options">
           <a href="#">아이디 찾기</a>
           <span class="divider">|</span>
-          <a href="#">비밀번호 찾기</a>
+          <!-- 비밀번호 찾기 클릭 시 PasswordResetStep1 모달 열기 -->
+          <a href="#" @click.prevent="openPasswordReset">비밀번호 찾기</a>
           <span class="divider">|</span>
           <!-- 회원가입 버튼 클릭 시 회원가입 모달 열기 -->
           <a href="#" @click.prevent="goToRegister">회원가입</a>
@@ -65,7 +66,7 @@ import eyeClosedIcon from '@/assets/images/eye_closed.png';
 import AccountReactivationModal from '@/views/user/components/AccountReactivationModal.vue'; // 계정 재활성화 모달 추가
 
 // 외부에서 받아온 이벤트 정의
-const emit = defineEmits(['close', 'goToStep1']);
+const emit = defineEmits(['close', 'goToStep1','openPasswordReset']);
 
 // 상태와 메서드 `inject`로 받아오기
 const token = inject('token'); // 토큰 상태
@@ -168,12 +169,15 @@ const login = async () => {
   }
 };
 
+// 비밀번호 찾기 모달 열기
+const openPasswordReset = () => {
+  emit('openPasswordReset');
+};
 
 
 // 회원가입 모달로 이동
 const goToRegister = () => {
   emit('goToStep1');
-  // emit('close');
 };
 </script>
 

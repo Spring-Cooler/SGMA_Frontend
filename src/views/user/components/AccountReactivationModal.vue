@@ -2,7 +2,7 @@
     <div class="modal-overlay">
       <div class="modal-content">
         <div class="modal-header">
-          <h2>SGMA</h2>
+          <h2>휴먼 계정 안내</h2>
         </div>
         <div class="modal-body">
           <div class="message-container">
@@ -61,7 +61,7 @@
   
   .modal-header h2 {
     margin: 2rem;
-    font-size: 5rem;
+    font-size: 3rem;
     color: #a1b872;
   }
   
@@ -83,7 +83,7 @@
     background-color: white;
     border-radius: 10px;
     width: 360px;
-    height: 280px;
+    height: 260px;
     padding: 20px;
     text-align: center;
   }
@@ -122,9 +122,10 @@
   .modal-footer {
     position: relative;
     width: 320px;
+    
     display: flex;
     justify-content: space-between;
-    margin: 0 auto;
+    margin-top: 30px;
   }
   </style>
   
