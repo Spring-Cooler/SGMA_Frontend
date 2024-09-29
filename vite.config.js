@@ -12,16 +12,16 @@ export default defineConfig({
         target: "http://localhost:8080",
         changeOrigin: true, // 다른 도메인으로의 요청 허용
       },
-      "/api": {
-        target: "http://localhost:8080", // 백엔드 서버 주소
-        changeOrigin: true, // 다른 도메인으로의 요청 허용
-        rewrite: path => path.replace(/^\/api/, ""),
-      }, // '/api'를 백엔드 서버 경로에서 제거
-      // pathRewrite 설정 없이 '/api' 경로를 그대로 전달
-      "/study-group-service/api": {
-        target: "http://localhost:8080", // 백엔드 서버 주소
-        changeOrigin: true, // 다른 도메인으로의 요청 허용
-      },
+      '/api': {
+        target: 'http://localhost:8080',  // 백엔드 서버 주소
+        changeOrigin: true,               // 다른 도메인으로의 요청 허용
+        rewrite: (path) => path.replace(/^\/api/, '')
+       }, // '/api'를 백엔드 서버 경로에서 제거
+        // pathRewrite 설정 없이 '/api' 경로를 그대로 전달
+      '/study-group-service/api': {
+        target: 'http://localhost:8080',  // 백엔드 서버 주소
+        changeOrigin: true,               // 다른 도메인으로의 요청 허용
+      },    // pathRewrite 설정 없이 '/api' 경로를 그대로 전달
       "/recruitment-service/api": {
         target: "http://localhost:8080", // 백엔드 서버 주소
         changeOrigin: true, // 다른 도메인으로의 요청 허용
@@ -38,3 +38,4 @@ export default defineConfig({
     },
   },
 });
+
