@@ -1,88 +1,132 @@
 <template>
-  <div class="find-study-group">
-    <Navigation />
-    <SideBar />
-    
-    <div class="status-container">
-      <div class="status" :class="{ active: activeStatus === '전체' }" @click="setActive('전체')">전체</div>
-      <div class="status" :class="{ active: activeStatus === '모집중' }" @click="setActive('모집중')">모집중</div>
-      <div class="status" :class="{ active: activeStatus === '모집완료' }" @click="setActive('모집완료')">모집완료</div>
-      
-      <div class="board-search-bar">
-        <i class="fa-solid fa-magnifying-glass"></i>
-        <input type="text" v-model="searchText" placeholder="관심스터디를 검색해 보세요!" />
-      </div>
-      <button class="search-btn olive">검색</button>
-      
-      <div class="tag-search-bar" @click="toggleTagDropdown">
-        <i class="fa-light fa-hashtag"></i>
-        <span>{{ selectedTag || '태그로 검색해 보세요!' }}</span>
-        <i1 class="fa-solid fa-caret-down" style="color: #a1b868;"></i1>
-      </div>
-      <div class="tag-dropdown" v-if="isDropdownOpen">
-        <div class="tag-item" v-for="tag in tags" :key="tag" @click="selectTag(tag)">
-          {{ tag }}
+    <div class="find-study-group">
+        <Navigation />
+        <SideBar />
+        
+        <div class="status-container">
+        <!-- 각 상태 버튼 -->
+            <div class="status" :class="{ active: activeStatus === '전체' }" @click="setActive('전체')">전체</div>
+            <div class="status" :class="{ active: activeStatus === '모집중' }" @click="setActive('모집중')">모집중</div>
+            <div class="status" :class="{ active: activeStatus === '모집완료' }" @click="setActive('모집완료')">모집완료</div>
+            
+            <div class="board-search-bar">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" v-model="searchText" placeholder="관심스터디를 검색해 보세요!" />
+            </div>
+            <button class="search-btn olive">검색</button>
+            
+            <div class="tag-search-bar" @click="toggleTagDropdown">
+                <i class="fa-light fa-hashtag"></i>
+                <span>{{ selectedTag || '태그로 검색해 보세요!' }}</span>
+                <i1 class="fa-solid fa-caret-down" style="color: #a1b868;"></i1>
+            </div>
+            <div class="tag-dropdown" v-if="isDropdownOpen">
+                <div class="tag-item" v-for="tag in tags" :key="tag" @click="selectTag(tag)">
+                    {{ tag }}
+                </div>
+            </div>
+            <button class="reset-btn" @click="resetTag">
+                <i class="fa-solid fa-rotate"></i>
+                초기화
+            </button>
         </div>
-      </div>
-      <button class="reset-btn" @click="resetTag">
-        <i class="fa-solid fa-rotate"></i>
-        초기화
-      </button>
     </div>
-
-    <div class="board-context" v-if="recruitmentBoardDetail.length > 0">
-      <div class="board-content" v-for="(board, index) in recruitmentBoardDetail" :key="index">
+    <div class ="board-context" v-if="recruitmentBoardDetail.length > 0">
+      <div class ="board-content" v-for="(board, index) in recruitmentBoardDetail" :key="index"  @click="goToDetail(board.recruitment_board_id)" >
         <div class="board-info">
           <h3>{{ board.title }}</h3>
         </div>
         <div class="board-contents">
           {{ board.content }}
         </div>
-        <div class="board-writer">방장: {{ board.user_nickname }}</div>
+        <div class ="board-writer">방장: {{ board.user_nickname }}</div>
       </div>
     </div>
     <div v-else>
       <p>게시글이 없습니다.</p>
     </div>
-    
     <div class="pagination">
       <button :class="{ active: currentPage === 1 }" @click="goToPage(1)">1</button>
       <button :class="{ active: currentPage === 2 }" @click="goToPage(2)">2</button>
     </div>
-  </div>
+
 </template>
 
 <script setup>
 import Navigation from '@/components/layouts/Navigation.vue';
 import SideBar from '@/components/layouts/SideBar.vue';
-import { ref, onMounted } from 'vue';
-import axios from 'axios';
+import {onMounted, ref} from 'vue';
+import axios from "axios";
+import {useRouter} from "vue-router";
+const router = useRouter();
 
-// 상태 관리
+const goToDetail = (id) => {
+  router.push({ name: 'SingleBoard', params: { id } });  // 해당 모집글 상세 페이지로 이동
+};
+// 현재 활성화된 상태를 관리
 const activeStatus = ref('전체');
 const currentPage = ref(1);
+
+// 클릭 시 상태를 변경하는 함수
+const setActive = (status) => {
+activeStatus.value = status;
+};
 const isDropdownOpen = ref(false);
 const tags = ref(['어학', '취업', '자격증', 'IT']);
 const selectedTag = ref('');
-const recruitmentBoardDetail = ref([]);
-const searchText = ref('');
 
-// 페이지 이동 함수
+// 드롭다운 토글 함수
+const toggleTagDropdown = () => {
+    isDropdownOpen.value = !isDropdownOpen.value;
+};
+
+// 태그 선택 함수
+const selectTag = (tag) => {
+    selectedTag.value = tag;
+    isDropdownOpen.value = false; // 태그 선택 후 드롭다운 닫기
+};
+
+const resetTag = () => {
+    selectedTag.value = ''; // 선택된 태그 초기화
+    isDropdownOpen.value = false; // 드롭다운 닫기
+};
+
 const goToPage = (pageNumber) => {
   currentPage.value = pageNumber;
-  getRecruitmentBoardList();
+  getRecruitmentBoardList();  // 페이지 번호에 맞는 데이터를 다시 가져오기
 };
+
+
+/*
+ API 요청 - Recruitment Page
+ */
+
+// Props 파라미터 설정
+const props = defineProps({
+  page: {
+    type: String,
+    required: false, // 필수가 아닌 경우
+    default: '1', // 기본값 설정
+  }
+});
+
+const recruitmentBoardDetail = ref([]); // 여러 게시글 데이터를 배열로 저장
+const searchText = ref(''); // 검색어 입력 상태
 
 // API 호출 함수
 const getRecruitmentBoardList = async () => {
   try {
+    // 요청할 때 쿼리스트링을 사용하여 page 파라미터 전달
     const response = await axios.get(`/api/api/recruitment-board/all`, {
       params: {
-        page: currentPage.value, // currentPage를 쿼리스트링으로 전달
-      },
+        page: props.page // props.page를 쿼리스트링으로 전달
+      }
     });
+    console.log("=======response", response)
+
     if (response.data.success) {
-      recruitmentBoardDetail.value = response.data.data.data;
+      recruitmentBoardDetail.value = response.data.data.data; // API 응답 데이터를 상태에 저장
+      
     } else {
       console.error('API 요청 실패:', response.data);
     }
@@ -91,12 +135,18 @@ const getRecruitmentBoardList = async () => {
   }
 };
 
+
+// 검색 버튼 클릭 시 실행되는 함수
+// const searchRecruitment = () => {
+//   console.log('검색어:', searchText.value);
+//   // 여기에 검색어를 기반으로 API 요청을 수행하는 로직을 추가할 수 있음
+// };
+
 // 컴포넌트가 마운트될 때 게시글 목록 불러오기
 onMounted(() => {
   getRecruitmentBoardList();
 });
 </script>
-
 
 <style scoped>
   /* 상태 컨테이너 스타일 */

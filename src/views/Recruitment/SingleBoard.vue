@@ -3,9 +3,15 @@
   <SideBar />
   <div class="post-container">
     <div class="post-header">
-      <div class="post-title">디자인 스터디 모집합니다!!
+      <div class="post-title">{{ boardDetail.title }}
         <div class="author-icon">
-          <div class="author-name">김민석</div>
+          <div class="author-name">{{ boardDetail.user_nickname }}</div>
+          <div id="test">
+          <div v-if="boardDetail">
+          <h1></h1>
+          <p>{{ boardDetail.content }}</p>
+          <!-- 기타 모집글 상세 정보 표시 -->
+        </div>
         </div>
       </div>
 
@@ -16,14 +22,15 @@
         </span>
         <span class="comment-count"><i class="fa-solid fa-comment"></i> 1</span>
         <button class="delete-btn" @click="showModal">삭제하기</button>
-        <DeleteModal v-if="isModalVisible" :isVisible="isModalVisible" @confirm="handleConfirm"
+        <DeleteModal v-if="isModalVisible" :isVisible="isModalVisible" @confirm="handleConfirm1"
           @cancel="handleCancel" />
         <button class="edit-btn">수정하기</button>
       </div>
     </div>
+  </div>
 
 
-    <div class="post-content">
+    <!-- <div class="post-content">
       <p class="post-date">
         <i class="fa-regular fa-calendar-check"></i>
         모집 시작일: 2024년 9월 20일 <br>
@@ -38,7 +45,10 @@
       ✅ 링크: <a href="https://open.kakao.com/o/sfogeir" target="_blank">https://open.kakao.com/o/sfogeir</a>
       <p>문의사항 있으신 분은 위의 링크로 오픈채팅방으로 연락주시면 감사하겠습니다.</p>
 
-    </div>
+    </div> -->
+  
+    
+    
 
     <button class="apply-btn">지원하기</button>
 
@@ -99,11 +109,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted  } from 'vue';
 import SideBar from '@/components/layouts/SideBar.vue';
 import Navigation from '@/components/layouts/Navigation.vue';
 import DeleteModal from './components/DeleteModal.vue';
 import axios from 'axios';
+import { useRoute } from 'vue-router';
 
 const props = defineProps({
         groupId: {
@@ -113,9 +124,14 @@ const props = defineProps({
         boardId: {
             type: Number,
             required: true
-        }
-    })
+        },
+        id: {
+          type: String,
+          required: true,
+        },
+    });
 
+const boardDetail = ref({});
 const isModalVisible = ref(false);
 const isReplying = ref(false); // 답글 입력 창 상태 관리
 const replyText = ref('');
@@ -162,6 +178,43 @@ const toggleReply = () => {
 };
 
 
+const route = useRoute();
+const boardId  = route.params.id;
+
+const getBoardDetail = async () => {
+  try {
+    const response = await axios.get(`/api/api/recruitment-board/board/${boardId}`);
+    if (response.data.success) {
+      boardDetail.value = response.data.data; // 응답의 구조에 맞게 데이터 할당
+      console.log("response", boardDetail.value); // 데이터 확인용 로그
+    } else {
+      console.error('API 요청 실패:', response.data.error);
+    }
+  } catch (error) {
+    console.error('게시글 데이터를 불러오는 중 오류 발생:', error);
+  }
+};
+
+const handleConfirm1 = async () => {
+  try {
+    // 삭제 API 호출
+    const response = await axios.delete(`/api/api/recruitment-board/${boardId}`);
+    
+    if (response.data.success) {
+      console.log('삭제가 완료되었습니다.');
+      // 삭제 후 다른 페이지로 이동
+      router.push({ name: 'StudyGroups' }); // 게시글 목록으로 리다이렉트
+    } else {
+      console.error('삭제 요청 실패:', response.data.error);
+    }
+  } catch (error) {
+    console.error('삭제 요청 중 오류 발생:', error);
+  } finally {
+    isModalVisible.value = false; // 모달 닫기
+  }
+};
+
+
 
 const submitReply = () => {
   if (replyText.value.trim()) {
@@ -170,12 +223,18 @@ const submitReply = () => {
     toggleReply(); // 답글 입력 창 닫기
   }
 };
+
+
+onMounted(() => {
+  getBoardDetail();  // 컴포넌트가 마운트될 때 데이터 로드
+});
+
 </script>
 
 <style scoped>
 .post-title {
   width: 87.5rem;
-  height: 6.7rem;
+  heigth:6.7rem;
   margin-top: 20rem;
   margin-right: auto; /* 오른쪽 여백을 자동으로 설정하여 왼쪽 정렬 */
   margin-left: 0; /* 왼쪽 여백을 0으로 설정 */
