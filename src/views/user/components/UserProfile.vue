@@ -32,7 +32,8 @@
       </div>
       <button class="btn primary-btn">내가 가입한 스터디 그룹 가기</button>
     </div>
-    <button class="danger-btn">SGMA <br />탈퇴하기</button>
+<!-- 탈퇴하기 버튼 클릭 시 탈퇴 모달 표시 이벤트 방출 -->
+<button class="danger-btn" @click="confirmDeactivation">SGMA <br />탈퇴하기</button>
   </section>
 </template>
 
@@ -41,7 +42,7 @@ import { ref, inject, onMounted } from 'vue';
 import { getUserById } from '@/api/user';
 
 
-const emit = defineEmits(['edit-profile']); // 부모에게 edit-profile 이벤트를 방출
+const emit = defineEmits(['edit-profile', 'open-deactivation-modal']); // 부모에게 edit-profile 이벤트를 방출
 
 const token = inject('token');
 const user = ref({}); // 사용자 정보를 저장하는 객체
@@ -70,6 +71,11 @@ onMounted(fetchUserProfile);
 // 프로필 수정 버튼 클릭 시 호출
 const editProfile = () => {
   emit('edit-profile'); // 부모 컴포넌트로 edit-profile 이벤트 방출
+};
+
+// 회원 탈퇴 버튼 클릭 시 호출
+const confirmDeactivation = () => {
+  emit('open-deactivation-modal'); // 부모 컴포넌트로 탈퇴 모달 표시 이벤트 방출
 };
 
 </script>

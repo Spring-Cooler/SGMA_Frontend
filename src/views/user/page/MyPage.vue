@@ -4,12 +4,17 @@
     <SideBar />
     <div class="content">
       <!-- 내 프로필 컴포넌트, 프로필 수정 이벤트를 받음 -->
-      <UserProfile @edit-profile="openProfileEditModal" />
+      <UserProfile 
+      @edit-profile="openProfileEditModal" 
+      @open-deactivation-modal="openDeactivationModal" />
       <!-- 내가 쓴 댓글 목록 컴포넌트 -->
       <UserComments />
 
        <!-- 프로필 수정 모달 -->
        <ProfileEditModal v-if="isProfileEditModalVisible" @close="closeProfileEditModal" />
+       <!-- 회원 탈퇴 모달 -->
+      <AccountDeactivationModal v-if="isDeactivationModalVisible" @close="closeDeactivationModal" />
+       
     </div>
   </div>
 </template>
@@ -21,9 +26,13 @@ import SideBar from '@/components/layouts/SideBar.vue';
 import UserProfile from '@/views/user/components/UserProfile.vue';
 import UserComments from '@/views/user/components/UserComments.vue';
 import ProfileEditModal from '@/views/user/components/ProfileEditModal.vue'; // 프로필 수정 모달 컴포넌트
+import AccountDeactivationModal from '@/views/user/components/AccountDeactivationModal.vue'; // 회원 탈퇴 모달 컴포넌트
 
 // 프로필 수정 모달 상태 관리
 const isProfileEditModalVisible = ref(false);
+
+// 회원 탈퇴 모달 상태 관리
+const isDeactivationModalVisible = ref(false);
 
 // 프로필 수정 모달 열기 함수
 const openProfileEditModal = () => {
@@ -34,6 +43,17 @@ const openProfileEditModal = () => {
 const closeProfileEditModal = () => {
   isProfileEditModalVisible.value = false;
 };
+
+// 회원 탈퇴 모달 열기 함수
+const openDeactivationModal = () => {
+  isDeactivationModalVisible.value = true;
+};
+
+// 회원 탈퇴 모달 닫기 함수
+const closeDeactivationModal = () => {
+  isDeactivationModalVisible.value = false;
+};
+
 </script>
 
 <style scoped>
