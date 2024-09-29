@@ -6,7 +6,8 @@
       <!-- 내 프로필 컴포넌트, 프로필 수정 이벤트를 받음 -->
       <UserProfile 
       @edit-profile="openProfileEditModal" 
-      @open-deactivation-modal="openDeactivationModal" />
+      @open-deactivation-modal="openDeactivationModal"
+      @open-password-change-modal="openPasswordChangeModal" />
       <!-- 내가 쓴 댓글 목록 컴포넌트 -->
       <UserComments />
 
@@ -14,6 +15,8 @@
        <ProfileEditModal v-if="isProfileEditModalVisible" @close="closeProfileEditModal" />
        <!-- 회원 탈퇴 모달 -->
       <AccountDeactivationModal v-if="isDeactivationModalVisible" @close="closeDeactivationModal" />
+      <!-- 비밀번호 변경 모달 -->
+      <ChangePasswordModal v-if="isPasswordChangeModalVisible" @close="closePasswordChangeModal" />
        
     </div>
   </div>
@@ -27,12 +30,16 @@ import UserProfile from '@/views/user/components/UserProfile.vue';
 import UserComments from '@/views/user/components/UserComments.vue';
 import ProfileEditModal from '@/views/user/components/ProfileEditModal.vue'; // 프로필 수정 모달 컴포넌트
 import AccountDeactivationModal from '@/views/user/components/AccountDeactivationModal.vue'; // 회원 탈퇴 모달 컴포넌트
+import ChangePasswordModal from '@/views/user/components/ChangePasswordModal.vue';
 
 // 프로필 수정 모달 상태 관리
 const isProfileEditModalVisible = ref(false);
 
 // 회원 탈퇴 모달 상태 관리
 const isDeactivationModalVisible = ref(false);
+
+// 비밀번호 변경 모달 상태 관리
+const isPasswordChangeModalVisible = ref(false); // 비밀번호 변경 모달 상태 관리
 
 // 프로필 수정 모달 열기 함수
 const openProfileEditModal = () => {
@@ -52,6 +59,15 @@ const openDeactivationModal = () => {
 // 회원 탈퇴 모달 닫기 함수
 const closeDeactivationModal = () => {
   isDeactivationModalVisible.value = false;
+};
+// 비밀번호 변경 모달 열기 함수
+const openPasswordChangeModal = () => {
+  isPasswordChangeModalVisible.value = true;
+};
+
+// 비밀번호 변경 모달 닫기 함수
+const closePasswordChangeModal = () => {
+  isPasswordChangeModalVisible.value = false;
 };
 
 </script>
