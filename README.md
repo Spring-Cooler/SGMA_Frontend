@@ -24,7 +24,7 @@
      - [논리 모델링](#2-논리-모델링)
      - [물리 모델링](#3-물리-모델링)
 5. [산출물](#산출물)
-   - [와이어 프레임](#와이어-프레임)
+   - [와이어 프레임](#와이어프레임)
    - [기능명세서서](#기능명세서)
    - [테스트 케이스](#테스트케이스)
    - [화면결과](#화면결과)
@@ -141,7 +141,7 @@
 
 ![image](https://github.com/user-attachments/assets/e3a3e217-34e9-4954-8301-1150095d71bf)
 
-## 2. 와이어 프레임<a id="w와이어프레임"></a>
+## 2. 와이어 프레임<a id="와이어프레임"></a>
 
 ![image](https://github.com/user-attachments/assets/9339d672-cf48-497f-8510-bdc7ab659ad7)
 
@@ -151,7 +151,7 @@
 
 ![image](https://github.com/user-attachments/assets/0ec2a1c9-a3c7-43da-a0a1-b549f054facb)
 
-## 4.결과  <a id="결과"></a>
+## 4.화면결과  <a id="화면결과"></a>
 
 ## 결과
 
