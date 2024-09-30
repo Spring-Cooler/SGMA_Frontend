@@ -234,20 +234,25 @@
   <summary>2. 내가 가입한 스터디그룹 가기 </summary>
    <img src="https://github.com/user-attachments/assets/d435741b-489b-4ef4-8021-869c9c6fc11c">
 </details>
+<br>
+
+### 4. 스터디 그룹 게시판
+
 <details>
-  <summary>3. 스터디 그룹 공지사항 작성 </summary>
+<details>
+  <summary>1. 스터디 그룹 공지사항 작성 </summary>
   <img src="https://github.com/user-attachments/assets/c3ff8448-003f-496a-9ca5-401df27387a0">
 </details>
 <details>
-  <summary>4. 스터디 그룹 공지사항 제목으로 검색 </summary>
+  <summary>2. 스터디 그룹 공지사항 제목으로 검색 </summary>
   <img src="https://github.com/user-attachments/assets/6a2b8289-2ce6-45ca-8d7c-172c2562aa15">
 </details>
 <details>
-  <summary>5. 스터디 그룹 공지사항 수정</summary>
+  <summary>3. 스터디 그룹 공지사항 수정</summary>
   <img src="https://github.com/user-attachments/assets/f1fb9af0-c37c-46b8-8f99-b00622c911cf">
 </details>
 <details>
-  <summary>6. 스터디 그룹 공지사항 삭제</summary>
+  <summary>4. 스터디 그룹 공지사항 삭제</summary>
   <img src="https://github.com/user-attachments/assets/889dffe7-ab6f-4892-b22f-971e7814f918)">
 </details>
 <details>
@@ -255,37 +260,37 @@
   <img src="https://github.com/user-attachments/assets/8c99350c-1dfb-44f9-bec8-00d914d67f8c">
 </details>
 <details>
-  <summary>5. 스터디 그룹 자유게시판 수정</summary>
+  <summary>6. 스터디 그룹 자유게시판 수정</summary>
   <img src="https://github.com/user-attachments/assets/f228e926-f0b3-4fda-8dc7-eefe249d4908">
 </details>
 <details>
-  <summary>5. 스터디 그룹 자유게시판 삭제</summary>
+  <summary>7. 스터디 그룹 자유게시판 삭제</summary>
   <img src="https://github.com/user-attachments/assets/6c48a0a7-3eec-488b-a2c6-4ea1da57e904">
 </details>
-<br>
-
-### 4. 스터디 그룹 게시판
-
 <details>
-  <summary>1. </summary>
-   내용
+  <summary>8. 스터디 그룹 자유게시판 제목으로 검색</summary>
+  <img src="https://github.com/user-attachments/assets/d0ca6d54-9aba-477c-ba58-3b2affa5d815">
+</details>   
+<details>
+  <summary>9. 스터디 그룹 자유게시판 댓글 작성</summary>
+  <img src="https://github.com/user-attachments/assets/b714a97d-c63c-4fd8-b7c3-93c36f2b27cb">
 </details>
 <details>
-  <summary>2. </summary>
-   내용
+  <summary>10. 스터디 그룹 자유게시판 댓글 삭제</summary>
+  <img src="https://github.com/user-attachments/assets/3da6e3f8-17c7-4f10-8803-4ce59cc10caa">
 </details>
 <details>
-  <summary>3. </summary>
-   내용
-</details>
+  <summary>11. 스터디 그룹 자유게시판 대댓글 작성</summary>
+  <img src="">
+</details>   
 <details>
-  <summary>4. </summary>
-   내용
-</details>
+  <summary>12. 스터디 그룹 자유게시판 대댓글 삭제</summary>
+  <img src="">
+</details>   
 <details>
-  <summary>5. </summary>
-   내용
-</details>
+  <summary>13. 스터디 그룹 자유게시판 좋아요</summary>
+  <img src="">
+</details>  
 <br>
 
 ### 5. 스터디 일정 및 문제
