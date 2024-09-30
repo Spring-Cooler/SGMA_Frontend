@@ -22,8 +22,13 @@
 				<p class="schedule-subtitle"><strong>참여자 수:</strong> {{ schedule.numParticipants }}</p>
 				<p class="schedule-subtitle"><strong>내용:</strong> {{ schedule.details }}</p>
 				<p class="schedule-subtitle"><strong>시험 여부:</strong> {{ schedule.testStatus ? 'Y' : 'N' }}</p>
-				<p class="schedule-subtitle" v-if="schedule.testStatus"><strong>출제 문제 수:</strong> {{
-					schedule.numProblemsPerParticipant }}</p>
+				<div v-if="schedule.testStatus">
+					<p class="schedule-subtitle"><strong>출제 문제 수:</strong> {{
+						schedule.numProblemsPerParticipant }}</p>
+					<p class="schedule-subtitle"><strong>평균: </strong> {{ schedule.test_average }}</p>
+					<p class="schedule-subtitle"> <strong>표준 편차: </strong>{{ schedule.test_standard_deviation }}</p>
+					<p class="schedule-subtitle" v-if="participate"> <strong>내 점수: </strong>{{ 37 }}</p>
+				</div>
 
 
 
@@ -43,6 +48,8 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
+
 import Navigation from '@/components/layouts/Navigation.vue';
 import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 import Title from '@/components/common/Title.vue';
@@ -73,9 +80,15 @@ let participate = ref(false);
 const route = useRoute();
 const router = useRouter();
 
-
+const accessToken = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 // 컴포넌트가 마운트될 때 라우터 파라미터로 전달된 스케줄 정보 가져오기
 onMounted(() => {
+	if (!accessToken) {
+		alert('로그인을 해주세요');
+		router.push('/');
+		return;
+	}
+	fetchData();
 	if (props.schedule) {
 		console.log('Received schedule:', props.schedule);
 		schedule.value.id = props.schedule.id;
@@ -88,15 +101,31 @@ onMounted(() => {
 		schedule.value.testStatus = props.schedule.testStatus;
 		schedule.value.numProblemsPerParticipant = props.schedule.numProblemsPerParticipant;
 		schedule.value.numParticipants = props.schedule.numParticipants;
-		console.log(schedule.value.numProblemsPerParticipant)
-
+		schedule.value.test_average = props.schedule.test_average;
+		schedule.value.test_standard_deviation = props.schedule.test_standard_deviation;
+		console.log(`schedule: ${schedule.value}`)
 
 	} else {
 		console.log('No schedule passed. Fetch from store or API using ID:', props.id);
 	}
 
 });
+const fetchData = async () => {
+	try {
+		const response = (await axios.get(`/schedule-service/api/study-schedule/scheduleParticipant/${props.scheduleId}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		})).data;
+		if (response.success) {
+			console.log("getParticipants:")
+			console.log(response)
+		}
+	} catch (error) {
+		console.log(error)
+	}
 
+}
 // 스케줄 목록으로 돌아가기
 const goToExamPage = () => {
 	const scheduleId = 3;
