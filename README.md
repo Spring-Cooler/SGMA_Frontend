@@ -166,7 +166,6 @@
 <br>
 
 ### 2. 모집관련
-
 <details>
   <summary>1. 스터디 그룹 찾기 최신순 </summary>
    <img src=https://github.com/user-attachments/assets/c954ac63-1115-4bec-9220-33087a5c921e>
@@ -194,6 +193,30 @@
 <details>
   <summary>7. 스터디 그룹 모집글 작성</summary>
    <img src="https://github.com/user-attachments/assets/7567d263-d2aa-434f-9149-10fdef720896">
+</details>
+<details>
+  <summary>8. 스터디 그룹 모집글 수정</summary>
+   <img src="https://github.com/user-attachments/assets/c5aa052d-b01b-4819-9d48-847f0cfb5612">
+</details>
+<details>
+  <summary>9. 스터디 그룹 모집글 삭제</summary>
+   <img src="https://github.com/user-attachments/assets/22d02add-1da5-4a97-ae4e-a75635777b0e">
+</details>
+<details>
+  <summary>7. 스터디 그룹 모집글 댓글 작성</summary>
+   <img src="">
+</details>
+<details>
+  <summary>7. 스터디 그룹 모집글 댓글 삭제</summary>
+   <img src="">
+</details>
+<details>
+  <summary>7. 스터디 그룹 모집글 대댓글 작성</summary>
+   <img src="">
+</details>
+<details>
+  <summary>7. 스터디 그룹 모집글 대댓글 삭제</summary>
+   <img src="">
 </details>
 <br>
 
