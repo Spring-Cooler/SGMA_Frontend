@@ -143,7 +143,8 @@
 
 ## 2. 와이어 프레임<a id="와이어프레임"></a>
 
-![image](https://github.com/user-attachments/assets/9339d672-cf48-497f-8510-bdc7ab659ad7)
+![image](https://github.com/user-attachments/assets/c59d9402-1aa6-4499-aad4-606977a89ef6)
+
 
 ## 3. 테스트 계획 및 결과 보고서 <a id="테스트케이스"></a>
 
