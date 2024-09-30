@@ -4,7 +4,7 @@
             <img class="reply-author-icon" src="../../assets/images/default_profile.svg"></img>
             <div class="reply-content-container">
                 <div class="reply-info">
-                    <span class="reply-author">{{props.data.nickname}}</span>
+                    <span class="reply-author">{{props.data.nickname || props.data.user_nickname}}</span>
                     <span class="reply-date">{{formatDate(props.data.created_at)}}</span>
                 </div>
                 <div class="reply-content">
