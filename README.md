@@ -164,8 +164,16 @@
    <img src=https://github.com/user-attachments/assets/02d2030b-bed7-4c38-a5e1-05c669294b56>
 </details>
 <details>
-  <summary>5. </summary>
-   내용
+  <summary>5. 스터디 그룹 태그로 찾기</summary>
+   <img src="https://github.com/user-attachments/assets/a23512b6-f0a8-4d00-9329-943cd4789ae9">
+</details>
+<details>
+  <summary>6. 스터디 그룹 제목으로 검색</summary>
+   <img src="https://github.com/user-attachments/assets/b1a98288-3ef8-44d9-9b9a-050bfd80e6b8">
+</details>
+<details>
+  <summary>7. 스터디 그룹 모집글 작성</summary>
+   <img src="https://github.com/user-attachments/assets/7567d263-d2aa-434f-9149-10fdef720896">
 </details>
 <br>
 
