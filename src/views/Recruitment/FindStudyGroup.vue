@@ -126,6 +126,7 @@
 
     const handleClickTag = (index) => {
         if (selectedTag.value === index) {
+            selectedTag.value = null;
             filterRecruitments();
         } else {
             filterRecruitments();
@@ -141,6 +142,7 @@
     };
 
     const filterRecruitments = () => {
+        selectedTag.value = null;
         // 모집글을 먼저 필터링
         const activeRecruitments = allRecruitments.value.filter(item => item.active_status === 'ACTIVE');
         const inactiveRecruitments = allRecruitments.value.filter(item => item.active_status === 'INACTIVE');
