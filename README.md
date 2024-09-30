@@ -243,8 +243,7 @@
 
 <details>
   <summary>1.  일정 생성</summary>
-![image](https://github.com/user-attachments/assets/40fdb470-b831-49c1-98d3-68f9c0631de9)
-
+   <img src=https://github.com/user-attachments/assets/02d2030b-bed7-4c38-a5e1-05c669294b56>
 </details>
 <details>
   <summary>2. 일정 수정</summary>
