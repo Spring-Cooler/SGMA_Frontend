@@ -243,23 +243,28 @@
 
 <details>
   <summary>1.  일정 생성</summary>
-![image](https://github.com/Spring-Cooler/SGMA_Frontend/blob/739937565285b1a6982e9e3c505df344225ccb06/assets/CreateSchedule.gif)
+![CreateSchedule](https://github.com/user-attachments/assets/40fdb470-b831-49c1-98d3-68f9c0631de9)
+
 </details>
 <details>
   <summary>2. 일정 수정</summary>
-![[assets/modifySchedule.gif]]
+ ![modifySchedule](https://github.com/user-attachments/assets/71d0807b-6668-44f1-beee-317f58c088a5)
+
 </details>
 <details>
   <summary>3. 시험 응시</summary>
-   ![[assets/test_page.gif]]
+   ![Uploading test_page.gif…]()
+
 </details>
 <details>
   <summary>4. 시험 종료 시간에 맞춰 채점</summary>
-  ![[assets/grade_submitted_answers.gif]]
+   ![grade_submitted_answers](https://github.com/user-attachments/assets/2f280dfd-f428-471e-b7b3-ad18a5ef66d1)
+
 </details>
 <details>
   <summary>5. 시험 결과 시각화</summary>
-![[assets/TestResultPage.gif]]
+   ![TestResultPage](https://github.com/user-attachments/assets/e3c1b86f-6114-4a06-9d37-58082aa61c2a)
+
 </details>
 
 ## 📜 동료평가 <a id="동료평가"></a>
