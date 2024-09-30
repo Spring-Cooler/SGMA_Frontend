@@ -1,6 +1,6 @@
 <template>
 	<aside class="side-nav">
-		<div class="group-name"><span>{{groupData.group_name}}</span></div>
+		<div class="group-name"><span>{{ groupData.group_name }}</span></div>
 		<div class="menu-container">
 			<SideBarMenu :to="`/study-groups/${groupData.group_id}/notices`">스터디 공지사항</SideBarMenu>
 			<SideBarMenu :to="`/study-groups/${groupData.group_id}/schedules`">스터디 그룹 일정</SideBarMenu>
@@ -12,52 +12,52 @@
 </template>
 
 <script setup>
-	import SideBarMenu from './SideBarMenu.vue';
-	import { reactive, onMounted } from 'vue';
-	import { useRoute } from 'vue-router';
-	import axios from 'axios';
+import SideBarMenu from './SideBarMenu.vue';
+import { reactive, onMounted } from 'vue';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
 
-	const groupData = reactive({
-		group_id: '',
-		group_name: ''
-	});
+const groupData = reactive({
+	group_id: '',
+	group_name: ''
+});
 
-	const accessToken = 
-		localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
+const accessToken =
+	localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 
-	const route = useRoute();
+const route = useRoute();
 
-	const fetchGroupData = async (groupId) => {
-		try {
-			const response = (await axios.get(`/study-group-service/api/study-groups/${groupId}`,
+const fetchGroupData = async (groupId) => {
+	try {
+		const response = (await axios.get(`/study-group-service/api/study-groups/${groupId}`,
 			{
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
+				headers: {
+					Authorization: `Bearer ${accessToken}`
+				}
 			})).data;
-			if (response.success) {
-				groupData.group_id = groupId;
-				groupData.group_name = response.data.group_name;
+		if (response.success) {
+			groupData.group_id = groupId;
+			groupData.group_name = response.data.group_name;
 
-				localStorage.setItem('groupData', JSON.stringify({
-					group_id: groupId,
-					group_name: response.data.group_name
-				}));
-			}
-		} catch (error) {
-			console.error(error);
+			localStorage.setItem('groupData', JSON.stringify({
+				group_id: groupId,
+				group_name: response.data.group_name
+			}));
 		}
-	};
+	} catch (error) {
+		console.error(error);
+	}
+};
 
-	onMounted(() => {
-		const storedData = JSON.parse(localStorage.getItem('groupData'));
-		if (storedData && storedData.group_id === route.params.groupId) {
-			groupData.group_id = storedData.group_id;
-			groupData.group_name = storedData.group_name;
-		} else {
-			fetchGroupData(route.params.groupId);
-		}
-	});
+onMounted(() => {
+	const storedData = JSON.parse(localStorage.getItem('groupData'));
+	if (storedData && storedData.group_id === route.params.groupId) {
+		groupData.group_id = storedData.group_id;
+		groupData.group_name = storedData.group_name;
+	} else {
+		fetchGroupData(route.params.groupId);
+	}
+});
 </script>
 
 <style scoped>
@@ -85,7 +85,8 @@
 }
 
 .group-name span {
-	padding-left: 3rem; /* 왼쪽 패딩 적용 */
+	padding-left: 3rem;
+	/* 왼쪽 패딩 적용 */
 }
 
 .menu-container {

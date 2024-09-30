@@ -10,7 +10,7 @@
                     <div class="group-category">카테고리</div>
                     <div class="group-signup-time">가입일</div>
                 </div>
-                <div class="group-list" v-if="loading">Loading...</div>
+                <div class="group-list loading" v-if="loading">가입한 스터디 그룹이 없습니다.</div>
                 <div class="group-list" v-else>
                     <div v-for="(group, groupIndex) in groupList" :key="groupIndex">
                         <Group :data="group" @go-group-home="goGroupHome(group.group_id, group.group_name)"></Group>
@@ -115,5 +115,10 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+    }
+
+    .loading {
+        align-items: center;
+        margin-top: 2rem;
     }
 </style>

@@ -42,6 +42,8 @@
                     <div class="recruitment-body" v-for="(recruitment, recruitmentIndex) in recruitmentList" :key="recruitmentIndex">
                         <Recruitment :data="recruitment"></Recruitment>
                     </div>
+                    <!-- 페이지네이션 들어갈 위치 -->
+                    <div class="mb-6"></div>
                 </div>
             </div>
         </main>
@@ -52,7 +54,7 @@
     import Navigation from '@/components/layouts/Navigation.vue';
     import SideBar from '@/components/layouts/SideBar.vue';
     import Title from '@/components/common/Title.vue';
-    import Recruitment from '@/views/Group/components/Recruitment.vue'
+    import Recruitment from '@/views/Recruitment/components/Recruitment.vue'
     import SearchBar from './components/SearchBar.vue';
     import { ref, computed, onMounted, watch } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
@@ -119,7 +121,7 @@
                 statusQuery.value = '';
                 break;
         }
-        router.push({path: route.fullpath, query: {status: statusQuery.value}});
+        router.push({path: route.fullPath, query: {status: statusQuery.value}});
     };
 
     const handleClickTag = (index) => {
@@ -127,6 +129,8 @@
             selectedTag.value = null;
             filterRecruitments();
         } else {
+            filterRecruitments();
+
             selectedTag.value = index;
             recruitmentList.value = recruitmentList.value.filter(item => item.study_group_category_id === tagList[index].tagId);
 
@@ -177,6 +181,25 @@
         };
     });
 
+    const setSelectedMenuFromQuery = () => {
+        // URL의 status 값을 확인하고, 해당하는 메뉴 인덱스를 설정
+        const status = route.query.status || '';  // 기본 값은 빈 문자열로 설정
+        switch (status) {
+            case 'likes':
+                selectedMenu.value = 1;
+                break;
+            case 'active':
+                selectedMenu.value = 2;
+                break;
+            case 'inactive':
+                selectedMenu.value = 3;
+                break;
+            default:
+                selectedMenu.value = 0; // 기본값은 '최신순'
+                break;
+        }
+    };
+
     // URL 쿼리 변경을 감지하여 필터링
     watch(() => route.query.status, () => {filterRecruitments();});
 
@@ -185,6 +208,7 @@
     });
 
     onMounted(() => {
+        setSelectedMenuFromQuery();
         fetchRecruitmentData();
     })
 </script>
@@ -195,7 +219,6 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        min-height: 100vh;
     }
 
     .loading {
@@ -212,8 +235,6 @@
         width: 100%;
         justify-content: space-between;
         align-items: flex-start;
-        border-bottom: 1px solid #a6a6a6;
-        padding-bottom: 4rem;
     }
 
     .tag-container {
@@ -321,5 +342,9 @@
         background-color: #7F915B;
         transform: translateX(0%);
         transition: transform 0.6s ease-out;
+    }
+
+    .mb-6 {
+        margin-bottom: 12rem;
     }
 </style>

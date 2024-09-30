@@ -22,7 +22,7 @@
                     </div>
                     <div class="recruitment-body loading" v-if="loading">작성된 모집글이 없습니다.</div>
                     <div class="recruitment-body" v-for="(recruitment, recruitmentIndex) in recruitmentList" :key="recruitmentIndex">
-                        <Recruitment :data="recruitment"></Recruitment>
+                        <Recruitment :data="recruitment" @detail="goRecruitmentDetail"></Recruitment>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
     import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
     import Title from '@/components/common/Title.vue';
     import LargeButton from '@/components/common/LargeButton.vue';
-    import Recruitment from '@/views/Group/components/Recruitment.vue'
+    import Recruitment from '@/views/Recruitment/components/Recruitment.vue'
     import { ref, computed, onMounted, watch } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
     import { useStore } from 'vuex';
@@ -126,6 +126,10 @@
             post_type: 'recruitment',
         });
         router.push(`/study-groups/${route.params.groupId}/recruitments/upload`);
+    }
+
+    const goRecruitmentDetail = (recruitmentId) => {
+        router.push(`/recruitments/${recruitmentId}`);
     }
 
     // URL 쿼리 변경을 감지하여 필터링

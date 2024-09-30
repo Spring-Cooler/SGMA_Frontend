@@ -146,7 +146,7 @@
 
     const fetchBoardData = async () => {
         try {
-            const response = (await axios.get(`/study-group-service/api/study-group/boards/${route.params.boardId}`, 
+            const response = (await axios.get(`/recruitment-service/api/recruitment-board/board/${route.params.recruitmentId}`, 
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -166,7 +166,7 @@
 
     const fetchCommentData = async () => {
         try {
-            const response = (await axios.get(`/study-group-service/api/study-group/board/comments/board-id/${route.params.boardId}`,
+            const response = (await axios.get(`/recruitment-service/api/recruitment-board-comments/${route.params.recruitmentId}`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -186,7 +186,7 @@
 
     const fetchReplyData = async (commentId) => {
         try {
-            const response = (await axios.get(`/study-group-service/api/study-group/board/replies/comment-id/${commentId}`,
+            const response = (await axios.get(`/recruitment-service/api/recruitment-board-reply/${commentId}`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -204,7 +204,7 @@
     const handleAddComment = async (content) => {
         try {
             commentData.content = content;
-            const response = (await axios.post(`/study-group-service/api/study-group/board/comments`, commentData, 
+            const response = (await axios.post(`/recruitment-service/api/recruitment-board-comments/${route.params.recruitmentId}`, commentData, 
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -226,7 +226,7 @@
         try {
             replyData.comment_id = commentId;
             replyData.content = content;
-            const response = (await axios.post(`/study-group-service/api/study-group/board/replies`, replyData,
+            const response = (await axios.post(`/recruitment-service/api/recruitment-board-reply/${commentId}`, replyData,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -244,7 +244,7 @@
 
     const handleDeletePost = async () => {
         try {
-            const response = (await axios.delete(`/study-group-service/api/study-group/boards/${route.params.boardId}`,
+            const response = (await axios.delete(`/recruitment-service/api/recruitment-board/${route.params.recruitmentId}`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -261,7 +261,7 @@
 
     const handleDeleteComment = async (commentId) => {
         try {
-            const response = (await axios.delete(`/study-group-service/api/study-group/board/comments/${commentId}`,
+            const response = (await axios.delete(`/recruitment-service/api/recruitment-board-comments/${commentId}`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -280,7 +280,7 @@
 
     const handleDeleteReply = async (replyId, commentId) => {
         try {
-            const response = (await axios.delete(`/study-group-service/api/study-group/board/replies/${replyId}`,
+            const response = (await axios.delete(`/recruitment-service/api/recruitment-board-reply/${replyId}`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -298,7 +298,7 @@
 
     const handleLike = async () => {
         try {
-            const response = (await axios.post(`/study-group-service/api/study-group/boards/like`, likeData,
+            const response = (await axios.post(`/recruitment-service/api/recruitment-board-like/like/${route.params.recruitmentId}/${userId}`, likeData,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -311,7 +311,7 @@
 
     const handleUnlike = async () => {
         try {
-            const response = (await axios.delete(`/study-group-service/api/study-group/boards/like?board-id=${route.params.boardId}&member-id=${memberId.value}`,
+            const response = (await axios.delete(`/recruitment-service/api/recruitment-board-like/like/${route.params.recruitmentId}/${userId}`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -324,12 +324,12 @@
 
     const goModifyPost = () => {
         store.commit('setPostData', {
-            id: route.params.boardId,
+            id: route.params.recruitmentId,
             title: boardDetail.value.title,
             content: boardDetail.value.content,
-            post_type: 'board',
+            post_type: 'recruitment',
         });
-        router.push(`/study-groups/${route.params.groupId}/boards/${route.params.boardId}/modify`);
+        router.push(`/recruitments/${router.params.recruitmentId}/modify`);
     }
 
     onMounted(() => {
