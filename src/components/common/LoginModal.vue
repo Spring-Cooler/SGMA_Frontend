@@ -42,7 +42,7 @@
         </div>
         <div class="sns-buttons">
           <button class="sns-btn kakao" @click="navigateToKakaoLogin"></button>
-          <button class="sns-btn naver"></button>
+          <button class="sns-btn naver" @click="navigateToNaverLogin"></button>
         </div>
         <div class="login-options">
           <a href="#" @click.prevent="openFindId">아이디 찾기</a>
@@ -76,6 +76,7 @@ const router = useRouter();
 
 // 환경 변수로부터 카카오 로그인 관련 정보 불러오기
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_KAKAO_REDIRECT_URI}&response_type=code`;
+const NAVER_AUTH_URL = `https://nid.naver.com/oauth2.0/authorize?client_id=${import.meta.env.VITE_NAVER_CLIENT_ID}&redirect_uri=${import.meta.env.VITE_NAVER_REDIRECT_URI}&response_type=code&state=STATE_STRING`;
 
 // 외부에서 받아온 이벤트 정의
 const emit = defineEmits(['close', 'goToStep1', 'openPasswordReset', 'openFindId']);
@@ -185,6 +186,12 @@ const goToRegister = () => {
 const navigateToKakaoLogin = () => {
   window.location.href = KAKAO_AUTH_URL;
 };
+
+// 네이버 로그인 페이지로 리다이렉트
+const navigateToNaverLogin = () => {
+  window.location.href = NAVER_AUTH_URL;
+};
+
 </script>
 
 <style scoped>

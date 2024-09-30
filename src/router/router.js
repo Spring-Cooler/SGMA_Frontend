@@ -19,6 +19,7 @@ import Applicant from "@/views/Recruitment/Applicant.vue";
 import RecruitmentDetailPage from "@/views/Recruitment/RecruitmentDetailPage.vue";
 import MyStudyGroupsPage from "@/views/user/page/MyStudyGroupsPage.vue";
 import KakaoCallback from '@/views/user/components/KakaoCallback.vue'; // 콜백 처리용 컴포넌트
+import NaverCallback from '@/views/user/components/NaverCallback.vue'; // 콜백 처리용 컴포넌트
 
 const routes = [
   { path: "/", name: "Home", component: Home },
@@ -125,6 +126,11 @@ const routes = [
   {
     path: '/kakaologin',
     name: 'KakaoCallback',
+    component: KakaoCallback,
+  },
+  {
+    path: '/naverlogin',
+    name: 'NaverCallback',
     component: KakaoCallback,
   },
 ];

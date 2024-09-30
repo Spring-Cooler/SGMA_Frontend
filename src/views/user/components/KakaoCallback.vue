@@ -35,13 +35,16 @@ const handleKakaoCallback = async () => {
 
         await setTokenData(tokenData);
 
-         // 사용자 정보 API로 조회 후 닉네임이 없으면 프로필 모달 표시
-         const userProfileResponse = await axios.get(`/user-service/api/users/user-id/${tokenData.user_identifier}`, {
+       // 올바른 user_identifier로 사용자 정보 조회
+       const userProfileResponse = await axios.get(`/user-service/api/users/identifier`, {
+          params: { user_identifier: tokenData.user_identifier },
           headers: { Authorization: `Bearer ${tokenData.access_token}` }
         });
 
         // API 응답에서 userProfile을 안전하게 처리
         const userProfile = userProfileResponse?.data?.data || {};
+        
+        console.log('userProfile 정보: ',userProfile);
 
        if (!userProfile.nickname || userProfile.nickname === '') {
           showProfileModal.value = true;  // 닉네임이 없는 경우 프로필 설정 모달 표시

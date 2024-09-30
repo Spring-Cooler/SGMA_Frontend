@@ -83,35 +83,42 @@
     }
   };
   
-  // 닉네임 중복 확인 함수
-  const checkNicknameDuplication = async () => {
-    nicknameError.value = '';
-    nicknameDuplicationStatus.value = '';
-    isNicknameAvailable.value = false;
+// 닉네임 중복 확인 함수
+const checkNicknameDuplication = async () => {
+  nicknameError.value = '';
+  nicknameDuplicationStatus.value = '';
+  isNicknameAvailable.value = false;
+
+  if (!nickname.value) {
+    nicknameError.value = '닉네임을 입력해주세요.';
+    return;
+  }
+
+  try {
+    const response = await axios.post('/user-service/api/users/nickname/validate', { nickname: nickname.value });
+    console.log('닉네임 중복 검증 응답',response); // 응답 구조 확인
+    if (response.data.success) {
   
-    if (!nickname.value) {
-      nicknameError.value = '닉네임을 입력해주세요.';
-      return;
-    }
-  
-    try {
-      const response = await axios.post('/user-service/api/users/nickname/validate', { nickname: nickname.value });
-      if (response.data.success) {
-        if (!response.data.exist) {
-          nicknameDuplicationStatus.value = '사용 가능한 닉네임입니다.';
-          isNicknameAvailable.value = true;
-        } else {
-          nicknameError.value = '이미 사용 중인 닉네임입니다.';
-        }
+      if (response.data.data.exist) {
+        console.log('response.data.data.exist:', response.data.data.exist);
+        // exist가 true인 경우, 이미 존재하는 닉네임임
+        nicknameError.value = '이미 사용 중인 닉네임입니다.';
       } else {
-        nicknameError.value = '닉네임 중복 확인 중 오류가 발생했습니다.';
+        console.log('response.data.data.exist:', response.data.data.exist);
+        // exist가 false인 경우, 사용 가능한 닉네임임
+        nicknameDuplicationStatus.value = '사용 가능한 닉네임입니다.';
+        isNicknameAvailable.value = true;
       }
-    } catch (error) {
+    } else {
       nicknameError.value = '닉네임 중복 확인 중 오류가 발생했습니다.';
-      console.error('checkNicknameDuplication 에러:', error);
     }
-  };
-  
+  } catch (error) {
+    nicknameError.value = '닉네임 중복 확인 중 오류가 발생했습니다.';
+    console.error('checkNicknameDuplication 에러:', error);
+  }
+};
+
+
   // 프로필 업데이트 완료 함수
   const completeUpdateProfile = async () => {
     if (!canComplete.value) return;
