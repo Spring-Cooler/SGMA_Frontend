@@ -110,7 +110,7 @@ const submitAnswers = async () => {
 		// Collect all submitted answers
 		const submittedAnswers = problemInfos.value.map((problem) => ({
 			problem_id: problem.problem_id,
-			participant_id: 1, // Assuming a hardcoded participant_id, replace this with actual data if available
+			participant_id: 7, // Assuming a hardcoded participant_id, replace this with actual data if available
 			submitted_answer: problem.submitted_answer || null, // Ensure there's a submitted answer or null
 			answer_status: 'UNGRADED' // As per the API specification
 		}));
@@ -131,6 +131,7 @@ const submitAnswers = async () => {
 		if (response.data.success) {
 			alert('답안이 성공적으로 제출되었습니다.');
 			console.log('Post request succeeded:', response.data);
+			router.push('/')
 		} else {
 			console.error('Failed to submit answers:', response.data);
 		}
