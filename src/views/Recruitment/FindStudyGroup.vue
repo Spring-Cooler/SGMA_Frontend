@@ -54,7 +54,7 @@
     import Navigation from '@/components/layouts/Navigation.vue';
     import SideBar from '@/components/layouts/SideBar.vue';
     import Title from '@/components/common/Title.vue';
-    import Recruitment from '@/views/Group/components/Recruitment.vue'
+    import Recruitment from '@/views/Recruitment/components/Recruitment.vue'
     import SearchBar from './components/SearchBar.vue';
     import { ref, computed, onMounted, watch } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
@@ -121,7 +121,7 @@
                 statusQuery.value = '';
                 break;
         }
-        router.push({path: route.fullpath, query: {status: statusQuery.value}});
+        router.push({path: route.fullPath, query: {status: statusQuery.value}});
     };
 
     const handleClickTag = (index) => {
@@ -129,16 +129,13 @@
             selectedTag.value = null;
             filterRecruitments();
         } else {
-            let activeRecruitments = allRecruitments.value.filter(item => item.active_status === 'ACTIVE');
-            let inactiveRecruitments = allRecruitments.value.filter(item => item.active_status === 'INACTIVE');
-
-            recruitmentList.value = [...activeRecruitments, ...inactiveRecruitments];
+            filterRecruitments();
 
             selectedTag.value = index;
             recruitmentList.value = recruitmentList.value.filter(item => item.study_group_category_id === tagList[index].tagId);
 
-            activeRecruitments = recruitmentList.value.filter(item => item.active_status === 'ACTIVE');
-            inactiveRecruitments = recruitmentList.value.filter(item => item.active_status === 'INACTIVE');
+            const activeRecruitments = recruitmentList.value.filter(item => item.active_status === 'ACTIVE');
+            const inactiveRecruitments = recruitmentList.value.filter(item => item.active_status === 'INACTIVE');
 
             recruitmentList.value = [...activeRecruitments, ...inactiveRecruitments];
         }
@@ -184,6 +181,25 @@
         };
     });
 
+    const setSelectedMenuFromQuery = () => {
+        // URL의 status 값을 확인하고, 해당하는 메뉴 인덱스를 설정
+        const status = route.query.status || '';  // 기본 값은 빈 문자열로 설정
+        switch (status) {
+            case 'likes':
+                selectedMenu.value = 1;
+                break;
+            case 'active':
+                selectedMenu.value = 2;
+                break;
+            case 'inactive':
+                selectedMenu.value = 3;
+                break;
+            default:
+                selectedMenu.value = 0; // 기본값은 '최신순'
+                break;
+        }
+    };
+
     // URL 쿼리 변경을 감지하여 필터링
     watch(() => route.query.status, () => {filterRecruitments();});
 
@@ -192,6 +208,7 @@
     });
 
     onMounted(() => {
+        setSelectedMenuFromQuery();
         fetchRecruitmentData();
     })
 </script>
