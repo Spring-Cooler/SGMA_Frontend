@@ -133,7 +133,7 @@
 
 ![image](https://github.com/user-attachments/assets/0ec2a1c9-a3c7-43da-a0a1-b549f054facb)
 
-### 결과 보고서
+## 결과
 
 ### 1. 회원
 
