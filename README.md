@@ -16,8 +16,6 @@
    - [기대 효과](#5-기대-효과)
 4. [설계 문서](#설계-문서)
    - [System Architecture](#system-architecture)
-   - [요구사항 정의서](#요구사항-정의서)
-   - [WBS](#wbs)
    - [주요 기능 FLOW CHART](#주요-기능-flow-chart)
    - [DDD](#ddd)
      - [Event Storming](#1-event-storming)
@@ -27,6 +25,9 @@
      - [논리 모델링](#2-논리-모델링)
      - [물리 모델링](#3-물리-모델링)
 5. [산출물](#산출물)
+   - [와이어 프레임](# 와이어 프레임)
+   - [기능명세서서](#요구사항-정의서)
+   - [테스트 케이스](#wbs)
 
 - [동료 평가](#동료평가)
 
@@ -117,60 +118,45 @@
 
 ### 산출물<a id="산출물"></a>
 
-### 기능 정의서 <a id="요구사항-정의서"></a>
+### 1. 기능 정의서 <a id="기능명세서"></a>
 [기능 정의서 바로가기](https://docs.google.com/spreadsheets/d/1XVX6lAse2VZzDybUvryL8GyeM3-PO_EZMFG10hMVJSk/edit?gid=0#gid=0)
 
 ![image](https://github.com/user-attachments/assets/e3a3e217-34e9-4954-8301-1150095d71bf)
 
+## 2. 와이어 프레임<a id="wireflame"></a>
 
+![image](https://github.com/user-attachments/assets/9339d672-cf48-497f-8510-bdc7ab659ad7)
 
-## 테스트 계획 및 결과 보고서 <a id="wbs"></a>
+## 3. 테스트 계획 및 결과 보고서 <a id="testcase"></a>
+
 [테스트 계획 및 결과 보고서 바로가기](https://docs.google.com/spreadsheets/d/1XVX6lAse2VZzDybUvryL8GyeM3-PO_EZMFG10hMVJSk/edit?gid=1079017783#gid=1079017783)
 ![image](https://github.com/user-attachments/assets/0ec2a1c9-a3c7-43da-a0a1-b549f054facb)
 
+### 1. 회원
 
 <details>
-  <summary>회원가입을 위한 이메일 인증</summary>
-
-  ![image](https://github.com/user-attachments/assets/64cdbec0-460d-48c4-9e9c-f30296c8c677)
-  ![image](https://github.com/user-attachments/assets/2e39b1ac-1af6-46d4-b132-be6ca4f2b9ef)
+  <summary> 이메일 전송</summary>
 
 </details>
 
 <details>
-  <summary>Redis를 이용한 이메일 인증번호 저장</summary>
-
-  ![image](https://github.com/user-attachments/assets/918c81ea-5664-45ea-ba57-fbaff65a7d4f)
+  <summary>이메일 확인 </summary>
 
 </details>
+
+### 2. 모집글
 
 <details>
-  <summary>로그인 후 토큰 발급</summary>
-
-  ![image](https://github.com/user-attachments/assets/c64aa1df-a63f-4210-b8bb-bc6e4938e567)
+  <summary>1. 회원가입 기능</summary>
 
 </details>
 
-<details>
-  <summary>회원정보 수정 및 S3를 이용한 파일 저장</summary>
 
-  ![image](https://github.com/user-attachments/assets/22b5047e-fee1-4a8b-8c5a-7ec17d13576e)
-  ![image](https://github.com/user-attachments/assets/6d46b6fa-6d98-4ead-bb10-b5b1dd843449)
+### 3. 스터디 그룹
 
-</details>
+### 4. 스터디 그룹 게시판
 
-<details>
-  <summary>Spring Batch와 Scheduling을 이용한 게시글 활성화 여부 관리</summary>
-
-  ![image](https://github.com/user-attachments/assets/c15026df-42f4-4397-9500-312cb759cf5e)
-
-</details>
-
-<details>
-   <summary>OpenAI API를 이용한 주관식 문제 채점</summary>
-
-   ![image](https://github.com/user-attachments/assets/77f75f63-3e2d-460a-823d-7f7a062a6e87)
-</details>
+### 5. 스터디 일정 및 문제
 
 
 ### 📜 동료평가 <a id="동료평가"></a>
