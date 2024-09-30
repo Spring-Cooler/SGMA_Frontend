@@ -34,7 +34,7 @@
           <hr />
         </div>
         <div class="sns-buttons">
-          <button class="sns-btn kakao"></button>
+          <button class="sns-btn kakao" @click="navigateToKakaoLogin"></button>
           <button class="sns-btn naver"></button>
         </div>
         <div class="login-options">
@@ -60,10 +60,49 @@
 
 <script setup>
 import { ref, inject } from 'vue';
+import { useRouter } from 'vue-router';
 import axios from 'axios'; // axios 가져오기
 import eyeOpenIcon from '@/assets/images/eye_open.png';
 import eyeClosedIcon from '@/assets/images/eye_closed.png';
 import AccountReactivationModal from '@/views/user/components/AccountReactivationModal.vue'; // 계정 재활성화 모달 추가
+
+
+// 카카오 로그인 URL로 이동하는 함수
+const KAKAO_AUTH_URL = 'https://kauth.kakao.com/oauth/authorize?client_id=[App key]redirect_uri=http://127.0.0.1:8080/user-service/api/users/oauth2/kakao&response_type=code';
+
+const navigateToKakaoLogin = () => {
+  window.location.href = KAKAO_AUTH_URL;
+};
+
+// 콜백 URL로 리다이렉트 되었을 때, 코드로 토큰 요청
+const handleKakaoCallback = async () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get('code');
+
+  if (code) {
+    try {
+      const response = await axios.post('http://localhost:8080/user-service/api/users/oauth2/kakao', {
+        code: code
+      });
+
+      if (response.data.success) {
+        // 서버에서 받은 토큰 정보를 저장
+        const tokenData = response.data.data;
+        await setTokenData(tokenData); // 토큰 설정
+
+        router.push('/'); // 홈으로 리디렉트
+      } else {
+        console.error('로그인 실패:', response.data.error);
+      }
+    } catch (error) {
+      console.error('카카오 로그인 처리 중 오류:', error);
+    }
+  }
+};
+// 콜백 URL에서 코드 처리
+if (window.location.pathname === '/callback') {
+  handleKakaoCallback();
+}
 
 // 외부에서 받아온 이벤트 정의
 const emit = defineEmits(['close', 'goToStep1','openPasswordReset', 'openFindId']);
