@@ -305,7 +305,6 @@
 ### 4. 스터디 그룹 게시판
 
 <details>
-<details>
   <summary>1. 스터디 그룹 공지사항 작성 </summary>
   <img src="https://github.com/user-attachments/assets/c3ff8448-003f-496a-9ca5-401df27387a0">
 </details>
