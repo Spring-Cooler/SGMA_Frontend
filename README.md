@@ -129,8 +129,11 @@
 
 ## 3. 테스트 계획 및 결과 보고서 <a id="testcase"></a>
 
-[테스트 계획 및 결과 보고서 바로가기](https://docs.google.com/spreadsheets/d/1XVX6lAse2VZzDybUvryL8GyeM3-PO_EZMFG10hMVJSk/edit?gid=1079017783#gid=1079017783)
+[테스트 케이스 바로가기](https://docs.google.com/spreadsheets/d/1XVX6lAse2VZzDybUvryL8GyeM3-PO_EZMFG10hMVJSk/edit?gid=1079017783#gid=1079017783)
+
 ![image](https://github.com/user-attachments/assets/0ec2a1c9-a3c7-43da-a0a1-b549f054facb)
+
+### 결과 보고서
 
 ### 1. 회원
 
