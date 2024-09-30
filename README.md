@@ -243,27 +243,23 @@
 
 <details>
   <summary>1.  일정 생성</summary>
-   <img src=https://github.com/user-attachments/assets/02d2030b-bed7-4c38-a5e1-05c669294b56>
+   <img src=https://github.com/Spring-Cooler/SGMA_Frontend/blob/d81205635dd6e739e3ec6a1892dad145162850ba/assets/CreateSchedule.gif>
 </details>
 <details>
   <summary>2. 일정 수정</summary>
- ![image](https://github.com/user-attachments/assets/71d0807b-6668-44f1-beee-317f58c088a5)
-
+<img src=https://github.com/Spring-Cooler/SGMA_Frontend/blob/d81205635dd6e739e3ec6a1892dad145162850ba/assets/modifySchedule.gif>
 </details>
 <details>
   <summary>3. 시험 응시</summary>
-   ![Uploading test_page.gif…]()
-
+<img src=https://github.com/Spring-Cooler/SGMA_Frontend/blob/d81205635dd6e739e3ec6a1892dad145162850ba/assets/test_page.gif>
 </details>
 <details>
   <summary>4. 시험 종료 시간에 맞춰 채점</summary>
-   ![image](https://github.com/user-attachments/assets/2f280dfd-f428-471e-b7b3-ad18a5ef66d1)
-
+  <img src=https://github.com/Spring-Cooler/SGMA_Frontend/blob/d81205635dd6e739e3ec6a1892dad145162850ba/assets/grade_submitted_answers.gif>
 </details>
 <details>
   <summary>5. 시험 결과 시각화</summary>
-   ![TestResultPage](https://github.com/user-attachments/assets/e3c1b86f-6114-4a06-9d37-58082aa61c2a)
-
+  <img src=https://github.com/Spring-Cooler/SGMA_Frontend/blob/d81205635dd6e739e3ec6a1892dad145162850ba/assets/TestResultPage.gif>
 </details>
 
 ## 📜 동료평가 <a id="동료평가"></a>
