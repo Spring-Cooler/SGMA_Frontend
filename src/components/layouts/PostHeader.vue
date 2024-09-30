@@ -9,7 +9,7 @@
             <div v-if="!isNotice">
                 <span class="like-count" @click="toggleLike">
                     <i class="fa-solid fa-heart" :class="{ 'like-heart': isAnimating }" :style="{ color: isLiked ? 'red' : 'gray' }"></i>
-                    {{props.data.likes}} 
+                    {{likeCount}} 
                 </span>
                 <span class="comment-count">
                     <i class="fa-solid fa-comment"></i>
@@ -43,7 +43,7 @@ const props = defineProps({
 const isLiked = ref(false); // 좋아요 상태를 관리
 const likeCount = ref(props.data.likes);  // 좋아요 수를 관리
 const isAnimating = ref(false); // 좋아요 애니메이션 상태 관리
-const emit = defineEmits(['modifyPost','deletePost']);
+const emit = defineEmits(['modifyPost','deletePost','like','unlike']);
 const router = useRouter();
 const route = useRoute();
 
@@ -61,12 +61,14 @@ const deletePost = () => {
 }
 
 // 좋아요 토글 함수
-const toggleLike = () => {
+const toggleLike = async () => {
   if (!isAnimating.value) { // 애니메이션이 진행 중이 아닐 때만 실행
     if (isLiked.value) {
       likeCount.value--; // 좋아요를 취소하면 수 감소
+      emit('unlike');
     } else {
       likeCount.value++; // 좋아요를 누르면 수 증가
+      emit('like');
     }
     isLiked.value = !isLiked.value; // 상태를 토글
 

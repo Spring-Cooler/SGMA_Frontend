@@ -14,6 +14,8 @@
                         :isNotice="false" 
                         @modifyPost="goModifyPost" 
                         @deletePost="toggleModal"
+                        @like="handleLike"
+                        @unlike="handleUnlike"
                     >
                     </PostHeader>
                     <PostBody :data="bodyData" :isPerm="true"></PostBody>
@@ -106,6 +108,11 @@
         member_id: null,
         comment_id: null,
     });
+
+    const likeData = reactive({
+        board_id: route.params.boardId,
+        member_id: memberId.value,
+    })
 
     const toggleModal = () => {
         modalVisibility.value = !modalVisibility.value;
@@ -243,7 +250,7 @@
             })).data;
             if (response.success) {
                 modalVisibility.value = false;
-                router.push(`/study-groups/1/boards`);
+                router.push(`/study-groups/${route.params.groupId}/boards`);
             }
         } catch (error) {
             console.error(error);
@@ -287,6 +294,40 @@
         }
     }
 
+    const handleLike = async () => {
+        try {
+            const response = (await axios.post(`/study-group-service/api/study-group/boards/like`, likeData,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+            if(response.success) {
+                console.log(response.data);
+                fetchBoardData();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleUnlike = async () => {
+        try {
+            const response = (await axios.delete(`/study-group-service/api/study-group/boards/like?board-id=${route.params.boardId}&member-id=${memberId.value}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+            if(response.success) {
+                console.log(response);
+                fetchBoardData();
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const goModifyPost = () => {
         store.commit('setPostData', {
             id: route.params.boardId,
@@ -294,7 +335,7 @@
             content: boardDetail.value.content,
             post_type: 'board',
         });
-        router.push(`/study-groups/1/boards/${route.params.boardId}/modify`);
+        router.push(`/study-groups/${route.params.groupId}/boards/${route.params.boardId}/modify`);
     }
 
     onMounted(() => {

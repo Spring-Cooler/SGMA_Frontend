@@ -5,8 +5,6 @@
 			<SideBarMenu to="/study-groups">스터디 그룹 찾기</SideBarMenu>
 			<SideBarMenu to="/create-group">스터디 그룹 만들기</SideBarMenu>
 			<SideBarMenu to="/mypage">마이페이지</SideBarMenu>
-			<!-- 라우터 확인용 테스트 버트임(지울 예정) -->
-			<SideBarMenu to="/study-groups/1/schedules">스터디 일정</SideBarMenu>
 		</div>
 	</aside>
 </template>
