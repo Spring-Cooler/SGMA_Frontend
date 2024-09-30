@@ -12,6 +12,7 @@
                     <PostHeader 
                         :data="headerData" 
                         :isNotice="false" 
+                        :memberId="memberId"
                         @modifyPost="goModifyPost" 
                         @deletePost="toggleModal"
                         @like="handleLike"
@@ -111,7 +112,7 @@
 
     const likeData = reactive({
         board_id: route.params.boardId,
-        member_id: memberId.value,
+        member_id: null,
     })
 
     const toggleModal = () => {
@@ -135,6 +136,7 @@
                     memberId.value = memberMap.value[route.params.groupId].member_id;
                     commentData.member_id = memberId.value;
                     replyData.member_id = memberId.value;
+                    likeData.member_id = memberId.value;
                 }
             }
         } catch (error) {
@@ -302,10 +304,6 @@
                     Authorization: `Bearer ${accessToken}`
                 }
             })).data;
-            if(response.success) {
-                console.log(response.data);
-                fetchBoardData();
-            }
         } catch (error) {
             console.error(error);
         }
@@ -319,10 +317,6 @@
                     Authorization: `Bearer ${accessToken}`
                 }
             })).data;
-            if(response.success) {
-                console.log(response);
-                fetchBoardData();
-            }
         } catch (error) {
             console.error(error);
         }
