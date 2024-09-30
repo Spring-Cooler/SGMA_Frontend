@@ -139,25 +139,27 @@
 
 <details>
   <summary> 이메일 전송</summary>
-
+  
 </details>
 
 <details>
   <summary>이메일 확인 </summary>
 
 </details>
+<br>
 
-### 2. 모집글
-
+### 2. 모집관련
 <details>
   <summary>1. 회원가입 기능</summary>
 
 </details>
-
+<br>
 
 ### 3. 스터디 그룹
+<br>
 
 ### 4. 스터디 그룹 게시판
+<br>
 
 ### 5. 스터디 일정 및 문제
 
