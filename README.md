@@ -236,15 +236,31 @@
 </details>
 <details>
   <summary>3. 스터디 그룹 공지사항 작성 </summary>
-  <img src="https://github.com/user-attachments/assets/c3ff8448-003f-496a-9ca5-401df27387a0)">
+  <img src="https://github.com/user-attachments/assets/c3ff8448-003f-496a-9ca5-401df27387a0">
 </details>
 <details>
   <summary>4. 스터디 그룹 공지사항 제목으로 검색 </summary>
   <img src="https://github.com/user-attachments/assets/6a2b8289-2ce6-45ca-8d7c-172c2562aa15">
 </details>
 <details>
-  <summary>5. </summary>
-  <img src="">
+  <summary>5. 스터디 그룹 공지사항 수정</summary>
+  <img src="https://github.com/user-attachments/assets/f1fb9af0-c37c-46b8-8f99-b00622c911cf">
+</details>
+<details>
+  <summary>6. 스터디 그룹 공지사항 삭제</summary>
+  <img src="https://github.com/user-attachments/assets/889dffe7-ab6f-4892-b22f-971e7814f918)">
+</details>
+<details>
+  <summary>5. 스터디 그룹 자유게시판 작성</summary>
+  <img src="https://github.com/user-attachments/assets/8c99350c-1dfb-44f9-bec8-00d914d67f8c">
+</details>
+<details>
+  <summary>5. 스터디 그룹 자유게시판 수정</summary>
+  <img src="https://github.com/user-attachments/assets/f228e926-f0b3-4fda-8dc7-eefe249d4908">
+</details>
+<details>
+  <summary>5. 스터디 그룹 자유게시판 삭제</summary>
+  <img src="https://github.com/user-attachments/assets/6c48a0a7-3eec-488b-a2c6-4ea1da57e904">
 </details>
 <br>
 
