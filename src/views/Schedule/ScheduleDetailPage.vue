@@ -75,7 +75,10 @@ const schedule = ref({
 	numProblemsPerParticipant: 0,
 	numParticipants: 0
 });
+
+/* participateInfo에 추가할 예정 */
 let participate = ref(false);
+let participateInfo = ref(null);
 // 라우터와 현재 경로 정보를 사용
 const route = useRoute();
 const router = useRouter();
@@ -104,7 +107,7 @@ onMounted(() => {
 		schedule.value.test_average = props.schedule.test_average;
 		schedule.value.test_standard_deviation = props.schedule.test_standard_deviation;
 		console.log(`schedule: ${schedule.value}`)
-
+		console.log(accessToken);
 	} else {
 		console.log('No schedule passed. Fetch from store or API using ID:', props.id);
 	}
@@ -120,6 +123,7 @@ const fetchData = async () => {
 		if (response.success) {
 			console.log("getParticipants:")
 			console.log(response)
+
 		}
 	} catch (error) {
 		console.log(error)
@@ -132,10 +136,60 @@ const goToExamPage = () => {
 	router.push(`/study-problems/schedules/${scheduleId}`);
 }
 
-const toggleParticipate = () => {
-	participate.value = !participate.value;
-	schedule.value.numParticipants += (participate.value ? 1 : -1);
-}
+// const toggleParticipate = () => {
+// 	participate.value = !participate.value;
+// 	schedule.value.numParticipants += (participate.value ? 1 : -1);
+
+// }
+// Toggle participation method
+const previousState = participate.value;
+const toggleParticipate = async () => {
+	// Declare previousState to store the initial participation state
+
+	try {
+		const memberId = JSON.parse(localStorage.getItem('token')).userId; // Fetch memberId from token
+
+		// Toggle local participation state
+		participate.value = !participate.value;
+
+		// Update the participant count based on the new participation status
+		schedule.value.numParticipants += (participate.value ? 1 : -1);
+
+		// Create the request payload
+		const newParticipant = {
+			participant_id: null,  // Replace this with the actual participantId if available
+			schedule_id: schedule.value.id,
+			member_id: memberId,  // memberId fetched from token
+			submission_status: participate.value ? "PARTICIPATED" : "NOT_PARTICIPATED",
+			num_submitted_problems: 0,
+			testScore: null,
+			testPercentage: null
+		};
+		console.log(newParticipant)
+
+		// Send a POST request to update participation
+		const response = await axios.post('http://localhost:8080/schedule-service/api/study-schedule/participant', newParticipant, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+
+		if (response.data.success) {
+			console.log('Participation updated successfully:', response.data);
+		} else {
+			throw new Error('Participation update failed: ' + (response.data.message || 'Unknown error'));
+		}
+
+	} catch (error) {
+		console.error('Error updating participation:', error.response ? error.response.data : error.message);
+
+		// Revert state on error
+		participate.value = previousState;  // Revert to the previous participation state
+		schedule.value.numParticipants += (participate.value ? 1 : -1); // Adjust the participant count accordingly
+		alert('참여 상태를 업데이트하는데 오류가 발생했습니다. 다시 시도해주세요.');
+	}
+};
+
 </script>
 
 <style scoped>
