@@ -127,11 +127,16 @@
             selectedTag.value = null;
             filterRecruitments();
         } else {
+            let activeRecruitments = allRecruitments.value.filter(item => item.active_status === 'ACTIVE');
+            let inactiveRecruitments = allRecruitments.value.filter(item => item.active_status === 'INACTIVE');
+
+            recruitmentList.value = [...activeRecruitments, ...inactiveRecruitments];
+
             selectedTag.value = index;
             recruitmentList.value = recruitmentList.value.filter(item => item.study_group_category_id === tagList[index].tagId);
 
-            const activeRecruitments = recruitmentList.value.filter(item => item.active_status === 'ACTIVE');
-            const inactiveRecruitments = recruitmentList.value.filter(item => item.active_status === 'INACTIVE');
+            activeRecruitments = recruitmentList.value.filter(item => item.active_status === 'ACTIVE');
+            inactiveRecruitments = recruitmentList.value.filter(item => item.active_status === 'INACTIVE');
 
             recruitmentList.value = [...activeRecruitments, ...inactiveRecruitments];
         }
