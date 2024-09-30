@@ -5,7 +5,7 @@
         <main class="main">
             <div class="main-content">
                 <Title>스터디 자유게시판</Title>
-                <SearchBar path="/study-groups/1/boards" postType="board"></SearchBar>
+                <SearchBar :path="`/study-groups/${route.params.groupId}/boards`" postType="board"></SearchBar>
                 <div class="board-info">
                     <div class="board-no">번호</div>
                     <div class="board-title">제목</div>
@@ -76,12 +76,12 @@
     // 쿼리 매개변수 변경 감지 및 데이터 가져오기
     watch(() => route.query.title, () => {
         currentPage.value = 1; // 검색 시 첫 페이지로 리셋
-        fetchData();
+        fetchBoardData();
     });
 
     const handlePageChange = (newPage) => {
         currentPage.value = newPage;
-        fetchData();
+        fetchBoardData();
         window.scrollTo({ top: 0 });
     }
 

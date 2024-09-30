@@ -5,7 +5,7 @@
         <main class="main">
             <div class="main-content">
                 <Title>스터디 공지사항</Title>
-                <SearchBar path="/study-groups/1/notices" postType="notice"></SearchBar>
+                <SearchBar :path="`/study-groups/${route.params.groupId}/notices`" postType="notice"></SearchBar>
                 <div class="notice-info">
                     <div class="notice-no">번호</div>
                     <div class="notice-title">제목</div>
@@ -44,7 +44,7 @@
     const loading = ref(true);
     const currentPage = ref(1);
 
-    const fetchData = async () => {
+    const fetchNoticeData = async () => {
         try {
             let response; 
         
@@ -76,12 +76,12 @@
     // 쿼리 매개변수 변경 감지 및 데이터 가져오기
     watch(() => route.query.title, () => {
         currentPage.value = 1; // 검색 시 첫 페이지로 리셋
-        fetchData();
+        fetchNoticeData();
     })
 
     const handlePageChange = (newPage) => {
         currentPage.value = newPage;
-        fetchData();
+        fetchNoticeData();
         window.scrollTo({ top: 0 });
     }
 
@@ -94,7 +94,7 @@
             alert("로그인을 해주세요.");
             router.push(`/`);
         }
-        fetchData();
+        fetchNoticeData();
     });
 </script>
 
