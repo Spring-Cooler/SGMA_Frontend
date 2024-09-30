@@ -4,7 +4,7 @@
             <img class="comment-author-icon" src="../../assets/images/default_profile.svg"></img>
             <div class="comment-content-container">
                 <div class="comment-info">
-                    <span class="comment-author">{{props.data.nickname}}</span>
+                    <span class="comment-author">{{props.data.nickname || props.data.user_nickname}}</span>
                     <span class="comment-date">{{formatDate(props.data.created_at)}}</span>
                 </div>
                 <div class="comment-content">
