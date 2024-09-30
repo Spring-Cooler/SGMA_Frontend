@@ -16,14 +16,14 @@
                             <span>내용</span>
                             <textarea v-model="postData.content" placeholder="내용을 입력해주세요." required></textarea>
                         </div>
-                        <div class="modify-date-container" v-if="postData.post_type === 'schedule'">
+                        <div class="modify-date-container" v-if="postData.post_type === 'schedule' || postData.post_type === 'recruitment'">
                             <div class="date-input">
                                 <span>시작 시간</span>
-                                <input type="datetime-local" v-model="postData.start_time" />
+                                <input type="datetime-local" v-model="postData.start_time" required />
                             </div>
                             <div class="date-input">
                                 <span>종료 시간</span>
-                                <input type="datetime-local" v-model="postData.end_time" />
+                                <input type="datetime-local" v-model="postData.end_time" required />
                             </div>
                         </div>
                         <div class="btn-container">
@@ -68,8 +68,50 @@
         content: postData.value.content,
     })
 
+    const recruitmentData = reactive({
+        recruitment_board_id: postData.value.id,
+        title: postData.value.title,
+        content: postData.value.content,
+        recruitment_start_time: postData.value.start_time,
+        recruitment_end_time: postData.value.end_time,
+    })
+
+    const categoryList = ref([]);
+
+    const checkValidTime = () => {
+        // 시간 유효성 검사
+        if (postData.value.start_time && postData.value.end_time) {
+            const startTime = new Date(postData.value.start_time);
+            const endTime = new Date(postData.value.end_time);
+
+            if (endTime <= startTime) {
+                alert("종료 시간이 시작 시간과 같거나 이전일 수 없습니다.");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    const fetchCategoryData = async () => {
+        try {
+            const response = (await axios.get(`/study-group-service/api/study-group/categories`,
+            {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
+                    })).data;
+            if(response.success) {
+                categoryList.value = response.data;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const submitModifyPost = async () => {
         try {
+            if(!checkValidTime()) return;
             let response;
             switch (postData.value.post_type) {
                 case 'board': 
@@ -100,6 +142,17 @@
                         }
                     })).data; 
                     break;
+                case 'recruitment': 
+                    recruitmentData.title = postData.value.title;
+                    recruitmentData.content = postData.value.content;
+                    recruitmentData.recruitment_start_time = postData.value.start_time;
+                    recruitmentData.recruitment_end_time = postData.value.end_time;
+                    response = (await axios.put(`/recruitment-service/api/recruitment-board/${route.params.recruitmentId}`,recruitmentData,{
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`
+                        }
+                    })).data;
+                    break;
                 default: console.error("게시글 타입 에러");
             }
             if(response.success) {
@@ -114,6 +167,9 @@
         if(accessToken === null) {
             alert("로그인을 해주세요.");
             router.push(`/`);
+        }
+        if(postData.value.post_type === 'recruitment') {
+            fetchCategoryData();
         }
         loading.value = !(postData.value && postData.value.post_type); // 데이터가 없을 경우 로딩 유지
     });

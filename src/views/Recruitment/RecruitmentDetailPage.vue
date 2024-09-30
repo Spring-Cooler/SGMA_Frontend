@@ -21,6 +21,14 @@
                     >
                     </PostHeader>
                     <PostBody :data="bodyData" :isPerm="true"></PostBody>
+                    <PostFooter>
+                        <div v-if="applyStatus==='n'">
+                            <MediumButton label="지원하기" @click="handleApply"></MediumButton>
+                        </div>
+                        <div v-else-if="applyStatus==='y'">
+                            <MediumButton class="light-gray" label="지원취소" @click="handleApply"></MediumButton>
+                        </div>
+                    </PostFooter>
                     <DeleteModal 
                         :isVisible="modalVisibility" 
                         @confirm="handleDeletePost" 
@@ -58,6 +66,7 @@
     import Title from '@/components/common/Title.vue';
     import PostHeader from '@/components/layouts/PostHeader.vue';
     import PostBody from '@/components/layouts/PostBody.vue';
+    import PostFooter from '@/components/layouts/PostFooter.vue';
     import DeleteModal from '@/components/common/DeleteModal.vue';
     import CommentHeader from '@/components/layouts/CommentHeader.vue';
     import CommentBody from '@/components/layouts/CommentBody.vue';
@@ -68,6 +77,7 @@
     import { useRouter, useRoute } from 'vue-router';
     import axios from 'axios';
     import ReplyBody from '@/components/layouts/ReplyBody.vue';
+    import MediumButton from '@/components/common/MediumButton.vue';
 
     const router = useRouter();
     const route = useRoute();
@@ -84,6 +94,7 @@
 
     const loading = ref(true);
     const modalVisibility = ref(false);
+    const applyStatus = ref(null);
 
     const headerData = reactive({
         nickname: '',
@@ -112,6 +123,12 @@
     const likeData = reactive({
         recruitment_board_id: route.params.recruitmentId,
         user_id: userId,
+    })
+
+    const applicantData = reactive({
+        recruitment_board_id: route.params.recruitmentId,
+        user_id: userId,
+        group_id: null,
     })
 
     const toggleModal = () => {
@@ -169,6 +186,24 @@
             if(response.success) {
                 headerData.comments += response.data.length;
                 replyList.value[commentId] = response.data;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const fetchApplicantData = async (userId) => {
+        try {
+            const response = (await axios.get(`/recruitment-service/api/study-applicant/user/${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+            if(response.success) {
+                applyStatus.value = 'y';
+            } else {
+                applyStatus.value = 'n';
             }
         } catch (error) {
             console.error(error);
@@ -298,20 +333,53 @@
         }
     }
 
+    const handleApply = async () => {
+        try {
+            if(applyStatus.value == 'n') {
+                applicantData.group_id = boardDetail.value.group_id;
+                const response = (await axios.post(`/recruitment-service/api/study-applicant`, applicantData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })).data;
+                if(response.success) {
+                    alert("신청 완료");
+                    applyStatus.value = 'y';
+                }
+            } else {
+                const response = (await axios.delete(`/recruitment-service/api/study-applicant/${userId}/${route.params.recruitmentId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`
+                    }
+                })).data;
+                if(response.success) {
+                    alert("신청이 취소되었습니다.");
+                    applyStatus.value = 'n';
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const goModifyPost = () => {
         store.commit('setPostData', {
             id: route.params.recruitmentId,
             title: boardDetail.value.title,
             content: boardDetail.value.content,
+            start_time: boardDetail.value.recruitment_start_time,
+            end_time: boardDetail.value.recruitment_end_time,
+            category: boardDetail.value.study_group_category_id,
             post_type: 'recruitment',
         });
-        router.push(`/study-groups/${boardDetail.value.group_id}/recruitments/${router.params.recruitmentId}/modify`);
+        router.push(`/study-groups/${boardDetail.value.group_id}/recruitments/${route.params.recruitmentId}/modify`);
     }
 
     onMounted(() => {
-        if(accessToken === null) {
-            alert("로그인을 해주세요.");
-            router.push(`/`);
+        if(accessToken !== null) {
+            fetchApplicantData(userId);
         }
         fetchBoardData();
         fetchCommentData();
