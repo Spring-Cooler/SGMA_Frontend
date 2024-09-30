@@ -36,6 +36,7 @@ const router = useRouter();
 
 // 상세 페이지 이동 함수
 const goToDetail = () => {
+	console.log(props.event.id);
 	router.push({
 		name: "ScheduleDetailPage",
 		params: { scheduleId: props.event.id },

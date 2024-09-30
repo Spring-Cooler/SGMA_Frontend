@@ -3,7 +3,7 @@
 		<div class="group-name"><span>콜럼버스 코테 스터디</span></div>
 		<div class="menu-container">
 			<SideBarMenu to="/study-groups/1/notices">스터디 공지사항</SideBarMenu>
-			<SideBarMenu to="/study-groups/1/schedules">스터디 그룹 일정</SideBarMenu>
+			<SideBarMenu to="/study-groups/2/schedules">스터디 그룹 일정</SideBarMenu>
 			<SideBarMenu to="/study-groups/1/boards">스터디 자유게시판</SideBarMenu>
 			<SideBarMenu to="/study-groups/1/members">스터디 그룹원</SideBarMenu>
 			<SideBarMenu to="/study-groups/1/recruitments">스터디 모집글</SideBarMenu>
@@ -40,7 +40,8 @@ import SideBarMenu from './SideBarMenu.vue';
 }
 
 .group-name span {
-	padding-left: 3rem; /* 왼쪽 패딩 적용 */
+	padding-left: 3rem;
+	/* 왼쪽 패딩 적용 */
 }
 
 .menu-container {
