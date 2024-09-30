@@ -133,60 +133,28 @@
 ### 1. 회원
 
 <details>
-  <summary>회원가입 기능</summary>
+  <summary> 이메일 전송</summary>
+
+</details>
+
+<details>
+  <summary>이메일 확인 </summary>
 
 </details>
 
 ### 2. 모집글
+
+<details>
+  <summary>1. 회원가입 기능</summary>
+
+</details>
+
 
 ### 3. 스터디 그룹
 
 ### 4. 스터디 그룹 게시판
 
 ### 5. 스터디 일정 및 문제
-
-<details>
-  <summary>회원가입을 위한 이메일 인증</summary>
-
-  ![image](https://github.com/user-attachments/assets/64cdbec0-460d-48c4-9e9c-f30296c8c677)
-  ![image](https://github.com/user-attachments/assets/2e39b1ac-1af6-46d4-b132-be6ca4f2b9ef)
-
-</details>
-
-<details>
-  <summary>Redis를 이용한 이메일 인증번호 저장</summary>
-
-  ![image](https://github.com/user-attachments/assets/918c81ea-5664-45ea-ba57-fbaff65a7d4f)
-
-</details>
-
-<details>
-  <summary>로그인 후 토큰 발급</summary>
-
-  ![image](https://github.com/user-attachments/assets/c64aa1df-a63f-4210-b8bb-bc6e4938e567)
-
-</details>
-
-<details>
-  <summary>회원정보 수정 및 S3를 이용한 파일 저장</summary>
-
-  ![image](https://github.com/user-attachments/assets/22b5047e-fee1-4a8b-8c5a-7ec17d13576e)
-  ![image](https://github.com/user-attachments/assets/6d46b6fa-6d98-4ead-bb10-b5b1dd843449)
-
-</details>
-
-<details>
-  <summary>Spring Batch와 Scheduling을 이용한 게시글 활성화 여부 관리</summary>
-
-  ![image](https://github.com/user-attachments/assets/c15026df-42f4-4397-9500-312cb759cf5e)
-
-</details>
-
-<details>
-   <summary>OpenAI API를 이용한 주관식 문제 채점</summary>
-
-   ![image](https://github.com/user-attachments/assets/77f75f63-3e2d-460a-823d-7f7a062a6e87)
-</details>
 
 
 ### 📜 동료평가 <a id="동료평가"></a>
