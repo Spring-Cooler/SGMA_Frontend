@@ -63,7 +63,6 @@ const fetchLikeData = async () => {
             Authorization: `Bearer ${accessToken}`
         }
     })).data;
-    console.log(props.memberId);
     if(response.success) {
         likeList.value = response.data;
         for(const like of likeList.value) {
