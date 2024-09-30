@@ -21,7 +21,7 @@
                         </nav>
                     </div>
                     <div class="search-type-container">
-                        <SearchBar path="/study-groups"></SearchBar>
+                        <SearchBar path="/recruitments"></SearchBar>
                         <div class="tag-container">
                             <div class="tag-title">인기 태그</div>
                             <div class="tags">
