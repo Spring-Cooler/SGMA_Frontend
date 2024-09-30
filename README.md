@@ -150,18 +150,91 @@
 
 ### 2. 모집관련
 <details>
-  <summary>1. 회원가입 기능</summary>
-
+  <summary>1. </summary>
+   내용
+</details>
+<details>
+  <summary>2. </summary>
+   내용
+</details>
+<details>
+  <summary>3. </summary>
+   내용
+</details>
+<details>
+  <summary>4. </summary>
+   내용
+</details>
+<details>
+  <summary>5. </summary>
+   내용
 </details>
 <br>
 
 ### 3. 스터디 그룹
+  <summary>1. </summary>
+   내용
+</details>
+<details>
+  <summary>2. </summary>
+   내용
+</details>
+<details>
+  <summary>3. </summary>
+   내용
+</details>
+<details>
+  <summary>4. </summary>
+   내용
+</details>
+<details>
+  <summary>5. </summary>
+   내용
+</details>
 <br>
 
 ### 4. 스터디 그룹 게시판
+  <summary>1. </summary>
+   내용
+</details>
+<details>
+  <summary>2. </summary>
+   내용
+</details>
+<details>
+  <summary>3. </summary>
+   내용
+</details>
+<details>
+  <summary>4. </summary>
+   내용
+</details>
+<details>
+  <summary>5. </summary>
+   내용
+</details>
 <br>
 
 ### 5. 스터디 일정 및 문제
+  <summary>1. </summary>
+   내용
+</details>
+<details>
+  <summary>2. </summary>
+   내용
+</details>
+<details>
+  <summary>3. </summary>
+   내용
+</details>
+<details>
+  <summary>4. </summary>
+   내용
+</details>
+<details>
+  <summary>5. </summary>
+   내용
+</details>
 
 
 
