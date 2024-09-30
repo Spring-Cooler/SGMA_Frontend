@@ -1,6 +1,5 @@
 <template class="root-container">
   <router-view />
-  <!-- <SingleBoard /> -->
 </template>
 
 <script>

@@ -1,5 +1,5 @@
 <template>
-    <button class="btn medium-btn">
+    <button class="btn large-btn">
       {{ label }}
     </button>
   </template>
@@ -14,9 +14,9 @@
   </script>
   
   <style scoped>
-    .medium-btn {
+    .large-btn {
       height: 4.8rem;
-      width: 16rem;
+      width: 18rem;
     }
   </style>
   

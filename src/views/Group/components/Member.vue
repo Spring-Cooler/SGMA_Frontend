@@ -15,7 +15,6 @@
 
 <script setup>
 import TinyButton from '@/components/common/TinyButton.vue';
-import { defineEmits } from 'vue';
 
 const props = defineProps({
     data: {
@@ -33,7 +32,7 @@ const isManagement = props.management;
 const emit = defineEmits(['kick']);
 
 const kick = () => {
-    emit('kick');
+    emit('kick', props.data.member_id);
 }
 
 </script>

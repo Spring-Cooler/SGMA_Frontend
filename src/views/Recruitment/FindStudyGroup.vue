@@ -1,294 +1,325 @@
 <template>
-    <div class="find-study-group">
+    <div class="find-study-group-page">
         <Navigation />
         <SideBar />
-        <div class="status-container">
-        <!-- 각 상태 버튼 -->
-            <div class="status" :class="{ active: activeStatus === '전체' }" @click="setActive('전체')">전체</div>
-            <div class="status" :class="{ active: activeStatus === '모집중' }" @click="setActive('모집중')">모집중</div>
-            <div class="status" :class="{ active: activeStatus === '모집완료' }" @click="setActive('모집완료')">모집완료</div>
-            
-            <div class="board-search-bar">
-                <i class="fa-solid fa-magnifying-glass"></i>
-                <input type="text" v-model="searchText" placeholder="관심스터디를 검색해 보세요!" />
-            </div>
-            <button class="search-btn olive">검색</button>
-            
-            <div class="tag-search-bar" @click="toggleTagDropdown">
-                <i class="fa-light fa-hashtag"></i>
-                <span>{{ selectedTag || '태그로 검색해 보세요!' }}</span>
-                <i1 class="fa-solid fa-caret-down" style="color: #a1b868;"></i1>
-            </div>
-            <div class="tag-dropdown" v-if="isDropdownOpen">
-                <div class="tag-item" v-for="tag in tags" :key="tag" @click="selectTag(tag)">
-                    {{ tag }}
+        <main class="main">
+            <div class="main-content">
+                <div class="recruitment-container loading" v-if="loading">Loading...</div>
+                <div class="recruitment-container" v-else>
+                    <Title>스터디 그룹 찾기</Title>
+                    <div class="recruitment-header">
+                        <nav class="recruitment-nav">
+                            <ul class="recruitment-menu">
+                                <li  v-for="(menu, menuIndex) in menuList" :key="menuIndex" 
+                                    :class="{ active: selectedMenu === menuIndex }"
+                                    @click="handleSelectMenu(menuIndex)"
+                                >
+                                    {{ menu }}
+                                </li>
+                            </ul>
+                            <div class="line" :style="lineStyle"></div>
+                        </nav>
+                    </div>
+                    <div class="search-type-container">
+                        <SearchBar path="/study-groups"></SearchBar>
+                        <div class="tag-container">
+                            <div class="tag-title">인기 태그</div>
+                            <div class="tags">
+                                <div class="btn-container">
+                                    <button
+                                        class="tag-btn"
+                                        v-for="(tag, tagIndex) in tagList"
+                                        :key="tagIndex"
+                                        @click="handleClickTag(tagIndex)"
+                                        :class="{selected: selectedTag === tagIndex}"
+                                    >
+                                        {{ tag.tagName }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="recruitment-body" v-for="(recruitment, recruitmentIndex) in recruitmentList" :key="recruitmentIndex">
+                        <Recruitment :data="recruitment"></Recruitment>
+                    </div>
                 </div>
             </div>
-            <button class="reset-btn" @click="resetTag">
-                <i class="fa-solid fa-rotate"></i>
-                초기화
-            </button>
-        </div>
+        </main>
     </div>
-    
 </template>
 
 <script setup>
-import Navigation from '@/components/layouts/Navigation.vue';
-import SideBar from '@/components/layouts/SideBar.vue';
-import { ref } from 'vue';
+    import Navigation from '@/components/layouts/Navigation.vue';
+    import SideBar from '@/components/layouts/SideBar.vue';
+    import Title from '@/components/common/Title.vue';
+    import Recruitment from '@/views/Group/components/Recruitment.vue'
+    import SearchBar from './components/SearchBar.vue';
+    import { ref, computed, onMounted, watch } from 'vue';
+    import { useRoute, useRouter } from 'vue-router';
+    import axios from 'axios';
 
-// 현재 활성화된 상태를 관리
-const activeStatus = ref('전체');
 
-// 클릭 시 상태를 변경하는 함수
-const setActive = (status) => {
-activeStatus.value = status;
-};
-const isDropdownOpen = ref(false);
-const tags = ref(['태그1', '태그2', '태그3', '태그4']);
-const selectedTag = ref('');
+    // 메뉴 항목과 선택된 메뉴를 관리하는 상태 변수
+    const menuList = ['최신순', '좋아요순', '모집중', '모집완료'];
+    const tagList = [
+        { tagId: 3, tagName:'자격증' },
+        { tagId: 2, tagName: '취업' }, 
+        { tagId: 5, tagName: 'IT' },
+        { tagId: 6, tagName: '금융/경제' },
+        { tagId: 1, tagName: '어학' },
+        { tagId: 9, tagName: '공학' }
+    ];
+    const selectedMenu = ref(0);
+    const selectedTag = ref(null);
 
-// 드롭다운 토글 함수
-const toggleTagDropdown = () => {
-    isDropdownOpen.value = !isDropdownOpen.value;
-};
+    const route = useRoute();
+    const router = useRouter();
 
-// 태그 선택 함수
-const selectTag = (tag) => {
-    selectedTag.value = tag;
-    isDropdownOpen.value = false; // 태그 선택 후 드롭다운 닫기
-};
+    const loading = ref(true);
+    const allRecruitments = ref([]); // 전체 모집글 데이터 저장
+    const recruitmentList = ref([]); // 필터된 모집글 데이터 저장
+    const statusQuery = ref(''); // 필터에 사용한 Query
 
-const resetTag = () => {
-    selectedTag.value = ''; // 선택된 태그 초기화
-    isDropdownOpen.value = false; // 드롭다운 닫기
-};
+    const fetchRecruitmentData = async () => {
+        try {
+            let response;
+            if (typeof route.query.title === 'undefined') {
+                response = (await axios.get(`/recruitment-service/api/recruitment-board/all`)).data;
+            } else {
+                response = (await axios.get(`/recruitment-service/api/recruitment-board/title/${route.query.title}`)).data;
+            }
+
+            if (response.success) {
+                allRecruitments.value = response.data;
+                filterRecruitments(); // 데이터를 가져온 후 필터링을 적용
+                loading.value = false;
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    // 메뉴 선택 함수
+    const handleSelectMenu = (menuIndex) => {
+        selectedMenu.value = menuIndex;
+        switch (menuIndex) {
+            case 0:
+                statusQuery.value = '';
+                break;
+            case 1:
+                statusQuery.value = 'likes'
+                break;
+            case 2:
+                statusQuery.value = 'active';
+                break;
+            case 3:
+                statusQuery.value = 'inactive';
+                break;
+            default:
+                statusQuery.value = '';
+                break;
+        }
+        router.push({path: route.fullpath, query: {status: statusQuery.value}});
+    };
+
+    const handleClickTag = (index) => {
+        if (selectedTag.value === index) {
+            selectedTag.value = null;
+            filterRecruitments();
+        } else {
+            selectedTag.value = index;
+            recruitmentList.value = recruitmentList.value.filter(item => item.study_group_category_id === tagList[index].tagId);
+
+            const activeRecruitments = recruitmentList.value.filter(item => item.active_status === 'ACTIVE');
+            const inactiveRecruitments = recruitmentList.value.filter(item => item.active_status === 'INACTIVE');
+
+            recruitmentList.value = [...activeRecruitments, ...inactiveRecruitments];
+        }
+    };
+
+    const filterRecruitments = () => {
+        selectedTag.value = null;
+        // 모집글을 먼저 필터링
+        const activeRecruitments = allRecruitments.value.filter(item => item.active_status === 'ACTIVE');
+        const inactiveRecruitments = allRecruitments.value.filter(item => item.active_status === 'INACTIVE');
+        // 좋아요순으로 정렬하되, 모집중을 우선으로 함
+        const likesRecruitments = [...allRecruitments.value].sort((a, b) => {
+            if (a.active_status === 'ACTIVE' && b.active_status !== 'ACTIVE') {
+                return -1; // 모집중인 글을 우선으로
+            }
+            if (a.active_status !== 'ACTIVE' && b.active_status === 'ACTIVE') {
+                return 1; // 모집중 아닌 글은 뒤로
+            }
+            return b.likes - a.likes; // 모집 상태가 같으면 좋아요순으로 정렬
+        });
+        
+        if (!route.query.status || route.query.status === '') {
+            // "전체" 선택 시, 모집중 -> 모집완료 순서로 출력
+            recruitmentList.value = [...activeRecruitments, ...inactiveRecruitments];
+        } else if (route.query.status === 'active') {
+            // "모집중"만 출력
+            recruitmentList.value = activeRecruitments;
+        } else if (route.query.status === 'inactive') {
+            // "모집완료"만 출력
+            recruitmentList.value = inactiveRecruitments;
+        } else if (route.query.status === 'likes') {
+            // "좋아요순" 출력
+            recruitmentList.value = likesRecruitments;
+        }
+    };
+
+    // 라인의 동적 스타일
+    const lineStyle = computed(() => {
+        return {
+            width: 'calc(100% / ' + menuList.length + ')',
+            transform: `translateX(${selectedMenu.value * 100}%)`,
+            transition: 'transform 0.3s ease',
+        };
+    });
+
+    // URL 쿼리 변경을 감지하여 필터링
+    watch(() => route.query.status, () => {filterRecruitments();});
+
+    watch(() => route.query.title, () => {
+        fetchRecruitmentData();
+    });
+
+    onMounted(() => {
+        fetchRecruitmentData();
+    })
 </script>
 
 <style scoped>
-  /* 상태 컨테이너 스타일 */
+    .recruitment-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+        min-height: 100vh;
+    }
 
-.status-container {
-height: 39px;
-width: 1012px;
-margin-top: 152px;
-margin-left: 571px;
-position: absolute;
-display: flex; /* 플렉스 박스를 사용해 가로 정렬 */
-justify-content: flex-start; /* 왼쪽 정렬 */
-align-items: center; /* 세로 중앙 정렬 */
-gap: 48px; /* 상태 버튼 사이의 간격 */
-padding: 10px 0 ; /* 상하좌우 패딩 추가 */
-border-bottom: 1px solid #ddd; /* 아래에 구분선 추가 */
-}
+    .loading {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+        font-size: 4rem;
+    }
 
-  /* 상태 버튼 스타일 */
-.status {
-font-size: 24px;
-font-family: Noto Sans;
-font-weight: 700;
-gap:48px;
-color: #888; /* 비활성화 상태의 색상 */
-cursor: pointer; /* 클릭 가능한 커서 */
-position: relative; /* ::after 위치 설정을 위한 기준 */
-padding-bottom: 8px; /* 텍스트와 줄 사이의 간격 */
-}
+    .search-type-container {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: flex-start;
+        border-bottom: 1px solid #a6a6a6;
+        padding-bottom: 4rem;
+    }
 
-/* 활성화된 상태의 스타일 */
-.status.active {
-color: #003E19; /* 활성화 상태의 글자 색상 */
-}
+    .tag-container {
+        display: flex;
+        flex-direction: column;
+        height: 22rem;
+        width: 20rem;
+        border: 1px solid #a6a6a6;
+        border-radius: 1rem;
+        margin-top: 5.3rem;
+    }
 
-/* 활성화된 상태의 줄 스타일 */
-.status.active::after {
-content: '';
-position: absolute;
-bottom: 0; /* 텍스트 바로 아래에 줄을 위치 */
-left: 0;
-width: 100%;
-height: 1px;
-background-color: #003E19; /* 줄 색상 */
-}
-.board-search-bar{
-position:absolute;
-display: flex; /* 플렉스 박스를 사용해 내부 아이템 정렬 */
-align-items: center; /* 세로 중앙 정렬 */
-padding-left: 20px; /* 왼쪽 패딩 */
-margin-top: 190px; /* 위아래 간격 */
-background: white;
-border-radius: 10px;
-border: 1px #CACACA solid;
-width:840px;
-height:89px;
-color: #CACACA;
-font-size: 24px;
-font-family: Noto Sans;
-font-weight: 700;
-word-wrap: break-word
-}
-.reset-btn
-{
-position:absolute;
-display: flex; /* 플렉스 박스를 사용해 내부 아이템 정렬 */
-align-items: center; /* 세로 중앙 정렬 */
-padding-left: 20px; /* 왼쪽 패딩 */
-margin-top: 388px; /* 위아래 간격 */
-margin-left: 860px; /* 위아래 간격 */
-background: white;
-border-radius: 10px;
-border: #CACACA solid;
-width: 140px;
-height: 89px;
-color: #202020;
-font-size: 24px;
-font-family: Noto Sans;
-font-weight: 700;
-word-wrap: break-word
-}
-.board-search-bar i {
-    width: 50px;
-    font-size: 40px; /* 아이콘의 크기 조정 */
-    color:black;
-    margin-left:10px;
-}
+    .tag-title {
+        display: flex;
+        width: 100%;
+        font-size: 1.6rem;
+        font-weight: 700;
+        padding: 1rem;
+    }
 
-.board-search-bar input::placeholder {
-    color: #CACACA; /* 텍스트 색상 */
-}
+    .tags {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
 
-.board-search-bar input {
-    flex: 1; /* 입력 필드가 남은 공간을 채우도록 설정 */
-    border: none; /* 테두리 제거 */
-    outline: none; /* 포커스 시 생기는 외곽선 제거 */
-    font-size: 24px;
-    font-family: Noto Sans;
-    font-weight: 700;
-    padding: 0 10px; /* 입력 필드의 패딩 조정 */
-    color: #CACACA; /* 텍스트 색상 */
-}
-.board-search-bar input {
-    flex: 1; /* 입력 필드가 남은 공간을 채우도록 설정 */
-    border: none; /* 테두리 제거 */
-    outline: none; /* 포커스 시 생기는 외곽선 제거 */
-    font-size: 24px;
-    font-family: Noto Sans;
-    font-weight: 700;
-    padding: 0 10px; /* 입력 필드의 패딩 조정 */
-    color: #CACACA; /* 텍스트 색상 */
-}
+    .btn-container {
+        display: flex;
+        flex-wrap: wrap;
+        width: 18rem;
+        gap: 1rem;
+    }
 
-.fa-solid .fas{
-    width :21px;
-}
-.fa-caret-down:before {
-    content: "\f0d7";
-    margin-left: 465px;
-    font-size: 60px;
-}
+    .tag-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-width: 6rem;
+        height: 3rem;
+        font-size: 1.6rem;
+        color: #202020;
+        background-color: #E9EFF4;
+        border: none;
+        border-radius: 1rem;
+        transition: 0.3s ease-out;
+    }
 
-.search-btn{
-    margin-left: 497px;
-    margin-top: 184px;
-    width: 140px;
-    height: 89px;
-    /* background: #A1B872; */
-    border:#A1B872; 
-    border-radius: 10px;
-    color: white; 
-    font-size: 24px;
-    font-family: Noto Sans;
-    font-weight: 700;
-    word-wrap: break-word
-}
+    .tag-btn:hover {
+        background-color: #DDE4EA;
+    }
 
-.search-btn{
-    margin-left: 497px;
-    margin-top: 184px;
-    width: 140px;
-    height: 89px;
-    /* background: #A1B872; */
-    border:#A1B872; 
-    border-radius: 10px;
-    color: white; 
-    font-size: 24px;
-    font-family: Noto Sans;
-    font-weight: 700;
-    word-wrap: break-word
-}
+    .tag-btn.selected {
+        background-color: #A1B872;
+        color: #FFFFFF;
+    }
 
-.tag-search-bar{
-position:absolute;
-display: flex; /* 플렉스 박스를 사용해 내부 아이템 정렬 */
-align-items: center; /* 세로 중앙 정렬 */
-justify-content: space-between;
-padding-left: 20px; /* 왼쪽 패딩 */
-margin-top: 388px; /* 위아래 간격 */
-background: white;
-border-radius: 10px;
-border: 1px #CACACA solid;
-width:840px;
-height:89px;
-color: #CACACA;
-font-size: 24px;
-font-family: Noto Sans;
-font-weight: 700;
-word-wrap: break-word;
-cursor: pointer;
-padding-right: 20px; /* 오른쪽 패딩 추가 */
-white-space: nowrap; /* 줄바꿈 방지 */
-}
-.fa-caret-down{
-    margin-left:10px
-}
+    .recruitment-header {
+        display :flex;
+        justify-content: space-between;
+        width: 100%;
+        margin-top: 5.3rem;
+        border-bottom: 1px solid #a6a6a6;
+    }
 
-.tag-search-bar i {
-    font-size: 48px; /* 아이콘의 크기 조정 */
-    color:black;
-    margin-right: 15px; /* 아이콘과 텍스트 사이의 간격 제거 */
-    margin-left:10px
-}
-.tag-search-bar i1 {
-    font-size: 48px; /* 아이콘의 크기 조정 */
-    color:black;
-    margin-right: 20px; /* 아이콘과 텍스트 사이의 간격 제거 */
-    margin-left: -10px
-}
+    .recruitment-header .large-btn {
+        font-size: 2rem;
+    }
 
-.tag-search-bar span {
-    flex: 1; /* 텍스트가 남은 공간을 차지하도록 설정 */
-    text-align: left;
-    white-space: nowrap; /* 텍스트가 한 줄로 유지되도록 설정 */
-    /* 텍스트가 넘치면 숨김 */
-    text-overflow: ellipsis; /* 넘칠 경우 생략부호 표시 */
-    margin-left: 20px; /* 아이콘과 텍스트 사이의 간격 추가 */
-}
+    .recruitment-body {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+    }
 
+    .recruitment-nav {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        margin-top: 2rem;
+    }
 
-.tag-search-bar:hover {
-    background-color: #f0f0f0; /* 호버 시 배경색 */
-}
-.tag-dropdown {
-    position: absolute;
-    top: 257px; /* 태그 검색 바 아래에 위치하도록 설정 */ /* 상태 컨테이너의 위치와 동일하게 설정 */
-    width: 840px;
-    background: white;
-    border: 1px solid #CACACA;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    z-index: 10; /* 다른 요소들 위에 표시 */
-}
+    .recruitment-menu {
+        display: flex;
+        font-size: 2.4rem;
+        font-weight: 700;
+        color: #a6a6a6;
+    }
 
-/* 드롭다운 항목 스타일 */
-.tag-item {
-    padding: 15px 20px;
-    cursor: pointer;
-    font-size: 20px;
-    color: #333;
-    margin-left:0px;
-}
+    .recruitment-menu li {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 12rem;
+        cursor: pointer;
+    }
 
-.tag-item:hover {
-    background-color: #f0f0f0; /* 호버 시 배경색 */
-}
+    .recruitment-menu li.active {
+        color: #7F915B;
+    }
+
+    .line {
+        margin-top: 2rem;
+        height: 0.3rem;
+        width: calc(100% / 3);
+        background-color: #7F915B;
+        transform: translateX(0%);
+        transition: transform 0.6s ease-out;
+    }
 </style>
