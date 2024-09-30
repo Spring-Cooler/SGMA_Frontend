@@ -2,7 +2,7 @@
 	<aside class="side-nav">
 		<div class="menu-container">
 			<SideBarMenu to="/">홈</SideBarMenu>
-			<SideBarMenu to="/study-groups">스터디 그룹 찾기</SideBarMenu>
+			<SideBarMenu to="/recruitments">스터디 그룹 찾기</SideBarMenu>
 			<SideBarMenu to="/create-group">스터디 그룹 만들기</SideBarMenu>
 			<SideBarMenu to="/mypage">마이페이지</SideBarMenu>
 		</div>

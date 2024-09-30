@@ -22,11 +22,11 @@ import MyStudyGroupsPage from "@/views/user/page/MyStudyGroupsPage.vue";
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/mypage", name: "MyPage", component: MyPage },
-  { path: '/study-groups', name: 'FindStudyGroups', component: FindStudyGroups },
+  { path: '/recruitments', name: 'FindStudyGroups', component: FindStudyGroups },
+  { path: '/recruitments/:recruitmentId', name: 'RecruitmentDetailPage1', component: RecruitmentDetailPage},
   { path: '/create-group', name: 'CreateGroupPage', component: CreateGroupPage },
   { path: '/applicant', name: 'Applicant', component: Applicant },
-  { path: '/recruitments/:recruitmentId', name: 'RecruitmentDetailPage', component: RecruitmentDetailPage},
-  { path: "/study-groups", name: "FindStudyGroups", component: FindStudyGroups },
+  { path: '/study-groups/:groupId/recruitments/:recruitmentId', name: 'RecruitmentDetailPage2', component: RecruitmentDetailPage},
   { path: "/my-study-groups", name: "MyStudyGroupsPage", component: MyStudyGroupsPage },
   {
     path: "/study-groups/:groupId/schedules",

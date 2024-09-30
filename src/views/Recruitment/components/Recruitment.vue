@@ -63,7 +63,7 @@
     };
 
     const goRecruitmentDetail = () => {
-        emit('detail', props.data.recruitment_id);
+        emit('detail', props.data.recruitment_board_id);
     }
 </script>
 

@@ -3,7 +3,7 @@
         <!-- 상단 네비게이션 -->
         <Navigation />
         <!-- 사이드 바-->
-        <GroupSideBar />
+        <SideBar />
         <main class="main">
             <div class="main-content">
                 <div class="post-container loading" v-if="loading">Loading...</div>
@@ -12,7 +12,8 @@
                     <PostHeader 
                         :data="headerData" 
                         :isNotice="false" 
-                        :memberId="memberId"
+                        :isRecruitment="true"
+                        :userId="userId"
                         @modifyPost="goModifyPost" 
                         @deletePost="toggleModal"
                         @like="handleLike"
@@ -32,14 +33,14 @@
                         <Comment 
                             :data="commentDetail" 
                             @add="handleAddReply" 
-                            @remove="handleDeleteComment(commentDetail.comment_id)" 
-                            :commentId="commentDetail.comment_id"
+                            @remove="handleDeleteComment(commentDetail.recruitment_board_comment_id)" 
+                            :commentId="commentDetail.recruitment_board_comment_id"
                         >
-                            <ReplyBody v-for="(replyDetail, replyIndex) in replyList[commentDetail.comment_id]" :key="replyIndex">
+                            <ReplyBody v-for="(replyDetail, replyIndex) in replyList[commentDetail.recruitment_board_comment_id]" :key="replyIndex">
                                 <Reply 
                                     :data="replyDetail" 
-                                    @remove="handleDeleteReply(replyDetail.reply_id, commentDetail.comment_id)" 
-                                    :replyId="replyDetail.reply_id"
+                                    @remove="handleDeleteReply(replyDetail.recruitment_board_reply_id, commentDetail.recruitment_board_comment_id)" 
+                                    :replyId="replyDetail.recruitment_board_reply_id"
                                 >
                                 </Reply>
                             </ReplyBody>
@@ -53,7 +54,7 @@
 
 <script setup>
     import Navigation from '@/components/layouts/Navigation.vue';
-    import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
+    import SideBar from '@/components/layouts/SideBar.vue';
     import Title from '@/components/common/Title.vue';
     import PostHeader from '@/components/layouts/PostHeader.vue';
     import PostBody from '@/components/layouts/PostBody.vue';
@@ -77,10 +78,6 @@
     const userId = 
         localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).userId : null;
 
-    const memberList = ref([]);
-    const memberMap = ref({});
-    const memberId = ref();
-    
     const commentList = ref([]);
     const replyList = ref({});
     const boardDetail = ref({});
@@ -100,49 +97,26 @@
 
     const commentData = reactive({
         content: '',
-        member_id: null,
-        board_id: route.params.boardId,
+        user_id: userId,
+        recruitment_board_id: route.params.recruitmentId,
+        anonymous_status: 'N',
     });
 
     const replyData = reactive({
         content: '',
-        member_id: null,
-        comment_id: null,
+        user_id: userId,
+        recruitment_board_comment_id: null,
+        anonymous_status: 'N',
     });
 
     const likeData = reactive({
-        board_id: route.params.boardId,
-        member_id: null,
+        recruitment_board_id: route.params.recruitmentId,
+        user_id: userId,
     })
 
     const toggleModal = () => {
         modalVisibility.value = !modalVisibility.value;
     };
-
-    const fetchMemberData = async() => {
-        try {
-            const response = (await axios.get(`/study-group-service/api/study-group/members/user-id/${userId}`, 
-            {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`
-                }
-            })).data;
-            if(response.success) {
-                memberList.value = response.data;
-                for(const member of memberList.value) {
-                    memberMap.value[member.group_id] = member;
-                }
-                if(memberMap.value[route.params.groupId]) {
-                    memberId.value = memberMap.value[route.params.groupId].member_id;
-                    commentData.member_id = memberId.value;
-                    replyData.member_id = memberId.value;
-                    likeData.member_id = memberId.value;
-                }
-            }
-        } catch (error) {
-            console.error(error);
-        }
-    }
 
     const fetchBoardData = async () => {
         try {
@@ -154,7 +128,7 @@
             })).data;
             if(response.success) {
                 boardDetail.value = response.data;
-                headerData.nickname = boardDetail.value.nickname;
+                headerData.nickname = boardDetail.value.user_nickname;
                 headerData.likes = boardDetail.value.likes;
                 bodyData.content = boardDetail.value.content;
                 loading.value = false;
@@ -176,7 +150,7 @@
                 headerData.comments = response.data.length;
                 commentList.value = response.data;
                 for(const comment of commentList.value) {
-                    fetchReplyData(comment.comment_id);
+                    fetchReplyData(comment.recruitment_board_comment_id);
                 }
             }
         } catch (error) {
@@ -204,6 +178,7 @@
     const handleAddComment = async (content) => {
         try {
             commentData.content = content;
+            console.log(commentData);
             const response = (await axios.post(`/recruitment-service/api/recruitment-board-comments/${route.params.recruitmentId}`, commentData, 
             {
                 headers: {
@@ -224,7 +199,7 @@
 
     const handleAddReply = async (commentId, content) => {
         try {
-            replyData.comment_id = commentId;
+            replyData.recruitment_board_comment_id = commentId;
             replyData.content = content;
             const response = (await axios.post(`/recruitment-service/api/recruitment-board-reply/${commentId}`, replyData,
             {
@@ -233,7 +208,7 @@
                 }
             })).data;
             if(response.success) {
-                replyData.comment_id = null
+                replyData.recruitment_board_comment_id = null
                 replyData.content = '';
                 await fetchCommentData();
             } 
@@ -252,7 +227,7 @@
             })).data;
             if (response.success) {
                 modalVisibility.value = false;
-                router.push(`/study-groups/${route.params.groupId}/boards`);
+                router.push(`/study-groups/${boardDetail.value.group_id}/recruitments`);
             }
         } catch (error) {
             console.error(error);
@@ -269,7 +244,7 @@
             })).data;
             if(response.success) {
                 // 댓글 리스트에서 해당 댓글 제거
-                commentList.value = commentList.value.filter(comment => comment.comment_id !== commentId);
+                commentList.value = commentList.value.filter(comment => comment.recruitment_board_comment_id !== commentId);
                 headerData.comments -= 
                     (typeof replyList.value[commentId] === 'undefined') ? 1 : replyList.value[commentId].length + 1; // 댓글 수 감소
             }
@@ -279,6 +254,7 @@
     }
 
     const handleDeleteReply = async (replyId, commentId) => {
+        console.log(replyId, commentId);
         try {
             const response = (await axios.delete(`/recruitment-service/api/recruitment-board-reply/${replyId}`,
             {
@@ -288,7 +264,7 @@
             })).data;
             if(response.success) {
                 // 대댓글 리스트에서 해당 대댓글 제거
-                replyList.value[commentId] = replyList.value[commentId].filter(reply => reply.reply_id !== replyId);
+                replyList.value[commentId] = replyList.value[commentId].filter(reply => reply.recruitment_board_reply_id !== replyId);
                 headerData.comments -= 1; // 댓글 수 감소
             }
         } catch (error) {
@@ -329,7 +305,7 @@
             content: boardDetail.value.content,
             post_type: 'recruitment',
         });
-        router.push(`/recruitments/${router.params.recruitmentId}/modify`);
+        router.push(`/study-groups/${boardDetail.value.group_id}/recruitments/${router.params.recruitmentId}/modify`);
     }
 
     onMounted(() => {
@@ -337,7 +313,6 @@
             alert("로그인을 해주세요.");
             router.push(`/`);
         }
-        fetchMemberData();
         fetchBoardData();
         fetchCommentData();
     })

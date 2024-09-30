@@ -38,9 +38,16 @@ const props = defineProps({
         type: Boolean,
         required: true
     },
+    isRecruitment: {
+        type: Boolean,
+        required: true
+    },
     memberId: {
         type: Number,
-    }
+    },
+    userId: {
+        type: Number,
+    },
 });
 
 const accessToken = 
@@ -57,18 +64,32 @@ const route = useRoute();
 
 const fetchLikeData = async () => {
   try {
-    const response = (await axios.get(`/study-group-service/api/study-group/board/likes/board-id/${route.params.boardId}`,
-    {
-        headers: {
-            Authorization: `Bearer ${accessToken}`
-        }
-    })).data;
+    let response;
+    if(props.isRecruitment) {
+        response = (await axios.get(`/recruitment-service/api/recruitment-board-like/recruitmentboard/${route.params.recruitmentId}`)).data;
+    } else {
+        response = (await axios.get(`/study-group-service/api/study-group/board/likes/board-id/${route.params.boardId}`,
+        {
+            headers: {
+                Authorization: `Bearer ${accessToken}`
+            }
+        })).data;     
+    }
     if(response.success) {
         likeList.value = response.data;
         for(const like of likeList.value) {
-            if(like.member_id === props.memberId)
-                isLiked.value = true;
-            break;
+            if(props.isRecruitment) {
+                if(like.user_id === props.userId) {
+                    isLiked.value = true;
+                    break;
+                }
+            }
+            else {
+                if(like.member_id === props.memberId) {
+                    isLiked.value = true;
+                    break;
+                }
+            }
         }
     }
   } catch(error) {
