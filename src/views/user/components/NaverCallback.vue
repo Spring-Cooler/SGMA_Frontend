@@ -25,6 +25,9 @@
   const handleNaverCallback = async () => {
     const code = router.currentRoute.value.query.code;
     const state = router.currentRoute.value.query.state;  // 네이버는 state도 필요합니다.
+
+    console.log('네이버 로그인 code:',code);
+    console.log('네이버 로그인 state:',state);
   
     if (code && state) {
       try {

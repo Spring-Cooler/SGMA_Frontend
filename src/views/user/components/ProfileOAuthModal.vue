@@ -46,9 +46,9 @@
   </template>
   
   <script setup>
-  import { ref, computed, inject } from 'vue';
+  import { ref, computed, inject , onMounted, onUnmounted} from 'vue';
   import YesNoButton from '@/components/common/YesNoButton.vue';
-  import { useRouter } from 'vue-router';
+  import { useRouter, onBeforeRouteLeave  } from 'vue-router';
   import axios from 'axios';
   
   // 상태와 메서드 `inject`로 받아오기
@@ -173,6 +173,27 @@ const checkNicknameDuplication = async () => {
       showProfileModal.value = false; // 모달 창 닫기
     }
   };
+
+// 사용자가 페이지를 떠나려고 할 때 막음
+const handlePopState = (event) => {
+  if (showProfileModal.value && (!nickname.value || !isNicknameAvailable.value)) {
+    const leave = confirm('닉네임 설정이 완료되지 않았습니다. 정말로 페이지를 떠나시겠습니까?');
+    if (!leave) {
+      event.preventDefault();
+      window.history.pushState(null, null, window.location.href); // 뒤로가기를 막음
+    } else {
+      router.go(-1);  // 정상적으로 페이지를 이동
+    }
+  }
+};
+onMounted(() => {
+  window.addEventListener('popstate', handlePopState);  // 브라우저의 뒤로가기를 감지
+});
+
+onUnmounted(() => {
+  window.removeEventListener('popstate', handlePopState);  // 이벤트 제거
+});
+
   </script>
 
   <style scoped>

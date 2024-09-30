@@ -131,7 +131,7 @@ const routes = [
   {
     path: '/naverlogin',
     name: 'NaverCallback',
-    component: KakaoCallback,
+    component: NaverCallback,
   },
 ];
 
