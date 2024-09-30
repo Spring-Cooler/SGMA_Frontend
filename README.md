@@ -152,18 +152,75 @@
 
 ## 결과
 
+## 결과
+
 ### 1. 회원
 
 <details>
-  <summary> 이메일 전송</summary>
-  
+  <summary> 1. 네이버 로그인</summary>
+  <img src="https://github.com/user-attachments/assets/64a0bce0-03ca-462c-b180-07637503826e" alt="네이버로그인" />
 </details>
 
 <details>
-  <summary>이메일 확인 </summary>
-
+  <summary> 2. 닉네임 중복 검증 </summary>
+  <img src="https://github.com/user-attachments/assets/c0924049-eb47-40c2-8729-b91a2315bf50" alt="닉네임중복확인" />
 </details>
-<br>
+
+<details>
+  <summary> 3. 로그아웃 </summary>
+  <img src="https://github.com/user-attachments/assets/252896a8-081c-4656-aa6e-8c9377a081ad" alt="로그아웃" />
+</details>
+
+<details>
+  <summary> 4. 로그인 및 계정 활성화 </summary>
+   <img src="https://github.com/user-attachments/assets/7f14f914-8acc-4e4f-9eae-58f6c63f92b0" alt="로그인및계정활성화" />
+</details>
+
+<details>
+  <summary> 5. 마이페이지 </summary>
+  <img src="https://github.com/user-attachments/assets/de86c08b-95a4-40e8-b35d-d360878a8f50" alt="마이페이지" />
+</details>
+
+<details>
+  <summary> 6. 비밀번호 재설정 </summary>
+  <img src="https://github.com/user-attachments/assets/3f55b206-aae9-423e-9b5f-998c6ee7e04d" alt="비밀번호변경" />
+</details>
+
+<details>
+  <summary> 7. 비밀번호 찾기 </summary>
+  <img src="https://github.com/user-attachments/assets/818d9f3c-c822-417c-a59d-bd7161f4f6e9" alt="비밀번호찾기" />
+</details>
+
+<details>
+  <summary> 8. 아이디 찾기 </summary>
+  <img src="https://github.com/user-attachments/assets/f734dbb1-e759-4d1c-ae36-9376d3330ba5" alt="아이디 찾기" />
+</details>
+
+<details>
+  <summary> 9. 이메일 전송 </summary>
+  <img src="https://github.com/user-attachments/assets/2523ea08-224a-48aa-ab83-9d652cc6d38a" alt="이메일 전송" />
+</details>
+
+<details>
+  <summary> 10. 이메일 인증 </summary>
+  <img src="https://github.com/user-attachments/assets/556cba41-e1a5-4da9-9c73-0b0d43bed199" alt="이메일 인증" />
+</details>
+
+<details>
+  <summary> 11. 카카오 로그인 </summary>
+  <img src="https://github.com/user-attachments/assets/d86500c0-1112-480f-ad9c-7ad8eedfabf7" alt="카카오 로그인" />
+</details>
+
+<details>
+  <summary> 12. 회원 탈퇴 </summary>
+  <img src="https://github.com/user-attachments/assets/6d8b7a83-2dca-4791-9344-658555e7b77e" alt="회원 탈퇴" />
+</details>
+
+<details>
+  <summary> 13. 회원가입 </summary>
+  <img src="https://github.com/user-attachments/assets/24d62211-cc77-4940-96cc-c4e7dddc5582" alt="회원가입" />
+</details>
+
 
 ### 2. 모집관련
 <details>
