@@ -243,12 +243,12 @@
 
 <details>
   <summary>1.  일정 생성</summary>
-![CreateSchedule](https://github.com/user-attachments/assets/40fdb470-b831-49c1-98d3-68f9c0631de9)
+![image](https://github.com/user-attachments/assets/40fdb470-b831-49c1-98d3-68f9c0631de9)
 
 </details>
 <details>
   <summary>2. 일정 수정</summary>
- ![modifySchedule](https://github.com/user-attachments/assets/71d0807b-6668-44f1-beee-317f58c088a5)
+ ![image](https://github.com/user-attachments/assets/71d0807b-6668-44f1-beee-317f58c088a5)
 
 </details>
 <details>
@@ -258,7 +258,7 @@
 </details>
 <details>
   <summary>4. 시험 종료 시간에 맞춰 채점</summary>
-   ![grade_submitted_answers](https://github.com/user-attachments/assets/2f280dfd-f428-471e-b7b3-ad18a5ef66d1)
+   ![image](https://github.com/user-attachments/assets/2f280dfd-f428-471e-b7b3-ad18a5ef66d1)
 
 </details>
 <details>
