@@ -172,7 +172,8 @@
 <br>
 
 ### 3. 스터디 그룹
-  <summary>1. </summary>
+<details>
+<summary>1. </summary>
    내용
 </details>
 <details>
@@ -194,6 +195,7 @@
 <br>
 
 ### 4. 스터디 그룹 게시판
+<details>
   <summary>1. </summary>
    내용
 </details>
@@ -216,6 +218,7 @@
 <br>
 
 ### 5. 스터디 일정 및 문제
+<details>
   <summary>1. </summary>
    내용
 </details>
