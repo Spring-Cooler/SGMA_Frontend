@@ -131,6 +131,7 @@ const submitAnswers = async () => {
 		if (response.data.success) {
 			alert('답안이 성공적으로 제출되었습니다.');
 			console.log('Post request succeeded:', response.data);
+			router.push('/')
 		} else {
 			console.error('Failed to submit answers:', response.data);
 		}
