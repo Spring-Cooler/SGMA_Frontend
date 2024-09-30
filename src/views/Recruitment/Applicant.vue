@@ -30,34 +30,44 @@
   import Navigation from '@/components/layouts/Navigation.vue';
   import SideBar from '@/components/layouts/SideBar.vue';
 
+
+  const accessToken = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
   const applicants = ref([]); // 지원자 데이터를 저장할 ref 변수
   const loading = ref(false); // 로딩 상태
   const error = ref(null); // 에러 상태
 
   const fetchApplicants = async () => {
-    loading.value = true;
     try {
-      const response = await axios.get('api/api/study-applicant/group/1'); // groupId에 맞게 수정
+      const response = await axios.get('/recruitment-service/api/study-applicant/group/1', {
+          headers: { Authorization: `Bearer ${accessToken}` }
+      });
       applicants.value = response.data.data || []; // 지원자 데이터를 상태에 저장
-      console.log(applicants.value); // 로그로 API 호출 결과 출력
+      console.log(response); // 로그로 API 호출 결과 출력
+
     } catch (err) {
       console.log('Failed to fetch applicants'); // 에러 발생 시 메시지 저장
+      console.log("test",response);
     } finally {
       loading.value = false; // 요청 완료 후 로딩 종료
+      console.log("test",response);
     }
   };
 
   const approveApplicant = async (userId, recruitmentBoardId) => {
     try {
-      const response = await axios.post(`api/api/study-applicant/${userId}/${recruitmentBoardId}`);
+      const response = await axios.post(
+        `/recruitment-service/api/study-applicant/${userId}/${recruitmentBoardId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+      console.log("승인 응답:", response); // 서버 응답 확인
       alert("승인 완료");
       window.location.reload()
-      await fetchApplicants();
-      const applicant = applicants.value.find(a => a.user_id === userId && a.recruitment_board_id === recruitmentBoardId);
-      if (applicant) {
-      applicant.application_status = 'accept';
-      }
-      // 필요한 후처리 (예: 리스트 갱신 등)
+      await fetchApplicants();     
     } catch (err) {
       console.error("승인 실패", err);
       alert("승인 실패");
@@ -66,7 +76,15 @@
 
   const rejectApplicant = async (userId, recruitmentBoardId) => {
     try {
-      const response = await axios.put(`api/api/study-applicant/${userId}/${recruitmentBoardId}`);
+      const response = await axios.put(
+        `/recruitment-service/api/study-applicant/${userId}/${recruitmentBoardId}`,
+        {},
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       alert("거절 완료");
       window.location.reload()
       await fetchApplicants();

@@ -6,7 +6,7 @@
             <div class="main-content">
                 <Title>스터디 그룹원</Title>
                 <div class="button-container">
-                    <MediumButton label="신청자 관리"></MediumButton>
+                    <MediumButton label="신청자 관리" @click="goApplicantManagement"></MediumButton>
                     <MediumButton label="그룹원 관리" @click="goMemberManagement"></MediumButton>
                 </div>
                 <div class="member-container">
@@ -59,6 +59,10 @@
 
     const goMemberManagement = () => {
     	router.push(`/study-groups/${route.params.groupId}/members/management`);
+    }
+
+    const goApplicantManagement = () => {
+        router.push(`/study-groups/${route.params.groupId}/applicant`);
     }
 
     onMounted(() => {

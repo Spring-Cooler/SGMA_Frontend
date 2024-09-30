@@ -23,7 +23,7 @@ const routes = [
   { path: "/mypage", name: "MyPage", component: MyPage },
   { path: '/study-groups', name: 'FindStudyGroups', component: FindStudyGroups },
   { path: '/create-group', name: 'CreateGroupPage', component: CreateGroupPage },
-  { path: '/applicant', name: 'Applicant', component: Applicant },
+  // { path: '/applicant', name: 'Applicant', component: Applicant },
   { path: '/board', name: 'SingleBoard', component: SingleBoard},
   { path: "/study-groups", name: "FindStudyGroups", component: FindStudyGroups },
   {
@@ -124,6 +124,12 @@ const routes = [
     path: "/study-groups/:groupId/recruitments/upload",
     name: "StudyRecruitmentUploadPage",
     component: StudyPostUploadPage,
+    props: true,
+  },
+  {
+    path: "/study-groups/:groupId/applicant",
+    name: "Applicant",
+    component: Applicant,
     props: true,
   },
 ];
