@@ -339,15 +339,15 @@
 </details>
 <details>
   <summary>11. 스터디 그룹 자유게시판 대댓글 작성</summary>
-  <img src="">
+  <img src="https://github.com/user-attachments/assets/35cf73ff-f7f8-4a23-98f5-d377292146f9">
 </details>   
 <details>
   <summary>12. 스터디 그룹 자유게시판 대댓글 삭제</summary>
-  <img src="">
+  <img src="https://github.com/user-attachments/assets/5a2ea050-e94d-4bf9-bef4-8874dad07fe2">
 </details>   
 <details>
   <summary>13. 스터디 그룹 자유게시판 좋아요</summary>
-  <img src="">
+  <img src="https://github.com/user-attachments/assets/c235dd41-9fa8-4c79-8da8-a847f2da55a3">
 </details>  
 <br>
 
