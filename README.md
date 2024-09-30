@@ -243,8 +243,7 @@
 
 <details>
   <summary>1.  일정 생성</summary>
-![[assets/CreateSchedule.gif]]
-
+![image](https://github.com/Spring-Cooler/SGMA_Frontend/blob/739937565285b1a6982e9e3c505df344225ccb06/assets/CreateSchedule.gif)
 </details>
 <details>
   <summary>2. 일정 수정</summary>
