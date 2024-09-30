@@ -10,8 +10,8 @@
         </section>
         <section class="mid-section">
             <section class="mid-top-section">
-                <div class="recruitment-title">{{props.data.title}}</div>
-                <div class="recruitment-content">{{props.data.content}}</div>
+                <div class="recruitment-title" @click="goRecruitmentDetail">{{props.data.title}}</div>
+                <div class="recruitment-content" @click="goRecruitmentDetail">{{props.data.content}}</div>
             </section>
             <section class="mid-bottom-section">
                 <div class="study-group-owner">
@@ -39,6 +39,8 @@
         }
     })
 
+    const emit = defineEmits(['detail']);
+
     // 시간을 계산하여 "몇 분 전", "몇 시간 전", "몇 일 전" 등으로 표시하는 함수
     const getTimeDifference = (createdAt) => {
         const createdDate = new Date(createdAt);
@@ -59,6 +61,10 @@
             return `${diffInDays}일 전`;
         }
     };
+
+    const goRecruitmentDetail = () => {
+        emit('detail', props.data.recruitment_id);
+    }
 </script>
 
 <style scoped>
@@ -123,6 +129,7 @@
         white-space: nowrap;
         overflow:hidden;
         text-overflow: ellipsis;
+        cursor: pointer;
     }
 
     .recruitment-content {
@@ -132,6 +139,7 @@
         white-space: nowrap;
         overflow:hidden;
         text-overflow: ellipsis;
+        cursor: pointer;
     }
 
     .mid-bottom-section {

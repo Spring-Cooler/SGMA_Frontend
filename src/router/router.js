@@ -16,7 +16,7 @@ import StudyNoticeDetailPage from "@/views/Group/page/StudyNoticeDetailPage.vue"
 import StudyPostModifyPage from "@/views/Group/page/StudyPostModifyPage.vue";
 import StudyPostUploadPage from "@/views/Group/page/StudyPostUploadPage.vue";
 import Applicant from "@/views/Recruitment/Applicant.vue";
-import SingleBoard from "@/views/Recruitment/SingleBoard.vue";
+import RecruitmentDetailPage from "@/views/Recruitment/RecruitmentDetailPage.vue";
 import MyStudyGroupsPage from "@/views/user/page/MyStudyGroupsPage.vue";
 
 const routes = [
@@ -25,7 +25,7 @@ const routes = [
   { path: '/study-groups', name: 'FindStudyGroups', component: FindStudyGroups },
   { path: '/create-group', name: 'CreateGroupPage', component: CreateGroupPage },
   { path: '/applicant', name: 'Applicant', component: Applicant },
-  { path: '/board', name: 'SingleBoard', component: SingleBoard},
+  { path: '/recruitments/:recruitmentId', name: 'RecruitmentDetailPage', component: RecruitmentDetailPage},
   { path: "/study-groups", name: "FindStudyGroups", component: FindStudyGroups },
   { path: "/my-study-groups", name: "MyStudyGroupsPage", component: MyStudyGroupsPage },
   {
@@ -86,13 +86,6 @@ const routes = [
     component: StudyNoticeDetailPage,
     props: true,
   },
-  {
-    path: "/board/:id",
-    name: "SingleBoard",
-    component: SingleBoard,
-    props: true, // 라우터에서 전달한 파라미터를 props로 받음
-  },
-
   {
     path: "/study-groups",
     name: "StudyGroups",
