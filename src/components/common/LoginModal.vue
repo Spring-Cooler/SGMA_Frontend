@@ -6,21 +6,28 @@
         <h2>SGMA</h2>
       </div>
       <div class="modal-body">
-        <input type="text" placeholder="아이디"
-         v-model="username"
-        @keyup.enter="login" />
-          <!-- 아이디 입력 에러 메시지 -->
-          <span v-if="usernameError" class="error-message">{{ usernameError }}</span>
+        <input
+          type="text"
+          placeholder="아이디"
+          v-model="username"
+          @keyup.enter="login"
+        />
+        <!-- 아이디 입력 에러 메시지 -->
+        <span v-if="usernameError" class="error-message">{{ usernameError }}</span>
+
         <div class="password-input-container">
-          <input 
-            :type="passwordVisible ? 'text' : 'password'" 
-            placeholder="비밀번호 입력" 
-            v-model="password" 
-            maxlength="24" 
+          <input
+            :type="passwordVisible ? 'text' : 'password'"
+            placeholder="비밀번호 입력"
+            v-model="password"
+            maxlength="24"
             @keyup.enter="login"
           />
           <i class="eye-icon" @click="togglePasswordVisibility">
-            <img :src="passwordVisible ? eyeOpenIcon : eyeClosedIcon" alt="eye icon" />
+            <img
+              :src="passwordVisible ? eyeOpenIcon : eyeClosedIcon"
+              alt="eye icon"
+            />
           </i>
         </div>
 
@@ -40,19 +47,17 @@
         <div class="login-options">
           <a href="#" @click.prevent="openFindId">아이디 찾기</a>
           <span class="divider">|</span>
-          <!-- 비밀번호 찾기 클릭 시 PasswordResetStep1 모달 열기 -->
           <a href="#" @click.prevent="openPasswordReset">비밀번호 찾기</a>
           <span class="divider">|</span>
-          <!-- 회원가입 버튼 클릭 시 회원가입 모달 열기 -->
           <a href="#" @click.prevent="goToRegister">회원가입</a>
         </div>
       </div>
 
-       <!-- 계정 재활성화 모달 추가 -->
-       <AccountReactivationModal
+      <!-- 계정 재활성화 모달 추가 -->
+      <AccountReactivationModal
         v-if="isAccountReactivationModalVisible"
         @close="closeAccountReactivationModal"
-        :userAuthId="username" 
+        :userAuthId="username"
       />
     </div>
   </div>
@@ -61,51 +66,19 @@
 <script setup>
 import { ref, inject } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios'; // axios 가져오기
+import axios from 'axios';
 import eyeOpenIcon from '@/assets/images/eye_open.png';
 import eyeClosedIcon from '@/assets/images/eye_closed.png';
-import AccountReactivationModal from '@/views/user/components/AccountReactivationModal.vue'; // 계정 재활성화 모달 추가
+import AccountReactivationModal from '@/views/user/components/AccountReactivationModal.vue';
 
+// useRouter를 최상위 레벨에서 호출
+const router = useRouter();
 
-// 카카오 로그인 URL로 이동하는 함수
-const KAKAO_AUTH_URL = 'https://kauth.kakao.com/oauth/authorize?client_id=[App key]redirect_uri=http://127.0.0.1:8080/user-service/api/users/oauth2/kakao&response_type=code';
-
-const navigateToKakaoLogin = () => {
-  window.location.href = KAKAO_AUTH_URL;
-};
-
-// 콜백 URL로 리다이렉트 되었을 때, 코드로 토큰 요청
-const handleKakaoCallback = async () => {
-  const urlParams = new URLSearchParams(window.location.search);
-  const code = urlParams.get('code');
-
-  if (code) {
-    try {
-      const response = await axios.post('http://localhost:8080/user-service/api/users/oauth2/kakao', {
-        code: code
-      });
-
-      if (response.data.success) {
-        // 서버에서 받은 토큰 정보를 저장
-        const tokenData = response.data.data;
-        await setTokenData(tokenData); // 토큰 설정
-
-        router.push('/'); // 홈으로 리디렉트
-      } else {
-        console.error('로그인 실패:', response.data.error);
-      }
-    } catch (error) {
-      console.error('카카오 로그인 처리 중 오류:', error);
-    }
-  }
-};
-// 콜백 URL에서 코드 처리
-if (window.location.pathname === '/callback') {
-  handleKakaoCallback();
-}
+// 환경 변수로부터 카카오 로그인 관련 정보 불러오기
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${import.meta.env.VITE_KAKAO_REST_API_KEY}&redirect_uri=${import.meta.env.VITE_KAKAO_REDIRECT_URI}&response_type=code`;
 
 // 외부에서 받아온 이벤트 정의
-const emit = defineEmits(['close', 'goToStep1','openPasswordReset', 'openFindId']);
+const emit = defineEmits(['close', 'goToStep1', 'openPasswordReset', 'openFindId']);
 
 // 상태와 메서드 `inject`로 받아오기
 const token = inject('token'); // 토큰 상태
@@ -118,10 +91,11 @@ const password = ref('');
 const usernameError = ref(''); // 아이디 에러 메시지 상태
 const passwordError = ref(''); // 비밀번호 에러 메시지 상태
 
-const passwordVisible = ref(false); // 비밀번호 표시 여부
+// 비밀번호 표시 여부 상태 관리
+const passwordVisible = ref(false);
+
 // 계정 재활성화 모달 상태 관리
 const isAccountReactivationModalVisible = ref(false);
-
 
 // 계정 재활성화 모달 열기 함수
 const openAccountReactivationModal = () => {
@@ -138,10 +112,6 @@ const closeModal = () => {
   emit('close');
 };
 
-// 눈 아이콘 경로 설정
-const eyeOpen = eyeOpenIcon; // 비밀번호 표시 아이콘 경로
-const eyeClosed = eyeClosedIcon; // 비밀번호 숨김 아이콘 경로
-
 // 비밀번호 표시/숨기기 토글 함수
 const togglePasswordVisibility = () => {
   passwordVisible.value = !passwordVisible.value;
@@ -149,7 +119,6 @@ const togglePasswordVisibility = () => {
 
 // 로그인 처리 함수
 const login = async () => {
-  // 기존 에러 메시지 초기화
   usernameError.value = '';
   passwordError.value = '';
 
@@ -164,15 +133,13 @@ const login = async () => {
   }
 
   try {
-    // axios를 사용하여 로그인 요청
     const response = await axios.post('/user-service/login', {
       user_auth_id: username.value,
       password: password.value,
-      signup_path: 'NORMAL'
+      signup_path: 'NORMAL',
     });
 
     if (response.data.success) {
-      // 로그인 성공 시 토큰 데이터를 설정 (setTokenData 사용)
       const tokenData = {
         user_identifier: response.data.data.user_identifier,
         access_token: response.data.data.access_token,
@@ -182,23 +149,14 @@ const login = async () => {
       };
 
       setTokenData(tokenData); // 토큰 정보 설정
-
       closeModal(); // 모달 닫기
     } else {
-      // 서버에서 반환한 오류 메시지 표시
       passwordError.value = response.data.error.message || '로그인에 실패했습니다.';
     }
   } catch (error) {
-    // 네트워크 오류나 서버 오류가 발생한 경우
-    console.error('로그인 오류:', error);
-
     if (error.response) {
-      console.log('error.response.data:', error.response.data); // 서버 응답 로그
       if (error.response.data.error.code === 40320) {
-        console.log('40320 에러 코드 감지됨'); // 에러 코드 감지 확인
-        // 계정 재활성화 모달 표시
-        openAccountReactivationModal(); // 계정 재활성화 모달 열기 함수 호출
-        console.log('isAccountReactivationModalVisible 상태:', isAccountReactivationModalVisible.value);
+        openAccountReactivationModal(); // 계정 재활성화 모달 열기
       } else {
         passwordError.value = error.response.data.error.message || '로그인 요청이 거부되었습니다. 서버 상태를 확인해주세요.';
       }
@@ -210,8 +168,7 @@ const login = async () => {
 
 // 아이디 찾기 모달 열기
 const openFindId = () => {
-  console.log('아이디 찾기 모달 열기 함수 호출됨(로그인 창에서)')
-  emit('openFindId'); // 아이디 찾기 모달 열기 이벤트 발생
+  emit('openFindId');
 };
 
 // 비밀번호 찾기 모달 열기
@@ -219,10 +176,14 @@ const openPasswordReset = () => {
   emit('openPasswordReset');
 };
 
-
 // 회원가입 모달로 이동
 const goToRegister = () => {
   emit('goToStep1');
+};
+
+// 카카오 로그인 페이지로 리다이렉트
+const navigateToKakaoLogin = () => {
+  window.location.href = KAKAO_AUTH_URL;
 };
 </script>
 
