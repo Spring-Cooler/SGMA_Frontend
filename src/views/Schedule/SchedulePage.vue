@@ -45,7 +45,6 @@ const events = ref([]); // Start with an empty array
 // Fetch data from the API
 const fetchData = async () => {
 	try {
-		console.log(props.groupId);
 		const response = (await axios.get(`/schedule-service/api/study-schedule/scheduleGroup/${props.groupId}`, {
 			headers: {
 				Authorization: `Bearer ${accessToken}`
@@ -66,7 +65,10 @@ const fetchData = async () => {
 				details: event.content,  // Map 'content' field to 'details'
 				testStatus: event.test_status === 'Y',  // Convert 'Y'/'N' to boolean
 				numProblemsPerParticipant: event.num_problems_per_participant || 0,  // Default to 0 if not provided
-				numParticipants: event.num_participants || 0  // Default to 0 if not provided
+				numParticipants: event.num_participants || 0,  // Default to 0 if not provided
+				test_average: event.test_average,
+				test_standard_deviation: event.test_standard_deviation
+
 			}));
 
 			console.log('Transformed events:', events.value);

@@ -3,17 +3,13 @@
       <div class="modal-content">
         <button class="close-btn" @click="closeModal">×</button>
   
-        <!-- 페이지 번호 표시 -->
-        <div class="page-indicator">
-          <span>1</span>
-          <span>2</span>
-        </div>
+
         <div class="modal-header">
           <h2>SGMA</h2>
         </div>
         <div class="modal-body">
           <div class="message-container"> <!-- 1번: 인사말 -->
-            <p class="first-text">어서와요!</p>
+            <p class="first-text">아이디를 찾고 싶으시면</p>
             <p class="second-text">닉네임과 이메일을 입력해주세요.</p>
           </div>
   
@@ -277,33 +273,6 @@ const confirmVerificationCode = async () => {
       transform: translateY(0);
       opacity: 1;
     }
-  }
-
-  /* 페이지 번호 표시 */
-  .page-indicator {
-    position: absolute; /* modal-content를 기준으로 절대 위치 */
-    top: 20px; /* 모달 콘텐츠 위쪽에 배치 */
-    left: 20px; /* 오른쪽 끝에서 10px 떨어짐 */
-    display: flex; /* 숫자들을 수평 배치 */
-    align-items: center; /* 세로 가운데 정렬 */
-    background-color: #E0E9C8; /* 배경색 */
-    padding: 5px 10px; /* 안쪽 여백 */
-    border-radius: 15px; /* 둥근 모서리 */
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 */
-  }
-
-  .page-indicator span {
-    font-size: 1.4rem; /* 숫자 크기 */
-    color: #525150; /* 숫자 색상 */
-    margin: 0 5px; /* 숫자 사이 간격 */
-  }
-
-  .page-indicator span:nth-child(1) {
-    font-weight: 700; /* 현재 페이지 강조 */
-  }
-
-  .page-indicator span:nth-child(2) {
-    color: #525150; /* 총 페이지 수 흐리게 */
   }
 
   /* 모달 닫기 버튼 */
