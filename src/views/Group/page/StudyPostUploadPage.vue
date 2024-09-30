@@ -15,9 +15,9 @@
                             <select id="category" class="category-input" v-model="postData.category" required>
                                 <option value="" disabled selected>카테고리 선택</option>
                                 <option v-for="(category, categoryIndex) in categoryList" 
-                                      :key="categoryIndex" 
-                                      :value="category.category_id">
-                                      {{ category.category_name }}
+                                    :key="categoryIndex" 
+                                    :value="category.category_id">
+                                    {{ category.category_name }}
                                 </option>
                             </select>
                         </div>
@@ -104,8 +104,8 @@
     const checkValidTime = () => {
         // 시간 유효성 검사
         if (postData.value.start_time && postData.value.end_time) {
-        const startTime = new Date(postData.value.start_time);
-        const endTime = new Date(postData.value.end_time);
+            const startTime = new Date(postData.value.start_time);
+            const endTime = new Date(postData.value.end_time);
 
             if (endTime <= startTime) {
                 alert("종료 시간이 시작 시간과 같거나 이전일 수 없습니다.");

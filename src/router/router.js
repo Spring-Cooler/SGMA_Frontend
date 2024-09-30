@@ -25,10 +25,20 @@ const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/mypage", name: "MyPage", component: MyPage },
   { path: '/recruitments', name: 'FindStudyGroups', component: FindStudyGroups },
-  { path: '/recruitments/:recruitmentId', name: 'RecruitmentDetailPage1', component: RecruitmentDetailPage},
+  { 
+    path: '/recruitments/:recruitmentId',
+    name: 'RecruitmentDetailPage1', 
+    component: RecruitmentDetailPage, 
+    props: true
+  },
   { path: '/create-group', name: 'CreateGroupPage', component: CreateGroupPage },
   { path: '/applicant', name: 'Applicant', component: Applicant },
-  { path: '/study-groups/:groupId/recruitments/:recruitmentId', name: 'RecruitmentDetailPage2', component: RecruitmentDetailPage},
+  { 
+    path: '/study-groups/:groupId/recruitments/:recruitmentId', 
+    name: 'RecruitmentDetailPage2', 
+    component: RecruitmentDetailPage,
+    props: true
+  },
   { path: "/my-study-groups", name: "MyStudyGroupsPage", component: MyStudyGroupsPage },
   {
     path: "/study-groups/:groupId/schedules",
@@ -89,11 +99,6 @@ const routes = [
     props: true,
   },
   {
-    path: "/study-groups",
-    name: "StudyGroups",
-    component: () => import("@/views/Recruitment/FindStudyGroup.vue"), // 페이지 컴포넌트 경로
-  },
-  {
     path: "/study-groups/:groupId/boards/:boardId/modify",
     name: "StudyBoardModifyPage",
     component: StudyPostModifyPage,
@@ -102,6 +107,12 @@ const routes = [
   {
     path: "/study-groups/:groupId/notices/:noticeId/modify",
     name: "StudyNoticeModifyPage",
+    component: StudyPostModifyPage,
+    props: true,
+  },
+  {
+    path: "/study-groups/:groupId/recruitments/:recruitmentId/modify",
+    name: "RecruitmentModifyPage",
     component: StudyPostModifyPage,
     props: true,
   },
