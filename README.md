@@ -1,4 +1,4 @@
-# SGMA
+![스터디 그룹 찾기 좋아요순](https://github.com/user-attachments/assets/6cdbadf4-5e65-4764-909f-3b3e5be24df6)# SGMA
 
 ![image](https://github.com/user-attachments/assets/551a2c5d-d3f6-4fd8-846f-fa80557d841e)
 
@@ -150,20 +150,20 @@
 
 ### 2. 모집관련
 <details>
-  <summary>1. </summary>
-   내용
+  <summary>1. 스터디 그룹 찾기 최신순 </summary>
+   <img src=https://github.com/user-attachments/assets/c954ac63-1115-4bec-9220-33087a5c921e>
 </details>
 <details>
-  <summary>2. </summary>
-   내용
+  <summary>2. 스터디 그룹 찾기 좋아요순 </summary>
+   <img src=https://github.com/user-attachments/assets/eee90fff-36cf-4d7a-97ab-1e3800a64324>
 </details>
 <details>
-  <summary>3. </summary>
-   내용
+  <summary>3. 스터디 그룹 찾기 모집중</summary>
+   <img src=https://github.com/user-attachments/assets/ce731193-1ab9-4c3a-a235-76807bcd1d95>
 </details>
 <details>
-  <summary>4. </summary>
-   내용
+  <summary>4. 스터디 그룹 찾기 모집완료</summary>
+   <img src=https://github.com/user-attachments/assets/02d2030b-bed7-4c38-a5e1-05c669294b56>
 </details>
 <details>
   <summary>5. </summary>
