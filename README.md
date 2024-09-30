@@ -227,24 +227,24 @@
 ### 3. 스터디 그룹
 
 <details>
-<summary>1. </summary>
-   내용
+<summary>1. 스터디 그룹 만들기</summary>
+   <img src="https://github.com/user-attachments/assets/eebd3690-7e97-4701-8a3d-c72cbbf7358d">
 </details>
 <details>
-  <summary>2. </summary>
-   내용
+  <summary>2. 내가 가입한 스터디그룹 가기 </summary>
+   <img src="https://github.com/user-attachments/assets/d435741b-489b-4ef4-8021-869c9c6fc11c">
 </details>
 <details>
-  <summary>3. </summary>
-   내용
+  <summary>3. 스터디 그룹 공지사항 작성 </summary>
+  <img src="https://github.com/user-attachments/assets/c3ff8448-003f-496a-9ca5-401df27387a0)">
 </details>
 <details>
-  <summary>4. </summary>
-   내용
+  <summary>4. 스터디 그룹 공지사항 제목으로 검색 </summary>
+  <img src="https://github.com/user-attachments/assets/6a2b8289-2ce6-45ca-8d7c-172c2562aa15">
 </details>
 <details>
   <summary>5. </summary>
-   내용
+  <img src="">
 </details>
 <br>
 
