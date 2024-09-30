@@ -24,9 +24,10 @@
      - [논리 모델링](#2-논리-모델링)
      - [물리 모델링](#3-물리-모델링)
 5. [산출물](#산출물)
-   - [와이어 프레임](# 와이어 프레임)
-   - [기능명세서서](#요구사항-정의서)
-   - [테스트 케이스](#wbs)
+   - [와이어 프레임](#와이어-프레임)
+   - [기능명세서서](#기능명세서)
+   - [테스트 케이스](#테스트케이스)
+   - [화면결과](#화면결과)
 
 - [동료 평가](#동료평가)
 
@@ -140,17 +141,17 @@
 
 ![image](https://github.com/user-attachments/assets/e3a3e217-34e9-4954-8301-1150095d71bf)
 
-## 2. 와이어 프레임<a id="wireflame"></a>
+## 2. 와이어 프레임<a id="w와이어프레임"></a>
 
 ![image](https://github.com/user-attachments/assets/9339d672-cf48-497f-8510-bdc7ab659ad7)
 
-## 3. 테스트 계획 및 결과 보고서 <a id="testcase"></a>
+## 3. 테스트 계획 및 결과 보고서 <a id="테스트케이스"></a>
 
 [테스트 케이스 바로가기](https://docs.google.com/spreadsheets/d/1XVX6lAse2VZzDybUvryL8GyeM3-PO_EZMFG10hMVJSk/edit?gid=1079017783#gid=1079017783)
 
 ![image](https://github.com/user-attachments/assets/0ec2a1c9-a3c7-43da-a0a1-b549f054facb)
 
-## 결과
+## 4.결과  <a id="결과"></a>
 
 ## 결과
 
