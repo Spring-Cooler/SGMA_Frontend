@@ -9,11 +9,9 @@
         </div>
       </div>
     </div>
-  </template>
+</template>
   
-  <script setup>
-  import { defineProps, defineEmits } from 'vue';
-  
+<script setup>
   const props = defineProps({
     isVisible: Boolean,
   });
@@ -27,9 +25,9 @@
   const cancelDelete = () => {
     emit('cancel');
   };
-  </script>
+</script>
   
-  <style scoped>
+<style scoped>
   .modal-overlay {
     position: fixed;
     top: 0;
@@ -82,5 +80,5 @@
     border-radius: 5px;
     cursor: pointer;
   }
-  </style>
+</style>
   

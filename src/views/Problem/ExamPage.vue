@@ -44,7 +44,7 @@
 						:disabled="problemIndex >= problemInfos.length - 1">
 						다음 문제
 					</button>
-					<button type="button" id="submit" class="btn submit-btn">제출하기</button>
+					<button type="button" id="submit" class="btn submit-btn" @click="submitAnswers">제출하기</button>
 				</div>
 			</div>
 		</aside>
@@ -52,6 +52,7 @@
 </template>
 
 <script setup>
+// Existing imports and code
 import { ref, watch, onMounted } from 'vue';
 import axios from 'axios';
 import { useRouter } from 'vue-router';
@@ -68,7 +69,7 @@ const accessToken = localStorage.getItem('token') ? JSON.parse(localStorage.getI
 
 let problemIndex = ref(0);
 let problemInfos = ref([]);
-let current_problem = ref(null);  // Initialize current_problem as null
+let current_problem = ref(null);
 
 // Watch for changes in problemIndex and update current_problem
 watch(problemIndex, (newIndex) => {
@@ -85,11 +86,8 @@ const fetchData = async () => {
 				Authorization: `Bearer ${accessToken}`
 			}
 		})).data;
-		console.log(response)
 		if (response.success) {
 			problemInfos.value = response.data;
-			console.log(problemInfos.value);
-			// Set the current problem to the first one after fetching data
 			current_problem.value = problemInfos.value[problemIndex.value];
 		}
 	} catch (error) {
@@ -103,10 +101,45 @@ onMounted(() => {
 		router.push('/');
 		return;
 	}
-
-	// Fetch data when the component is mounted
 	fetchData();
 });
+
+// Function to handle submitting answers
+const submitAnswers = async () => {
+	try {
+		// Collect all submitted answers
+		const submittedAnswers = problemInfos.value.map((problem) => ({
+			problem_id: problem.problem_id,
+			participant_id: 7, // Assuming a hardcoded participant_id, replace this with actual data if available
+			submitted_answer: problem.submitted_answer || null, // Ensure there's a submitted answer or null
+			answer_status: 'UNGRADED' // As per the API specification
+		}));
+
+		// Ensure all questions have been answered before submitting
+		if (submittedAnswers.some(answer => answer.submitted_answer === null)) {
+			alert('모든 문제에 답변을 제출하세요.'); // Ensure all problems have answers
+			return;
+		}
+
+		// Make the API request to submit the answers
+		const response = await axios.post('/schedule-service/api/submitted-answers/', submittedAnswers, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+
+		if (response.data.success) {
+			alert('답안이 성공적으로 제출되었습니다.');
+			console.log('Post request succeeded:', response.data);
+			router.push('/')
+		} else {
+			console.error('Failed to submit answers:', response.data);
+		}
+	} catch (error) {
+		console.error('Error submitting answers:', error);
+		alert('답안 제출에 실패했습니다.');
+	}
+};
 </script>
 
 

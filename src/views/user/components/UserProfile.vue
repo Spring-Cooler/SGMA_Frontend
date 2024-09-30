@@ -30,7 +30,7 @@
       <div class="profile-field">
         <span>이메일</span><span>{{ user.email }}</span>
       </div>
-      <button class="btn primary-btn">내가 가입한 스터디 그룹 가기</button>
+      <button class="btn primary-btn" @click="goMyStudyGroups">내가 가입한 스터디 그룹 가기</button>
     </div>
 <!-- 탈퇴하기 버튼 클릭 시 탈퇴 모달 표시 이벤트 방출 -->
 <button class="danger-btn" @click="confirmDeactivation">SGMA <br />탈퇴하기</button>
@@ -42,7 +42,7 @@ import { ref, inject, onMounted } from 'vue';
 import { getUserById } from '@/api/user';
 
 
-const emit = defineEmits(['edit-profile', 'open-deactivation-modal','open-password-change-modal']); // 부모에게 edit-profile 이벤트를 방출
+const emit = defineEmits(['edit-profile', 'open-deactivation-modal','open-password-change-modal', 'open-my-study-groups']); // 부모에게 edit-profile 이벤트를 방출
 
 const token = inject('token');
 const user = ref({}); // 사용자 정보를 저장하는 객체
@@ -83,15 +83,20 @@ const openPasswordChange = () => {
   emit('open-password-change-modal'); // 비밀번호 변경 모달 열기
 };
 
+// 내가 가입한 스터디 그룹 가기 클릭시 호출
+const goMyStudyGroups = () => {
+  emit('open-my-study-groups');
+}
 
 </script>
 
 <style scoped>
 /* 프로필 섹션 스타일 */
 .profile-section {
+  display: flex;
   flex: 1; /* 나머지 공간을 차지 */
   overflow-y: auto; /* 내용이 많을 때 스크롤 */
-  height: 420px;
+  height: 80%;
   padding: 2rem;
   background-color: #fff;
   border-radius: 10px;

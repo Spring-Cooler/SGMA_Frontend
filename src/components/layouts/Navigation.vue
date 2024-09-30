@@ -167,11 +167,13 @@ const foundUserAuthId = ref('');   // 찾은 유저 아이디
   
   // 홈 페이지로 이동
   const navigateToHome = () => {
+	localStorage.removeItem('groupData');
 	router.push('/');
   };
   
   // 마이페이지로 이동
   const navigateToMypage = () => {
+	localStorage.removeItem('groupData');
 	router.push('/mypage');
 	isDropdownVisible.value = false; // 드롭다운 닫기
   };
@@ -190,6 +192,7 @@ const foundUserAuthId = ref('');   // 찾은 유저 아이디
 	// localStorage 초기화
 	localStorage.removeItem('token');
 	localStorage.removeItem('userId');
+	localStorage.removeItem('groupData');
   
 	// 로그인 상태 갱신
 	isLoggedIn.value = false;

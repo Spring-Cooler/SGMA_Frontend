@@ -3,49 +3,62 @@
 	<GroupSideBar />
 	<main class="main">
 		<div class="main-content">
-			<Title>{{ schedule.title }}</Title>
+			<Title>{{ schedule.title || 'No Title' }}</Title>
+
 			<div class="schedule-buttons">
 				<button
 					:class="{ 'btn': true, 'orange': !participate, 'sunset-orange': participate, 'btn-participate': true }"
-					@click="toggleParticipate">{{
-						participate ? '참여 취소' : '일정 참여' }}</button>
+					@click="toggleParticipate">{{ participate ? '참여 취소' : '일정 참여' }}</button>
 			</div>
+
 			<div class="schedule-content">
-				<!-- schedule body container -->
 				<p class="schedule-subtitle"><i class="fa-regular fa-calendar"></i> <strong>일정 시작 시간:</strong> {{
-					schedule.start }} {{
-						schedule.startTime }} </p>
+					schedule.start || 'N/A' }} {{ schedule.startTime || 'N/A' }}</p>
 				<p class="schedule-subtitle"><i class="fa-regular fa-calendar"></i> <strong>일정 종료 시간:</strong> {{
-					schedule.start }} {{
-						schedule.endTime }}</p>
-
-				<p class="schedule-subtitle"><strong>참여자 수:</strong> {{ schedule.numParticipants }}</p>
-				<p class="schedule-subtitle"><strong>내용:</strong> {{ schedule.details }}</p>
+					schedule.start || 'N/A' }} {{ schedule.endTime || 'N/A' }}</p>
+				<p class="schedule-subtitle"><strong>참여자 수:</strong> {{ schedule.numParticipants || 0 }}</p>
+				<p class="schedule-subtitle"><strong>내용:</strong> {{ schedule.details || 'No details available' }}</p>
 				<p class="schedule-subtitle"><strong>시험 여부:</strong> {{ schedule.testStatus ? 'Y' : 'N' }}</p>
-				<p class="schedule-subtitle" v-if="schedule.testStatus"><strong>출제 문제 수:</strong> {{
-					schedule.numProblemsPerParticipant }}</p>
 
+				<div v-if="schedule.testStatus">
+					<p class="schedule-subtitle"><strong>출제 문제 수:</strong> {{ schedule.numProblemsPerParticipant || 0 }}
+					</p>
+					<p class="schedule-subtitle"><strong>평균: </strong> {{ schedule.test_average || 'N/A' }}</p>
+					<p class="schedule-subtitle"><strong>표준 편차: </strong>{{ schedule.test_standard_deviation || 'N/A' }}
+					</p>
 
+					<!-- Show user score if participating -->
+					<p class="schedule-subtitle" v-if="participate && participateInfo">
+						<strong>내 점수: </strong>{{ participateInfo.test_score || 'N/A' }}
+					</p>
 
+					<!-- Pass participants and user's data to TestStatusChart -->
+					<div class="chart-container" v-if="participants.length > 0">
+						<TestStatusChart :participants="participants" :current-user="participateInfo" />
+					</div>
+					<p v-else>참여자 데이터가 없습니다.</p> <!-- Display if no participants -->
+				</div>
 			</div>
 
 			<div class="schedule-buttons" v-if="participate && schedule.testStatus">
-				<!-- buttons -->
 				<button class="btn">문제 출제</button>
 				<button class="btn" @click="goToExamPage">시험 응시</button>
-
 			</div>
 		</div>
-
 	</main>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import axios from 'axios';
+
 import Navigation from '@/components/layouts/Navigation.vue';
 import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
 import Title from '@/components/common/Title.vue';
+
+import TestStatusChart from './components/TestStatusChart.vue';
+
 const props = defineProps({
 	scheduleId: {
 		type: String,
@@ -53,60 +66,105 @@ const props = defineProps({
 	},
 	schedule: {
 		type: Object,
-		default: () => { null }
+		default: () => null,
 	}
 })
-// 스케줄 정보를 담을 ref 변수
-const schedule = ref({
-	id: '',
-	title: '',
-	scheduledDate: '',
-	startTime: '',
-	endTime: '',
-	details: '',
-	testStatus: false,
-	numProblemsPerParticipant: 0,
-	numParticipants: 0
-});
+
+const schedule = ref({});
 let participate = ref(false);
-// 라우터와 현재 경로 정보를 사용
+let participants = ref([]);
+let participateInfo = ref(null);
 const route = useRoute();
 const router = useRouter();
 
+const accessToken = localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 
-// 컴포넌트가 마운트될 때 라우터 파라미터로 전달된 스케줄 정보 가져오기
 onMounted(() => {
-	if (props.schedule) {
-		console.log('Received schedule:', props.schedule);
-		schedule.value.id = props.schedule.id;
-		// console.log(schedule.value)
-		schedule.value.title = props.schedule.title;
-		schedule.value.scheduledDate = props.schedule.scheduledDate.split('T')[0].replaceAll("-", "  ");
-		schedule.value.details = props.schedule.details;
-		schedule.value.startTime = props.schedule.startTime;
-		schedule.value.endTime = props.schedule.endTime;
-		schedule.value.testStatus = props.schedule.testStatus;
-		schedule.value.numProblemsPerParticipant = props.schedule.numProblemsPerParticipant;
-		schedule.value.numParticipants = props.schedule.numParticipants;
-		console.log(schedule.value.numProblemsPerParticipant)
-
-
-	} else {
-		console.log('No schedule passed. Fetch from store or API using ID:', props.id);
+	if (!accessToken) {
+		alert('로그인을 해주세요');
+		router.push('/');
+		return;
 	}
-
+	fetchData();
+	if (props.schedule && Object.keys(props.schedule).length > 0) {
+		schedule.value = { ...props.schedule };
+	} else {
+		console.warn('No schedule data passed via props.');
+	}
 });
 
-// 스케줄 목록으로 돌아가기
+const fetchData = async () => {
+	try {
+		console.log('Fetching participants for scheduleId:', props.scheduleId);
+		const response = (await axios.get(`/schedule-service/api/study-schedule/scheduleParticipant/${props.scheduleId}`, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		})).data;
+
+		console.log('Response received:', response);
+
+		if (response.success) {
+			const participantsData = response.data || [];
+			participants.value = participantsData;
+
+			console.log('Participants data:', participantsData);
+
+			const memberId = JSON.parse(localStorage.getItem('token')).userId;
+			const foundParticipant = participantsData.find(participant => participant.member_id == memberId);
+
+			participate.value = !!foundParticipant;
+			participateInfo.value = foundParticipant || null; // Store user's own information
+
+			console.log('Participate info:', participateInfo.value);
+		} else {
+			console.error('API response indicates failure:', response);
+		}
+	} catch (error) {
+		console.error("Error fetching data:", error);
+	}
+};
+
 const goToExamPage = () => {
 	const scheduleId = 3;
 	router.push(`/study-problems/schedules/${scheduleId}`);
 }
 
-const toggleParticipate = () => {
-	participate.value = !participate.value;
-	schedule.value.numParticipants += (participate.value ? 1 : -1);
-}
+const toggleParticipate = async () => {
+	const previousState = participate.value;
+	try {
+		const memberId = JSON.parse(localStorage.getItem('token')).userId;
+		participate.value = !participate.value;
+		schedule.value.numParticipants += (participate.value ? 1 : -1);
+
+		const newParticipant = {
+			participant_id: null,
+			schedule_id: schedule.value.id,
+			member_id: memberId,
+			submission_status: participate.value ? "PARTICIPATED" : "NOT_PARTICIPATED",
+			num_submitted_problems: 0,
+			testScore: null,
+			testPercentage: null
+		};
+
+		const response = await axios.post('http://localhost:8080/schedule-service/api/study-schedule/participant', newParticipant, {
+			headers: {
+				Authorization: `Bearer ${accessToken}`
+			}
+		});
+
+		if (!response.data.success) {
+			throw new Error(response.data.message || 'Unknown error');
+		}
+		console.log('Participation updated successfully:', response.data);
+	} catch (error) {
+		console.error('Error updating participation:', error);
+		// Revert state on error
+		participate.value = previousState;
+		schedule.value.numParticipants += (participate.value ? -1 : 1);
+		alert('참여 상태를 업데이트하는데 오류가 발생했습니다. 다시 시도해주세요.');
+	}
+};
 </script>
 
 <style scoped>
@@ -122,7 +180,6 @@ const toggleParticipate = () => {
 	gap: 2rem;
 }
 
-
 .schedule-content {
 	width: 100%;
 	margin-top: 5.3rem;
@@ -136,10 +193,8 @@ const toggleParticipate = () => {
 	margin: 0.5rem 0;
 }
 
-
-
-h1 {
-	font-size: 3rem;
-	margin-bottom: 1rem;
+.chart-container {
+	margin-top: 2rem;
+	width: 100%;
 }
 </style>

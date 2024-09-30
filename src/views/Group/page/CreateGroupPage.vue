@@ -91,7 +91,7 @@
             })).data;
             if(response.success) {
                 alert("스터디 그룹이 생성되었습니다!");
-                router.push('/');
+                router.push('/my-study-groups');
             }
         } catch (error) {
             console.error(error);

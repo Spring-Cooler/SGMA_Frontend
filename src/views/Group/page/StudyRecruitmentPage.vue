@@ -4,8 +4,7 @@
         <GroupSideBar />
         <main class="main">
             <div class="main-content">
-                <div class="recruitment-container loading" v-if="loading">Loading...</div>
-                <div class="recruitment-container" v-else>
+                <div class="recruitment-container">
                     <Title>스터디 모집글</Title>
                     <div class="recruitment-header">
                         <nav class="recruitment-nav">
@@ -21,8 +20,9 @@
                         </nav>
                         <LargeButton label="모집글 작성하기" @click="goUploadPost"></LargeButton>
                     </div>
+                    <div class="recruitment-body loading" v-if="loading">작성된 모집글이 없습니다.</div>
                     <div class="recruitment-body" v-for="(recruitment, recruitmentIndex) in recruitmentList" :key="recruitmentIndex">
-                        <Recruitment :data="recruitment"></Recruitment>
+                        <Recruitment :data="recruitment" @detail="goRecruitmentDetail"></Recruitment>
                     </div>
                 </div>
             </div>
@@ -35,7 +35,7 @@
     import GroupSideBar from '@/components/layouts/GroupSideBar.vue';
     import Title from '@/components/common/Title.vue';
     import LargeButton from '@/components/common/LargeButton.vue';
-    import Recruitment from '@/views/Group/components/Recruitment.vue'
+    import Recruitment from '@/views/Recruitment/components/Recruitment.vue'
     import { ref, computed, onMounted, watch } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
     import { useStore } from 'vuex';
@@ -65,7 +65,7 @@
                 }
             })).data;
 
-            if (response.success) {
+            if (response.success && response.data.length > 0) {
                 allRecruitments.value = response.data;
                 filterRecruitments(); // 데이터를 가져온 후 필터링을 적용
                 loading.value = false;
@@ -128,6 +128,10 @@
         router.push(`/study-groups/${route.params.groupId}/recruitments/upload`);
     }
 
+    const goRecruitmentDetail = (recruitmentId) => {
+        router.push(`/study-groups/${route.params.groupId}/recruitments/${recruitmentId}`);
+    }
+
     // URL 쿼리 변경을 감지하여 필터링
     watch(() => route.query.status, () => {filterRecruitments();});
 
@@ -150,12 +154,9 @@
     }
 
     .loading {
-        display: flex;
-        justify-content: center;
         align-items: center;
-        height: 100%;
-        width: 100%;
-        font-size: 4rem;
+        font-size: 2rem;
+        margin-top: 2rem;
     }
 
     .recruitment-header {

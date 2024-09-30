@@ -16,16 +16,20 @@ import StudyNoticeDetailPage from "@/views/Group/page/StudyNoticeDetailPage.vue"
 import StudyPostModifyPage from "@/views/Group/page/StudyPostModifyPage.vue";
 import StudyPostUploadPage from "@/views/Group/page/StudyPostUploadPage.vue";
 import Applicant from "@/views/Recruitment/Applicant.vue";
-import SingleBoard from "@/views/Recruitment/SingleBoard.vue";
+import RecruitmentDetailPage from "@/views/Recruitment/RecruitmentDetailPage.vue";
+import MyStudyGroupsPage from "@/views/user/page/MyStudyGroupsPage.vue";
+import KakaoCallback from '@/views/user/components/KakaoCallback.vue'; // 콜백 처리용 컴포넌트
+import NaverCallback from '@/views/user/components/NaverCallback.vue'; // 콜백 처리용 컴포넌트
 
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/mypage", name: "MyPage", component: MyPage },
-  { path: '/study-groups', name: 'FindStudyGroups', component: FindStudyGroups },
+  { path: '/recruitments', name: 'FindStudyGroups', component: FindStudyGroups },
+  { path: '/recruitments/:recruitmentId', name: 'RecruitmentDetailPage1', component: RecruitmentDetailPage},
   { path: '/create-group', name: 'CreateGroupPage', component: CreateGroupPage },
-  // { path: '/applicant', name: 'Applicant', component: Applicant },
-  { path: '/board', name: 'SingleBoard', component: SingleBoard},
-  { path: "/study-groups", name: "FindStudyGroups", component: FindStudyGroups },
+  { path: '/applicant', name: 'Applicant', component: Applicant },
+  { path: '/study-groups/:groupId/recruitments/:recruitmentId', name: 'RecruitmentDetailPage2', component: RecruitmentDetailPage},
+  { path: "/my-study-groups", name: "MyStudyGroupsPage", component: MyStudyGroupsPage },
   {
     path: "/study-groups/:groupId/schedules",
     component: SchedulePage,
@@ -85,13 +89,6 @@ const routes = [
     props: true,
   },
   {
-    path: "/board/:id",
-    name: "SingleBoard",
-    component: SingleBoard,
-    props: true, // 라우터에서 전달한 파라미터를 props로 받음
-  },
-
-  {
     path: "/study-groups",
     name: "StudyGroups",
     component: () => import("@/views/Recruitment/FindStudyGroup.vue"), // 페이지 컴포넌트 경로
@@ -127,10 +124,14 @@ const routes = [
     props: true,
   },
   {
-    path: "/study-groups/:groupId/applicant",
-    name: "Applicant",
-    component: Applicant,
-    props: true,
+    path: '/kakaologin',
+    name: 'KakaoCallback',
+    component: KakaoCallback,
+  },
+  {
+    path: '/naverlogin',
+    name: 'NaverCallback',
+    component: NaverCallback,
   },
 ];
 
