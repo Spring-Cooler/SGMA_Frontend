@@ -11,7 +11,8 @@
                     <Title>{{boardDetail.title}}</Title>
                     <PostHeader 
                         :data="headerData" 
-                        :isNotice="false" 
+                        :isNotice="false"
+                        :isRecruitment="false" 
                         :memberId="memberId"
                         @modifyPost="goModifyPost" 
                         @deletePost="toggleModal"

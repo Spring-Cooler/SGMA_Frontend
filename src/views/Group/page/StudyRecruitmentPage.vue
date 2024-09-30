@@ -129,7 +129,7 @@
     }
 
     const goRecruitmentDetail = (recruitmentId) => {
-        router.push(`/recruitments/${recruitmentId}`);
+        router.push(`/study-groups/${route.params.groupId}/recruitments/${recruitmentId}`);
     }
 
     // URL 쿼리 변경을 감지하여 필터링

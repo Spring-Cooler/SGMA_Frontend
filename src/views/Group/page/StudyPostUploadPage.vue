@@ -30,7 +30,7 @@
                             <textarea v-model="postData.content" placeholder="내용을 입력해주세요." required></textarea>
                         </div>
                         <div class="upload-date-container"
-                             v-if="postData.post_type === 'schedule' || postData.post_type === 'recruitment'"
+                            v-if="postData.post_type === 'schedule' || postData.post_type === 'recruitment'"
                         >
                             <div class="date-input">
                                 <span>시작 시간</span>

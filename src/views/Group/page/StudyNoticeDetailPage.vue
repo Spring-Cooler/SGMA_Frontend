@@ -10,8 +10,9 @@
                     <PostHeader 
                         :data="headerData" 
                         :isNotice="true"
-                         @modifyPost="goModifyPost" 
-                         @deletePost="handleDeletePost"
+                        :isRecruitment="false"
+                        @modifyPost="goModifyPost" 
+                        @deletePost="handleDeletePost"
                     >
                     </PostHeader>
                     <PostBody :data="bodyData" :isPerm="true"></PostBody>

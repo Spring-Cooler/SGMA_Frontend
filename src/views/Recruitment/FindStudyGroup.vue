@@ -40,7 +40,7 @@
                         </div>
                     </div>
                     <div class="recruitment-body" v-for="(recruitment, recruitmentIndex) in recruitmentList" :key="recruitmentIndex">
-                        <Recruitment :data="recruitment"></Recruitment>
+                        <Recruitment :data="recruitment" @detail="goRecruitmentDetail"></Recruitment>
                     </div>
                     <!-- 페이지네이션 들어갈 위치 -->
                     <div class="mb-6"></div>
@@ -199,6 +199,10 @@
                 break;
         }
     };
+
+    const goRecruitmentDetail = (recruitmentId) => {
+        router.push(`recruitments/${recruitmentId}`);
+    }
 
     // URL 쿼리 변경을 감지하여 필터링
     watch(() => route.query.status, () => {filterRecruitments();});
