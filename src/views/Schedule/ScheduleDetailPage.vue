@@ -120,16 +120,36 @@ const fetchData = async () => {
 				Authorization: `Bearer ${accessToken}`
 			}
 		})).data;
-		if (response.success) {
-			console.log("getParticipants:")
-			console.log(response)
 
+		if (response.success) {
+			console.log("getParticipants:");
+			console.log(response);
+
+			// Correctly access the participants array
+			const participants = response.data || [];  // Ensure we're accessing the participants from the data property
+			const memberId = JSON.parse(localStorage.getItem('token')).userId; // Get current member ID
+
+			// Check if the current user is in the participants array
+			const foundParticipant = participants.find(participant => participant.member_id == memberId); // Use member_id to match
+
+			if (foundParticipant) {
+				// User is participating, set the status and participant info
+				participate.value = true;
+				participateInfo.value = foundParticipant; // Set the found participant's details
+				console.log("Participant found:", participateInfo.value);
+			} else {
+				// User is not participating
+				participate.value = false;
+				participateInfo.value = null;
+				console.log("Participant not found");
+			}
 		}
 	} catch (error) {
-		console.log(error)
+		console.log("Error fetching data:", error);
 	}
+};
 
-}
+
 // 스케줄 목록으로 돌아가기
 const goToExamPage = () => {
 	const scheduleId = 3;
@@ -144,7 +164,8 @@ const goToExamPage = () => {
 // Toggle participation method
 const previousState = participate.value;
 const toggleParticipate = async () => {
-	// Declare previousState to store the initial participation state
+	// Capture the current state before toggling
+	const previousState = participate.value;
 
 	try {
 		const memberId = JSON.parse(localStorage.getItem('token')).userId; // Fetch memberId from token
@@ -165,7 +186,7 @@ const toggleParticipate = async () => {
 			testScore: null,
 			testPercentage: null
 		};
-		console.log(newParticipant)
+		console.log(newParticipant);
 
 		// Send a POST request to update participation
 		const response = await axios.post('http://localhost:8080/schedule-service/api/study-schedule/participant', newParticipant, {
@@ -189,6 +210,7 @@ const toggleParticipate = async () => {
 		alert('참여 상태를 업데이트하는데 오류가 발생했습니다. 다시 시도해주세요.');
 	}
 };
+
 
 </script>
 
