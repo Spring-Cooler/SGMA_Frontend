@@ -203,20 +203,24 @@
    <img src="https://github.com/user-attachments/assets/22d02add-1da5-4a97-ae4e-a75635777b0e">
 </details>
 <details>
-  <summary>7. 스터디 그룹 모집글 댓글 작성</summary>
-   <img src="">
+  <summary>10. 스터디 그룹 모집글 댓글 작성</summary>
+   <img src="https://github.com/user-attachments/assets/7977b676-167b-46df-a7d9-c2cd708732d8">
 </details>
 <details>
-  <summary>7. 스터디 그룹 모집글 댓글 삭제</summary>
-   <img src="">
+  <summary>11. 스터디 그룹 모집글 댓글 삭제</summary>
+   <img src="https://github.com/user-attachments/assets/ad3af358-837c-4f4f-9243-cb167a3662b9">
 </details>
 <details>
-  <summary>7. 스터디 그룹 모집글 대댓글 작성</summary>
-   <img src="">
+  <summary>12. 스터디 그룹 모집글 대댓글 작성</summary>
+   <img src="https://github.com/user-attachments/assets/262243ad-8caa-4050-8aa0-aed3e6a31b9a">
 </details>
 <details>
-  <summary>7. 스터디 그룹 모집글 대댓글 삭제</summary>
-   <img src="">
+  <summary>13. 스터디 그룹 모집글 대댓글 삭제</summary>
+   <img src="https://github.com/user-attachments/assets/e4d7cc55-7bc6-47f6-80b1-2df36a719fd8">
+</details>
+<details>
+  <summary>14. 스터디 그룹 모집글 좋아요</summary>
+   <img src="https://github.com/user-attachments/assets/a3922b48-5520-4d87-9601-250ddf0bc1bc">
 </details>
 <br>
 
