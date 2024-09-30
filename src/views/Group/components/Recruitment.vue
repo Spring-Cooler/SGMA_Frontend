@@ -50,13 +50,13 @@
         const diffInDays = Math.floor(diffInHours / 24);
         
         if (diffInSeconds < 60) {
-          return `${diffInSeconds}초 전`;
+            return `${diffInSeconds}초 전`;
         } else if (diffInMinutes < 60) {
-          return `${diffInMinutes}분 전`;
+            return `${diffInMinutes}분 전`;
         } else if (diffInHours < 24) {
-          return `${diffInHours}시간 전`;
+            return `${diffInHours}시간 전`;
         } else {
-          return `${diffInDays}일 전`;
+            return `${diffInDays}일 전`;
         }
     };
 </script>

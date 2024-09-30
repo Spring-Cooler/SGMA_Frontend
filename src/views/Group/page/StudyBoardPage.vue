@@ -12,7 +12,7 @@
                     <div class="board-writer">작성자</div>
                     <div class="board-created-at">등록일</div>
                 </div>
-                <div class="board-list" v-if="loading">Loading...</div>
+                <div class="board-list loading" v-if="loading">작성된 게시글이 없습니다.</div>
                 <div class="board-list" v-else>
                     <div v-for="(board, boardIndex) in boardList" :key="boardIndex">
                         <Board :data="board" @detail="goDetail(board.board_id)"></Board>
@@ -144,5 +144,10 @@
         display: flex;
         flex-direction: column;
         width: 100%;
+    }
+
+    .loading {
+        align-items: center;
+        font-size: 2rem;
     }
 </style>

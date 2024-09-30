@@ -42,6 +42,8 @@
                     <div class="recruitment-body" v-for="(recruitment, recruitmentIndex) in recruitmentList" :key="recruitmentIndex">
                         <Recruitment :data="recruitment"></Recruitment>
                     </div>
+                    <!-- 페이지네이션 들어갈 위치 -->
+                    <div class="mb-6"></div>
                 </div>
             </div>
         </main>
@@ -127,11 +129,16 @@
             selectedTag.value = null;
             filterRecruitments();
         } else {
+            let activeRecruitments = allRecruitments.value.filter(item => item.active_status === 'ACTIVE');
+            let inactiveRecruitments = allRecruitments.value.filter(item => item.active_status === 'INACTIVE');
+
+            recruitmentList.value = [...activeRecruitments, ...inactiveRecruitments];
+
             selectedTag.value = index;
             recruitmentList.value = recruitmentList.value.filter(item => item.study_group_category_id === tagList[index].tagId);
 
-            const activeRecruitments = recruitmentList.value.filter(item => item.active_status === 'ACTIVE');
-            const inactiveRecruitments = recruitmentList.value.filter(item => item.active_status === 'INACTIVE');
+            activeRecruitments = recruitmentList.value.filter(item => item.active_status === 'ACTIVE');
+            inactiveRecruitments = recruitmentList.value.filter(item => item.active_status === 'INACTIVE');
 
             recruitmentList.value = [...activeRecruitments, ...inactiveRecruitments];
         }
@@ -195,7 +202,6 @@
         flex-direction: column;
         align-items: center;
         width: 100%;
-        min-height: 100vh;
     }
 
     .loading {
@@ -212,8 +218,6 @@
         width: 100%;
         justify-content: space-between;
         align-items: flex-start;
-        border-bottom: 1px solid #a6a6a6;
-        padding-bottom: 4rem;
     }
 
     .tag-container {
@@ -321,5 +325,9 @@
         background-color: #7F915B;
         transform: translateX(0%);
         transition: transform 0.6s ease-out;
+    }
+
+    .mb-6 {
+        margin-bottom: 12rem;
     }
 </style>

@@ -9,7 +9,7 @@
             <div v-if="!isNotice">
                 <span class="like-count" @click="toggleLike">
                     <i class="fa-solid fa-heart" :class="{ 'like-heart': isAnimating }" :style="{ color: isLiked ? 'red' : 'gray' }"></i>
-                    {{props.data.likes}} 
+                    {{likeCount}} 
                 </span>
                 <span class="comment-count">
                     <i class="fa-solid fa-comment"></i>
@@ -24,9 +24,10 @@
 </template>
 
 <script setup>
-import { ref, defineEmits } from 'vue';
+import { ref, defineEmits, onMounted } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import TinyButton from '@/components/common/TinyButton.vue';
+import axios from 'axios';
 
 const props = defineProps({
     data: {
@@ -36,16 +37,44 @@ const props = defineProps({
     isNotice: {
         type: Boolean,
         required: true
+    },
+    memberId: {
+        type: Number,
     }
 });
 
+const accessToken = 
+        localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
+
 // 좋아요 상태와 좋아요 수 관리
+const likeList = ref([]);
 const isLiked = ref(false); // 좋아요 상태를 관리
 const likeCount = ref(props.data.likes);  // 좋아요 수를 관리
 const isAnimating = ref(false); // 좋아요 애니메이션 상태 관리
-const emit = defineEmits(['modifyPost','deletePost']);
+const emit = defineEmits(['modifyPost','deletePost','like','unlike']);
 const router = useRouter();
 const route = useRoute();
+
+const fetchLikeData = async () => {
+  try {
+    const response = (await axios.get(`/study-group-service/api/study-group/board/likes/board-id/${route.params.boardId}`,
+    {
+        headers: {
+            Authorization: `Bearer ${accessToken}`
+        }
+    })).data;
+    if(response.success) {
+        likeList.value = response.data;
+        for(const like of likeList.value) {
+            if(like.member_id === props.memberId)
+                isLiked.value = true;
+            break;
+        }
+    }
+  } catch(error) {
+    console.error(error);
+  }
+}
 
 const goBack = () => {
     const modifiedPath = route.fullPath.replace(/\/\d+$/, ''); // 맨 뒤 숫자만 제거
@@ -61,12 +90,14 @@ const deletePost = () => {
 }
 
 // 좋아요 토글 함수
-const toggleLike = () => {
+const toggleLike = async () => {
   if (!isAnimating.value) { // 애니메이션이 진행 중이 아닐 때만 실행
     if (isLiked.value) {
       likeCount.value--; // 좋아요를 취소하면 수 감소
+      emit('unlike');
     } else {
       likeCount.value++; // 좋아요를 누르면 수 증가
+      emit('like');
     }
     isLiked.value = !isLiked.value; // 상태를 토글
 
@@ -76,6 +107,12 @@ const toggleLike = () => {
     }, 500); // 애니메이션 지속 시간과 일치시킴 (0.5초)
   }
 };
+
+onMounted(() => {
+    if(accessToken !== null) {
+        fetchLikeData();
+    }
+})
 </script>
 
 <style scoped>

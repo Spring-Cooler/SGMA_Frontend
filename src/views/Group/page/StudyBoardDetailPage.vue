@@ -12,8 +12,11 @@
                     <PostHeader 
                         :data="headerData" 
                         :isNotice="false" 
+                        :memberId="memberId"
                         @modifyPost="goModifyPost" 
                         @deletePost="toggleModal"
+                        @like="handleLike"
+                        @unlike="handleUnlike"
                     >
                     </PostHeader>
                     <PostBody :data="bodyData" :isPerm="true"></PostBody>
@@ -107,6 +110,11 @@
         comment_id: null,
     });
 
+    const likeData = reactive({
+        board_id: route.params.boardId,
+        member_id: null,
+    })
+
     const toggleModal = () => {
         modalVisibility.value = !modalVisibility.value;
     };
@@ -128,6 +136,7 @@
                     memberId.value = memberMap.value[route.params.groupId].member_id;
                     commentData.member_id = memberId.value;
                     replyData.member_id = memberId.value;
+                    likeData.member_id = memberId.value;
                 }
             }
         } catch (error) {
@@ -243,7 +252,7 @@
             })).data;
             if (response.success) {
                 modalVisibility.value = false;
-                router.push(`/study-groups/1/boards`);
+                router.push(`/study-groups/${route.params.groupId}/boards`);
             }
         } catch (error) {
             console.error(error);
@@ -287,6 +296,32 @@
         }
     }
 
+    const handleLike = async () => {
+        try {
+            const response = (await axios.post(`/study-group-service/api/study-group/boards/like`, likeData,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
+    const handleUnlike = async () => {
+        try {
+            const response = (await axios.delete(`/study-group-service/api/study-group/boards/like?board-id=${route.params.boardId}&member-id=${memberId.value}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const goModifyPost = () => {
         store.commit('setPostData', {
             id: route.params.boardId,
@@ -294,7 +329,7 @@
             content: boardDetail.value.content,
             post_type: 'board',
         });
-        router.push(`/study-groups/1/boards/${route.params.boardId}/modify`);
+        router.push(`/study-groups/${route.params.groupId}/boards/${route.params.boardId}/modify`);
     }
 
     onMounted(() => {

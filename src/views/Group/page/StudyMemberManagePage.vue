@@ -71,7 +71,8 @@
 
     const handleConfirm = async () => {
         try {
-            const response = await axios.delete(`/study-group-service/api/study-group/members/${kickMemberId.value}`,
+            const response = await axios
+            .delete(`/study-group-service/api/study-groups/member?member-id=${kickMemberId.value}&group-id=${route.params.groupId}`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
