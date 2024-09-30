@@ -96,19 +96,6 @@
 ![Network Diagrams](https://github.com/user-attachments/assets/83706f89-f51f-4036-8cd7-f4244cb34801)
 
 
-
-### 기능 정의서 <a id="요구사항-정의서"></a>
-[기능 정의서 바로가기](https://docs.google.com/spreadsheets/d/1XVX6lAse2VZzDybUvryL8GyeM3-PO_EZMFG10hMVJSk/edit?gid=0#gid=0)
-
-![image](https://github.com/user-attachments/assets/020b6f44-27d5-4a73-a1ae-0bdf9f2d5747)
-
-
-## WBS <a id="wbs"></a>
-[WBS 바로가기](https://docs.google.com/spreadsheets/d/1XVX6lAse2VZzDybUvryL8GyeM3-PO_EZMFG10hMVJSk/edit?gid=1079017783#gid=1079017783)
-
-![image](https://github.com/user-attachments/assets/a5f97514-d78e-476b-a472-b76dd4a22eee)
-
-
 ## 주요 기능 FLOW CHART <a id="주요-기능-flow-chart"></a>
 ![문제관련 drawio (1)](https://github.com/user-attachments/assets/59625632-7ce8-4300-b085-945d176620f8)
 
@@ -129,6 +116,18 @@
 
 
 ### 산출물<a id="산출물"></a>
+
+### 기능 정의서 <a id="요구사항-정의서"></a>
+[기능 정의서 바로가기](https://docs.google.com/spreadsheets/d/1XVX6lAse2VZzDybUvryL8GyeM3-PO_EZMFG10hMVJSk/edit?gid=0#gid=0)
+
+![image](https://github.com/user-attachments/assets/e3a3e217-34e9-4954-8301-1150095d71bf)
+
+
+
+## 테스트 계획 및 결과 보고서 <a id="wbs"></a>
+[테스트 계획 및 결과 보고서 바로가기](https://docs.google.com/spreadsheets/d/1XVX6lAse2VZzDybUvryL8GyeM3-PO_EZMFG10hMVJSk/edit?gid=1079017783#gid=1079017783)
+![image](https://github.com/user-attachments/assets/0ec2a1c9-a3c7-43da-a0a1-b549f054facb)
+
 
 <details>
   <summary>회원가입을 위한 이메일 인증</summary>
