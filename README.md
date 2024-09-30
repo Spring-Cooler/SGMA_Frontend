@@ -1,6 +1,4 @@
-![스터디 그룹 찾기 좋아요순](https://github.com/user-attachments/assets/6cdbadf4-5e65-4764-909f-3b3e5be24df6)# SGMA
-
-![image](https://github.com/user-attachments/assets/551a2c5d-d3f6-4fd8-846f-fa80557d841e)
+# SGMA
 
 # 목차
 1. [팀 소개](#팀-소개)
