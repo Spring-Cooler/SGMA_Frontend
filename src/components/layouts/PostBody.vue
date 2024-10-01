@@ -1,8 +1,8 @@
 <template>
     <div class="post-body">
         <div v-if="!isPerm">
-          <StartDate>시작일: {{props.data.startDate}}</StartDate>
-          <EndDate>종료일: {{props.data.endDate}}</EndDate>
+          <StartDate>시작일: {{formatDate(props.data.start_date)}}</StartDate>
+          <EndDate>종료일: {{formatDate(props.data.end_date)}}</EndDate>
         </div>
         <PostContent>
             <p class="content">{{ props.data.content }}</p>
@@ -24,7 +24,16 @@ const props = defineProps({
             type: Boolean,
             required: true
         }
-    })
+})
+
+function formatDate(isoDateStr) {
+  const date = new Date(isoDateStr);  // ISO 8601 날짜 문자열을 Date 객체로 변환
+  const year = date.getFullYear();    // 연도 추출
+  const month = String(date.getMonth() + 1).padStart(2, '0');  // 월 추출 (0부터 시작하므로 +1)
+  const day = String(date.getDate()).padStart(2, '0');  // 일 추출
+
+  return `${year}.${month}.${day}`;   // 원하는 형식으로 포맷팅
+}    
 </script>
 
 <style scoped>
