@@ -24,6 +24,7 @@
      - [개념 모델링](#1-개념-모델링)
      - [논리 모델링](#2-논리-모델링)
      - [물리 모델링](#3-물리-모델링)
+   - [OAuth 2.0 Sequence Diagram](#OAuth 2.0 Sequence Diagram)
 5. [산출물](#산출물)
    - [와이어 프레임](#와이어프레임)
    - [기능명세서서](#기능명세서)
@@ -144,6 +145,13 @@
 ### 3. 물리 모델링 <a id="3-물리-모델링"></a>
 
 ![image](https://github.com/user-attachments/assets/2bf256be-07f2-4f74-91d6-dab3994d7e0b)
+
+
+## OAuth 2.0 Sequence Diagram <a id="OAuth 2.0 Sequence Diagram"></a>
+![image](https://github.com/user-attachments/assets/b150924e-92a5-4290-9602-38efa24e9804)
+
+
+
 
 ## 산출물<a id="산출물"></a>
 
