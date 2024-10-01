@@ -20,7 +20,7 @@
                         @unlike="handleUnlike"
                     >
                     </PostHeader>
-                    <PostBody :data="bodyData" :isPerm="true"></PostBody>
+                    <PostBody :data="bodyData" :isPerm="false"></PostBody>
                     <PostFooter>
                         <div v-if="applyStatus==='n'">
                             <MediumButton label="지원하기" @click="handleApply"></MediumButton>
@@ -106,6 +106,8 @@
 
     const bodyData = reactive({
         content: '',
+        start_date: null,
+        end_date: null,
     })
 
     const commentData = reactive({
@@ -151,6 +153,8 @@
                 headerData.nickname = boardDetail.value.user_nickname;
                 headerData.likes = boardDetail.value.likes;
                 bodyData.content = boardDetail.value.content;
+                bodyData.start_date = boardDetail.value.recruitment_start_time;
+                bodyData.end_date = boardDetail.value.recruitment_end_time;
                 loading.value = false;
             }
         } catch (error) {
