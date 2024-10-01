@@ -5,8 +5,8 @@
 1. [팀 소개](#팀-소개)
 2. [기술 스택](#기술-스택)
    - [Backend](#1-backend)
-   - [Frontend](#2-frontend)
-   - [Database](#3-database)
+   - [Security](#2-security)
+   - [Frontend](#3-frontend)
    - [Tool](#4-tool)
 3. [프로젝트 개요](#프로젝트-개요)
    - [배경](#1-배경)
@@ -64,9 +64,9 @@
 
 ### 3. Frontend <a id="3-frontend"></a>
 
-| Vue 3                                                                                     | JavaScript                                                                                      | HTML                                                                                            | CSS                                                                                            | Chat.js                                                                                     | Calendar                                                                                     |
+| Vue 3                                                                                     | JavaScript                                                                                      | HTML                                                                                            | CSS                                                                                            | Chart.js                                                                                     | VCalendar                                                                                     |
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| ![Vue 3](https://img.shields.io/badge/Vue_3-4FC08D.svg?&logo=vue.js&logoColor=white)       | ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?&logo=javascript&logoColor=black) | ![HTML](https://img.shields.io/badge/HTML-E34F26?logo=html5&logoColor=white)                     | ![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=white)                     | ![Chat.js](https://img.shields.io/badge/Chat.js-FF4500.svg?&logo=javascript&logoColor=white) | ![Calendar](https://img.shields.io/badge/Calendar-8A2BE2.svg?&logo=calendar&logoColor=white) |
+| ![Vue 3](https://img.shields.io/badge/Vue_3-4FC08D.svg?&logo=vue.js&logoColor=white)       | ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?&logo=javascript&logoColor=black) | ![HTML](https://img.shields.io/badge/HTML-E34F26?logo=html5&logoColor=white)                     | ![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=white)                     | ![Chart.js](https://img.shields.io/badge/Chart.js-FF4500.svg?&logo=javascript&logoColor=white) | ![VCalendar](https://img.shields.io/badge/VCalendar-8A2BE2.svg?&logo=vcalendar&logoColor=white) |
 
 ### 4. Tool <a id="4-tool"></a>
 
@@ -376,8 +376,20 @@
    <img src="https://github.com/user-attachments/assets/19ff3bc3-a2db-42cf-89af-2f3357eba275">
 </details>
 <details>
-  <summary>5. 스터디 그룹 참가 신청자 관리 </summary>
-   <img src="">
+  <summary>5. 스터디 그룹 참가 신청</summary>
+   <img src="https://github.com/user-attachments/assets/5f626093-d608-4546-8d11-9e167ce92ca1">
+</details>
+<details>
+  <summary>6. 스터디 그룹 참가 신청 취소</summary>
+   <img src="https://github.com/user-attachments/assets/d65ae918-b991-4160-a9d2-59c46cf574d2">
+</details>
+<details>
+  <summary>7. 스터디 그룹 참가 신청 승인</summary>
+   <img src="https://github.com/user-attachments/assets/179a21ff-0b78-4845-b56f-2042c0f1063a">
+</details>
+<details>
+  <summary>8. 스터디 그룹 참가 신청 거절</summary>
+   <img src="https://github.com/user-attachments/assets/fec73d4d-0062-4331-9f6a-24a463a58108">
 </details>
 <br>
 
