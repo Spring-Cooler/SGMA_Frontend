@@ -16,8 +16,8 @@
    - [기대 효과](#5-기대-효과)
 4. [설계 문서](#설계-문서)
    - [System Architecture](#system-architecture)
-   - [OAuth 2.0 Sequence Diagram](#OAuth2.0SequenceDiagram)
    - [주요 기능 FLOW CHART](#주요-기능-flow-chart)
+   - [OAuth 2.0 Sequence Diagram](#OAuth2SequenceDiagram)
    - [DDD](#ddd)
      - [Event Storming](#1-event-storming)
      - [Bounded Context](#2-bounded-context)
@@ -26,7 +26,7 @@
      - [논리 모델링](#2-논리-모델링)
      - [물리 모델링](#3-물리-모델링)
 5. [산출물](#산출물)
-   - [와이어 프레임](#와이어프레임)
+   - [스토리 보드](#스토리보드)
    - [기능명세서서](#기능명세서)
    - [테스트 케이스](#테스트케이스)
    - [화면결과](#화면결과)
@@ -116,13 +116,12 @@
 ![Network Diagrams](https://github.com/user-attachments/assets/83706f89-f51f-4036-8cd7-f4244cb34801)
 
 
-## OAuth 2.0 Sequence Diagram <a id="OAuth2.0SequenceDiagram"></a>
-![image](https://github.com/user-attachments/assets/b150924e-92a5-4290-9602-38efa24e9804)
-
-
 ## 주요 기능 FLOW CHART <a id="주요-기능-flow-chart"></a>
 
 ![문제관련 drawio (1)](https://github.com/user-attachments/assets/59625632-7ce8-4300-b085-945d176620f8)
+
+## OAuth 2.0 Sequence Diagram <a id="OAuth2SequenceDiagram"></a>
+![image](https://github.com/user-attachments/assets/b150924e-92a5-4290-9602-38efa24e9804)
 
 ## DDD <a id="ddd"></a>
 
@@ -162,7 +161,7 @@
 
 
 
-## 2. 스토리 보드<a id="와이어프레임"></a>
+## 2. 스토리 보드<a id="스토리보드"></a>
 
 ### 2.1. 전체 스토리 보드
 ![image](https://github.com/user-attachments/assets/574e8f9d-2cfc-4063-993b-c4980ea9873d)
