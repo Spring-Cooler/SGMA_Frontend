@@ -5,8 +5,8 @@
         <main class="main">
             <div class="main-content">
                 <Title>스터디 그룹원</Title>
-                <div class="button-container">
-                    <MediumButton label="신청자 관리"></MediumButton>
+                <div class="button-container" v-if="isOwner">
+                    <MediumButton label="신청자 관리" @click="goApplicant"></MediumButton>
                     <MediumButton label="그룹원 관리" @click="goMemberManagement"></MediumButton>
                 </div>
                 <div class="member-container">
@@ -38,6 +38,11 @@
     const route = useRoute();
     const accessToken = 
         localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
+    const userId = 
+        localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).userId : null;
+    const ownerId = 
+        localStorage.getItem('groupData') ? JSON.parse(localStorage.getItem('groupData')).ownerId : null;
+    const isOwner = ref(false);
 
     const fetchMemberData = async () => {
         try {
@@ -61,10 +66,16 @@
     	router.push(`/study-groups/${route.params.groupId}/members/management`);
     }
 
+    const goApplicant = () => {
+        router.push(`/study-groups/${route.params.groupId}/applicant`);
+    }
+
     onMounted(() => {
         if(accessToken === null) {
-                alert("로그인을 해주세요.");
-                router.push(`/`);
+            alert("로그인을 해주세요.");
+            router.push(`/`);
+        } else {
+            (userId === ownerId) ? isOwner.value = true : isOwner.value = false;
         }
         fetchMemberData();
     });

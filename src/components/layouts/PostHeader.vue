@@ -1,12 +1,12 @@
 <template>
     <div class="post-header">
-        <div class="writer-info" v-if="!isNotice">
+        <div class="writer-info" v-if="!props.isNotice">
             <img class="writer-profile-image" src='../../assets/images/default_profile.svg' alt="profile_image">
             <div class="writer-name">{{props.data.nickname}}</div>
         </div>
         <div class="writer-info" v-else></div>
         <div class="post-actions">
-            <div v-if="!isNotice">
+            <div v-if="!props.isNotice">
                 <span class="like-count" @click="toggleLike">
                     <i class="fa-solid fa-heart" :class="{ 'like-heart': isAnimating }" :style="{ color: isLiked ? 'red' : 'gray' }"></i>
                     {{likeCount}} 
@@ -17,8 +17,8 @@
                 </span>
             </div>
             <TinyButton class="light-gray" label="목록" @click="goBack"></TinyButton>
-            <TinyButton class="light-gray" label="수정" @click="modifyPost"></TinyButton>
-            <TinyButton class="sunset-orange" label="삭제" @click="deletePost"></TinyButton>
+            <TinyButton class="light-gray" label="수정" @click="modifyPost" v-if="isWriter"></TinyButton>
+            <TinyButton class="sunset-orange" label="삭제" @click="deletePost" v-if="isWriter"></TinyButton>
         </div>
     </div>
 </template>
@@ -58,9 +58,18 @@ const likeList = ref([]);
 const isLiked = ref(false); // 좋아요 상태를 관리
 const likeCount = ref(props.data.likes);  // 좋아요 수를 관리
 const isAnimating = ref(false); // 좋아요 애니메이션 상태 관리
+const isWriter = ref(false);
 const emit = defineEmits(['modifyPost','deletePost','like','unlike']);
 const router = useRouter();
 const route = useRoute();
+
+const checkWriter = () => {
+    if(props.userId) {
+        isWriter.value = props.userId === props.data.user_id;
+    } else if(props.memberId) {
+        isWriter.value = props.memberId === props.data.member_id;
+    }
+}
 
 const fetchLikeData = async () => {
   try {
@@ -131,6 +140,9 @@ const toggleLike = async () => {
 
 onMounted(() => {
     if(accessToken !== null) {
+        checkWriter();
+    }
+    if(!props.isNotice) {
         fetchLikeData();
     }
 })

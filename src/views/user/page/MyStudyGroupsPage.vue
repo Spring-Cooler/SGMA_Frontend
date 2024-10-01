@@ -13,7 +13,7 @@
                 <div class="group-list loading" v-if="loading">가입한 스터디 그룹이 없습니다.</div>
                 <div class="group-list" v-else>
                     <div v-for="(group, groupIndex) in groupList" :key="groupIndex">
-                        <Group :data="group" @go-group-home="goGroupHome(group.group_id, group.group_name)"></Group>
+                        <Group :data="group" @go-group-home="goGroupHome(group.group_id, group.group_name, group.user_id)"></Group>
                     </div>
                 </div>
             </div>
@@ -56,10 +56,11 @@
         }
     }
 
-    const goGroupHome = (groupId, groupName) => {
+    const goGroupHome = (groupId, groupName, ownerId) => {
         localStorage.setItem('groupData', JSON.stringify({
-            group_id: groupId,
-            group_name: groupName,
+            groupId: groupId,
+            groupName: groupName,
+            ownerId: ownerId,
         }));
         router.push(`/study-groups/${groupId}/notices`);
     }

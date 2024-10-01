@@ -101,6 +101,7 @@
         nickname: '',
         likes: 0,
         comments: 0,
+        user_id: null,
     })
 
     const bodyData = reactive({
@@ -146,6 +147,7 @@
             })).data;
             if(response.success) {
                 boardDetail.value = response.data;
+                headerData.user_id = boardDetail.value.user_id;
                 headerData.nickname = boardDetail.value.user_nickname;
                 headerData.likes = boardDetail.value.likes;
                 bodyData.content = boardDetail.value.content;
@@ -367,7 +369,7 @@
                     }
                 })).data;
                 if(response.success) {
-                    alert("신청 완료");
+                    alert("지원 완료");
                     applyStatus.value = 'y';
                 }
             } else {
@@ -378,7 +380,7 @@
                     }
                 })).data;
                 if(response.success) {
-                    alert("신청이 취소되었습니다.");
+                    alert("지원이 취소되었습니다.");
                     applyStatus.value = 'n';
                 }
             }

@@ -1,7 +1,6 @@
 import { createRouter, createWebHistory } from "vue-router";
 import Home from "@/views/user/page/Home.vue"; // 홈 화면 컴포넌트
 import MyPage from "@/views/user/page/MyPage.vue"; // 마이페이지 컴포넌트
-import FindStudyGroups from "@/views/Recruitment/FindStudyGroup.vue"; // 스터디 그룹 찾기 컴포넌트
 import SchedulePage from "@/views/Schedule/SchedulePage.vue";
 import ScheduleDetailPage from "@/views/Schedule/ScheduleDetailPage.vue";
 import StudyNoticePage from "@/views/Group/page/StudyNoticePage.vue";
@@ -15,8 +14,9 @@ import StudyBoardDetailPage from "@/views/Group/page/StudyBoardDetailPage.vue";
 import StudyNoticeDetailPage from "@/views/Group/page/StudyNoticeDetailPage.vue";
 import StudyPostModifyPage from "@/views/Group/page/StudyPostModifyPage.vue";
 import StudyPostUploadPage from "@/views/Group/page/StudyPostUploadPage.vue";
-import Applicant from "@/views/Recruitment/Applicant.vue";
-import RecruitmentDetailPage from "@/views/Recruitment/RecruitmentDetailPage.vue";
+import StudyGroupApplicantPage from "@/views/Recruitment/page/StudyGroupApplicantPage.vue";
+import RecruitmentDetailPage from "@/views/Recruitment/page/RecruitmentDetailPage.vue";
+import FindStudyGroupPage from "@/views/Recruitment/page/FindStudyGroupPage.vue";
 import MyStudyGroupsPage from "@/views/user/page/MyStudyGroupsPage.vue";
 import KakaoCallback from '@/views/user/components/KakaoCallback.vue'; // 콜백 처리용 컴포넌트
 import NaverCallback from '@/views/user/components/NaverCallback.vue'; // 콜백 처리용 컴포넌트
@@ -24,7 +24,7 @@ import NaverCallback from '@/views/user/components/NaverCallback.vue'; // 콜백
 const routes = [
   { path: "/", name: "Home", component: Home },
   { path: "/mypage", name: "MyPage", component: MyPage },
-  { path: '/recruitments', name: 'FindStudyGroups', component: FindStudyGroups },
+  { path: '/recruitments', name: 'FindStudyGroupPage', component: FindStudyGroupPage },
   { 
     path: '/recruitments/:recruitmentId',
     name: 'RecruitmentDetailPage1', 
@@ -32,7 +32,7 @@ const routes = [
     props: true
   },
   { path: '/create-group', name: 'CreateGroupPage', component: CreateGroupPage },
-  { path: '/applicant', name: 'Applicant', component: Applicant },
+  { path: '/study-groups/:groupId/applicant', name: 'StudyGroupApplicantPage', component: StudyGroupApplicantPage },
   { 
     path: '/study-groups/:groupId/recruitments/:recruitmentId', 
     name: 'RecruitmentDetailPage2', 
