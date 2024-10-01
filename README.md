@@ -299,15 +299,15 @@
    <img src="https://github.com/user-attachments/assets/eebd3690-7e97-4701-8a3d-c72cbbf7358d">
 </details>
 <details>
-  <summary>2. 내가 가입한 스터디그룹 가기 </summary>
+  <summary>3. 내가 가입한 스터디그룹 가기 </summary>
    <img src="https://github.com/user-attachments/assets/d435741b-489b-4ef4-8021-869c9c6fc11c">
 </details>
 <details>
-  <summary>2. 스터디 그룹 그룹원 관리 </summary>
+  <summary>4. 스터디 그룹 그룹원 관리 </summary>
    <img src="https://github.com/user-attachments/assets/19ff3bc3-a2db-42cf-89af-2f3357eba275">
 </details>
 <details>
-  <summary>2. 스터디 그룹 참가 신청자 관리 </summary>
+  <summary>5. 스터디 그룹 참가 신청자 관리 </summary>
    <img src="">
 </details>
 <br>
