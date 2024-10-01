@@ -162,12 +162,12 @@
 
 ## 2. 와이어 프레임<a id="와이어프레임"></a>
 
-###2.1 회원
+### 2.1 회원
 
 ####2.1.1. 마이페이지
 ![image](https://github.com/user-attachments/assets/81084eef-6700-45b2-af93-1aaf8d969781)
 
-####2.1.2. 일반 & 카카오 로그인
+#### 2.1.2. 일반 & 카카오 로그인
 ![image](https://github.com/user-attachments/assets/593ac0fb-fe8e-4f1c-a975-daa4b67d7fdd)
 
 
