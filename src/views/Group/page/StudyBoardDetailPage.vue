@@ -90,6 +90,7 @@
     const modalVisibility = ref(false);
 
     const headerData = reactive({
+        member_id: null,
         nickname: '',
         likes: 0,
         comments: 0,
@@ -155,6 +156,7 @@
             })).data;
             if(response.success) {
                 boardDetail.value = response.data;
+                headerData.member_id = boardDetail.value.member_id;
                 headerData.nickname = boardDetail.value.nickname;
                 headerData.likes = boardDetail.value.likes;
                 bodyData.content = boardDetail.value.content;
@@ -333,14 +335,14 @@
         router.push(`/study-groups/${route.params.groupId}/boards/${route.params.boardId}/modify`);
     }
 
-    onMounted(() => {
+    onMounted(async () => {
         if(accessToken === null) {
             alert("로그인을 해주세요.");
             router.push(`/`);
         }
-        fetchMemberData();
-        fetchBoardData();
-        fetchCommentData();
+        await fetchMemberData();
+        await fetchBoardData();
+        await fetchCommentData();
     })
 </script>
 

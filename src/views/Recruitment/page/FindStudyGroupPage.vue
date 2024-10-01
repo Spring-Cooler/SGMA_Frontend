@@ -55,7 +55,7 @@
     import SideBar from '@/components/layouts/SideBar.vue';
     import Title from '@/components/common/Title.vue';
     import Recruitment from '@/views/Recruitment/components/Recruitment.vue'
-    import SearchBar from './components/SearchBar.vue';
+    import SearchBar from '../components/SearchBar.vue';
     import { ref, computed, onMounted, watch } from 'vue';
     import { useRoute, useRouter } from 'vue-router';
     import axios from 'axios';

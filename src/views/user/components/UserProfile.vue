@@ -95,8 +95,7 @@ const goMyStudyGroups = () => {
 .profile-section {
   display: flex;
   flex: 1; /* 나머지 공간을 차지 */
-  overflow-y: auto; /* 내용이 많을 때 스크롤 */
-  height: 80%;
+  height: 70rem;
   padding: 2rem;
   background-color: #fff;
   border-radius: 10px;

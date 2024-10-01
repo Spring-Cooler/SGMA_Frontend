@@ -19,7 +19,8 @@ import axios from 'axios';
 
 const groupData = reactive({
 	group_id: '',
-	group_name: ''
+	group_name: '',
+	owner_id: null,
 });
 
 const accessToken =
@@ -40,8 +41,9 @@ const fetchGroupData = async (groupId) => {
 			groupData.group_name = response.data.group_name;
 
 			localStorage.setItem('groupData', JSON.stringify({
-				group_id: groupId,
-				group_name: response.data.group_name
+				groupId: groupId,
+				groupName: response.data.group_name,
+				ownerId: response.data.user_id
 			}));
 		}
 	} catch (error) {
@@ -52,8 +54,9 @@ const fetchGroupData = async (groupId) => {
 onMounted(() => {
 	const storedData = JSON.parse(localStorage.getItem('groupData'));
 	if (storedData && storedData.group_id === route.params.groupId) {
-		groupData.group_id = storedData.group_id;
-		groupData.group_name = storedData.group_name;
+		groupData.group_id = storedData.groupId;
+		groupData.group_name = storedData.groupName;
+		groupData.owner_id = storedData.ownerId
 	} else {
 		fetchGroupData(route.params.groupId);
 	}

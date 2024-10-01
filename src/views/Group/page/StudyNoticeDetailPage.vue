@@ -11,6 +11,7 @@
                         :data="headerData" 
                         :isNotice="true"
                         :isRecruitment="false"
+                        :userId="userId"
                         @modifyPost="goModifyPost" 
                         @deletePost="handleDeletePost"
                     >
@@ -45,16 +46,16 @@
     const route = useRoute();
     const accessToken = 
         localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
+    const userId = 
+        localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).userId : null;    
     const store = useStore();
-
-    const memberList = ref([]);
-    const memberMap = ref({});
 
     const noticeDetail = ref({});
     const loading = ref(true);
     const modalVisibility = ref(false);
 
     const headerData = reactive({
+        user_id: null,
     })
 
     const bodyData = reactive({
@@ -69,9 +70,10 @@
                     Authorization: `Bearer ${accessToken}`
                 }
             })).data;
-
             if (response.success) {
                 noticeDetail.value = response.data;
+                console.log(noticeDetail.value);
+                headerData.user_id = noticeDetail.value.user_id;
                 bodyData.content = noticeDetail.value.content;
                 loading.value = false;
             }
@@ -119,6 +121,7 @@
         if(accessToken === null) {
             alert("로그인을 해주세요.");
             router.push(`/`);
+            return;
         }
         fetchNoticeData();
     })
