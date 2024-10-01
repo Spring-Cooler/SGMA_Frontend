@@ -5,8 +5,8 @@
 1. [팀 소개](#팀-소개)
 2. [기술 스택](#기술-스택)
    - [Backend](#1-backend)
-   - [Frontend](#2-frontend)
-   - [Database](#3-database)
+   - [Security](#2-security)
+   - [Frontend](#3-frontend)
    - [Tool](#4-tool)
 3. [프로젝트 개요](#프로젝트-개요)
    - [배경](#1-배경)
@@ -64,9 +64,9 @@
 
 ### 3. Frontend <a id="3-frontend"></a>
 
-| Vue 3                                                                                     | JavaScript                                                                                      | HTML                                                                                            | CSS                                                                                            | Chat.js                                                                                     | Calendar                                                                                     |
+| Vue 3                                                                                     | JavaScript                                                                                      | HTML                                                                                            | CSS                                                                                            | Chart.js                                                                                     | VCalendar                                                                                     |
 | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------ |
-| ![Vue 3](https://img.shields.io/badge/Vue_3-4FC08D.svg?&logo=vue.js&logoColor=white)       | ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?&logo=javascript&logoColor=black) | ![HTML](https://img.shields.io/badge/HTML-E34F26?logo=html5&logoColor=white)                     | ![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=white)                     | ![Chat.js](https://img.shields.io/badge/Chat.js-FF4500.svg?&logo=javascript&logoColor=white) | ![Calendar](https://img.shields.io/badge/Calendar-8A2BE2.svg?&logo=calendar&logoColor=white) |
+| ![Vue 3](https://img.shields.io/badge/Vue_3-4FC08D.svg?&logo=vue.js&logoColor=white)       | ![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E.svg?&logo=javascript&logoColor=black) | ![HTML](https://img.shields.io/badge/HTML-E34F26?logo=html5&logoColor=white)                     | ![CSS](https://img.shields.io/badge/CSS-1572B6?logo=css3&logoColor=white)                     | ![Chart.js](https://img.shields.io/badge/Chart.js-FF4500.svg?&logo=javascript&logoColor=white) | ![VCalendar](https://img.shields.io/badge/VCalendar-8A2BE2.svg?&logo=vcalendar&logoColor=white) |
 
 ### 4. Tool <a id="4-tool"></a>
 
