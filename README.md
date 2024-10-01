@@ -409,7 +409,7 @@
 </details>
 <details>
   <summary>4. 스터디 그룹 공지사항 삭제</summary>
-  <img src="https://github.com/user-attachments/assets/889dffe7-ab6f-4892-b22f-971e7814f918)">
+  <img src="https://github.com/user-attachments/assets/889dffe7-ab6f-4892-b22f-971e7814f918">
 </details>
 <details>
   <summary>5. 스터디 그룹 자유게시판 작성</summary>
