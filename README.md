@@ -209,16 +209,13 @@
 
 <details>
   <summary>2.3.3 스터디 그룹원</summary>
-![image](https://github.com/user-attachments/assets/64a296f5-06bc-4b2f-a148-8baa08ced26c)
-
   <img src="https://github.com/user-attachments/assets/64a296f5-06bc-4b2f-a148-8baa08ced26c" alt="스터디 그룹원" />
 </details>
 
 ### 2.4 스터디 그룹 일정 및 문제
-
 <details>
   <summary>스터디 그룹 일정 및 문제</summary>
-  <img src="https://github.com/user-attachments/assets/3b926cd3-f675-4476-b356-c4c2dffce89c" alt="스터디 그룹 일정 및 문제" />
+  <img src="https://github.com/user-attachments/assets/84913b4b-d22c-4696-9881-97866343625" alt="스터디 그룹 일정 및 문제" />
 </details>
 
 
