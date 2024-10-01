@@ -36,7 +36,6 @@
 import { ref } from 'vue';
 import TinyButton from './TinyButton.vue';
 import DeleteModal from './DeleteModal.vue';
-import { useRouter } from 'vue-router';
 
 const accessToken = 
     localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
@@ -53,8 +52,6 @@ const props = defineProps({
 })
 
 const emit = defineEmits(['add','remove']);
-
-const router = useRouter();
 
 const isReplying = ref(false); // 답글 입력 창 상태 관리
 const modalVisibility = ref(false);

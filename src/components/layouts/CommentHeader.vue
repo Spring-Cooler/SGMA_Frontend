@@ -8,7 +8,6 @@
 <script setup>
     import CommentInfo from '../common/CommentInfo.vue';
     import CommentInput from '../common/CommentInput.vue';
-    import { useRouter } from 'vue-router';
 
     const accessToken = 
             localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
@@ -19,8 +18,6 @@
           required: true,
         }
     })
-    
-    const router = useRouter();
     
     const emit = defineEmits(['add']);
     
