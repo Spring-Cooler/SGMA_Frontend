@@ -16,7 +16,7 @@
    - [기대 효과](#5-기대-효과)
 4. [설계 문서](#설계-문서)
    - [System Architecture](#system-architecture)
-   - [OAuth 2.0 Sequence Diagram](#OAuth 2.0 Sequence Diagram)
+   - [OAuth 2.0 Sequence Diagram](#OAuth2.0SequenceDiagram)
    - [주요 기능 FLOW CHART](#주요-기능-flow-chart)
    - [DDD](#ddd)
      - [Event Storming](#1-event-storming)
@@ -116,7 +116,7 @@
 ![Network Diagrams](https://github.com/user-attachments/assets/83706f89-f51f-4036-8cd7-f4244cb34801)
 
 
-## OAuth 2.0 Sequence Diagram <a id="OAuth 2.0 Sequence Diagram"></a>
+## OAuth 2.0 Sequence Diagram <a id="OAuth2.0SequenceDiagram"></a>
 ![image](https://github.com/user-attachments/assets/b150924e-92a5-4290-9602-38efa24e9804)
 
 
