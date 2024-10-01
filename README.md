@@ -16,6 +16,7 @@
    - [기대 효과](#5-기대-효과)
 4. [설계 문서](#설계-문서)
    - [System Architecture](#system-architecture)
+   - [OAuth 2.0 Sequence Diagram](#OAuth 2.0 Sequence Diagram)
    - [주요 기능 FLOW CHART](#주요-기능-flow-chart)
    - [DDD](#ddd)
      - [Event Storming](#1-event-storming)
@@ -24,7 +25,6 @@
      - [개념 모델링](#1-개념-모델링)
      - [논리 모델링](#2-논리-모델링)
      - [물리 모델링](#3-물리-모델링)
-   - [OAuth 2.0 Sequence Diagram](#OAuth 2.0 Sequence Diagram)
 5. [산출물](#산출물)
    - [와이어 프레임](#와이어프레임)
    - [기능명세서서](#기능명세서)
@@ -115,6 +115,11 @@
 
 ![Network Diagrams](https://github.com/user-attachments/assets/83706f89-f51f-4036-8cd7-f4244cb34801)
 
+
+## OAuth 2.0 Sequence Diagram <a id="OAuth 2.0 Sequence Diagram"></a>
+![image](https://github.com/user-attachments/assets/b150924e-92a5-4290-9602-38efa24e9804)
+
+
 ## 주요 기능 FLOW CHART <a id="주요-기능-flow-chart"></a>
 
 ![문제관련 drawio (1)](https://github.com/user-attachments/assets/59625632-7ce8-4300-b085-945d176620f8)
@@ -143,9 +148,6 @@
 
 ![image](https://github.com/user-attachments/assets/2bf256be-07f2-4f74-91d6-dab3994d7e0b)
 
-
-## OAuth 2.0 Sequence Diagram <a id="OAuth 2.0 Sequence Diagram"></a>
-![image](https://github.com/user-attachments/assets/b150924e-92a5-4290-9602-38efa24e9804)
 
 
 
