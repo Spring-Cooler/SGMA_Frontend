@@ -163,7 +163,8 @@
 ## 2. 와이어 프레임<a id="와이어프레임"></a>
 
 ### 2.1 전체 와이어 프레임
-![image](https://github.com/user-attachments/assets/574e8f9d-2cfc-4063-993b-c4980ea9873d)
+![image](https://github.com/user-attachments/assets/89defadf-fa92-4d09-8de3-767962dab4d2)
+
 
 ### 2.2 회원
 
@@ -174,39 +175,43 @@
 
 <details>
   <summary>2.2.2. 일반 & 카카오 로그인</summary>
-  <img src="https://github.com/user-attachments/assets/593ac0fb-fe8e-4f1c-a975-daa4b67d7fdd" alt="일반 & 카카오 로그인" />
+  <img src="https://github.com/user-attachments/assets/022e3e9e-7ab3-4f97-9a99-9ef7abb99c55" alt="일반 & 카카오 로그인" />
 </details>
 
 <details>
   <summary>2.2.3. 회원가입</summary>
-  <img src="https://github.com/user-attachments/assets/fc174228-f14a-4de6-8bf1-2845cb9a2dc5" alt="회원가입" />
+  <img src="https://github.com/user-attachments/assets/01b21f1d-97c7-4562-8581-fd53e3043258" alt="회원가입" />
 </details>
 
 <details>
   <summary>2.2.4. 아이디 찾기</summary>
-  <img src="https://github.com/user-attachments/assets/a4f3eb47-401e-4c4c-b95e-1270d71e77a6" alt="아이디 찾기" />
+  <img src="https://github.com/user-attachments/assets/43d1d170-9b8c-4801-a8e5-ddb0e55fcf95" alt="아이디 찾기" />
 </details>
 
 <details>
   <summary>2.2.5. 비밀번호 찾기</summary>
-  <img src="https://github.com/user-attachments/assets/2a95d0d6-6bc2-42d8-adda-8b4663504a34" alt="비밀번호 찾기" />
+  <img src="https://github.com/user-attachments/assets/38194563-9c02-46a3-a369-63e330aa0aed" alt="비밀번호 찾기" />
 </details>
 
 ### 2.3 스터디 그룹 및 모집관련
 
 <details>
   <summary>2.3.1 스터디 그룹 모집글</summary>
-  <img src="https://github.com/user-attachments/assets/ddaa6706-9809-43d8-9319-417ad19eeeb0" alt="스터디 그룹 모집글" />
+
+  <img src="https://github.com/user-attachments/assets/3687f3ec-1479-4374-89d6-1b21ff639ea4" alt="스터디 그룹 모집글" />
 </details>
 
 <details>
   <summary>2.3.2 스터디 그룹 자유게시판 및 공지사항</summary>
-  <img src="https://github.com/user-attachments/assets/1bdcc2c5-6cd2-43f1-bdaf-07592b24e916" alt="스터디 그룹 자유게시판 및 공지사항" />
+
+  <img src="https://github.com/user-attachments/assets/1e988cc6-a63b-4613-ab6d-4e564efb5895" alt="스터디 그룹 자유게시판 및 공지사항" />
 </details>
 
 <details>
   <summary>2.3.3 스터디 그룹원</summary>
-  <img src="https://github.com/user-attachments/assets/5fcfb1ad-5f62-4a3d-9eeb-fe13104b564e" alt="스터디 그룹원" />
+![image](https://github.com/user-attachments/assets/64a296f5-06bc-4b2f-a148-8baa08ced26c)
+
+  <img src="https://github.com/user-attachments/assets/64a296f5-06bc-4b2f-a148-8baa08ced26c" alt="스터디 그룹원" />
 </details>
 
 ### 2.4 스터디 그룹 일정 및 문제
