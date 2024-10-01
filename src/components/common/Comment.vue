@@ -37,6 +37,9 @@ import { ref } from 'vue';
 import TinyButton from './TinyButton.vue';
 import DeleteModal from './DeleteModal.vue';
 
+const accessToken = 
+    localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
+
 const props = defineProps({
   data: {
     type: Object,
@@ -61,6 +64,11 @@ const toggleReply = () => {
 };
 
 const submitReply = () => {
+  if(accessToken === null) {
+      content.value = '';
+      alert("로그인을 해주세요.");
+      return;
+  }
   emit('add', props.commentId, content.value);
   toggleReply(); // 답글 입력 창 닫기
 };
