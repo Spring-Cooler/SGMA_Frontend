@@ -25,7 +25,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import Navigation from '@/components/layouts/Navigation.vue';
 import SideBar from '@/components/layouts/SideBar.vue';
@@ -36,6 +36,9 @@ import AccountDeactivationModal from '@/views/user/components/AccountDeactivatio
 import ChangePasswordModal from '@/views/user/components/ChangePasswordModal.vue';
 
 const router = useRouter();
+
+const accessToken = 
+    localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
 
 // 프로필 수정 모달 상태 관리
 const isProfileEditModalVisible = ref(false);
@@ -78,6 +81,13 @@ const closePasswordChangeModal = () => {
 const openMyStudyGroups = () => {
     router.push(`/my-study-groups`);
 }
+
+onMounted(() => {
+  if(accessToken === null) {
+      alert("로그인을 해주세요.");
+      router.push(`/`);
+  }
+})
 
 </script>
 
