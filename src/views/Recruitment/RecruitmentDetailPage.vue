@@ -88,6 +88,7 @@
     const userId = 
         localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).userId : null;
 
+    const memberList = ref([]);
     const commentList = ref([]);
     const replyList = ref({});
     const boardDetail = ref({});
@@ -210,6 +211,28 @@
         }
     }
 
+    const fetchMemberData = async (userId) => {
+        try {
+            const response = (await axios.get(`/study-group-service/api/study-group/members/user-id/${userId}`,
+            {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`
+                }
+            })).data;
+            if(response.success) {
+                memberList.value = response.data;
+                for(const member of memberList.value) {
+                    if(member.group_id === boardDetail.value.group_id) {
+                        return true;
+                    }
+                }
+                return false;
+            } 
+        } catch (error) {
+            console.error(error);
+        }
+    }
+
     const handleAddComment = async (content) => {
         try {
             commentData.content = content;
@@ -309,7 +332,7 @@
 
     const handleLike = async () => {
         try {
-            const response = (await axios.post(`/recruitment-service/api/recruitment-board-like/like/${route.params.recruitmentId}/${userId}`, likeData,
+            const response = (await axios.post(`/recruitment-service/api/recruitment-board/likes`, likeData,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -322,7 +345,7 @@
 
     const handleUnlike = async () => {
         try {
-            const response = (await axios.delete(`/recruitment-service/api/recruitment-board-like/like/${route.params.recruitmentId}/${userId}`,
+            const response = (await axios.delete(`/recruitment-service/api/recruitment-board/likes?recruitment-id=${route.params.recruitmentId}&user-id=${userId}`,
             {
                 headers: {
                     Authorization: `Bearer ${accessToken}`
@@ -377,12 +400,26 @@
         router.push(`/study-groups/${boardDetail.value.group_id}/recruitments/${route.params.recruitmentId}/modify`);
     }
 
-    onMounted(() => {
-        if(accessToken !== null) {
-            fetchApplicantData(userId);
+    onMounted(async () => {
+        try {
+            loading.value = true; // 로딩 시작
+            // 게시글 데이터 불러오기
+            await fetchBoardData();
+            // 댓글 및 답글 데이터 불러오기
+            await fetchCommentData();
+        
+            // 로그인된 사용자일 경우 멤버 데이터 및 신청자 상태 확인
+            if (accessToken !== null) {
+                const isMember = await fetchMemberData(userId);
+                if (!isMember) {
+                    await fetchApplicantData(userId);
+                }
+            }
+        } catch (error) {
+            console.error(error);
+        } finally {
+            loading.value = false; // 로딩 종료
         }
-        fetchBoardData();
-        fetchCommentData();
     })
 </script>
 
