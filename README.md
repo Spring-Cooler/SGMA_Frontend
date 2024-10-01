@@ -215,7 +215,7 @@
 ### 2.4 스터디 그룹 일정 및 문제
 <details>
   <summary>스터디 그룹 일정 및 문제</summary>
-  <img src="https://github.com/user-attachments/assets/84913b4b-d22c-4696-9881-97866343625" alt="스터디 그룹 일정 및 문제" />
+  <img src="https://github.com/user-attachments/assets/c1e73822-d022-4b2f-a335-f054fbdd4cf8" alt="스터디 그룹 일정 및 문제" />
 </details>
 
 
@@ -272,9 +272,8 @@
 
 <details>
   <summary>스터디 그룹 일정 및 문제</summary>
-  <img src="https://github.com/user-attachments/assets/34e9165b-9e6a-4290-99e5-68619ccd3a5a" alt="스터디 그룹 일정 및 문제" />
+  <img src="https://github.com/user-attachments/assets/7231b3a5-4b20-4ed3-a42b-6a383b58a187" alt="스터디 그룹 일정 및 문제" />
 </details>
-
 
 
 ## 4. 테스트 계획 및 결과 보고서 <a id="테스트케이스"></a>
