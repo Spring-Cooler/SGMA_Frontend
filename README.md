@@ -26,6 +26,7 @@
      - [논리 모델링](#2-논리-모델링)
      - [물리 모델링](#3-물리-모델링)
 5. [산출물](#산출물)
+   - [와이어 프레임](#와이어 프레임)
    - [스토리 보드](#스토리보드)
    - [기능명세서](#기능명세서)
    - [테스트 케이스](#테스트케이스)
@@ -161,56 +162,56 @@
 
 
 
-## 2. 스토리 보드<a id="스토리보드"></a>
+## 3. 스토리 보드<a id="스토리보드"></a>
 
-### 2.1. 전체 스토리 보드
+### 3.2 전체 스토리 보드
 ![image](https://github.com/user-attachments/assets/574e8f9d-2cfc-4063-993b-c4980ea9873d)
 
-### 2.2 회원
+### 3.3 회원
 
 <details>
-  <summary>2.2.1. 마이페이지</summary>
+  <summary>3.3.1. 마이페이지</summary>
   <img src="https://github.com/user-attachments/assets/81084eef-6700-45b2-af93-1aaf8d969781" alt="마이페이지" />
 </details>
 
 <details>
-  <summary>2.2.2. 일반 & 카카오 로그인</summary>
+  <summary>3.3.2. 일반 & 카카오 로그인</summary>
   <img src="https://github.com/user-attachments/assets/593ac0fb-fe8e-4f1c-a975-daa4b67d7fdd" alt="일반 & 카카오 로그인" />
 </details>
 
 <details>
-  <summary>2.2.3. 회원가입</summary>
+  <summary>3.3.3. 회원가입</summary>
   <img src="https://github.com/user-attachments/assets/fc174228-f14a-4de6-8bf1-2845cb9a2dc5" alt="회원가입" />
 </details>
 
 <details>
-  <summary>2.2.4. 아이디 찾기</summary>
+  <summary>2.3.4. 아이디 찾기</summary>
   <img src="https://github.com/user-attachments/assets/a4f3eb47-401e-4c4c-b95e-1270d71e77a6" alt="아이디 찾기" />
 </details>
 
 <details>
-  <summary>2.2.5. 비밀번호 찾기</summary>
+  <summary>3.3.5. 비밀번호 찾기</summary>
   <img src="https://github.com/user-attachments/assets/2a95d0d6-6bc2-42d8-adda-8b4663504a34" alt="비밀번호 찾기" />
 </details>
 
-### 2.3 스터디 그룹 및 모집관련
+### 3.4 스터디 그룹 및 모집관련
 
 <details>
-  <summary>2.3.1 스터디 그룹 모집글</summary>
+  <summary>3.4.1 스터디 그룹 모집글</summary>
   <img src="https://github.com/user-attachments/assets/ddaa6706-9809-43d8-9319-417ad19eeeb0" alt="스터디 그룹 모집글" />
 </details>
 
 <details>
-  <summary>2.3.2 스터디 그룹 자유게시판 및 공지사항</summary>
+  <summary>3.4.2 스터디 그룹 자유게시판 및 공지사항</summary>
   <img src="https://github.com/user-attachments/assets/1bdcc2c5-6cd2-43f1-bdaf-07592b24e916" alt="스터디 그룹 자유게시판 및 공지사항" />
 </details>
 
 <details>
-  <summary>2.3.3 스터디 그룹원</summary>
+  <summary>3.4.3 스터디 그룹원</summary>
   <img src="https://github.com/user-attachments/assets/5fcfb1ad-5f62-4a3d-9eeb-fe13104b564e" alt="스터디 그룹원" />
 </details>
 
-### 2.4 스터디 그룹 일정 및 문제
+### 3.5 스터디 그룹 일정 및 문제
 
 <details>
   <summary>스터디 그룹 일정 및 문제</summary>
@@ -219,7 +220,7 @@
 
 
 
-## 3. 테스트 계획 및 결과 보고서 <a id="테스트케이스"></a>
+## 4. 테스트 계획 및 결과 보고서 <a id="테스트케이스"></a>
 
 [테스트 케이스 바로가기](https://docs.google.com/spreadsheets/d/1XVX6lAse2VZzDybUvryL8GyeM3-PO_EZMFG10hMVJSk/edit?gid=1079017783#gid=1079017783)
 
@@ -230,7 +231,7 @@
 
 
 
-## 4.화면결과 <a id="화면결과"></a>
+## 5.화면결과 <a id="화면결과"></a>
 
 ## 결과
 
