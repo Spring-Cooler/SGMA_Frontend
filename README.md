@@ -304,27 +304,27 @@
 ### 2. 모집관련
 
 <details>
-  <summary>1. 스터디 그룹 찾기 최신순 </summary>
+  <summary>1. 스터디 그룹 모집글 찾기 최신순 </summary>
    <img src=https://github.com/user-attachments/assets/c954ac63-1115-4bec-9220-33087a5c921e>
 </details>
 <details>
-  <summary>2. 스터디 그룹 찾기 좋아요순 </summary>
+  <summary>2. 스터디 그룹 모집글 찾기 좋아요순 </summary>
    <img src=https://github.com/user-attachments/assets/eee90fff-36cf-4d7a-97ab-1e3800a64324>
 </details>
 <details>
-  <summary>3. 스터디 그룹 찾기 모집중</summary>
+  <summary>3. 스터디 그룹 모집글 찾기 모집중</summary>
    <img src=https://github.com/user-attachments/assets/ce731193-1ab9-4c3a-a235-76807bcd1d95>
 </details>
 <details>
-  <summary>4. 스터디 그룹 찾기 모집완료</summary>
+  <summary>4. 스터디 그룹 모집글 찾기 모집완료</summary>
    <img src=https://github.com/user-attachments/assets/02d2030b-bed7-4c38-a5e1-05c669294b56>
 </details>
 <details>
-  <summary>5. 스터디 그룹 태그로 찾기</summary>
+  <summary>5. 스터디 그룹 모집글 태그로 찾기</summary>
    <img src="https://github.com/user-attachments/assets/a23512b6-f0a8-4d00-9329-943cd4789ae9">
 </details>
 <details>
-  <summary>6. 스터디 그룹 제목으로 검색</summary>
+  <summary>6. 스터디 그룹 모집글 제목으로 검색</summary>
    <img src="https://github.com/user-attachments/assets/b1a98288-3ef8-44d9-9b9a-050bfd80e6b8">
 </details>
 <details>
@@ -368,27 +368,27 @@
    <img src="https://github.com/user-attachments/assets/eebd3690-7e97-4701-8a3d-c72cbbf7358d">
 </details>
 <details>
-  <summary>3. 내가 가입한 스터디그룹 가기 </summary>
+  <summary>2. 내가 가입한 스터디그룹 가기 </summary>
    <img src="https://github.com/user-attachments/assets/d435741b-489b-4ef4-8021-869c9c6fc11c">
 </details>
 <details>
-  <summary>4. 스터디 그룹 그룹원 관리 </summary>
+  <summary>3. 스터디 그룹 그룹원 관리 </summary>
    <img src="https://github.com/user-attachments/assets/19ff3bc3-a2db-42cf-89af-2f3357eba275">
 </details>
 <details>
-  <summary>5. 스터디 그룹 참가 신청</summary>
+  <summary>4. 스터디 그룹 참가 신청</summary>
    <img src="https://github.com/user-attachments/assets/5f626093-d608-4546-8d11-9e167ce92ca1">
 </details>
 <details>
-  <summary>6. 스터디 그룹 참가 신청 취소</summary>
+  <summary>5. 스터디 그룹 참가 신청 취소</summary>
    <img src="https://github.com/user-attachments/assets/d65ae918-b991-4160-a9d2-59c46cf574d2">
 </details>
 <details>
-  <summary>7. 스터디 그룹 참가 신청 승인</summary>
+  <summary>6. 스터디 그룹 참가 신청 승인</summary>
    <img src="https://github.com/user-attachments/assets/179a21ff-0b78-4845-b56f-2042c0f1063a">
 </details>
 <details>
-  <summary>8. 스터디 그룹 참가 신청 거절</summary>
+  <summary>7. 스터디 그룹 참가 신청 거절</summary>
    <img src="https://github.com/user-attachments/assets/fec73d4d-0062-4331-9f6a-24a463a58108">
 </details>
 <br>
