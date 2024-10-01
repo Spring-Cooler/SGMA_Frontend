@@ -376,8 +376,20 @@
    <img src="https://github.com/user-attachments/assets/19ff3bc3-a2db-42cf-89af-2f3357eba275">
 </details>
 <details>
-  <summary>5. 스터디 그룹 참가 신청자 관리 </summary>
-   <img src="">
+  <summary>15. 스터디 그룹 참가 신청</summary>
+   <img src="https://github.com/user-attachments/assets/5f626093-d608-4546-8d11-9e167ce92ca1">
+</details>
+<details>
+  <summary>16. 스터디 그룹 참가 신청 취소</summary>
+   <img src="https://github.com/user-attachments/assets/d65ae918-b991-4160-a9d2-59c46cf574d2">
+</details>
+<details>
+  <summary>17. 스터디 그룹 참가 신청 승인</summary>
+   <img src="https://github.com/user-attachments/assets/179a21ff-0b78-4845-b56f-2042c0f1063a">
+</details>
+<details>
+  <summary>18. 스터디 그룹 참가 신청 거절</summary>
+   <img src="https://github.com/user-attachments/assets/fec73d4d-0062-4331-9f6a-24a463a58108">
 </details>
 <br>
 
