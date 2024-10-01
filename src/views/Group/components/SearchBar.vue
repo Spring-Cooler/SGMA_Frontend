@@ -8,13 +8,13 @@
         v-model="searchQuery">
       </div>
       <SmallButton class="popsicle" label="검색" @click="goSearch"></SmallButton>
-      <SmallButton class="popsicle" label="글쓰기" @click="goUploadPost"></SmallButton>
+      <SmallButton class="popsicle" label="글쓰기" @click="goUploadPost" v-if="checkValid()"></SmallButton>
     </div>
 </template>
 
 <script setup>
   import SmallButton from '@/components/common/SmallButton.vue';
-  import { ref } from 'vue';
+  import { onMounted, ref } from 'vue';
   import { useStore } from 'vuex';
   import { useRoute, useRouter } from 'vue-router';
 
@@ -28,12 +28,28 @@
         required: true
     }
   });
-  
+
+  const userId = 
+      localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).userId: null;
+  const ownerId =
+      localStorage.getItem('groupData') ? JSON.parse(localStorage.getItem('groupData')).ownerId: null;
+
   const route = useRoute();
   const router = useRouter();
   const store = useStore();
 
   const searchQuery = ref('');
+
+  const checkValid = () => {
+      if(props.postType === 'notice' || props.postType === 'schedule') {
+          if(userId === ownerId) {
+              return true;
+          } else {
+              return false;
+          }
+      }
+      return true;
+  }
 
   const goSearch = () => {
     if(!searchQuery.value) {

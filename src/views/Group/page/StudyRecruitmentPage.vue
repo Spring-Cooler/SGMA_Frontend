@@ -18,7 +18,7 @@
                             </ul>
                             <div class="line" :style="lineStyle"></div>
                         </nav>
-                        <LargeButton label="모집글 작성하기" @click="goUploadPost"></LargeButton>
+                        <LargeButton label="모집글 작성하기" @click="goUploadPost" v-if="userId === ownerId"></LargeButton>
                     </div>
                     <div class="recruitment-body loading" v-if="loading">작성된 모집글이 없습니다.</div>
                     <div class="recruitment-body" v-for="(recruitment, recruitmentIndex) in recruitmentList" :key="recruitmentIndex">
@@ -50,6 +50,10 @@
     const store = useStore();
     const accessToken = 
         localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).accessToken : null;
+    const userId = 
+        localStorage.getItem('token') ? JSON.parse(localStorage.getItem('token')).userId: null;
+    const ownerId =
+        localStorage.getItem('groupData') ? JSON.parse(localStorage.getItem('groupData')).ownerId: null;
 
     const loading = ref(true);
     const allRecruitments = ref([]); // 전체 모집글 데이터 저장

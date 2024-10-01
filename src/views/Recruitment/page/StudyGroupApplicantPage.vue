@@ -64,7 +64,7 @@
             })).data;
             if(response.success) {
                 if (response.success) {
-                    applicantList.value = applicantList.value.filter(applicant => applicant.userId !== userId);
+                    applicantList.value = applicantList.value.filter(applicant => applicant.user_id !== userId);
                 }
             }
         } catch (error) {
@@ -81,7 +81,7 @@
             })).data;
             if(response.success) {
                 if (response.success) {
-                    applicantList.value = applicantList.value.filter(applicant => applicant.userId !== userId);
+                    applicantList.value = applicantList.value.filter(applicant => applicant.user_id !== userId);
                 }
             }
         } catch (error) {
