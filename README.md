@@ -273,8 +273,9 @@
 
 <details>
   <summary>스터디 그룹 일정 및 문제</summary>
-  <img src="https://github.com/user-attachments/assets/7231b3a5-4b20-4ed3-a42b-6a383b58a187" alt="스터디 그룹 일정 및 문제" />
+  <img src="https://github.com/user-attachments/assets/71cfac86-9e2e-4c24-b56c-55d0cc5835b5" alt="스터디 그룹 일정 및 문제" />
 </details>
+
 
 
 ## 4. 테스트 계획 및 결과 보고서 <a id="테스트케이스"></a>
