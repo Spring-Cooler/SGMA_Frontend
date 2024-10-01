@@ -169,7 +169,7 @@
 
 <details>
   <summary>2.2.1. 마이페이지</summary>
-  <img src="https://github.com/user-attachments/assets/81084eef-6700-45b2-af93-1aaf8d969781" alt="마이페이지" />
+  ![image](https://github.com/user-attachments/assets/e2019098-836a-48c4-9d03-d9e93060f4e0)
 </details>
 
 <details>
